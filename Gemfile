@@ -13,6 +13,7 @@ gem 'postmark-rails', '>= 0.4.1'
 gem 'haml-rails', '>= 0.4'
 gem 'haml', '>= 4.0.0'
 gem 'figaro', '>= 0.6.3'
+gem 'simple_form', '>= 2.1.0'
 
 # Web server
 gem 'unicorn', '>= 4.6.2'

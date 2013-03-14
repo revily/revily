@@ -1,0 +1,51 @@
+!!! 5
+
+/ [if lt IE 7 ]> <html class=\"ie6\" lang=\"en\"> <![endif]
+/ [if IE 7 ]>    <html class=\"ie7\" lang=\"en\"> <![endif]
+/ [if IE 8 ]>    <html class=\"ie8\" lang=\"en\"> <![endif]
+/ [if IE 9 ]>    <html class=\"ie9\" lang=\"en\"> <![endif]
+/ [if (gt IE 9)|!(IE)]><!--> <html lang=\"en\"> <!--<![endif]
+
+- controller_name = controller.controller_name
+- action_name = controller.action_name
+- resource_name = controller_name.classify
+
+%html
+  %head
+    %meta(charset="utf-8")
+
+    / Uncomment to make IE8 render like IE7
+    / meta http-equiv="X-UA-Compatible" content="IE=7"
+    
+    / Set the viewport width to device width for mobile
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+    %title= content_for?(:title) ? yield(:title) : "Reveille - On-call Scheduling and Incident Response"
+
+    = stylesheet_link_tag "application"
+    = javascript_include_tag "application"
+    = csrf_meta_tag
+
+
+  %body(data-controller=controller_name data-action=action_name data-resource=resource_name)
+    = render 'shared/header'
+
+    .row
+      #flash
+        .container
+          = flash_block
+    %header.subhead.jumbotron
+      .container
+        - if content_for?(:header)
+          = yield :header
+          
+    .row
+      #main.container
+        - if content_for?(:sidebar)
+          %aside.three.columns
+            = yield :sidebar
+          %article.nine.columns
+            = yield
+        - else
+          %article.twelve.columns
+            = yield

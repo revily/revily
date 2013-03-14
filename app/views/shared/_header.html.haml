@@ -1,0 +1,22 @@
+%nav.navbar.navbar-fixed-top
+  .navbar-inner
+    .container
+      / %h1= link_to 'Reveille', root_path, class: 'brand'
+      = link_to 'Reveille', root_path, class: 'brand'
+
+      .nav-collapse.collapse.navbar-responsive-collapse
+        %ul.nav
+          %li= link_to 'Events', events_path
+
+        %ul.nav.pull-right
+          %li= link_to 'Dashboard', root_path
+          %li.divider-vertical
+          %li= link_to 'Documentation', root_path
+          %li.divider-vertical
+          %li.dropdown
+            %a.dropdown-toggle(href="#" data-toggle="dropdown")
+              %i.settings-nav.icon-cog
+            %ul.dropdown-menu
+              = render 'users/menu/registration_items'
+              %li.divider
+              = render 'users/menu/login_items'

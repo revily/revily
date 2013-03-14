@@ -1,4 +1,6 @@
 Reveille::Application.routes.draw do
+  get "home/index"
+
   # scope :integration do
     post 'integration' => 'integration#trigger'
     put 'integration' => 'integration#acknowledge'
@@ -22,5 +24,5 @@ Reveille::Application.routes.draw do
     resources :alerts
   end
 
-  root :to => 'events#index'
+  root :to => 'home#index'
 end
