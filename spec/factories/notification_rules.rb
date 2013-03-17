@@ -2,8 +2,7 @@
 
 FactoryGirl.define do
   factory :notification_rule do
-    user
-    contact nil
+    association :contact, factory: :email_contact
 
     factory :notification_rule_no_delay do
       start_delay 0

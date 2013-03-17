@@ -2,9 +2,26 @@
 
 FactoryGirl.define do
   factory :schedule do
-    name "MyString"
-    timezone "MyString"
-    rotation_type "MyString"
-    start_at "2013-03-13 03:30:26"
+    name "Operations"
+    # time_zone "MyString"
+    start_at { Time.zone.now }
+
+    factory :daily_schedule do
+      rotation_type 'daily'
+    end
+
+    factory :weekly_schedule do
+      rotation_type 'weekly'
+    end
+
+    factory :custom_schedule do
+      rotation_type 'custom'
+      shift_length 8
+      shift_length_unit 'hours'
+    end
+
+    factory :schedule_with_alternate_time_zone do
+      time_zone "EST"
+    end
   end
 end

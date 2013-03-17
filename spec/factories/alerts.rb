@@ -2,8 +2,7 @@
 
 FactoryGirl.define do
   factory :alert do
-    event nil
-    type ""
+    event
     sent_at "2013-03-13 00:56:42"
   end
 end

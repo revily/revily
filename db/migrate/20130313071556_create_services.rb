@@ -3,7 +3,7 @@ class CreateServices < ActiveRecord::Migration
     create_table :services do |t|
       t.string  :name
       t.integer :auto_resolve_timeout
-      t.integer :acknowledgement_timeout
+      t.integer :acknowledge_timeout
       t.string  :state
       t.string  :uuid
       t.string  :authentication_token

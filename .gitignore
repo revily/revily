@@ -13,6 +13,16 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+!.keep
+*.DS_Store
+*.swp
+.env
+bin/stubs
+coverage/*
+public/system
+rerun.txt
+tags
+vendor/bundler_gems
 
 # Ignore application configuration
 /config/application.yml

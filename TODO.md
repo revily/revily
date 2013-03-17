@@ -1,0 +1,1 @@
+* configure event state machine

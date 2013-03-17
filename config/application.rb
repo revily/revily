@@ -23,6 +23,9 @@ module Reveille
         :helper_specs => false
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
       g.template_engine :haml
+      g.javascript_engine false
+      g.helper false
+      g.stylesheets false
     end
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -67,13 +70,14 @@ module Reveille
     # This will create an empty whitelist of attributes available for mass-assignment for all models
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
-    config.active_record.whitelist_attributes = true
+    config.active_record.whitelist_attributes = false
 
     # Enable the asset pipeline
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    config.assets.initialize_on_precompile = false
 
     # Postmark configuration
     config.action_mailer.postmark_settings = { :api_key => "d14800c1-fa0a-436c-bc23-c05127fe8b06" }

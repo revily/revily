@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130313073039) do
+ActiveRecord::Schema.define(:version => 20130317004521) do
 
   create_table "alerts", :force => true do |t|
     t.string   "type"
@@ -45,13 +45,13 @@ ActiveRecord::Schema.define(:version => 20130313073039) do
   end
 
   create_table "escalation_rules", :force => true do |t|
-    t.integer  "escalation_timeout"
+    t.integer  "escalation_timeout",   :default => 30
     t.string   "uuid"
     t.integer  "assignable_id"
     t.string   "assignable_type"
     t.integer  "escalation_policy_id"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
   end
 
   add_index "escalation_rules", ["assignable_id"], :name => "index_escalation_rules_on_assignable_id"
@@ -62,47 +62,89 @@ ActiveRecord::Schema.define(:version => 20130313073039) do
     t.text     "details"
     t.string   "state"
     t.string   "uuid",       :default => "", :null => false
+    t.integer  "service_id"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
   end
 
   add_index "events", ["uuid"], :name => "index_events_on_uuid", :unique => true
 
+  create_table "hound_actions", :force => true do |t|
+    t.string   "action",          :null => false
+    t.string   "actionable_type", :null => false
+    t.integer  "actionable_id",   :null => false
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.datetime "created_at"
+    t.text     "changeset"
+  end
+
+  add_index "hound_actions", ["actionable_type", "actionable_id"], :name => "index_hound_actions_on_actionable_type_and_actionable_id"
+  add_index "hound_actions", ["user_type", "user_id"], :name => "index_hound_actions_on_user_type_and_user_id"
+
   create_table "notification_rules", :force => true do |t|
-    t.integer  "start_delay"
+    t.integer  "start_delay", :default => 0
     t.string   "uuid"
     t.integer  "contact_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   add_index "notification_rules", ["contact_id"], :name => "index_notification_rules_on_contact_id"
 
   create_table "schedules", :force => true do |t|
     t.string   "name"
-    t.string   "timezone"
+    t.string   "time_zone",         :default => "UTC"
     t.string   "rotation_type"
     t.integer  "shift_length"
     t.string   "shift_length_unit"
     t.string   "uuid"
     t.datetime "start_at"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
   end
+
+  create_table "service_escalation_policies", :force => true do |t|
+    t.string   "uuid"
+    t.integer  "service_id"
+    t.integer  "escalation_policy_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  add_index "service_escalation_policies", ["escalation_policy_id"], :name => "index_service_escalation_policies_on_escalation_policy_id"
+  add_index "service_escalation_policies", ["service_id"], :name => "index_service_escalation_policies_on_service_id"
 
   create_table "services", :force => true do |t|
     t.string   "name"
     t.integer  "auto_resolve_timeout"
-    t.integer  "acknowledgement_timeout"
+    t.integer  "acknowledge_timeout"
     t.string   "state"
     t.string   "uuid"
     t.string   "authentication_token"
     t.integer  "escalation_policy_id"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   add_index "services", ["escalation_policy_id"], :name => "index_services_on_escalation_policy_id"
+
+  create_table "taggings", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       :limit => 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
+
+  create_table "tags", :force => true do |t|
+    t.string "name"
+  end
 
   create_table "user_schedules", :force => true do |t|
     t.string   "uuid"

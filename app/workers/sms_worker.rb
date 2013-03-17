@@ -6,8 +6,8 @@ class SMSWorker
     user = alert.event.service.current_user
 
     $twilio.account.sms.messages.create(
-      :from => Figaro.env.twilio_number,
-      :to => user.
+      from: Figaro.env.twilio_number,
+      to: user.id
     )
   end
   

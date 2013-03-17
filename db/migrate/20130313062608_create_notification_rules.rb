@@ -1,7 +1,7 @@
 class CreateNotificationRules < ActiveRecord::Migration
   def change
     create_table :notification_rules do |t|
-      t.integer    :start_delay
+      t.integer    :start_delay, default: 0
       t.string     :uuid
 
       t.references :contact

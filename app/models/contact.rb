@@ -1,11 +1,12 @@
 class Contact < ActiveRecord::Base
   include Identifiable
 
-  # disable STI
-  self.inheritance_column = nil
+  # attr_accessible :address, :label
 
   belongs_to :user
   has_many :notification_rules
-  
-  attr_accessible :address, :label, :type, :uuid
+
+  validates :type, presence: true
+  validates :label, presence: true
+  validates :address, presence: true
 end

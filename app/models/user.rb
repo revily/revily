@@ -8,13 +8,13 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable,
     :token_authenticatable
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  # attr_accessible :email, :password, :password_confirmation, :remember_me
 
   has_many :contacts
-  has_many :notification_rules, :through => :contacts
-  has_many :escalation_rules, :as => :assignable
+  has_many :notification_rules, through: :contacts
+  has_many :escalation_rules, as: :assignable
   has_many :user_schedules
-  has_many :schedules, :through => :user_schedules
+  has_many :schedules, through: :user_schedules
   
   before_save :ensure_authentication_token
 end

@@ -1,4 +1,12 @@
 Reveille::Application.routes.draw do
+  get "services/index"
+
+  get "services/show"
+
+  get "services/new"
+
+  get "services/edit"
+
   get "home/index"
 
   # scope :integration do
@@ -8,21 +16,19 @@ Reveille::Application.routes.draw do
   # end
 
   get "integration/trigger"
-
   get "integration/acknowledge"
-
   get "integration/resolve"
 
   post 'twilio/sms'
   post 'twilio/phone'
   get 'twilio/service'
 
-  devise_for :users
-  devise_for :services, :skip => [ :sessions ]
+  devise_for :users #, controllers: { registrations: "users/registrations", passwords: "users/passwords" }
+  devise_for :services, skip: [ :sessions ]
 
-  resources :events, :shallow => true do
+  resources :events, shallow: true do
     resources :alerts
   end
 
-  root :to => 'home#index'
+  root to: 'home#index'
 end

@@ -6,9 +6,7 @@ FactoryGirl.define do
 
     factory :escalation_policy_with_rules do
       after(:create) do |escalation_policy|
-        create(:email_contact, user: user)
-        create(:phone_contact, user: user)
-        create(:sms_contact, user: user)
+        create(:escalation_rule_for_user, user: user)
       end
     end
   end

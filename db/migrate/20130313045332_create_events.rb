@@ -6,6 +6,8 @@ class CreateEvents < ActiveRecord::Migration
       t.string :state
       t.string :uuid, :null => false, :default => ""
 
+      t.references :service
+
       t.timestamps
     end
     add_index :events, :uuid, :unique => true
