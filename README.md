@@ -33,3 +33,6 @@ Reveille is Copyright (C) 2013 Dan Ryan <hi@iamdanryan.com>
 ## SEE ALSO
 
 [pagerduty(1)](http://pagerduty.com), [opsgenie(1)](http://opsgenie.com)
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/danryan/reveille/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
