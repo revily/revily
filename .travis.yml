@@ -1,14 +1,13 @@
 language: ruby
 rvm:
   - 1.9.3
-# env:
-  # - AWS_ACCESS_KEY_ID="foo" AWS_SECRET_ACCESS_KEY="bar" ADEPT_S3_BUCKET="baz"
+env:
+  - SECRET_TOKEN="foo" TWILIO_ACCOUNT_SID="foo" TWILIO_AUTH_TOKEN="foo" TWILIO_NUMBER="+15175551212"
 bundler_args: --without local
 script: 
-  - bundle exec rake spec:ci
+  - bundle exec rake spec
 before_install:
   - sudo apt-get update -qq
-  # - sudo apt-get install -qq libarchive-dev
 before_script:
   - createuser -s reveille
   - rake db:create:all
