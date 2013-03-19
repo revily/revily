@@ -1,0 +1,8 @@
+=== kgio 2.8.0 - TCP Fast Open, writev/trywritev / 2013-01-18 10:52 UTC
+
+  TCP Fast Open in Linux 3.7 and later is now supported
+  in the client via Kgio::Socket#kgio_fastopen.
+
+  This release also adds the kgio_writev and
+  kgio_trywritev methods, thanks to funny-falcon
+

@@ -1,29 +1,27 @@
-require 'rubygems'
-require 'spork'
+# require 'rubygems'
+# require 'spork'
 
 ENV["RAILS_ENV"] ||= 'test'
 
-Spork.prefork do
+def load_all(*patterns)
+  patterns.each { |pattern| Dir[pattern].sort.each {|path| load File.expand_path(path) } }
+end
+
+def require_all(*patterns)
+  options = patterns.pop
+  patterns.each { |pattern| Dir[pattern].sort.each { |path| require path.gsub(/^#{options[:relative_to]}\//, '') } }
+end
+
+def configure
+  require File.expand_path("../../config/environment", __FILE__)
   # http://my.rails-royce.org/2012/01/14/reloading-models-in-rails-3-1-when-usign-spork-and-cache_classes-true/
   require 'rails/application'
-
-  # Prevent main application to eager_load in the prefork block (do not load files in autoload_paths)
-  Spork.trap_method(Rails::Application, :eager_load!)
-
-  # Load all railties files
-  require File.expand_path("../../config/environment", __FILE__)
+  require 'rspec/rails'
 
   Rails.application.railties.all { |r| r.eager_load! }
-
-
-  require File.expand_path("../../config/environment", __FILE__)
-  require 'rspec/rails'
-  require 'rspec/autorun'
-
-  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+  Spork.trap_method(Rails::Application, :eager_load!) if defined?(Spork)
 
   RSpec.configure do |config|
-    # config.mock_with :mocha
     config.mock_with :rspec
     config.use_transactional_fixtures = false
     config.infer_base_class_for_anonymous_controllers = false
@@ -34,11 +32,13 @@ Spork.prefork do
     config.filter_run_excluding external: true
   end
 
-  require 'coveralls'
-  Coveralls.wear!
+  require_all 'spec/support/**/*.rb', relative_to: 'spec'
 end
 
-Spork.each_run do
-  load "#{Rails.root}/config/routes.rb"
-  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
+if defined?(Spork)
+  Spork.prefork { configure }
+  Spork.each_run { load_all "#{Rails.root}/lib/**/*.rb", "#{Rails.root}/config/routes.rb" }
+else
+  configure
 end

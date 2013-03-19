@@ -26,3 +26,10 @@ vendor/bundler_gems
 
 # Ignore application configuration
 /config/application.yml
+
+vendor/ruby
+vendor/bin
+vendor/bundler
+vendor/cache
+vendor/gems
+vendor/specifications

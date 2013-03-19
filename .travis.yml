@@ -3,7 +3,7 @@ rvm:
   - 1.9.3
 env:
   - SECRET_TOKEN="d16f597fa59ad5c19c08a53536fcfad" TWILIO_ACCOUNT_SID="foo" TWILIO_AUTH_TOKEN="foo" TWILIO_NUMBER="+15175551212"
-bundler_args: --without local development
+bundler_args: --without local development staging production
 script: 
   - bundle exec rake spec
 before_install:

@@ -1,0 +1,6 @@
+=== unicorn 4.6.2 - HTTP parser fix for Rainbows! / 2013-02-26 02:59 UTC
+
+  This release fixes a bug in Unicorn::HttpParser#filter_body
+  which affected some configurations of Rainbows!  There is
+  also a minor size reduction in the DSO.
+
