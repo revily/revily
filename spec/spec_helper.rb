@@ -38,7 +38,7 @@ end
 
 if defined?(Spork)
   Spork.prefork { configure }
-  Spork.each_run { load_all "#{Rails.root}/lib/**/*.rb", "#{Rails.root}/config/routes.rb" }
+  Spork.each_run { load_all "lib/**/*.rb", "config/routes.rb" }
 else
   configure
 end
