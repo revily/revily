@@ -14,7 +14,7 @@ class Service < ActiveRecord::Base
 
   before_save :ensure_authentication_token
 
-  state_machine :initial => :enabled do
+  state_machine initial: :enabled do
     state :enabled
     state :disabled
 

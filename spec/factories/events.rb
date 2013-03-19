@@ -4,6 +4,7 @@ FactoryGirl.define do
   factory :event do
     service
     message "Shit just got real."
+    uuid { SecureRandom.uuid }
     state "triggered"
   end
 end

@@ -1,5 +1,6 @@
 class Event < ActiveRecord::Base
   include Identifiable
+  include ActiveModel::ForbiddenAttributesProtection
 
   serialize :details, JSON
   

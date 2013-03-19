@@ -1,5 +1,6 @@
 class Contact < ActiveRecord::Base
   include Identifiable
+  include ActiveModel::ForbiddenAttributesProtection
 
   # attr_accessible :address, :label
 

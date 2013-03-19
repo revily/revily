@@ -1,5 +1,6 @@
 class Schedule < ActiveRecord::Base
   include Identifiable
+  include ActiveModel::ForbiddenAttributesProtection
 
   # attr_accessible :name, :rotation_type, :start_at, :timezone, :shift_length, :shift_length_unit
 

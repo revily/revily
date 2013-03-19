@@ -1,10 +1,10 @@
 # TODO: this is probably not secure. Redo it when you can.
-DeviseController.class_eval do
-  def resource_params
-    # params.require(resource_name).try(:permit!) || {}
-    params.try(:permit!) || {}
-  end
-end
+# DeviseController.class_eval do
+#   def resource_params
+#     # params.require(resource_name).try(:permit!) || {}
+#     params.try(:permit!) || {}
+#   end
+# end
 
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.

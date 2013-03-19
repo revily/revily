@@ -1,6 +1,7 @@
 class Alert < ActiveRecord::Base
   include Identifiable
-
+  include ActiveModel::ForbiddenAttributesProtection
+  
   belongs_to :event
 
   validates :type, 

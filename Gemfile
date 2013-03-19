@@ -2,7 +2,8 @@ source 'https://rubygems.org'
 
 ruby '1.9.3'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
+
 gem 'pg', '>= 0.14.1'
 gem 'dalli', '>= 2.6.2'
 gem 'psych'
@@ -29,8 +30,8 @@ gem 'unicorn', '>= 4.6.2'
 # Sidekiq
 gem 'sidekiq', '>= 2.8.0'
 gem 'slim', '>= 1.3.6'
-gem 'sinatra', '>= 1.3.0', :require => false
-gem 'clockwork', '>= 0.5.0', :require => false
+gem 'sinatra', '>= 1.3.0', require: false
+gem 'clockwork', '>= 0.5.0', require: false
 
 # Assets and UI
 gem 'bourbon'
@@ -64,10 +65,10 @@ group :development do
   gem 'guard-rspec', '>= 2.4.1'
   gem 'guard-spork', '>= 1.5.0'
   gem 'guard-bundler'
-  gem 'rb-fsevent', :require => false
-  gem 'rb-inotify', :require => false
-  gem 'ruby_gntp', :require => false
-  gem 'libnotify',  '>= 0.8.0', :require => false
+  gem 'rb-fsevent', require: false
+  gem 'rb-inotify', require: false
+  gem 'ruby_gntp', require: false
+  gem 'libnotify',  '>= 0.8.0', require: false
 end
 
 # Gems useful in both test and development environments
@@ -76,10 +77,12 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'forgery', '>= 0.5.0'
   gem 'sham_rack'
+  gem 'quiet_assets'
+  # gem "mocha", require: false
 end
 
 group :test do
-  gem 'shoulda-matchers', '>= 1.4.1'
+  gem 'shoulda-matchers', '>= 1.4.1' #, github: 'danryan/shoulda-matchers'
   gem 'json_spec', '>= 1.1.0'
   gem 'database_cleaner', '>= 0.7.2'
   gem 'capybara', '>= 2.0.2'
@@ -88,6 +91,7 @@ group :test do
   gem 'sms-spec', '>= 0.1.6'
   gem 'email_spec', '>= 1.4.0'
   gem 'launchy'
+  gem 'coveralls', require: false
 end
 
 group :staging, :production do

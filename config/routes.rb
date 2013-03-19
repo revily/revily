@@ -1,23 +1,13 @@
 Reveille::Application.routes.draw do
-  get "services/index"
+  resources :services do
+    resources :events
+  end
 
-  get "services/show"
+  resources :events
 
-  get "services/new"
-
-  get "services/edit"
-
-  get "home/index"
-
-  # scope :integration do
-    post 'integration' => 'integration#trigger'
-    put 'integration' => 'integration#acknowledge'
-    delete 'integration' => 'integration#resolve'
-  # end
-
-  get "integration/trigger"
-  get "integration/acknowledge"
-  get "integration/resolve"
+  post 'integration' => 'integration#trigger'
+  put 'integration' => 'integration#acknowledge'
+  delete 'integration' => 'integration#resolve'
 
   post 'twilio/sms'
   post 'twilio/phone'
