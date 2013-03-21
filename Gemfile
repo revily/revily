@@ -23,6 +23,8 @@ gem 'hound'
 gem 'strong_parameters'
 gem 'recipient_interceptor'
 gem 'draper'
+gem 'active_model_serializers'
+gem 'squeel'
 
 # Service
 gem 'unicorn', '>= 4.6.2'
@@ -78,7 +80,7 @@ group :development, :test do
   gem 'forgery', '>= 0.5.0'
   gem 'sham_rack'
   gem 'quiet_assets'
-  # gem "mocha", require: false
+  # gem 'mocha', require: false
 end
 
 group :test do
@@ -90,6 +92,7 @@ group :test do
   gem 'twilio-test-toolkit', '>= 3.0.0'
   gem 'sms-spec', '>= 0.1.6'
   gem 'email_spec', '>= 1.4.0'
+  gem 'state_machine_rspec'
   gem 'launchy'
   gem 'coveralls', require: false
 end

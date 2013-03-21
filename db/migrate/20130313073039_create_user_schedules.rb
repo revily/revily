@@ -1,7 +1,7 @@
 class CreateUserSchedules < ActiveRecord::Migration
   def change
     create_table :user_schedules do |t|
-      t.string :uuid
+      t.string :uuid, :null => false
 
       t.references :schedule
       t.references :user

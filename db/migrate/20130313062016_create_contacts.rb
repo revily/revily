@@ -4,7 +4,7 @@ class CreateContacts < ActiveRecord::Migration
       t.string :label
       t.string :type
       t.string :address
-      t.string :uuid
+      t.string :uuid, :null => false
 
       t.references :user
 

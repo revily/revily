@@ -5,10 +5,11 @@ Reveille::Application.routes.draw do
 
   resources :events
 
-  post 'integration' => 'integration#trigger'
-  put 'integration' => 'integration#acknowledge'
-  delete 'integration' => 'integration#resolve'
-
+  # post 'integration' => 'integration#trigger'
+  # put 'integration' => 'integration#resolve'
+  put 'trigger' => 'integration#trigger'
+  put 'resolve' => 'integration#resolve'
+  
   post 'twilio/sms'
   post 'twilio/phone'
   get 'twilio/service'

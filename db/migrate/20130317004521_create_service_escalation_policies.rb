@@ -1,7 +1,7 @@
 class CreateServiceEscalationPolicies < ActiveRecord::Migration
   def change
     create_table :service_escalation_policies do |t|
-      t.string :uuid
+      t.string :uuid, :null => false
       
       t.references :service
       t.references :escalation_policy

@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 20130317004521) do
     t.string   "label"
     t.string   "type"
     t.string   "address"
-    t.string   "uuid"
+    t.string   "uuid",       :null => false
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -39,14 +39,14 @@ ActiveRecord::Schema.define(:version => 20130317004521) do
 
   create_table "escalation_policies", :force => true do |t|
     t.string   "name"
-    t.string   "uuid"
+    t.string   "uuid",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "escalation_rules", :force => true do |t|
     t.integer  "escalation_timeout",   :default => 30
-    t.string   "uuid"
+    t.string   "uuid",                                 :null => false
     t.integer  "assignable_id"
     t.string   "assignable_type"
     t.integer  "escalation_policy_id"
@@ -59,12 +59,16 @@ ActiveRecord::Schema.define(:version => 20130317004521) do
 
   create_table "events", :force => true do |t|
     t.text     "message"
+    t.text     "description"
     t.text     "details"
     t.string   "state"
-    t.string   "uuid",       :default => "", :null => false
+    t.string   "key"
+    t.string   "uuid",            :null => false
     t.integer  "service_id"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.datetime "acknowledged_at"
+    t.datetime "resolved_at"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   add_index "events", ["uuid"], :name => "index_events_on_uuid", :unique => true
@@ -105,7 +109,7 @@ ActiveRecord::Schema.define(:version => 20130317004521) do
   end
 
   create_table "service_escalation_policies", :force => true do |t|
-    t.string   "uuid"
+    t.string   "uuid",                 :null => false
     t.integer  "service_id"
     t.integer  "escalation_policy_id"
     t.datetime "created_at",           :null => false
@@ -147,7 +151,7 @@ ActiveRecord::Schema.define(:version => 20130317004521) do
   end
 
   create_table "user_schedules", :force => true do |t|
-    t.string   "uuid"
+    t.string   "uuid",        :null => false
     t.integer  "schedule_id"
     t.integer  "user_id"
     t.datetime "created_at",  :null => false
@@ -160,7 +164,7 @@ ActiveRecord::Schema.define(:version => 20130317004521) do
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
-    t.string   "uuid",                   :default => "", :null => false
+    t.string   "uuid",                                   :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

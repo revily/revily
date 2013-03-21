@@ -1,6 +1,8 @@
 class Service < ActiveRecord::Base
   include Identifiable
   
+  hound_user
+
   devise :token_authenticatable
 
   has_many :events

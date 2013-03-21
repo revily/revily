@@ -6,6 +6,35 @@
 #   end
 # end
 
+# module Devise
+#   module Strategies
+#     class HeaderTokenAuthenticatable < TokenAuthenticatable
+#       # Devise accomplishes all the work of authentication through side-effects.
+#       # What you see below is a much, much simpler version of how Devise's
+#       # strategies normally work.
+#       def valid?
+#         self.authentication_hash = {}
+#         self.authentication_type = :token_auth
+#         if token = header_values[header_key]
+#           self.authentication_hash[mapping.to.token_authentication_key] = token
+#         else
+#           false
+#         end
+#       end
+
+#       private
+
+#       def header_key
+#         "HTTP_#{mapping.to.token_authentication_key.gsub('-', '_').upcase}"
+#       end
+
+#       def header_values
+#         env.select { |k, v| k =~ /^HTTP_/ }
+#       end
+#     end
+#   end
+# end
+
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -231,6 +260,13 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
+
+  require 'devise/strategies/header_token_authenticatable'
+  
+  config.warden do |manager|
+    # manager.strategies.add :header_token_authenticatable, Devise::Strategies::HeaderTokenAuthenticatable
+    manager.default_strategies(:scope => :service).unshift :header_token_authenticatable
+  end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine

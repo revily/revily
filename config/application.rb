@@ -80,7 +80,7 @@ module Reveille
     config.assets.initialize_on_precompile = false
 
     # Postmark configuration
-    config.action_mailer.postmark_settings = { :api_key => "d14800c1-fa0a-436c-bc23-c05127fe8b06" }
+    config.action_mailer.postmark_settings = { :api_key => Figaro.env.postmark_api_key }
     config.action_mailer.delivery_method = :postmark
   end
 end
