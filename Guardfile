@@ -11,6 +11,12 @@ guard 'spork', wait: 50 do
   watch(%r{config/.+\.yml})
 end
 
+guard 'bundler' do
+  watch('Gemfile')
+  # Uncomment next line if Gemfile contain `gemspec' command
+  # watch(/^.+\.gemspec/)
+end
+
 guard :rspec, cli: "--color --drb --tty -f doc", bundler: false, all_after_pass: false, all_on_start: false, keep_failed: false do
   watch('spec/spec_helper.rb') { "spec" }
   # watch('app/controllers/application_controller.rb') { "spec/controllers" }
@@ -62,9 +68,3 @@ notification :tmux,
   # Alternately you can also configure *success_message_format*,
   # *pending_message_format*, *failed_message_format*
   line_separator: ' > ' # since we are single line we need a separator
-
-guard 'bundler' do
-  watch('Gemfile')
-  # Uncomment next line if Gemfile contain `gemspec' command
-  # watch(/^.+\.gemspec/)
-end

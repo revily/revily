@@ -3,9 +3,27 @@ require 'spec_helper'
 describe 'Integration API' do
   let(:service) { create(:service) }
   let(:token) { service.authentication_token }
+  let(:excluded_json_attributes) { ['details', 'description', 'id', 'service_id', 'uuid', 'triggered_at'] }
 
   before do
     header 'Authorization', %[Token token="#{token}"]
+  end
+
+  shared_context 'triggering an event' do
+    let(:json_event) { JSON.parse(body) }
+    let(:event) { service.events.last }
+
+    it 'should create an event' do
+      service.should have(1).event
+    end
+
+    it 'should return the right event attributes' do
+      json_event['id'].should eq event.uuid
+      json_event['state'].should eq event.state
+      json_event['message'].should eq event.message
+      json_event['description'].should eq event.description
+      json_event['details'].should eq event.details
+    end
   end
 
   describe 'PUT /trigger' do
@@ -16,78 +34,51 @@ describe 'Integration API' do
         put '/trigger', attributes.to_json
       end
 
-      it { should respond_with(:accepted) }
+      it { should respond_with(:created) }
       it { should have_content_type(:json) }
 
-      it 'creates an event' do
-        service.should have(1).event
-        body.should be_json_eql service.events.last.to_json
-      end
+      include_context 'triggering an event'
     end
 
-    context 'with key', focus: true do
+    context 'with key' do
       let(:attributes) { attributes_for(:event_with_key) }
 
       before do
         put '/trigger', attributes.to_json
       end
 
-      it { should respond_with(:accepted) }
+      it { should respond_with(:created) }
       it { should have_content_type(:json) }
 
-      it 'creates an event' do
-        puts body.inspect
-        puts headers.inspect
-        
-        service.should have(1).event
-        body.should be_json_eql service.events.last.to_json
-      end
+      include_context 'triggering an event'
+
     end
 
     context 'with duplicate key' do
       let(:attributes) { attributes_for(:event_with_key) }
-      let!(:event) { create(:event_with_key, service: service) }
+      let!(:existing_event) { create(:event_with_key, service: service) }
 
       before do
         put '/trigger', attributes.to_json
       end
 
-      it 'returns existing event' do
-        new_event = service.events.where(key: attributes[:key]).first
+      it { should respond_with(:accepted) }
+      it { should have_content_type(:json) }
+      
+      include_context 'triggering an event'
 
-        service.should have(1).event
-        service.should_not have(2).events
-        new_event.should eq event
-      end
     end
 
     context 'with duplicate key but different message' do
-      let(:attributes) { attributes_for(:event_with_key, message: "Different message!") }
-      let!(:event) { create(:event_with_key, service: service, message: "Different message!") }
-      
+      let(:attributes) { attributes_for(:event_with_key) }
+
       before do
+        create(:event_with_key, service: service, message: "Different message!")
         put '/trigger', attributes.to_json
       end
 
-      it 'returns existing event even if message differs' do
-        new_event = service.events.where(key: attributes[:key]).first
-
-        service.should have(1).event
-        service.should_not have(2).events
-        new_event.should eq event
-      end
-
-      # pending
-      # end
+      include_context 'triggering an event'
     end
+
   end
 end
-
-#   describe 'PUT /integration' do
-#     let!(:event) { create(:event) }
-#     before { get :show, service_id: service.id, id: event.id }
-
-#     it { should respond_with(:ok) }
-#     it { should render_template(:show) }
-#   end
-# end

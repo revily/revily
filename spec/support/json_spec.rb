@@ -5,5 +5,5 @@ RSpec.configure do |config|
 end
 
 JsonSpec.configure do
-  exclude_keys "created_at", "updated_at", "user_id", "id"
+  exclude_keys "created_at", "updated_at", "user_id", "id", "uuid", "triggered_at", "acknowledged_at", "resolved_at"
 end

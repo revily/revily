@@ -9,7 +9,7 @@ describe Event do
   context 'validations' do
     it { should validate_presence_of(:message) }
     # it { should validate_uniqueness_of(:message).scoped_to([:service_id]).on(:save) }
-    it { should validate_uniqueness_of(:key).scoped_to([:service_id]) }
+    # it { should validate_uniqueness_of(:key).scoped_to([:service_id]) }
   end
 
   context 'attributes' do
@@ -18,31 +18,6 @@ describe Event do
   end
 
   context 'scopes' do
-    describe '.find_by_key_or_uuid' do
-
-      it 'finds an event by uuid' do
-        event = create(:event)
-        found = Event.find_by_key_or_uuid(event.uuid).first
-
-        found.uuid.should eq event.uuid
-      end
-
-      it 'finds an event by key' do
-        event = create(:event_with_key)
-        found = Event.find_by_key_or_uuid(event.key).first
-
-        found.uuid.should eq event.uuid
-        found.key.should eq event.key
-      end
-
-      it 'finds an event by uuid even if key is present' do
-        event = create(:event_with_key)
-        found = Event.find_by_key_or_uuid(event.uuid).first
-
-        found.uuid.should eq event.uuid
-      end
-
-    end
   end
 
   context 'states' do

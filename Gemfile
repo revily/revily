@@ -80,6 +80,7 @@ group :development, :test do
   gem 'forgery', '>= 0.5.0'
   gem 'sham_rack'
   gem 'quiet_assets'
+  gem 'awesome_print'
   # gem 'mocha', require: false
 end
 

@@ -1,31 +1,20 @@
-module APIExampleGroup
+module APIHelpers
   extend ActiveSupport::Concern
-  include FactoryGirl::Syntax::Methods
   include Rack::Test::Methods
   include JsonSpec::Helpers
-  include Rails.application.routes.url_helpers
 
   included do
     require 'rack/test'
     require 'json_spec'
 
-    metadata[:type] = :api
     metadata[:api] = true
 
     before do
       header 'Content-Type', 'application/json'
       header 'Accept', 'application/json'
-      # @routes = ::Rails.application.routes
     end
 
     subject { last_response }
-
-    after do
-    end
-  end
-
-  def app
-    ::Rails.application
   end
 
   def body
@@ -39,6 +28,11 @@ module APIExampleGroup
 end
 
 RSpec.configure do |config|
-  config.include APIExampleGroup,
-    example_group: { file_path: %r[spec/api] }
+  def config.escaped_path(*parts)
+    Regexp.compile(parts.join('[\\\/]') + '[\\\/]')
+  end
+
+  config.include APIHelpers,
+    type: :request,
+    example_group: { file_path: config.escaped_path(%w[spec (requests|integration|api)]) }
 end

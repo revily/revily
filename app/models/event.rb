@@ -11,24 +11,38 @@ class Event < ActiveRecord::Base
 
   validates :message, presence: true
 
-  validates :message, 
-    uniqueness: { 
-      scope: [ :service_id, :state ],
-      unless: :key?
-    },
-    # on: :create
-    on: :save
-  validates :key, 
-    uniqueness: { 
-      scope: [ :service_id, :state ],
-      allow_nil: true,
-      allow_blank: true
-    },
-    on: :create
+  # validates :message, 
+  #   uniqueness: { scope: [ :service_id, :state ] },
+  #   on: :create,
+  #   :unless => :key?
 
+    # on: :save
+  # validates :key, 
+  #   # uniqueness: { scope: [ :service_id, :state, :uuid ] },
+  #   uniqueness: { scope: [ :service_id, :state ] },
+  #   allow_nil: true,
+  #   allow_blank: true,
+  #   on: :create
 
-  scope :find_by_key_or_uuid, ->(k) { where("key LIKE ? OR uuid LIKE ?", k, k) }
-  scope :key_or_message, ->(k) { where("key LIKE ? OR message LIKE ? AND state != 'resolved'", k, k) }
+  before_save :ensure_key
+
+  scope :unresolved, where("state != 'resolved'")
+
+  def self.first_or_initialize_by_key_or_message(params)
+    if params[:key]
+      where(key: params[:key])
+    elsif params[:message]
+      where(message: params[:message])
+    end.first_or_initialize(params)
+  end
+
+  def self.find_by_key_or_message(params)
+    if params[:key]
+      where(key: params[:key])
+    elsif params[:message]
+      where(message: params[:message])
+    end.last
+  end
 
   state_machine initial: :triggered do
     state :triggered
@@ -61,12 +75,11 @@ class Event < ActiveRecord::Base
     self.created_at
   end
 
-  def self.from_api(attributes={})
-
-
-  end
-
   private
+
+  def ensure_key
+    self[:key] ||= SecureRandom.hex
+  end
 
   def update_resolved_at
     self[:resolved_at] = Time.zone.now

@@ -38,6 +38,7 @@ GEM
       builder
       json
     arel (3.0.2)
+    awesome_print (1.1.0)
     bcrypt-ruby (3.0.1)
     better_errors (0.7.2)
       coderay (>= 1.0.0)
@@ -361,6 +362,7 @@ DEPENDENCIES
   active_model_serializers
   acts-as-taggable-on (>= 2.3.3)
   airbrake
+  awesome_print
   better_errors
   binding_of_caller
   bootstrap-sass (>= 2.3.0.1)
