@@ -1,8 +1,8 @@
 class ServicesController < ApplicationController
+  respond_to :html
+
   before_filter :authenticate_user!
-
-  respond_to :html, :json
-
+  
   def index
     @services = Service.all
 
@@ -10,7 +10,7 @@ class ServicesController < ApplicationController
   end
 
   def show
-    @service = Service.find(params[:id]).decorate
+    @service = Service.find_by_uuid(params[:id]).decorate
 
     respond_with @service
   end
@@ -20,25 +20,28 @@ class ServicesController < ApplicationController
   end
 
   def create
-    @service = Service.create(service_params)
+    @service = Service.new(service_params)
+    @service.save
 
     respond_with @service
   end
 
   def edit
-    @service = Service.find(params[:id]).decorate
+    @service = Service.find_by_uuid(params[:id]).decorate
 
     respond_with @service
   end
 
   def update
-    @service = Service.update(params[:id], service_params)
+    @service = Service.find_by_uuid(params[:id])
+    @service.update_attributes(service_params)
 
     respond_with @service
   end
 
   def destroy
-    @service = Service.destroy(params[:id])
+    @service = Service.find_by_uuid(params[:id])
+    @service.destroy
 
     respond_with @service
   end

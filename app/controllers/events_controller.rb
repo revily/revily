@@ -1,42 +1,43 @@
 class EventsController < ApplicationController
   respond_to :html, :json
 
-  before_filter :service
+  before_filter :service, :events
 
   def index
-    @events = Event.all
+    @events = events.all
 
     respond_with @events
   end
 
   def show
-    @event = Event.find(params[:id])
+    @event = events.find(params[:id])
 
     respond_with @event
   end
 
   def new
-    @event = service.events.new
+    @event = events.new
 
     respond_with @event
   end
 
   def create
-    @event = service.events.create(event_params)
+    @event = events.create(event_params)
 
-    respond_with service, @event
+    respond_with @event
   end
 
   def update
-    @event = Event.update(params[:id], event_params)
+    @event = events.update(params[:id], event_params)
 
-    respond_with service, @event
+    respond_with @event
   end
 
   def destroy
-    @event = Event.destroy(params[:id])
+    @event = events.find(params[:id])
+    @event.destroy
 
-    respond_with service, @event
+    respond_with @event.service, @event
   end
 
   private
@@ -46,6 +47,10 @@ class EventsController < ApplicationController
   end
 
   def service
-    @service ||= Service.find(params[:service_id])
+    @service ||= Service.find(params[:service_id]) if params[:service_id]
+  end
+
+  def events
+    @events ||= (@service) ? @service.events : Event
   end
 end

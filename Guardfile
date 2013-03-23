@@ -68,3 +68,15 @@ notification :tmux,
   # Alternately you can also configure *success_message_format*,
   # *pending_message_format*, *failed_message_format*
   line_separator: ' > ' # since we are single line we need a separator
+
+guard 'annotate' do
+  watch( 'db/schema.rb' )
+
+  # Uncomment the following line if you also want to run annotate anytime
+  # a model file changes
+  #watch( 'app/models/**/*.rb' )
+
+  # Uncomment the following line if you are running routes annotation
+  # with the ":routes => true" option
+  #watch( 'config/routes.rb' )
+end

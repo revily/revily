@@ -1,7 +1,32 @@
-# module APIHelpers
+module API
+  module Service
 
-# end
+    def sign_in_service
+      let(:service) { create(:service) }
+      let(:token) { service.authentication_token }
 
-# RSpec.configure do |config|
-#   config.include APIHelpers, type: :api
-# end
+      before do
+        header 'Authorization', %[Token token="#{token}"]
+      end
+    end
+
+  end
+
+  module User
+    
+    def sign_in_user
+      let(:user) { create(:user) }
+      let(:token) { user.authentication_token }
+
+      before do
+        header 'Authorization', %[Token token="#{token}"]
+      end
+    end
+
+  end
+end
+
+RSpec.configure do |config|
+  config.extend API::Service, api: :true
+  config.extend API::User, api: true
+end

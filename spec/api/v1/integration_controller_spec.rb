@@ -1,13 +1,7 @@
 require 'spec_helper'
 
-describe 'Integration API' do
-  let(:service) { create(:service) }
-  let(:token) { service.authentication_token }
-  let(:excluded_json_attributes) { ['details', 'description', 'id', 'service_id', 'uuid', 'triggered_at'] }
-
-  before do
-    header 'Authorization', %[Token token="#{token}"]
-  end
+describe Api::V1::IntegrationController do
+  sign_in_service
 
   shared_context 'triggering an event' do
     let(:json_event) { JSON.parse(body) }
@@ -26,12 +20,12 @@ describe 'Integration API' do
     end
   end
 
-  describe 'PUT /trigger' do
+  describe 'PUT /api/trigger' do
     let(:attributes) { attributes_for(:event) }
 
     context 'without key' do
       before do
-        put '/trigger', attributes.to_json
+        put '/api/trigger', attributes.to_json
       end
 
       it { should respond_with(:created) }
@@ -44,7 +38,7 @@ describe 'Integration API' do
       let(:attributes) { attributes_for(:event_with_key) }
 
       before do
-        put '/trigger', attributes.to_json
+        put '/api/trigger', attributes.to_json
       end
 
       it { should respond_with(:created) }
@@ -59,7 +53,7 @@ describe 'Integration API' do
       let!(:existing_event) { create(:event_with_key, service: service) }
 
       before do
-        put '/trigger', attributes.to_json
+        put '/api/trigger', attributes.to_json
       end
 
       it { should respond_with(:accepted) }
@@ -74,7 +68,7 @@ describe 'Integration API' do
 
       before do
         create(:event_with_key, service: service, message: "Different message!")
-        put '/trigger', attributes.to_json
+        put '/api/trigger', attributes.to_json
       end
 
       include_context 'triggering an event'

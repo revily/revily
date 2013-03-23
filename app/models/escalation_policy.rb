@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: escalation_policies
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  uuid       :string(255)      not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class EscalationPolicy < ActiveRecord::Base
   include Identifiable
   include ActiveModel::ForbiddenAttributesProtection
@@ -5,7 +16,8 @@ class EscalationPolicy < ActiveRecord::Base
   # attr_accessible :name
 
   has_many :escalation_rules
-  has_many :services
+  has_many :service_escalation_policies
+  has_many :services, through: :service_escalation_policies
 
   validates :name, presence: true
 end

@@ -266,6 +266,7 @@ Devise.setup do |config|
   config.warden do |manager|
     # manager.strategies.add :header_token_authenticatable, Devise::Strategies::HeaderTokenAuthenticatable
     manager.default_strategies(:scope => :service).unshift :header_token_authenticatable
+    manager.default_strategies(:scope => :user).unshift :header_token_authenticatable
   end
 
   # ==> Mountable engine configurations

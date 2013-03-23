@@ -11,7 +11,7 @@ module Identifiable
   end
 
   # TODO: uncomment this when it matters.
-  # def to_param
-  #   self.uuid || self.id
-  # end
+  def to_param
+    self.uuid || self.id
+  end
 end

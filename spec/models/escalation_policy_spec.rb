@@ -3,7 +3,8 @@ require 'spec_helper'
 describe EscalationPolicy do
   context 'associations' do
     it { should have_many(:escalation_rules) }
-    it { should have_many(:services) }
+    it { should have_many(:service_escalation_policies) }
+    it { should have_many(:services).through(:service_escalation_policies) }
   end
 
   context 'validations' do

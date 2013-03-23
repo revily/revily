@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: services
+#
+#  id                   :integer          not null, primary key
+#  name                 :string(255)
+#  auto_resolve_timeout :integer
+#  acknowledge_timeout  :integer
+#  state                :string(255)
+#  uuid                 :string(255)
+#  authentication_token :string(255)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#
+
 class Service < ActiveRecord::Base
   include Identifiable
   
@@ -21,11 +36,11 @@ class Service < ActiveRecord::Base
     state :disabled
 
     event :enable do
-      transition [ :disabled ] => :enabled
+      transition all => :enabled
     end
 
     event :disable do
-      transition [ :enabled ]=> :disabled
+      transition all => :disabled
     end
   end
 end

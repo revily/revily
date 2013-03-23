@@ -18,7 +18,7 @@ describe ServicesController do
 
   describe 'GET /services/:id' do
     let!(:service) { create(:service) }
-    before { get :show, id: service.id }
+    before { get :show, id: service.uuid }
 
     it { should respond_with(:ok) }
     it { should render_template(:show) }
@@ -42,7 +42,7 @@ describe ServicesController do
 
   describe 'GET /services/:id/edit' do
     let!(:service) { create(:service) }
-    before { get 'edit', id: service.id }
+    before { get 'edit', id: service.uuid }
 
     it { should respond_with(:ok) }
     it { should render_template(:edit) }
@@ -51,7 +51,7 @@ describe ServicesController do
 
   describe 'PUT /services/:id' do
     let(:service) { create(:service) }
-    before { put :update, id: service.id, service: attributes_for(:service) }
+    before { put :update, id: service.uuid, service: attributes_for(:service) }
 
     it { should respond_with(:found) }
     it { should redirect_to service_url(service) }
@@ -60,12 +60,11 @@ describe ServicesController do
 
   describe 'DELETE /services/:id' do
     let(:service) { create(:service) }
-    before { delete :destroy, id: service.id, id: service.id }
+    before { delete :destroy, id: service.uuid }
 
     it { should respond_with(:found) }
     it { should redirect_to services_url }
     it { should assign_to(:service).with(service) }
-
   end
 
 end

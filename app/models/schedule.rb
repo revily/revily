@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: schedules
+#
+#  id                :integer          not null, primary key
+#  name              :string(255)
+#  time_zone         :string(255)      default("UTC")
+#  rotation_type     :string(255)
+#  shift_length      :integer
+#  shift_length_unit :string(255)
+#  uuid              :string(255)
+#  start_at          :datetime
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#
+
 class Schedule < ActiveRecord::Base
   include Identifiable
   include ActiveModel::ForbiddenAttributesProtection

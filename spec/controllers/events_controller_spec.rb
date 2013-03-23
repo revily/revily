@@ -17,9 +17,9 @@ describe EventsController do
     it { should render_template(:index) }
   end
 
-  describe 'GET /services/:service_id/events/:id' do
+  describe 'GET /events/:id' do
     let!(:event) { create(:event) }
-    before { get :show, service_id: service.id, id: event.id }
+    before { get :show, id: event.id }
 
     it { should respond_with(:ok) }
     it { should render_template(:show) }
@@ -36,7 +36,7 @@ describe EventsController do
     before { post :create, service_id: service.id, event: attributes_for(:event) }
 
     it { should respond_with(:found) }
-    it { should redirect_to service_event_url(service, assigns(:event)) }
+    it { should redirect_to event_url(assigns(:event)) }
   end
 
   describe 'GET /services/:service_id/events/:id/edit' do
@@ -47,18 +47,18 @@ describe EventsController do
     it { should render_template(:edit) }
   end
 
-  describe 'PUT /services/:service_id/events/:id' do
+  describe 'PUT /events/:id' do
     let(:event) { create(:event, service: service) }
-    before { put :update, service_id: service.id, id: event.id, event: attributes_for(:event) }
+    before { put :update, id: event.id, event: attributes_for(:event) }
 
     it { should respond_with(:found) }
-    it { should redirect_to service_event_url(service, event) }
+    it { should redirect_to event_url(event) }
     it { should assign_to(:event) }
   end
 
-  describe 'DELETE /services/:service_id/events/:id' do
+  describe 'DELETE /events/:id' do
     let(:event) { create(:event, service: service) }
-    before { delete :destroy, service_id: service.id, id: event.id }
+    before { delete :destroy, id: event.id }
 
     it { should respond_with(:found) }
     it { should redirect_to service_events_url(service) }

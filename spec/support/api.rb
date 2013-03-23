@@ -21,8 +21,16 @@ module APIHelpers
     last_response.body
   end
 
+  def json
+    parse_json(body)
+  end
+
   def headers
     last_response.headers
+  end
+
+  def serializer(obj)
+    normalize_json(obj.active_model_serializer.new(obj).to_json)
   end
 
 end

@@ -6,7 +6,7 @@ gem 'rails', '3.2.13'
 
 gem 'pg', '>= 0.14.1'
 gem 'dalli', '>= 2.6.2'
-gem 'psych'
+# gem 'psych'
 gem 'rack-timeout'
 gem 'airbrake'
 gem 'state_machine', '>= 1.1.2'
@@ -25,6 +25,8 @@ gem 'recipient_interceptor'
 gem 'draper'
 gem 'active_model_serializers'
 gem 'squeel'
+
+gem 'apipie-rails'
 
 # Service
 gem 'unicorn', '>= 4.6.2'
@@ -62,11 +64,12 @@ group :development do
 
   gem 'rails-erd'
   gem 'pry-rails', '>= 0.2.2'
-
+  gem 'annotate'
   # Guard
   gem 'guard-rspec', '>= 2.4.1'
   gem 'guard-spork', '>= 1.5.0'
   gem 'guard-bundler'
+  gem 'guard-annotate'
   gem 'rb-fsevent', require: false
   gem 'rb-inotify', require: false
   gem 'ruby_gntp', require: false
@@ -93,6 +96,7 @@ group :test do
   gem 'twilio-test-toolkit', '>= 3.0.0'
   gem 'sms-spec', '>= 0.1.6'
   gem 'email_spec', '>= 1.4.0'
+  gem 'rspec_api_test'
   gem 'state_machine_rspec'
   gem 'launchy'
   gem 'coveralls', require: false

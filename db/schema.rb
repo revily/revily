@@ -126,12 +126,9 @@ ActiveRecord::Schema.define(:version => 20130317004521) do
     t.string   "state"
     t.string   "uuid"
     t.string   "authentication_token"
-    t.integer  "escalation_policy_id"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
   end
-
-  add_index "services", ["escalation_policy_id"], :name => "index_services_on_escalation_policy_id"
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

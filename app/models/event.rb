@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id              :integer          not null, primary key
+#  message         :text
+#  description     :text
+#  details         :text
+#  state           :string(255)
+#  key             :string(255)
+#  uuid            :string(255)      not null
+#  service_id      :integer
+#  acknowledged_at :datetime
+#  resolved_at     :datetime
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class Event < ActiveRecord::Base
   include Identifiable
   include ActiveModel::ForbiddenAttributesProtection
