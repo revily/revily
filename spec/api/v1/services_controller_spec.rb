@@ -55,6 +55,11 @@ describe Api::V1::ServicesController do
   end
 
   describe 'DELETE /api/services/:id' do
+    before { delete "/api/services/#{service.to_param}" }
 
+    it { should respond_with(:no_content) }
+    it 'should have zero services' do
+      expect(Service.count).to be_zero
+    end
   end
 end
