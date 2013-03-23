@@ -71,7 +71,7 @@ class Api::V1::ServicesController < Api::V1::BaseController
   private
 
   def service_params
-    params.permit(:name, :auto_resolve_timeout, :acknowledge_timeout, :escalation_policy_id)
+    params.permit(:name, :auto_resolve_timeout, :acknowledge_timeout)
   end
 end
 

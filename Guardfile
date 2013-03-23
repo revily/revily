@@ -80,3 +80,19 @@ guard 'annotate' do
   # with the ":routes => true" option
   #watch( 'config/routes.rb' )
 end
+
+# guard 'migrate' do
+#   watch(%r{^db/migrate/(\d+).+\.rb})
+#   watch('db/seeds.rb')
+# end
+
+# Add files and commands to this file, like the example:
+#   watch(%r{file/path}) { `command(s)` }
+#
+guard 'shell' do
+  watch(%r{^db/schema\.rb}) do |m|
+    system("erd --inheritance --polymorphism --connected --notation=bachman >/dev/null 2>&1")
+    n "Regenerating erd.pdf file"
+    "erd.conf regenerated"
+  end
+end

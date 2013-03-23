@@ -5,8 +5,9 @@ ruby '1.9.3'
 gem 'rails', '3.2.13'
 
 gem 'pg', '>= 0.14.1'
+gem 'activerecord-postgres-hstore'
+gem 'hstore-attributes'
 gem 'dalli', '>= 2.6.2'
-# gem 'psych'
 gem 'rack-timeout'
 gem 'airbrake'
 gem 'state_machine', '>= 1.1.2'
@@ -25,6 +26,7 @@ gem 'recipient_interceptor'
 gem 'draper'
 gem 'active_model_serializers'
 gem 'squeel'
+gem 'acts_as_list'
 
 gem 'apipie-rails'
 
@@ -70,6 +72,8 @@ group :development do
   gem 'guard-spork', '>= 1.5.0'
   gem 'guard-bundler'
   gem 'guard-annotate'
+  gem 'guard-migrate'
+  gem 'guard-shell'
   gem 'rb-fsevent', require: false
   gem 'rb-inotify', require: false
   gem 'ruby_gntp', require: false

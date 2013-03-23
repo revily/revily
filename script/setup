@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -e
+
+if [ "$1" = "-v" ]; then
+  exec 3>&1
+else
+  exec 3>/dev/null
+fi
+
+if [ -e ".env" ]; then
+  while read line; do export $line; done < ".env"
+fi
+
+appname="$APP_NAME"
+dbname="${appname}_development"
+
+echo "Installing hstore extension"
+{ psql -tAl -d template1 -c '\dx' | grep -E "^hstore\|" >/dev/null || \
+  psql -d template1 -c 'CREATE EXTENSION IF NOT EXISTS hstore'
+} >&3 2>&1
+
+echo "Creating the database unless exists"
+{ psql -tAl | grep -E "^${dbname}\|" >/dev/null || \
+  createdb --no-password $dbname
+} >&3 2>&1
+
+echo "Done!"

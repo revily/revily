@@ -13,6 +13,19 @@ FactoryGirl.define do
         create(:sms_contact, user: user)
       end
     end
+
+    factory :complex do
+      ignore do
+        users []
+      end
+
+      before(:create) do |schedule|
+        create(:user)
+      end
+      after(:create) do |schedule|
+
+      end
+    end
   end
 
 end

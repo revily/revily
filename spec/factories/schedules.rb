@@ -6,22 +6,24 @@ FactoryGirl.define do
     # time_zone "MyString"
     start_at { Time.zone.now }
 
-    factory :daily_schedule do
-      rotation_type 'daily'
-    end
-
-    factory :weekly_schedule do
-      rotation_type 'weekly'
-    end
-
-    factory :custom_schedule do
-      rotation_type 'custom'
-      shift_length 8
-      shift_length_unit 'hours'
-    end
-
     factory :schedule_with_alternate_time_zone do
       time_zone "EST"
+    end
+
+    factory :schedule_with_layers do
+      ignore do
+        users []
+        schedule_layer nil
+      end
+
+      before(:create) do |schedule, evaluator|
+        # evaluator.users.concat create_list(:user, 2)
+      end
+
+      after(:create) do |schedule|
+        sl = create(:schedule_layer, schedule: schedule, type: 'daily')
+        sl.users.concat create_list(:user, 2)
+      end
     end
   end
 end

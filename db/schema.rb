@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130317004521) do
+ActiveRecord::Schema.define(:version => 20130323084331) do
 
   create_table "alerts", :force => true do |t|
     t.string   "type"
@@ -96,16 +96,27 @@ ActiveRecord::Schema.define(:version => 20130317004521) do
 
   add_index "notification_rules", ["contact_id"], :name => "index_notification_rules_on_contact_id"
 
+  create_table "schedule_layers", :force => true do |t|
+    t.integer  "shift_length"
+    t.integer  "position"
+    t.hstore   "shift"
+    t.string   "uuid"
+    t.integer  "schedule_id"
+    t.datetime "start_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "schedule_layers", ["schedule_id"], :name => "index_schedule_layers_on_schedule_id"
+  add_index "schedule_layers", ["shift"], :name => "index_schedule_layers_on_shift"
+
   create_table "schedules", :force => true do |t|
     t.string   "name"
-    t.string   "time_zone",         :default => "UTC"
-    t.string   "rotation_type"
-    t.integer  "shift_length"
-    t.string   "shift_length_unit"
+    t.string   "time_zone",  :default => "UTC"
     t.string   "uuid"
     t.datetime "start_at"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   create_table "service_escalation_policies", :force => true do |t|
@@ -147,16 +158,17 @@ ActiveRecord::Schema.define(:version => 20130317004521) do
     t.string "name"
   end
 
-  create_table "user_schedules", :force => true do |t|
-    t.string   "uuid",        :null => false
-    t.integer  "schedule_id"
+  create_table "user_schedule_layers", :force => true do |t|
+    t.string   "uuid",              :null => false
+    t.integer  "position",          :null => false
+    t.integer  "schedule_layer_id"
     t.integer  "user_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
-  add_index "user_schedules", ["schedule_id"], :name => "index_user_schedules_on_schedule_id"
-  add_index "user_schedules", ["user_id"], :name => "index_user_schedules_on_user_id"
+  add_index "user_schedule_layers", ["schedule_layer_id"], :name => "index_user_schedule_layers_on_schedule_layer_id"
+  add_index "user_schedule_layers", ["user_id"], :name => "index_user_schedule_layers_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

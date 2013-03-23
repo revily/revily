@@ -51,7 +51,7 @@ heroku run rake db:schema:load
 
 ## COPYRIGHT
 
-Reveille is Copyright (C) 2013 Dan Ryan <hi@iamdanryan.com>
+Reveille is Copyright &copy; 2013 Dan Ryan <hi@iamdanryan.com>
 
 ## SEE ALSO
 

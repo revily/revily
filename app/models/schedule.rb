@@ -2,38 +2,28 @@
 #
 # Table name: schedules
 #
-#  id                :integer          not null, primary key
-#  name              :string(255)
-#  time_zone         :string(255)      default("UTC")
-#  rotation_type     :string(255)
-#  shift_length      :integer
-#  shift_length_unit :string(255)
-#  uuid              :string(255)
-#  start_at          :datetime
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  time_zone  :string(255)      default("UTC")
+#  uuid       :string(255)
+#  start_at   :datetime
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class Schedule < ActiveRecord::Base
   include Identifiable
   include ActiveModel::ForbiddenAttributesProtection
 
-  # attr_accessible :name, :rotation_type, :start_at, :timezone, :shift_length, :shift_length_unit
+  # attr_accessible :name, :start_at, :time_zone
 
-  has_many :user_schedules
-  has_many :users, through: :user_schedules
   has_many :escalation_rules, as: :assignable
+  has_many :escalation_policies, through: :escalation_rules
+  has_many :schedule_layers
+  has_many :layers, class_name: 'ScheduleLayer'
+  has_many :user_schedule_layers, through: :schedule_layers
+  has_many :users, through: :user_schedule_layers
 
-  validates :name, :rotation_type, :time_zone, :start_at, 
+  validates :name, :time_zone, :start_at, 
     presence: true
-
-  validates :shift_length, :shift_length_unit,
-    presence: true,
-    if: :custom?
-
-  validates :rotation_type, inclusion: { in: %w[ daily weekly custom ] }
-
-  def custom?
-    rotation_type == 'custom'
-  end
 end

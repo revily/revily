@@ -36,8 +36,9 @@ class User < ActiveRecord::Base
   has_many :contacts
   has_many :notification_rules, through: :contacts
   has_many :escalation_rules, as: :assignable
-  has_many :user_schedules
-  has_many :schedules, through: :user_schedules
+  has_many :user_schedule_layers
+  has_many :schedule_layers, through: :user_schedule_layers
+  has_many :schedules, through: :schedule_layers
   
   before_save :ensure_authentication_token
 end

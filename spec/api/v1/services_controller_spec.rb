@@ -53,6 +53,7 @@ describe Api::V1::ServicesController do
 
     it { should respond_with(:ok) }
     it { Service.find(service.id).should be_disabled }
+    it { expect(body).to be_json_eql serializer(service.reload) }
   end
 
   describe 'DELETE /api/services/:id' do
