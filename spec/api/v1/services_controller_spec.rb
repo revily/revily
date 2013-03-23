@@ -36,21 +36,22 @@ describe Api::V1::ServicesController do
     let(:attributes) { { name: "AWESOME APPLICATION" } }
     before { put "/api/services/#{service.to_param}", attributes.to_json }
 
-    it { should respond_with(:no_content) }
-    it { Service.find(service.id).name.should eq "AWESOME APPLICATION" }
+    it { should respond_with(:ok) }
+    it { expect(body).to be_json_eql serializer(service.reload) }
   end
 
   describe 'PUT /api/services/:id/enable' do
     before { put "/api/services/#{service.to_param}/enable" }
 
-    it { should respond_with(:no_content) }
+    it { should respond_with(:ok) }
     it { Service.find(service.id).should be_enabled }
+    it { expect(body).to be_json_eql serializer(service) }
   end
 
   describe 'PUT /api/services/:id/disable' do
     before { put "/api/services/#{service.to_param}/disable" }
 
-    it { should respond_with(:no_content) }
+    it { should respond_with(:ok) }
     it { Service.find(service.id).should be_disabled }
   end
 

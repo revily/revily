@@ -42,21 +42,21 @@ class Api::V1::ServicesController < Api::V1::BaseController
     @service = Service.find_by_uuid(params[:id])
     @service.update_attributes(service_params)
 
-    respond_with @service
+    respond_with @service, json: @service
   end
 
   def enable
     @service = Service.find_by_uuid(params[:id])
     @service.enable
 
-    respond_with @service
+    respond_with @service, json: @service
   end
 
   def disable
     @service = Service.find_by_uuid(params[:id])
     @service.disable
 
-    respond_with @service
+    respond_with @service, json: @service
   end
 
   api :DELETE, '/services/:id', 'Delete a service'
