@@ -25,6 +25,26 @@ Reveille is (going to be) a clone of popular on-call management and incident res
 
 ## DEPLOYMENT
 
+Configure `config/application.yml` with your credentials:
+
+```yaml
+POSTMARK_API_KEY: b8b87227-35da-40e3-abed-cb09827c31cc
+SECRET_TOKEN: 2fad77b0cccfbadcd4616a336f0538b9
+TWILIO_ACCOUNT_SID: ACa7aae08a4e2bcdaa3ad00797e6736021
+TWILIO_AUTH_TOKEN: 7a777c79a299dddda93b523dee44d9fd
+MAILER_URL: appliedawesome.com
+```
+
+
+### Heroku quick deploy
+
+```bash
+heroku create
+rake figaro:heroku
+git push heroku master
+heroku run rake db:schema:load
+```
+
 ## HISTORY
 
 ## BUGS
