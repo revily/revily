@@ -21,8 +21,11 @@ FactoryGirl.define do
       end
 
       after(:create) do |schedule|
-        sl = create(:schedule_layer, schedule: schedule, type: 'daily')
-        sl.users.concat create_list(:user, 2)
+        schedule_layer = create(:schedule_layer, schedule: schedule, type: 'daily')
+        schedule_layer.users.concat create_list(:user, 3)
+        # schedule_layer.users.concat create(:user, position: 3)
+        # schedule_layer.users.concat create(:user, position: 1)
+        # schedule_layer.users.concat create(:user, position: 2)
       end
     end
   end

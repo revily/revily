@@ -18,4 +18,7 @@ class UserScheduleLayer < ActiveRecord::Base
   belongs_to :user
 
   acts_as_list scope: :schedule_layer
+
+  validates :user_id, uniqueness: { scope: :schedule_layer_id }
+  validates :schedule_layer_id, uniqueness: { scope: :user_id }
 end

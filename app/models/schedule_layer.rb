@@ -18,8 +18,12 @@ class ScheduleLayer < ActiveRecord::Base
 
   belongs_to :schedule
   has_many :user_schedule_layers, order: :position, dependent: :destroy
-  has_many :users, through: :user_schedule_layers, dependent: :destroy
-  
+  has_many :users,
+    through: :user_schedule_layers,
+    order: "user_schedule_layers.position",
+    uniq: true,
+    dependent: :destroy
+
   serialize :shift, ActiveRecord::Coders::Hstore
   hstore :shift, accessors: { type: :string, unit: :string, count: :integer }
 
@@ -30,13 +34,10 @@ class ScheduleLayer < ActiveRecord::Base
   before_create :calculate_duration_in_seconds
 
   validates :count, :unit,
-    presence: true,
-    if: :custom?
+    presence: true, if: :custom?
 
-  validates :type, 
-    inclusion: { 
-      in: %w[ daily weekly custom ]
-    }
+  validates :type,
+    inclusion: { in: %w[ daily weekly custom ] }
 
 
   def calculate_duration_in_seconds

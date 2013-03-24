@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   include Identifiable
 
   hound_user
-  
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -36,9 +36,13 @@ class User < ActiveRecord::Base
   has_many :contacts
   has_many :notification_rules, through: :contacts
   has_many :escalation_rules, as: :assignable
-  has_many :user_schedule_layers
-  has_many :schedule_layers, through: :user_schedule_layers
+  has_many :user_schedule_layers, order: :position
+  has_many :schedule_layers,
+    through: :user_schedule_layers,
+    uniq: true,
+    dependent: :destroy
+
   has_many :schedules, through: :schedule_layers
-  
+
   before_save :ensure_authentication_token
 end
