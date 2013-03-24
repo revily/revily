@@ -1,5 +1,6 @@
 # require 'rubygems'
 # require 'spork'
+require 'capybara/rspec'
 
 ENV["RAILS_ENV"] ||= 'test'
 

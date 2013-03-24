@@ -48,6 +48,7 @@ guard :rspec, cli: "--color --drb --tty -f doc", bundler: false, all_after_pass:
     spec/models/#{m[1].singularize}_spec.rb
     spec/controllers/#{m[1]}_controller_spec.rb
     spec/requests/#{m[1]}_spec.rb
+    spec/features/#{m[1]}_spec.rb
   ]
   end
 
