@@ -2,13 +2,14 @@ language: ruby
 rvm:
   - 1.9.3
 env:
-  - SECRET_TOKEN="d16f597fa59ad5c19c08a53536fcfad" TWILIO_ACCOUNT_SID="foo" TWILIO_AUTH_TOKEN="foo" TWILIO_NUMBER="+15175551212" POSTMARK_API_KEY="foo"
+  - APP="reveille" SECRET_TOKEN="d16f597fa59ad5c19c08a53536fcfad" TWILIO_ACCOUNT_SID="foo" TWILIO_AUTH_TOKEN="foo" TWILIO_NUMBER="+15175551212" POSTMARK_API_KEY="foo"
 bundler_args: --without local development staging production
 script: 
   - bundle exec rake spec
 before_install:
   - sudo apt-get update -qq
 before_script:
+  - bash script/setup
   - createuser -s reveille
   - rake db:create:all
   - rake db:migrate

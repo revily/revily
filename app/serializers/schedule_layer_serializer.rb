@@ -7,10 +7,10 @@ class ScheduleLayerSerializer < BaseSerializer
   end
 
   def users
-    object.user_schedule_layers.sort_by(&:position).map do |usl|
+    object.user_schedule_layers.sort_by(&:position).map do |user_schedule_layer|
       {
-        :id => usl.uuid,
-        :position => usl.position
+        :id => user_schedule_layer.uuid,
+        :position => user_schedule_layer.position
       }
     end
   end
