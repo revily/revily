@@ -1,18 +1,12 @@
-.container
-  %nav.navbar.navbar-inverse
-    .navbar-inner
-      .container
-        .nav-collapse.collapse.navbar-responsive-collapse
-          %ul.nav
-            %li= link_to 'Reveille', root_path
-
-          %ul.nav.pull-right
-            %li= link_to 'Dashboard', root_path
-            %li= link_to 'Documentation', root_path
-            %li
-              %a(href='#')
-                %span.fui-settings-24
-              %ul
-                = render 'users/menu/registration_items'
-                %li.divider
-                = render 'users/menu/login_items'
+.navbar.navbar-fluid-top
+  .navbar-inner
+    .container-fluid
+      %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.brand(href="/") Reveille
+      .container.nav-collapse
+        %ul.nav.pull-right
+          =render 'users/menu/registration_items'
+          =render 'users/menu/login_items'
