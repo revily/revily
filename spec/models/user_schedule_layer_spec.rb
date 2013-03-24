@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe UserSchedule do
+describe UserScheduleLayer do
   context 'associations' do
     it { should belong_to(:user) }
-    it { should belong_to(:schedule) }
+    it { should belong_to(:schedule_layer) }
   end
 end

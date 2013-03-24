@@ -3,9 +3,8 @@ require 'spec_helper'
 describe Api::V1::ServicesController do
   sign_in_user
 
-  let!(:service) { create(:service) }
-
   describe 'GET /api/services' do
+    let!(:service) { create(:service) }
     before { get '/api/services' }
 
     it { should respond_with(:ok) }
@@ -15,6 +14,7 @@ describe Api::V1::ServicesController do
   end
 
   describe 'GET /api/services/:id' do
+    let!(:service) { create(:service) }
     before { get "/api/services/#{service.to_param}" }
 
     it { should respond_with(:ok) }
@@ -29,10 +29,11 @@ describe Api::V1::ServicesController do
 
     it { should respond_with(:created) }
     it { should have_content_type(:json) }
-    it { expect(body).to be_json_eql serializer(service) }
+    it { expect(body).to be_json_eql serializer(Service.find_by_name(attributes[:name])) }
   end
 
   describe 'PUT /api/services/:id' do
+    let!(:service) { create(:service) }
     let(:attributes) { { name: "AWESOME APPLICATION" } }
     before { put "/api/services/#{service.to_param}", attributes.to_json }
 
@@ -41,6 +42,7 @@ describe Api::V1::ServicesController do
   end
 
   describe 'PUT /api/services/:id/enable' do
+    let!(:service) { create(:service) }
     before { put "/api/services/#{service.to_param}/enable" }
 
     it { should respond_with(:ok) }
@@ -49,6 +51,7 @@ describe Api::V1::ServicesController do
   end
 
   describe 'PUT /api/services/:id/disable' do
+    let!(:service) { create(:service) }
     before { put "/api/services/#{service.to_param}/disable" }
 
     it { should respond_with(:ok) }
@@ -57,6 +60,7 @@ describe Api::V1::ServicesController do
   end
 
   describe 'DELETE /api/services/:id' do
+    let!(:service) { create(:service) }
     before { delete "/api/services/#{service.to_param}" }
 
     it { should respond_with(:no_content) }

@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :service do
-    name "Application"
+    name { Forgery(:name).company_name }
     auto_resolve_timeout 240
     acknowledge_timeout 30
 

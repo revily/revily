@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe EventsController do
   let(:user) { create(:user) }
-  let(:service) { create(:service) }
 
   before do
     sign_in user
   end
 
   describe 'GET /services/:service_id/events' do
+    let(:service) { create(:service) }
     let!(:event) { create(:event, service: service) }
     before { get :index, service_id: service.id }
 
@@ -18,7 +18,8 @@ describe EventsController do
   end
 
   describe 'GET /events/:id' do
-    let!(:event) { create(:event) }
+    let(:service) { create(:service) }
+    let(:event) { create(:event) }
     before { get :show, id: event.id }
 
     it { should respond_with(:ok) }
@@ -26,6 +27,7 @@ describe EventsController do
   end
 
   describe 'GET /services/:service_id/events/new' do
+    let(:service) { create(:service) }
     before { get :new, service_id: service.id }
 
     it { should respond_with(:ok) }
@@ -33,6 +35,7 @@ describe EventsController do
   end
 
   describe 'POST /services/:service_id/events' do
+    let(:service) { create(:service) }
     before { post :create, service_id: service.id, event: attributes_for(:event) }
 
     it { should respond_with(:found) }
@@ -40,7 +43,8 @@ describe EventsController do
   end
 
   describe 'GET /services/:service_id/events/:id/edit' do
-    let!(:event) { create(:event) }
+    let(:service) { create(:service) }
+    let(:event) { create(:event) }
     before { get 'edit', service_id: service.id, id: event.id }
 
     it { should respond_with(:ok) }
@@ -48,6 +52,7 @@ describe EventsController do
   end
 
   describe 'PUT /events/:id' do
+    let(:service) { create(:service) }
     let(:event) { create(:event, service: service) }
     before { put :update, id: event.id, event: attributes_for(:event) }
 
@@ -57,6 +62,7 @@ describe EventsController do
   end
 
   describe 'DELETE /events/:id' do
+    let(:service) { create(:service) }
     let(:event) { create(:event, service: service) }
     before { delete :destroy, id: event.id }
 
