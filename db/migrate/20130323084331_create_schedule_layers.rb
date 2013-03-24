@@ -1,7 +1,7 @@
 class CreateScheduleLayers < ActiveRecord::Migration
   def change
     create_table :schedule_layers do |t|
-      t.integer :shift_length
+      t.integer :duration
       t.integer :position
       t.hstore  :shift
       t.string  :uuid

@@ -31,11 +31,11 @@ describe ScheduleLayer do
     let(:custom3) { create(:custom_schedule_layer, count: 1, unit: 'weeks') }
 
     it 'calculates the correct rotation length in seconds' do
-      daily.shift_length.should be 86400
-      weekly.shift_length.should be 604800
-      custom.shift_length.should be 28800
-      custom2.shift_length.should be 43200
-      custom3.shift_length.should be 604800
+      daily.duration.should be 86400
+      weekly.duration.should be 604800
+      custom.duration.should be 28800
+      custom2.duration.should be 43200
+      custom3.duration.should be 604800
     end
   end
 

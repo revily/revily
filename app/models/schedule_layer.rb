@@ -2,15 +2,15 @@
 #
 # Table name: schedule_layers
 #
-#  id           :integer          not null, primary key
-#  shift_length :integer
-#  position     :integer
-#  shift        :hstore
-#  uuid         :string(255)
-#  schedule_id  :integer
-#  start_at     :datetime
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id          :integer          not null, primary key
+#  duration    :integer
+#  position    :integer
+#  shift       :hstore
+#  uuid        :string(255)
+#  schedule_id :integer
+#  start_at    :datetime
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 
 class ScheduleLayer < ActiveRecord::Base
@@ -27,7 +27,7 @@ class ScheduleLayer < ActiveRecord::Base
 
   attr_accessible :position, :shift, :start_at, :schedule_id
 
-  before_create :calculate_shift_length_in_seconds
+  before_create :calculate_duration_in_seconds
 
   validates :count, :unit,
     presence: true,
@@ -39,8 +39,8 @@ class ScheduleLayer < ActiveRecord::Base
     }
 
 
-  def calculate_shift_length_in_seconds
-    self[:shift_length] = case type
+  def calculate_duration_in_seconds
+    self[:duration] = case type
     when 'daily'
       1.day
     when 'weekly'

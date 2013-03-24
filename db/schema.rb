@@ -97,14 +97,14 @@ ActiveRecord::Schema.define(:version => 20130323084331) do
   add_index "notification_rules", ["contact_id"], :name => "index_notification_rules_on_contact_id"
 
   create_table "schedule_layers", :force => true do |t|
-    t.integer  "shift_length"
+    t.integer  "duration"
     t.integer  "position"
     t.hstore   "shift"
     t.string   "uuid"
     t.integer  "schedule_id"
     t.datetime "start_at"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "schedule_layers", ["schedule_id"], :name => "index_schedule_layers_on_schedule_id"

@@ -1,5 +1,5 @@
 class ScheduleLayerSerializer < BaseSerializer
-  attributes :id, :schedule_id, :position, :shift, :shift_length, :start_at
+  attributes :id, :schedule_id, :position, :shift, :duration, :start_at
   attribute :users
 
   def schedule_id
