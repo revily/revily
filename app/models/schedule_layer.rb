@@ -4,8 +4,9 @@
 #
 #  id          :integer          not null, primary key
 #  duration    :integer
+#  rule        :string(255)      default("daily"), not null
+#  count       :integer          default(1), not null
 #  position    :integer
-#  shift       :hstore
 #  uuid        :string(255)
 #  schedule_id :integer
 #  start_at    :datetime
@@ -20,39 +21,35 @@ class ScheduleLayer < ActiveRecord::Base
   has_many :user_schedule_layers, order: :position, dependent: :destroy
   has_many :users,
     through: :user_schedule_layers,
-    order: "user_schedule_layers.position",
-    uniq: true,
+    order: 'user_schedule_layers.position',
+    # uniq: true,
     dependent: :destroy
-
-  serialize :shift, ActiveRecord::Coders::Hstore
-  hstore :shift, accessors: { type: :string, unit: :string, count: :integer }
 
   acts_as_list scope: :schedule
 
-  attr_accessible :position, :shift, :start_at, :schedule_id
+  attr_accessible :position, :rule, :count, :start_at, :schedule_id
 
   before_create :calculate_duration_in_seconds
+  before_save :reset_start_at_to_beginning_of_day
 
-  validates :count, :unit,
-    presence: true, if: :custom?
+  validates :rule, :count, presence: true
 
-  validates :type,
-    inclusion: { in: %w[ daily weekly custom ] }
+  validates :rule,
+    inclusion: { in: %w[ hourly daily weekly monthly yearly ] }
 
 
   def calculate_duration_in_seconds
-    self[:duration] = case type
-    when 'daily'
-      1.day
-    when 'weekly'
-      1.week
-    when 'custom'
-      count.send(unit)
-    end
+    self[:duration] = count.send(unit)
   end
 
-  def custom?
-    type == 'custom'
+  private
+
+  def reset_start_at_to_beginning_of_day
+    self[:start_at] = start_at.beginning_of_day
+  end
+
+  def unit
+    rule == 'daily' ? 'day' : rule.sub('ly', '')
   end
 
 end

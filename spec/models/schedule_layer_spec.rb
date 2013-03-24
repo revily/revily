@@ -8,34 +8,21 @@ describe ScheduleLayer do
   end
 
   describe 'validations' do
-    it { should ensure_inclusion_of(:type).in_array(%w[ daily weekly custom ])}
-
-    context 'custom rotation type' do
-      before { subject.stub(:custom?) { true } }
-      it { should validate_presence_of(:count) }
-      it { should validate_presence_of(:unit) }
-    end
-
-    context "standard rotation type" do
-      before { subject.stub(:custom?) { false } }
-      it { should_not validate_presence_of(:count) }
-      it { should_not validate_presence_of(:unit) }
-    end
+    it { should ensure_inclusion_of(:rule).in_array(%w[ hourly daily weekly monthly yearly ])}
+    it { should validate_presence_of(:count) }
+    it { should validate_presence_of(:rule) }
   end
 
   describe '#calculate_rotation_length_in_seconds' do
-    let(:daily) { create(:daily_schedule_layer) }
-    let(:weekly) { create(:weekly_schedule_layer) }
-    let(:custom) { create(:custom_schedule_layer) }
-    let(:custom2) { create(:custom_schedule_layer, count: 12) }
-    let(:custom3) { create(:custom_schedule_layer, count: 1, unit: 'weeks') }
+    let(:hourly) { create(:schedule_layer, rule: 'hourly', count: 8) }
+    let(:daily) { create(:schedule_layer, rule: 'daily') }
+    let(:weekly) { create(:schedule_layer, rule: 'weekly') }
+    let(:monthly) { create(:schedule_layer, rule: 'monthly') }
 
     it 'calculates the correct rotation length in seconds' do
+      hourly.duration.should be 28800
       daily.duration.should be 86400
       weekly.duration.should be 604800
-      custom.duration.should be 28800
-      custom2.duration.should be 43200
-      custom3.duration.should be 604800
     end
   end
 

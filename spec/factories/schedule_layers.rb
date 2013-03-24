@@ -3,20 +3,19 @@
 FactoryGirl.define do
   factory :schedule_layer do
     schedule
-    start_at "2013-03-23 04:43:31"
+    start_at { Time.zone.now }
 
     factory :daily_schedule_layer do
-      type 'daily'
+      rule 'daily'
     end
 
     factory :weekly_schedule_layer do
-      type 'weekly'
+      rule 'weekly'
     end
 
-    factory :custom_schedule_layer do
-      type 'custom'
+    factory :hourly_schedule_layer do
+      rule 'hourly'
       count 8
-      unit 'hours'
     end
 
   end

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe UserScheduleLayer do
-  context 'associations' do
-    it { should belong_to(:user) }
-    it { should belong_to(:schedule_layer) }
-  end
+describe UserSchedule do
+  let(:user1) { create(:user) }
+  let(:user2) { create(:user) }
+  let(:schedule) { create(:schedule) }
+  let(:schedule_layer) { create(:schedule_layer, schedule: schedule, user: user) }
 end

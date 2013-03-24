@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
+#  name                   :string(255)      default(""), not null
 #  email                  :string(255)      default(""), not null
 #  encrypted_password     :string(255)      default(""), not null
 #  uuid                   :string(255)      not null
@@ -39,7 +40,7 @@ class User < ActiveRecord::Base
   has_many :user_schedule_layers, order: :position
   has_many :schedule_layers,
     through: :user_schedule_layers,
-    uniq: true,
+    # uniq: true,
     dependent: :destroy
 
   has_many :schedules, through: :schedule_layers

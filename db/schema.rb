@@ -98,17 +98,17 @@ ActiveRecord::Schema.define(:version => 20130323084331) do
 
   create_table "schedule_layers", :force => true do |t|
     t.integer  "duration"
+    t.string   "rule",        :default => "daily", :null => false
+    t.integer  "count",       :default => 1,       :null => false
     t.integer  "position"
-    t.hstore   "shift"
     t.string   "uuid"
     t.integer  "schedule_id"
     t.datetime "start_at"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
   end
 
   add_index "schedule_layers", ["schedule_id"], :name => "index_schedule_layers_on_schedule_id"
-  add_index "schedule_layers", ["shift"], :name => "index_schedule_layers_on_shift"
 
   create_table "schedules", :force => true do |t|
     t.string   "name"
@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(:version => 20130323084331) do
   add_index "user_schedule_layers", ["user_id"], :name => "index_user_schedule_layers_on_user_id"
 
   create_table "users", :force => true do |t|
+    t.string   "name",                   :default => "", :null => false
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
     t.string   "uuid",                                   :null => false

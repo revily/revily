@@ -20,6 +20,8 @@ class Schedule < ActiveRecord::Base
   has_many :escalation_rules, as: :assignable
   has_many :escalation_policies, through: :escalation_rules
   has_many :schedule_layers, order: :position, dependent: :destroy
+  alias_method :layers, :schedule_layers
+
   # has_many :layers, class_name: 'ScheduleLayer'
   has_many :user_schedule_layers, through: :schedule_layers
   has_many :users, through: :user_schedule_layers
