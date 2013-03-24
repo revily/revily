@@ -6,3 +6,11 @@
 * routing
 * models
 * controllers, html and json
+
+
+# Schedule scenarios
+
+- Business hours
+  - 9AM-5PM EST
+
+- what else?!

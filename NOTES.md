@@ -1,10 +1,4 @@
-# Workflow of an event
-
-* Event is created
-* look up 
-
-
-# Setup
+# WORKFLOW
 
 * create user
 * create schedule
@@ -19,14 +13,16 @@
 
 
 
-## ALL ROTATIONS ARE CALCULATED IN SECONDS
+# SCHEDULES
 
-rotation_in_seconds
-  daily = 24 * 60 60 
-  weekly = daily * 7
-  custom = shift_length * shift_unit
+schedule.new -> schedule_layer
 
-  shift_units
-    hours = 60 * 60
-    days = hours * 24 * shift_length
-    weeks = days * 7 * shift_length
+
+user_schedule_layer
+
+
+[11] pry(main)> sb.start_s.schedule
+sb.start_date   sb.start_date=  sb.start_time   sb.start_time=
+[11] pry(main)> sb.start_s.schedule
+sb.start_date   sb.start_date=  sb.start_time   sb.start_time=
+[11] pry(main)> sb.start_time = s.schedule.start_at
