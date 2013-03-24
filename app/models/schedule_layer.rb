@@ -17,8 +17,8 @@ class ScheduleLayer < ActiveRecord::Base
   include Identifiable
 
   belongs_to :schedule
-  has_many :user_schedule_layers
-  has_many :users, :through => :user_schedule_layers
+  has_many :user_schedule_layers, order: :position, dependent: :destroy
+  has_many :users, through: :user_schedule_layers, dependent: :destroy
   
   serialize :shift, ActiveRecord::Coders::Hstore
   hstore :shift, accessors: { type: :string, unit: :string, count: :integer }
