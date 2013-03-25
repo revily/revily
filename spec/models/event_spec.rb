@@ -1,18 +1,18 @@
 require 'spec_helper'
 
 describe Event do
-  context 'associations' do
+  describe 'associations' do
     it { should belong_to(:service) }
     it { should have_many(:alerts) }
   end
 
-  context 'validations' do
+  describe 'validations' do
     it { should validate_presence_of(:message) }
     # it { should validate_uniqueness_of(:message).scoped_to([:service_id]).on(:save) }
     # it { should validate_uniqueness_of(:key).scoped_to([:service_id]) }
   end
 
-  context 'attributes' do
+  describe 'attributes' do
     it { should serialize(:details) }
     it { should have_readonly_attribute(:uuid) }
   end

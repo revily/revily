@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe Alert do
-  context 'associations' do
+  describe 'associations' do
     it { should belong_to(:event) }
   end
 
-  context 'validations' do
+  describe 'validations' do
     it { should validate_presence_of(:type) }
   end
 
-  context 'attributes' do
+  describe 'attributes' do
     it { should_not allow_mass_assignment_of(:type) }
     it { should have_readonly_attribute(:uuid) }
   end

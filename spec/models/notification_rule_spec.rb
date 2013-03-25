@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe NotificationRule do
-  context 'associations' do
+  describe 'associations' do
     it { should belong_to(:contact) }
   end
 
-  context 'validations' do
+  describe 'validations' do
     it { should validate_presence_of(:start_delay) }
   end
 
-  context 'attributes' do
+  describe 'attributes' do
     it { should have_readonly_attribute(:uuid) }
   end
 end
