@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe UserSchedule do
+
+  def now
+    Time.zone.now
+  end
+
   before { Timecop.freeze(Time.zone.local(2013, 10, 26)) }
   after { Timecop.return }
   
@@ -38,6 +43,8 @@ describe UserSchedule do
       let(:user_1_schedule) { UserSchedule.new(user_1, schedule_layer) }
       let(:user_2_schedule) { UserSchedule.new(user_2, schedule_layer) }
 
+      before { Timecop.freeze(Time.zone.now.beginning_of_day) }
+
       it 'sets a start_time' do
         user_1_schedule.start_time.should eq schedule_layer.start_at
       end
@@ -51,15 +58,16 @@ describe UserSchedule do
       end
 
       it 'still calculates the correct schedule after adding a user' do
+
         schedule_layer.users << user_3
         user_3_schedule = schedule_layer.user_schedule(user_3)
 
         user_1_schedule.first.should eq schedule_layer.start_at
-        user_1_schedule.next_occurrence.should_not eq (schedule_layer.start_at + 1.day)
-        user_1_schedule.next_occurrence.should eq schedule_layer.start_at + 3.days
-
-        user_2_schedule.first.should eq (schedule_layer.start_at + 1.day)
-        user_3_schedule.first.should eq (schedule_layer.start_at + 2.days)
+        user_1_schedule.should be_occurring_at now
+        user_1_schedule.next_occurrence.should eq now + 3.days
+        Timecop.travel(1.day) && Timecop.freeze
+        user_2_schedule.should be_occurring_at now
+        user_3_schedule.should be_occurring_at now + 1.day
       end
     end
   end
