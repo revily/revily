@@ -1,29 +1,21 @@
-class UserSchedule
-  extend Forwardable
+class UserSchedule < IceCube::Schedule
+  attr_accessor :user, :schedule_layer, :position, :interval, :offset
 
-  def_delegators :@schedule_layer, :duration, :rule, :count, :interval, :start_at
-  def_delegator :@user_schedule_layer, :position
+  def initialize(user, schedule_layer, options = {})
+    self.user = user
+    self.schedule_layer = schedule_layer
+    self.position = schedule_layer.user_position(user)
+    self.interval = schedule_layer.interval
+    self.offset = (position - 1) * schedule_layer.duration * schedule_layer.interval
+    self.start_time = schedule_layer.start_at + offset
+    self.end_time = start_time + schedule_layer.duration
 
-  attr_accessor :user, :schedule_layer, :user_schedule_layer, :schedule
+    super(start_time, options)
 
-  def initialize(user, schedule_layer)
-    @user = user
-    @schedule_layer = schedule_layer
-    @user_schedule_layer = UserScheduleLayer.for(user, schedule_layer).first
-    @schedule = build_schedule
+    self.add_recurrence_rule IceCube::Rule.send(schedule_layer.rule, schedule_layer.interval)
   end
 
-  alias_method :usl, :user_schedule_layer
-
-  def build_schedule
-    schedule = IceCube::Schedule.new(schedule_layer.start_at + start_offset)
-    schedule.duration = duration
-    schedule.add_recurrence_rule IceCube::Rule.send(rule, interval)
-    schedule
+  def to_s
+    %Q[#<UserSchedule start_time: "#{start_time}", user: #{user.id}, schedule_layer: #{schedule_layer.id}, position: #{position}>]
   end
-
-  def start_offset
-    (position - 1) * duration * interval
-  end
-
 end

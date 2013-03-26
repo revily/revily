@@ -42,13 +42,25 @@ class ScheduleLayer < ActiveRecord::Base
   end
 
   def interval
-    users.count
+    count
   end
 
   def user_schedules
     @user_schedules ||= users.map do |user|
-      UserSchedule.new(user, self)
+      user_schedule(user)
     end
+  end
+
+  def user_position(user)
+    user_schedule_layers.where(user_id: user.id).first.position
+  end
+
+  def user_schedule(user)
+    UserSchedule.new(user, self)
+  end
+
+  def user_offset(user)
+    (user_position(user) - 1) * duration * interval
   end
 
   private

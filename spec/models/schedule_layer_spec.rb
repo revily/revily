@@ -58,4 +58,21 @@ describe ScheduleLayer do
     end
   end
 
+  describe '#user_offset' do
+    let(:schedule) { create(:schedule) }
+    let(:schedule_layer) { create(:daily_schedule_layer, schedule: schedule) }
+    let(:user_1) { create(:user) }
+    let(:user_2) { create(:user) }
+    
+    before do
+      schedule_layer.users << user_1
+      schedule_layer.users << user_2
+    end
+
+    it 'returns how long in seconds to offset based on the number of users' do
+      schedule_layer.user_offset(user_1).should == 0
+      schedule_layer.user_offset(user_2).should == 86400
+    end
+  end
+
 end
