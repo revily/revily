@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe UserSchedule do
+  extend ScheduleMixins::Macros
+  include ScheduleMixins::Helpers
 
   def now
     Time.zone.now
@@ -8,21 +10,10 @@ describe UserSchedule do
 
   before { Timecop.freeze(Time.zone.local(2013, 10, 26)) }
   after { Timecop.return }
-  
-  let(:user_1) { create(:user) }
-  let(:user_2) { create(:user) }
-  let(:user_3) { create(:user) } # not adding this user to the schedule_layer just yet
-
-  let(:schedule) { create(:schedule) }
-  let(:schedule_layer) { create(:daily_schedule_layer, schedule: schedule) }
-  
-  before do
-    schedule_layer.users << user_1
-    schedule_layer.users << user_2
-    schedule_layer.should have(2).users
-  end
 
   describe '#initialize' do
+    create_schedule_with_rule_and_users('daily', 2)
+
     let(:user_schedule) { UserSchedule.new(user_1, schedule_layer) }
 
     it 'builds a user schedule' do
@@ -34,10 +25,7 @@ describe UserSchedule do
   end
 
   describe 'schedule rotation' do
-
-    let(:schedule) { create(:schedule) }
-    let(:schedule_layer) { create(:daily_schedule_layer, schedule: schedule) }
-
+    create_schedule_with_rule_and_users('daily', 2)
 
     describe 'for multiple users' do
       let(:user_1_schedule) { UserSchedule.new(user_1, schedule_layer) }
@@ -50,24 +38,23 @@ describe UserSchedule do
       end
 
       it 'calculates the correct start date for each user' do
-        user_1_schedule.first.should eq schedule_layer.start_at
-        user_1_schedule.next_occurrence.should_not eq (schedule_layer.start_at + 1.day)
-        user_1_schedule.next_occurrence.should eq schedule_layer.start_at + 2.days
+        user_1_schedule.should be_occurring_at schedule_layer.start_at
+        user_1_schedule.should_not be_occurring_at 1.day.from_now
+        user_1_schedule.should be_occurring_at 2.days.from_now
 
-        user_2_schedule.first.should eq (schedule_layer.start_at + 1.day)
+        user_2_schedule.should be_occurring_at 1.day.from_now
       end
 
       it 'still calculates the correct schedule after adding a user' do
-
+        user_3 = create(:user)
         schedule_layer.users << user_3
         user_3_schedule = schedule_layer.user_schedule(user_3)
 
-        user_1_schedule.first.should eq schedule_layer.start_at
         user_1_schedule.should be_occurring_at now
-        user_1_schedule.next_occurrence.should eq now + 3.days
-        Timecop.travel(1.day) && Timecop.freeze
-        user_2_schedule.should be_occurring_at now
-        user_3_schedule.should be_occurring_at now + 1.day
+        user_1_schedule.should be_occurring_at 3.days.from_now
+
+        user_2_schedule.should be_occurring_at 1.day.from_now
+        user_3_schedule.should be_occurring_at 2.days.from_now
       end
     end
   end

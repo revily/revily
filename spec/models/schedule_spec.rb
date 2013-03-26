@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Schedule do
+  extend ScheduleMixins::Macros
+  include ScheduleMixins::Helpers
+
   describe 'associations' do
     it { should have_many(:schedule_layers) }
     it { should have_many(:user_schedule_layers).through(:schedule_layers) }
@@ -19,21 +22,55 @@ describe Schedule do
   end
 
   describe '#current_user_on_call' do
-    let(:schedule) { create(:schedule_with_layers_and_users) }
-    let(:schedule_layer) { schedule.schedule_layers.first }
-    let(:user_1) { schedule_layer.users.first }
-    let(:user_2) { schedule_layer.users.second }
-
     before { Timecop.freeze(Time.zone.now.beginning_of_day) }
     after { Timecop.return }
 
-    it 'retrieves the current user on call' do
-      schedule.current_user_on_call.should eq user_1
-      Timecop.travel(1.day) && Timecop.freeze
-      schedule.current_user_on_call.should eq user_2
-      Timecop.travel(1.day) && Timecop.freeze
-      schedule.current_user_on_call.should eq user_1
+    context 'daily rotation' do
+      create_schedule_with_rule_and_users('daily', 2)
+
+      it 'retrieves the current user on call' do
+        schedule.current_user_on_call.should eq user_1
+
+        Timecop.freeze now + 1.day
+        schedule.current_user_on_call.should eq user_2
+
+        Timecop.freeze now + 1.day
+        schedule.current_user_on_call.should eq user_1
+      end
     end
 
+    context 'weekly rotation' do
+      create_schedule_with_rule_and_users('weekly', 2)
+
+      it 'retrieves the current user on call' do
+        schedule.current_user_on_call.should eq user_1
+
+        Timecop.freeze now + 1.day
+        schedule.current_user_on_call.should eq user_1
+
+        Timecop.freeze now + 6.days
+        schedule.current_user_on_call.should eq user_2
+
+        Timecop.freeze now + 7.days
+        schedule.current_user_on_call.should eq user_1
+      end
+    end
+
+    context 'weekly rotation with lots of users' do
+      create_schedule_with_rule_and_users('weekly', 7)
+
+      it 'retrieves the current user on call' do
+        schedule.current_user_on_call.should eq user_1
+
+        Timecop.freeze now + 1.week
+        schedule.current_user_on_call.should eq user_2
+
+        Timecop.freeze now + 1.week
+        schedule.current_user_on_call.should eq user_3
+
+        Timecop.freeze now + 5.weeks
+        schedule.current_user_on_call.should eq user_1
+      end
+    end
   end
 end

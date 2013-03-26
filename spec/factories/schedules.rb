@@ -17,8 +17,13 @@ FactoryGirl.define do
     end
 
     factory :schedule_with_layers_and_users do
-      after(:create) do |schedule|
-        create(:schedule_layer_with_users, schedule: schedule, rule: 'daily')
+      ignore do
+        rule 'daily'
+        users_count 2
+      end
+
+      after(:create) do |schedule, evaluator|
+        create(:schedule_layer_with_users, schedule: schedule, rule: evaluator.rule, users_count: evaluator.users_count)
       end
     end
   end

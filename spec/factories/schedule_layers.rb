@@ -20,10 +20,16 @@ FactoryGirl.define do
 
     factory :schedule_layer_with_users do
       rule 'daily'
+
+      ignore do
+        users_count 2
+      end
       
-      after(:create) do |schedule_layer|
-        schedule_layer.users << create(:user)
-        schedule_layer.users << create(:user)
+      after(:create) do |schedule_layer, evaluator|
+        users = create_list(:user, evaluator.users_count)
+        users.each do |user|
+          schedule_layer.users << user
+        end
       end
     end
 

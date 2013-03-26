@@ -33,7 +33,8 @@ def configure
     config.filter_run_excluding external: true
   end
 
-  require_all 'spec/support/**/*.rb', relative_to: 'spec'
+  # require_all 'spec/support/**/*.rb', relative_to: 'spec'
+  load_all 'spec/support/**/*.rb' #, relative_to: 'spec'
 end
 
 

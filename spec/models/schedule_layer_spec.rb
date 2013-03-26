@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe ScheduleLayer do
+  extend ScheduleMixins::Macros
+  include ScheduleMixins::Helpers
+
   describe 'associations' do
     it { should belong_to(:schedule) }
     it { should have_many(:user_schedule_layers) }
@@ -44,8 +47,7 @@ describe ScheduleLayer do
   end
 
   describe '#user_schedules' do
-    let(:schedule) { create(:schedule_with_layers_and_users) }
-    let(:schedule_layer) { schedule.schedule_layers.first }
+    create_schedule_with_rule_and_users('daily', 2)
 
     subject { schedule_layer }
 
@@ -59,15 +61,7 @@ describe ScheduleLayer do
   end
 
   describe '#user_offset' do
-    let(:schedule) { create(:schedule) }
-    let(:schedule_layer) { create(:daily_schedule_layer, schedule: schedule) }
-    let(:user_1) { create(:user) }
-    let(:user_2) { create(:user) }
-    
-    before do
-      schedule_layer.users << user_1
-      schedule_layer.users << user_2
-    end
+    create_schedule_with_rule_and_users('daily', 2)
 
     it 'returns how long in seconds to offset based on the number of users' do
       schedule_layer.user_offset(user_1).should == 0
