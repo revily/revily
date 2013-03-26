@@ -44,7 +44,7 @@ describe ScheduleLayer do
   end
 
   describe '#user_schedules' do
-    let(:schedule) { create(:schedule_with_layers) }
+    let(:schedule) { create(:schedule_with_layers_and_users) }
     let(:schedule_layer) { schedule.schedule_layers.first }
 
     subject { schedule_layer }
