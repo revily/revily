@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable,
     :token_authenticatable
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   has_many :contacts
   has_many :notification_rules, through: :contacts

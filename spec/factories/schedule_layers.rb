@@ -18,5 +18,14 @@ FactoryGirl.define do
       count 8
     end
 
+    factory :schedule_layer_with_users do
+      rule 'daily'
+      
+      after(:create) do |schedule_layer|
+        schedule_layer.users << create(:user)
+        schedule_layer.users << create(:user)
+      end
+    end
+
   end
 end

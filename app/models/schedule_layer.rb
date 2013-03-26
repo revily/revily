@@ -42,7 +42,7 @@ class ScheduleLayer < ActiveRecord::Base
   end
 
   def interval
-    count
+    users.count
   end
 
   def user_schedules
@@ -60,7 +60,7 @@ class ScheduleLayer < ActiveRecord::Base
   end
 
   def user_offset(user)
-    (user_position(user) - 1) * duration * interval
+    (user_position(user) - 1) * duration * count
   end
 
   private

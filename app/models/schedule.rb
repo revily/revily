@@ -31,6 +31,11 @@ class Schedule < ActiveRecord::Base
 
   before_save :reset_start_at_to_beginning_of_day
 
+
+  def current_user_on_call
+    schedule_layers.first.user_schedules.find {|us| us.occurring_at?(Time.zone.now) }.user
+  end
+
   private
 
   def reset_start_at_to_beginning_of_day

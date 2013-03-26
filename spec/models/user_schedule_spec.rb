@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe UserSchedule do
   before { Timecop.freeze(Time.zone.local(2013, 10, 26)) }
-
+  after { Timecop.return }
+  
   let(:user_1) { create(:user) }
   let(:user_2) { create(:user) }
   let(:user_3) { create(:user) } # not adding this user to the schedule_layer just yet
@@ -43,6 +44,9 @@ describe UserSchedule do
 
       it 'calculates the correct start date for each user' do
         user_1_schedule.first.should eq schedule_layer.start_at
+        user_1_schedule.next_occurrence.should_not eq (schedule_layer.start_at + 1.day)
+        user_1_schedule.next_occurrence.should eq schedule_layer.start_at + 2.days
+
         user_2_schedule.first.should eq (schedule_layer.start_at + 1.day)
       end
 
@@ -51,6 +55,9 @@ describe UserSchedule do
         user_3_schedule = schedule_layer.user_schedule(user_3)
 
         user_1_schedule.first.should eq schedule_layer.start_at
+        user_1_schedule.next_occurrence.should_not eq (schedule_layer.start_at + 1.day)
+        user_1_schedule.next_occurrence.should eq schedule_layer.start_at + 3.days
+
         user_2_schedule.first.should eq (schedule_layer.start_at + 1.day)
         user_3_schedule.first.should eq (schedule_layer.start_at + 2.days)
       end
