@@ -41,7 +41,6 @@ describe UserSchedule do
         user_1_schedule.should be_occurring_at schedule_layer.start_at
         user_1_schedule.should_not be_occurring_at 1.day.from_now
         user_1_schedule.should be_occurring_at 2.days.from_now
-
         user_2_schedule.should be_occurring_at 1.day.from_now
       end
 
@@ -52,7 +51,6 @@ describe UserSchedule do
 
         user_1_schedule.should be_occurring_at now
         user_1_schedule.should be_occurring_at 3.days.from_now
-
         user_2_schedule.should be_occurring_at 1.day.from_now
         user_3_schedule.should be_occurring_at 2.days.from_now
       end

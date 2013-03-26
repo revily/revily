@@ -28,7 +28,7 @@ class ScheduleLayer < ActiveRecord::Base
 
   attr_accessible :position, :rule, :count, :start_at, :schedule_id, :schedule
 
-  before_create :calculate_duration_in_seconds
+  before_save :calculate_duration_in_seconds
   before_save :reset_start_at_to_beginning_of_day
 
   validates :rule, :count,
