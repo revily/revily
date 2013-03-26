@@ -26,7 +26,7 @@ describe Schedule do
     after { Timecop.return }
 
     context 'daily rotation' do
-      create_schedule_with_rule_and_users('daily', 2)
+      create_schedule(rule: 'daily', users_count: 2)
 
       it 'retrieves the current user on call' do
         schedule.current_user_on_call.should eq user_1
@@ -40,7 +40,7 @@ describe Schedule do
     end
 
     context 'weekly rotation' do
-      create_schedule_with_rule_and_users('weekly', 2)
+      create_schedule(rule: 'weekly', users_count: 2)
 
       it 'retrieves the current user on call' do
         schedule.current_user_on_call.should eq user_1
@@ -57,7 +57,7 @@ describe Schedule do
     end
 
     context 'weekly rotation with lots of users' do
-      create_schedule_with_rule_and_users('weekly', 7)
+      create_schedule(rule: 'weekly', users_count: 7)
 
       it 'retrieves the current user on call' do
         schedule.current_user_on_call.should eq user_1

@@ -12,7 +12,7 @@ describe UserSchedule do
   after { Timecop.return }
 
   describe '#initialize' do
-    create_schedule_with_rule_and_users('daily', 2)
+    create_schedule(rule: 'daily', users_count: 2)
 
     let(:user_schedule) { UserSchedule.new(user_1, schedule_layer) }
 
@@ -25,7 +25,7 @@ describe UserSchedule do
   end
 
   describe 'schedule rotation' do
-    create_schedule_with_rule_and_users('daily', 2)
+    create_schedule(rule: 'daily', users_count: 2)
 
     describe 'for multiple users' do
       let(:user_1_schedule) { UserSchedule.new(user_1, schedule_layer) }

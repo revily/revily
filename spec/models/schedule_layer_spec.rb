@@ -47,7 +47,7 @@ describe ScheduleLayer do
   end
 
   describe '#user_schedules' do
-    create_schedule_with_rule_and_users('daily', 2)
+    create_schedule(rule: 'daily', users_count: 2)
 
     subject { schedule_layer }
 
@@ -61,7 +61,7 @@ describe ScheduleLayer do
   end
 
   describe '#user_offset' do
-    create_schedule_with_rule_and_users('daily', 2)
+    create_schedule(rule: 'daily', users_count: 2)
 
     it 'returns how long in seconds to offset based on the number of users' do
       schedule_layer.user_offset(user_1).should == 0

@@ -20,6 +20,7 @@ FactoryGirl.define do
       ignore do
         rule 'daily'
         users_count 2
+        count 1
       end
 
       after(:create) do |schedule, evaluator|
