@@ -17,6 +17,8 @@
 class ScheduleLayer < ActiveRecord::Base
   include Identifiable
 
+  VALID_RULES = %w[ hourly daily weekly monthly yearly ]
+
   belongs_to :schedule
   has_many :user_schedule_layers, order: :position, dependent: :destroy
   has_many :users,
@@ -35,14 +37,14 @@ class ScheduleLayer < ActiveRecord::Base
     presence: true
 
   validates :rule,
-    inclusion: { in: %w[ hourly daily weekly monthly yearly ] }
+    inclusion: { in: VALID_RULES }
 
   def unit
     rule == 'daily' ? 'day' : rule.sub('ly', '')
   end
 
   def interval
-    users.count
+    count * users.count
   end
 
   def user_schedules
@@ -60,7 +62,12 @@ class ScheduleLayer < ActiveRecord::Base
   end
 
   def user_offset(user)
-    (user_position(user) - 1) * duration * count
+    (user_position(user) - 1) * duration
+  end
+
+  # useful?
+  def unit_duration
+    1.send(unit)
   end
 
   private

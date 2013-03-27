@@ -114,7 +114,6 @@ ActiveRecord::Schema.define(:version => 20130323084331) do
     t.string   "name"
     t.string   "time_zone",  :default => "UTC"
     t.string   "uuid"
-    t.datetime "start_at"
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
   end

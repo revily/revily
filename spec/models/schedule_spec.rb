@@ -28,7 +28,7 @@ describe Schedule do
     context 'daily rotation' do
       create_schedule(rule: 'daily', users_count: 2)
 
-      it 'retrieves the current user on call' do
+      it 'works with multiple users' do
         schedule.current_user_on_call.should eq user_1
 
         Timecop.freeze now + 1.day
@@ -42,7 +42,7 @@ describe Schedule do
     context 'weekly rotation' do
       create_schedule(rule: 'weekly', users_count: 2)
 
-      it 'retrieves the current user on call' do
+      it 'works with multiple users' do
         schedule.current_user_on_call.should eq user_1
 
         Timecop.freeze now + 1.day
@@ -59,7 +59,7 @@ describe Schedule do
     context 'weekly rotation with lots of users' do
       create_schedule(rule: 'weekly', users_count: 7)
 
-      it 'retrieves the current user on call' do
+      it 'works with a large number of users' do
         schedule.current_user_on_call.should eq user_1
 
         Timecop.freeze now + 1.week
@@ -69,6 +69,23 @@ describe Schedule do
         schedule.current_user_on_call.should eq user_3
 
         Timecop.freeze now + 5.weeks
+        schedule.current_user_on_call.should eq user_1
+      end
+    end
+
+    context 'hourly rotation' do
+      create_schedule(rule: 'hourly', users_count: 3, count: 8)
+
+      it 'retrieves the current user on call' do
+        schedule.current_user_on_call.should eq user_1
+        # ap schedule_layer.inspect
+        Timecop.freeze now + 8.hours
+        schedule.current_user_on_call.should eq user_2
+
+        Timecop.freeze now + 8.hours
+        schedule.current_user_on_call.should eq user_3
+
+        Timecop.freeze now + 8.hours
         schedule.current_user_on_call.should eq user_1
       end
     end

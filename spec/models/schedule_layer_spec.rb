@@ -30,7 +30,7 @@ describe ScheduleLayer do
     end
   end
 
-  describe '#calculate_duration_in_seconds' do
+  describe 'duration calculations' do
     let(:hourly) { create(:schedule_layer, rule: 'hourly', count: 8) }
     let(:daily) { create(:schedule_layer, rule: 'daily') }
     let(:weekly) { create(:schedule_layer, rule: 'weekly') }
@@ -43,6 +43,14 @@ describe ScheduleLayer do
       weekly.duration.should be 604800
       monthly.duration.should be 2592000
       yearly.duration.should be 31557600
+    end
+
+    it 'can determine the appropriate per-unit duration' do
+      hourly.unit_duration.should == 3600
+      daily.unit_duration.should == 86400
+      weekly.unit_duration.should == 604800
+      monthly.unit_duration.should == 2592000
+      yearly.unit_duration.should == 31557600
     end
   end
 
@@ -61,11 +69,31 @@ describe ScheduleLayer do
   end
 
   describe '#user_offset' do
-    create_schedule(rule: 'daily', users_count: 2)
+    context 'hourly' do
+      create_schedule(rule: 'hourly', users_count: 2, count: 8)
 
-    it 'returns how long in seconds to offset based on the number of users' do
-      schedule_layer.user_offset(user_1).should == 0
-      schedule_layer.user_offset(user_2).should == 86400
+      it do #'returns how long in seconds to offset based on the number of users' do
+        schedule_layer.user_offset(user_1).should == 0
+        schedule_layer.user_offset(user_2).should == 28800
+      end
+    end
+    context 'daily' do
+      create_schedule(rule: 'daily', users_count: 2)
+
+      it do #'returns how long in seconds to offset based on the number of users' do
+        schedule_layer.user_offset(user_1).should == 0
+        schedule_layer.user_offset(user_2).should == 86400
+      end
+
+    end
+
+    context 'weekly' do
+        create_schedule(rule: 'weekly', users_count: 2)
+
+      it do #'returns how long in seconds to offset based on the number of users' do
+        schedule_layer.user_offset(user_1).should == 0
+        schedule_layer.user_offset(user_2).should == 604800
+      end
     end
   end
 

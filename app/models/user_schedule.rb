@@ -1,4 +1,6 @@
 class UserSchedule < IceCube::Schedule
+  include ActiveModel::SerializerSupport
+  
   attr_accessor :user, :schedule_layer, :position, :interval, :offset
 
   def initialize(user, layer, options = {})

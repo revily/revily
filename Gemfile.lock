@@ -55,6 +55,8 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.1)
       debug_inspector (>= 0.0.1)
+    bootstrap-datepicker-rails (1.0.0.2)
+      railties (>= 3.0)
     bootstrap-sass (2.3.1.0)
       sass (~> 3.2)
     bootswatch-rails (0.4.0)
@@ -401,6 +403,7 @@ DEPENDENCIES
   awesome_print
   better_errors
   binding_of_caller
+  bootstrap-datepicker-rails
   bootstrap-sass
   bootswatch-rails
   bourbon

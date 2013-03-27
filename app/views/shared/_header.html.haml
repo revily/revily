@@ -7,6 +7,13 @@
         %span.icon-bar
       %a.brand(href="/") Reveille
       .container.nav-collapse
+        %ul.nav
+          %li= link_to 'Dashboard', root_path
+          %li= link_to 'Events', events_path
+          %li= link_to 'Services', services_path
+          / %li= link_to 'Escalation Policies', escalation_policies_path
+          %li= link_to 'Schedules', schedules_path
+          / %li= link_to 'Users', users_path
         %ul.nav.pull-right
           =render 'users/menu/registration_items'
           =render 'users/menu/login_items'

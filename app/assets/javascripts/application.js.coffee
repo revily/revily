@@ -12,11 +12,13 @@
 #
 #= require jquery
 #= require jquery_ujs
-#= require jquery.ui.all
+#=- require jquery.ui.all
 #= require jquery.transit
 #= require bootstrap
 #= require bootstrap_ujs
 #= require select2
+#= require fullcalendar.min
+#= require bootstrap-datepicker
 #= require_self
 #= require_tree .
 

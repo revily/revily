@@ -4,7 +4,6 @@ FactoryGirl.define do
   factory :schedule do
     name "Operations"
     # time_zone "MyString"
-    start_at { Time.zone.now }
 
     factory :schedule_with_alternate_time_zone do
       time_zone "EST"
@@ -24,7 +23,12 @@ FactoryGirl.define do
       end
 
       after(:create) do |schedule, evaluator|
-        create(:schedule_layer_with_users, schedule: schedule, rule: evaluator.rule, users_count: evaluator.users_count)
+        create(:schedule_layer_with_users, 
+          schedule: schedule, 
+          rule: evaluator.rule, 
+          users_count: evaluator.users_count,
+          count: evaluator.count
+        )
       end
     end
   end

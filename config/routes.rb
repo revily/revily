@@ -1,6 +1,14 @@
 require 'api_constraints'
 
 Reveille::Application.routes.draw do
+  get "schedule_layers/index"
+
+  get "schedule_layers/show"
+
+  get "schedule_layers/new"
+
+  get "schedule_layers/edit"
+
   apipie
 
   namespace :api, defaults: { format: :json } do
@@ -22,6 +30,12 @@ Reveille::Application.routes.draw do
     resources :events do
       resources :alerts
     end
+  end
+
+  resources :events
+
+  resources :schedules do
+    resources :schedule_layers, path: :layers
   end
 
   post 'twilio/sms'

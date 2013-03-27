@@ -1,0 +1,12 @@
+= simple_form_for schedule, html: { class: 'form-horizontal' } do |f|
+  = f.error_notification
+
+  = f.input :name
+  = f.input :time_zone, priority: /UTC/
+
+  / = f.simple_fields_for :schedule_layers, wrapper: 'inline' do |builder|
+  /   = render 'schedule_layer_fields', f: builder
+
+  / = link_to_add_fields "Add a Layer", f, :schedule_layers
+
+  = f.button :submit
