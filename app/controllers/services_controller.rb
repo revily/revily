@@ -17,6 +17,8 @@ class ServicesController < ApplicationController
 
   def new
     @service = Service.new
+
+    respond_with @service
   end
 
   def create

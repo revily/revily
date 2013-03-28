@@ -7,4 +7,5 @@ class UserScheduleSerializer < BaseSerializer
 
   def schedule_layer
     object.schedule_layer.uuid
+  end
 end

@@ -17,6 +17,8 @@ class SchedulesController < ApplicationController
 
   def new
     @schedule = Schedule.new
+
+    respond_with @schedule
   end
 
   def create
