@@ -28,7 +28,7 @@ describe ScheduleLayersController do
 
   describe 'GET /schedules/:schedule_id/layers/new' do
     let(:schedule) { create(:schedule) }
-    before { get :new, schedule_id: schedule.id }
+    before { get :new, schedule_id: schedule.uuid }
 
     it { should respond_with(:ok) }
     it { should render_template(:new) }
@@ -36,7 +36,7 @@ describe ScheduleLayersController do
 
   describe 'POST /schedules/:schedule_id/layers' do
     let(:schedule) { create(:schedule) }
-    before { post :create, schedule_id: schedule.uuid, layer: attributes_for(:schedule_layer) }
+    before { post :create, schedule_id: schedule.uuid, schedule_layer: attributes_for(:schedule_layer) }
 
     it { should respond_with(:found) }
     it { should redirect_to schedule_schedule_layer_url(schedule, assigns(:schedule_layer)) }
@@ -51,20 +51,20 @@ describe ScheduleLayersController do
     it { should render_template(:edit) }
   end
 
-  describe 'PUT /layers/:id' do
+  describe 'PUT /schedules/:schedule_id/layers/:id' do
     let(:schedule) { create(:schedule) }
-    let(:layer) { create(:schedule_layer, schedule: schedule) }
-    before { put :update, schedule_id: schedule.uuid, id: layer.uuid, layer: attributes_for(:schedule_layer) }
+    let(:schedule_layer) { create(:schedule_layer, schedule: schedule) }
+    before { put :update, schedule_id: schedule.uuid, id: schedule_layer.uuid, schedule_layer: attributes_for(:schedule_layer) }
 
     it { should respond_with(:found) }
-    it { should redirect_to schedule_schedule_layer_url(layer) }
+    it { should redirect_to schedule_schedule_layer_url(schedule, schedule_layer) }
     it { should assign_to(:schedule_layer) }
   end
 
   describe 'DELETE /layers/:id' do
     let(:schedule) { create(:schedule) }
-    let(:layer) { create(:schedule_layer, schedule: schedule) }
-    before { delete :destroy, schedule_id: schedule.uuid, id: layer.uuid }
+    let(:schedule_layer) { create(:schedule_layer, schedule: schedule) }
+    before { delete :destroy, schedule_id: schedule.uuid, id: schedule_layer.uuid }
 
     it { should respond_with(:found) }
     it { should redirect_to schedule_schedule_layers_url(schedule) }

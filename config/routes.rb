@@ -1,14 +1,6 @@
 require 'api_constraints'
 
 Reveille::Application.routes.draw do
-  get "schedule_layers/index"
-
-  get "schedule_layers/show"
-
-  get "schedule_layers/new"
-
-  get "schedule_layers/edit"
-
   apipie
 
   namespace :api, defaults: { format: :json } do

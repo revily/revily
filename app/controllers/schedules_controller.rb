@@ -1,5 +1,5 @@
 class SchedulesController < ApplicationController
-  respond_to :html
+  respond_to :html, :json
 
   before_filter :authenticate_user!
   

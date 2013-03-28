@@ -13,7 +13,6 @@ describe Schedule do
 
   describe 'validations' do
     it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:start_at) }
     it { should validate_presence_of(:time_zone) }
   end
 

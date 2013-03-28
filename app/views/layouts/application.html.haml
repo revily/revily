@@ -22,8 +22,10 @@
     .container-fluid
       .row-fluid
         %head.span9
-          / .hero-unit
-          = yield :header if content_for? :header
+          - if content_for? :header
+            .well
+              = yield :header if content_for? :header
+          - else
 
       .row-fluid
         .span12
