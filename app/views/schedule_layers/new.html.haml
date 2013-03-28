@@ -1,2 +1,4 @@
-%h1 ScheduleLayers#new
-%p Find me in app/views/schedule_layers/new.html.haml
+= content_for :header do
+  %h1 New Schedule Layer for #{@schedule.name}
+
+= render 'form', schedule: @schedule, schedule_layer: @schedule_layer
