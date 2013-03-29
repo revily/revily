@@ -27,6 +27,7 @@ gem 'draper'
 gem 'active_model_serializers'
 gem 'squeel'
 gem 'acts_as_list'
+gem 'validates_existence'
 
 gem 'apipie-rails'
 
