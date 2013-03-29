@@ -20,16 +20,13 @@ class Api::V1::IntegrationController < Api::V1::BaseController
 
   def resolve
     @event = current_service.events.find_by_key_or_message(event_params)
-    logger.info @event.inspect
+
     respond_with @event do |format|
       # if @event.persisted?
       if @event
         @event.resolve unless @event.resolved?
         hound_action @event, 'resolve'
         format.json { render json: @event, status: :accepted }
-        # else
-        # format.json { render json: { errors: @event.errors }, status: :unprocessable_entity }
-        # end
       else
         format.json { head :not_found }
       end

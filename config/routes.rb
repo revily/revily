@@ -7,7 +7,10 @@ Reveille::Application.routes.draw do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       put 'trigger' => 'integration#trigger'
       put 'resolve' => 'integration#resolve'
-      
+
+      post 'sms/send' => 'sms#send_sms'
+      post 'sms/receive' => 'sms#receive_sms'
+
       resources :services, shallow: true do
         resources :events
         member do
@@ -29,10 +32,6 @@ Reveille::Application.routes.draw do
   resources :schedules do
     resources :schedule_layers, path: :layers
   end
-
-  post 'twilio/sms'
-  post 'twilio/phone'
-  get 'twilio/service'
 
   devise_for :users
   devise_for :services, skip: [ :sessions ]
