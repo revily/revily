@@ -10,7 +10,7 @@ FactoryGirl.define do
     end
 
     factory :escalation_rule_for_schedule do
-      association :assignable, factory: :schedule
+      association :assignable, factory: :schedule_with_layers_and_users
     end
   end
 end

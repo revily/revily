@@ -34,10 +34,11 @@ class Event < ActiveRecord::Base
 
   validates :message, presence: true
   validates :service, existence: true
+
   # validates :message,
   #   uniqueness: { scope: [ :service_id, :state ] },
   #   on: :create,
-  #   :unless => :key?
+  #   unless: :key?
 
   # on: :save
   # validates :key,
@@ -70,7 +71,9 @@ class Event < ActiveRecord::Base
   end
 
   state_machine initial: :triggered do
-    state :triggered
+    state :triggered do
+      validate :escalation_loop_limit_not_reached
+    end
     state :acknowledged
     state :resolved
 
@@ -90,10 +93,10 @@ class Event < ActiveRecord::Base
       transition [ :triggered, :acknowledged ] => :resolved
     end
 
-    before_transition :triggered => :acknowledged, :do => :update_acknowledged_at
-    before_transition :triggered => :resolved, :do => [ :update_acknowledged_at, :update_resolved_at ]
-    before_transition :acknowledged => :resolved, :do => :update_resolved_at
-    before_transition :on => :escalate, :do => [ :escalate_to_next_escalation_rule ]
+    before_transition triggered: :acknowledged, do: :update_acknowledged_at
+    before_transition triggered: :resolved, do: [ :update_acknowledged_at, :update_resolved_at ]
+    before_transition acknowledged: :resolved, do: :update_resolved_at
+    before_transition on: :escalate, do: :escalate_to_next_escalation_rule
   end
 
   def key_or_uuid
@@ -102,6 +105,15 @@ class Event < ActiveRecord::Base
 
   def triggered_at
     self.created_at
+  end
+
+  protected
+
+  # def escalation_loop_limit_reached?
+  def escalation_loop_limit_not_reached
+    if escalation_policy && escalation_policy.escalation_loop_limit <= self.escalation_loop_count
+      errors.add(:state, 'cannot escalate when the event has has reached the escalation loop limit')
+    end
   end
 
   private
@@ -131,11 +143,7 @@ class Event < ActiveRecord::Base
   end
 
   def escalation_policy
-    service.escalation_policy
-  end
-
-  def escalation_loop_limit_reached?
-    escalation_policy.escalation_loop_limit <= self.escalation_loop_count
+    service.try(:escalation_policy)
   end
 
   def next_escalation_rule
@@ -144,7 +152,6 @@ class Event < ActiveRecord::Base
 
   def escalate_to_next_escalation_rule    
     self[:escalation_loop_count] += 1 if next_escalation_rule.first?
-    return false if escalation_loop_limit_reached?
 
     associate_current_escalation_rule
     associate_current_user

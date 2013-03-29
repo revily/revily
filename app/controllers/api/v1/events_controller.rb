@@ -16,7 +16,7 @@ class Api::V1::EventsController < Api::V1::BaseController
   api :GET, '/events/:id', 'Show an event'
   param :id, :number, desc: 'The event id', required: true
   def show
-    @event = events.find(params[:id])
+    @event = events.find_by_uuid(params[:id])
 
     respond_with @event
   end
@@ -39,7 +39,7 @@ class Api::V1::EventsController < Api::V1::BaseController
   param :message, String, desc: 'short message defining the event'
   param :description, String, desc: 'in-depth details of the event'
   def update
-    @event = events.find(params[:id])
+    @event = events.find_by_uuid(params[:id])
     @event.update_attributes(event_params)
 
     respond_with @event
@@ -47,8 +47,44 @@ class Api::V1::EventsController < Api::V1::BaseController
 
   api :DELETE, '/events/:id', 'Delete an event'
   def destroy
-    @event = events.find(params[:id])
+    @event = events.find_by_uuid(params[:id])
     @event.destroy
+
+    respond_with @event
+  end
+
+  api :PUT, '/events/:id/trigger', 'Update an event'
+  param :id, String, desc: 'unique key used to identify the event', required: true
+  def trigger
+    @event = events.find_by_uuid(params[:id])
+    @event.trigger 
+
+    respond_with @event
+  end
+
+  api :PUT, '/events/:id/acknowledge', 'Update an event'
+  param :id, String, desc: 'unique key used to identify the event', required: true
+  def acknowledge
+    @event = events.find_by_uuid(params[:id])
+    @event.acknowledge
+
+    respond_with @event
+  end
+
+  api :PUT, '/events/:id/escalate', 'Update an event'
+  param :id, String, desc: 'unique key used to identify the event', required: true
+  def escalate
+    @event = events.find_by_uuid(params[:id])
+    @event.escalate
+
+    respond_with @event
+  end
+
+  api :PUT, '/events/:id/resolve', 'Update an event'
+  param :id, String, desc: 'unique key used to identify the event', required: true
+  def resolve
+    @event = events.find_by_uuid(params[:id])
+    @event.resolve
 
     respond_with @event
   end
@@ -60,7 +96,7 @@ class Api::V1::EventsController < Api::V1::BaseController
   end
 
   def service
-    @service ||= Service.find(params[:service_id]) if params[:service_id]
+    @service ||= Service.find_by_uuid(params[:service_id]) if params[:service_id]
   end
 
   def events
