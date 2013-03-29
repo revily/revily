@@ -28,9 +28,9 @@ class Service < ActiveRecord::Base
 
   validates :name, :acknowledge_timeout, :auto_resolve_timeout, :state,
     presence: true
-
   validates :name, uniqueness: true
-
+  # validates :escalation_policy, existence: true
+  
   before_save :ensure_authentication_token
 
   state_machine initial: :enabled do

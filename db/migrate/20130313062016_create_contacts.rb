@@ -5,12 +5,10 @@ class CreateContacts < ActiveRecord::Migration
       t.string :type
       t.references :contactable, polymorphic: true
       t.string :address
-      t.string :uuid, :null => false
-
-      # t.references :user
+      t.string :uuid, null: false
 
       t.timestamps
     end
-    add_index :contacts, :user_id
+    add_index :contacts, :contactable_id
   end
 end

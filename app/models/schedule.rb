@@ -28,17 +28,10 @@ class Schedule < ActiveRecord::Base
   validates :name, :time_zone, 
     presence: true
 
-  # before_save :reset_start_at_to_beginning_of_day
-
   accepts_nested_attributes_for :schedule_layers, allow_destroy: true
 
   def current_user_on_call
-    schedule_layers.first.user_schedules.find {|us| us.occurring_at?(Time.zone.now) }.user
+    schedule_layers.first.user_schedules.find { |us| us.occurring_at?(Time.zone.now) }.user
   end
 
-  private
-
-  # def reset_start_at_to_beginning_of_day
-    # self[:start_at] = start_at.beginning_of_day
-  # end
 end

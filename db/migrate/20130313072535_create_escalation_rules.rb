@@ -2,7 +2,8 @@ class CreateEscalationRules < ActiveRecord::Migration
   def change
     create_table :escalation_rules do |t|
       t.integer :escalation_timeout, default: 30
-      t.string :uuid, :null => false
+      t.integer :position
+      t.string :uuid, null: false
 
       t.references :assignable, polymorphic: true
       t.references :escalation_policy

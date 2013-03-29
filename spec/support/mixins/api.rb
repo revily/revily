@@ -2,7 +2,7 @@ module API
   module Service
 
     def sign_in_service
-      let(:service) { create(:service) }
+      let(:service) { create(:service, :with_escalation_policy) }
       let(:token) { service.authentication_token }
 
       before do

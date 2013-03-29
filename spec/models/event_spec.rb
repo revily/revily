@@ -21,20 +21,21 @@ describe Event do
   end
 
   context 'states' do
+    let(:service) { create(:service, :with_escalation_policy) }
     describe 'initial state' do
-      it { create(:event).should be_triggered }
+      it { create(:event, service: service).should be_triggered }
     end
 
     describe 'trigger' do
-      let(:event) { create(:event) }
+      let(:event) { create(:event, service: service) }
 
-      it 'does not transition to :triggered' do
+      it 'cannot transition to :triggered' do
         event.trigger
 
         event.should have(1).error
       end
 
-      it 'transitions to :acknowledged' do
+      it 'can transition to :acknowledged' do
         event.acknowledge
 
         event.should be_acknowledged
@@ -42,7 +43,7 @@ describe Event do
         event.resolved_at.should be_nil
       end
 
-      it 'transitions to :resolved' do
+      it 'can transition to :resolved' do
         event.resolve
 
         event.should be_resolved
@@ -52,25 +53,55 @@ describe Event do
       end
     end
 
+    describe 'escalate' do
+      let(:event) { create(:event, service: service) }
+
+      it 'can transition from :triggered' do
+        event.escalate
+
+        event.should be_triggered
+        event.should have(0).errors
+      end
+
+      it 'can transition from :acknowledged' do
+        event.acknowledge
+        event.escalate
+
+        event.should be_triggered
+        event.should have(0).errors
+        event.current_escalation_rule.should == service.escalation_policy.escalation_rules.second
+      end
+
+      it 'cannot transition from :resolved' do
+        event.resolve
+        event.escalate
+
+        event.should_not be_triggered
+        event.should be_resolved
+        event.should have(1).error
+      end
+
+    end
+
     describe 'acknowledge' do
-      let(:event) { create(:event) }
+      let(:event) { create(:event, service: service) }
 
       before { event.acknowledge }
 
-      it 'does not transition to :acknowledged' do
+      it 'cannot transition to :acknowledged' do
         event.acknowledge
 
         event.should have(1).error
       end
 
-      it 'transitions to :triggered' do
+      it 'can transition to :triggered' do
         event.trigger
 
         event.should be_triggered
         event.should have(0).errors
       end
 
-      it 'transitions to :resolved' do
+      it 'can transition to :resolved' do
         event.resolve
 
         event.should be_resolved
@@ -79,11 +110,11 @@ describe Event do
     end
 
     describe 'resolve' do
-      let(:event) { create(:event) }
+      let(:event) { create(:event, service: service) }
 
       before { event.resolve }
 
-      it 'does not transition to :triggered' do
+      it 'cannot transition to :triggered' do
         event.resolve
         event.trigger
 
@@ -91,7 +122,7 @@ describe Event do
         event.should be_resolved
       end
 
-      it 'does not transition to :acknowledged' do
+      it 'cannot transition to :acknowledged' do
         event.resolve
         event.acknowledge
 

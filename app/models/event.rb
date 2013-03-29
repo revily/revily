@@ -2,18 +2,21 @@
 #
 # Table name: events
 #
-#  id              :integer          not null, primary key
-#  message         :text
-#  description     :text
-#  details         :text
-#  state           :string(255)
-#  key             :string(255)
-#  uuid            :string(255)      not null
-#  service_id      :integer
-#  acknowledged_at :datetime
-#  resolved_at     :datetime
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                         :integer          not null, primary key
+#  message                    :text
+#  description                :text
+#  details                    :text
+#  state                      :string(255)
+#  key                        :string(255)
+#  current_user_id            :integer
+#  current_escalation_rule_id :integer
+#  escalation_loop_count      :integer          default(0)
+#  uuid                       :string(255)      not null
+#  service_id                 :integer
+#  acknowledged_at            :datetime
+#  resolved_at                :datetime
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
 #
 
 class Event < ActiveRecord::Base
@@ -25,17 +28,19 @@ class Event < ActiveRecord::Base
   serialize :details, JSON
 
   belongs_to :service
+  belongs_to :current_user, class_name: 'User'
+  belongs_to :current_escalation_rule, class_name: 'EscalationRule'
   has_many :alerts
 
   validates :message, presence: true
-
-  # validates :message, 
+  validates :service, existence: true
+  # validates :message,
   #   uniqueness: { scope: [ :service_id, :state ] },
   #   on: :create,
   #   :unless => :key?
 
-    # on: :save
-  # validates :key, 
+  # on: :save
+  # validates :key,
   #   # uniqueness: { scope: [ :service_id, :state, :uuid ] },
   #   uniqueness: { scope: [ :service_id, :state ] },
   #   allow_nil: true,
@@ -43,6 +48,8 @@ class Event < ActiveRecord::Base
   #   on: :create
 
   before_save :ensure_key
+  before_create :associate_current_escalation_rule
+  before_create :associate_current_user
 
   scope :unresolved, where("state != 'resolved'")
 
@@ -75,6 +82,10 @@ class Event < ActiveRecord::Base
       transition [ :triggered ] => :acknowledged
     end
 
+    event :escalate do
+      transition [ :triggered, :acknowledged ] => :triggered
+    end
+
     event :resolve do
       transition [ :triggered, :acknowledged ] => :resolved
     end
@@ -82,7 +93,7 @@ class Event < ActiveRecord::Base
     before_transition :triggered => :acknowledged, :do => :update_acknowledged_at
     before_transition :triggered => :resolved, :do => [ :update_acknowledged_at, :update_resolved_at ]
     before_transition :acknowledged => :resolved, :do => :update_resolved_at
-
+    before_transition :on => :escalate, :do => [ :escalate_to_next_escalation_rule ]
   end
 
   def key_or_uuid
@@ -109,6 +120,34 @@ class Event < ActiveRecord::Base
 
   def fire_alerts!
     AlertWorker.perform_async(self.id)
+  end
+
+  def associate_current_escalation_rule
+    self.current_escalation_rule = next_escalation_rule
+  end
+
+  def associate_current_user
+    self.current_user = self.current_escalation_rule.assignee
+  end
+
+  def escalation_policy
+    service.escalation_policy
+  end
+
+  def escalation_loop_limit_reached?
+    escalation_policy.escalation_loop_limit <= self.escalation_loop_count
+  end
+
+  def next_escalation_rule
+    self.current_escalation_rule.try(:lower_item) || escalation_policy.escalation_rules.first
+  end
+
+  def escalate_to_next_escalation_rule    
+    self[:escalation_loop_count] += 1 if next_escalation_rule.first?
+    return false if escalation_loop_limit_reached?
+
+    associate_current_escalation_rule
+    associate_current_user
   end
 
 end

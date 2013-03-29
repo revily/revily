@@ -32,22 +32,23 @@ ActiveRecord::Schema.define(:version => 20130323084331) do
     t.string   "contactable_type"
     t.string   "address"
     t.string   "uuid",             :null => false
-    t.integer  "user_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
 
-  add_index "contacts", ["user_id"], :name => "index_contacts_on_user_id"
+  add_index "contacts", ["contactable_id"], :name => "index_contacts_on_contactable_id"
 
   create_table "escalation_policies", :force => true do |t|
     t.string   "name"
-    t.string   "uuid",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "uuid",                  :null => false
+    t.integer  "escalation_loop_limit"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
   end
 
   create_table "escalation_rules", :force => true do |t|
     t.integer  "escalation_timeout",   :default => 30
+    t.integer  "position"
     t.string   "uuid",                                 :null => false
     t.integer  "assignable_id"
     t.string   "assignable_type"
@@ -65,14 +66,18 @@ ActiveRecord::Schema.define(:version => 20130323084331) do
     t.text     "details"
     t.string   "state"
     t.string   "key"
-    t.string   "uuid",            :null => false
+    t.integer  "current_user_id"
+    t.integer  "current_escalation_rule_id"
+    t.integer  "escalation_loop_count",      :default => 0
+    t.string   "uuid",                                      :null => false
     t.integer  "service_id"
     t.datetime "acknowledged_at"
     t.datetime "resolved_at"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
+  add_index "events", ["current_user_id"], :name => "index_events_on_current_user_id"
   add_index "events", ["uuid"], :name => "index_events_on_uuid", :unique => true
 
   create_table "hound_actions", :force => true do |t|

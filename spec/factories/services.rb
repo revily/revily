@@ -8,6 +8,10 @@ FactoryGirl.define do
 
     escalation_policy
 
+    trait :with_escalation_policy do
+      association :escalation_policy, factory: :escalation_policy_with_rules
+    end
+
     factory :enabled_service do
       state "enabled"
     end
@@ -21,5 +25,7 @@ FactoryGirl.define do
         create(:event, service: service)
       end
     end
+
+    factory :service_with_escalation_policy, traits: [ :with_escalation_policy ]
   end
 end

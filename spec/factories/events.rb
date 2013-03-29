@@ -3,8 +3,11 @@
 FactoryGirl.define do
   factory :event do
     service
-    # message "Shit just got real."
     message { Forgery(:lorem_ipsum).words(5) }
+
+    trait :key do
+      key "app1.example.com/load_average"
+    end
 
     factory :acknowledged_event do
       state "acknowledged"
@@ -14,8 +17,11 @@ FactoryGirl.define do
       state "resolved"
     end
 
-    factory :event_with_key do
-      key "app1.example.com/load_average"
+    factory :event_with_key, traits: [ :key ]
+    
+    factory :event_with_service, traits: [ :key ] do
+      association :service, :with_escalation_policy
     end
+
   end
 end
