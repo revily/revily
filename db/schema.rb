@@ -28,11 +28,13 @@ ActiveRecord::Schema.define(:version => 20130323084331) do
   create_table "contacts", :force => true do |t|
     t.string   "label"
     t.string   "type"
+    t.integer  "contactable_id"
+    t.string   "contactable_type"
     t.string   "address"
-    t.string   "uuid",       :null => false
+    t.string   "uuid",             :null => false
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   add_index "contacts", ["user_id"], :name => "index_contacts_on_user_id"

@@ -9,9 +9,9 @@ FactoryGirl.define do
 
     factory :user_with_contacts do
       after(:create) do |user, evaluator|
-        create(:email_contact, user: user)
-        create(:phone_contact, user: user)
-        create(:sms_contact, user: user)
+        create(:email_contact, contactable: user)
+        create(:phone_contact, contactable: user)
+        create(:sms_contact, contactable: user)
       end
     end
 

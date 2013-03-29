@@ -3,10 +3,11 @@ class CreateContacts < ActiveRecord::Migration
     create_table :contacts do |t|
       t.string :label
       t.string :type
+      t.references :contactable, polymorphic: true
       t.string :address
       t.string :uuid, :null => false
 
-      t.references :user
+      # t.references :user
 
       t.timestamps
     end

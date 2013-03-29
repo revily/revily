@@ -34,8 +34,13 @@ class User < ActiveRecord::Base
 
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
-  has_many :contacts
-  has_many :notification_rules, through: :contacts
+  has_many :contacts, as: :contactable
+  has_many :sms_contacts, as: :contactable, class_name: "SmsContact"
+  has_many :phone_contacts, as: :contactable, class_name: "PhoneContact"
+  has_many :email_contacts, as: :contactable, class_name: "EmailContact"
+
+  # has_many :notification_rules, through: :contacts
+  
   has_many :escalation_rules, as: :assignable
   has_many :user_schedule_layers, order: :position
   has_many :schedule_layers,
