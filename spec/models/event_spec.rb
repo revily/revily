@@ -42,7 +42,7 @@ describe Event do
 
       before { event.save }
 
-      it { expect(Event::Notify).to have_enqueued_jobs(1) }
+      it { expect(Event::DispatchNotifications).to have_enqueued_jobs(1) }
       it { expect(Event::Escalate).to have_enqueued_jobs(1) }
 
       it 'cannot transition to :triggered' do

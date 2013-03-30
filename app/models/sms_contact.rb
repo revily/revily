@@ -14,5 +14,24 @@
 #
 
 class SmsContact < Contact
-  # attr_accessible :title, :body
+  def action_message
+    "Press 4 to ACKNOWLEDGE, 6 to RESOLVE, 8 to ESCALATE"
+  end
+
+  def body
+    message = ""
+    message += @event.message
+    message += "\n"
+    message += "ACKNOWLEDGE: 4, RESOLVE: 6, ESCALATE: 8"
+  end
+
+  def notify(event)
+    @event = event
+
+    $twilio.account.sms.messages.create(
+      from: Figaro.env.twilio_number,
+      to: self.address,
+      body: self.body
+    )
+  end
 end

@@ -30,7 +30,7 @@ class Event < ActiveRecord::Base
   serialize :details, JSON
 
   belongs_to :service
-  belongs_to :current_user, class_name: 'User'
+  belongs_to :current_user, class_name: 'User', foreign_key: :current_user_id
   belongs_to :current_escalation_rule, class_name: 'EscalationRule'
   has_many :alerts
 
@@ -107,16 +107,16 @@ class Event < ActiveRecord::Base
     end
 
     after_transition any => :triggered do |event, transition|
-      Event::Notify.perform_async(event.id)
-      Event::Escalate.perform_in(event.try(:current_escalation_rule).escalation_timeout.minutes, event.id)
+      ::Event::DispatchNotifications.perform_async(event.id)
+      ::Event::Escalate.perform_in(event.try(:current_escalation_rule).escalation_timeout.minutes, event.id)
     end
 
     after_transition :pending => :triggered do |event, transition|
-      Event::AutoResolve.perform_in(event.service.try(:auto_resolve_timeout).minutes, event.id)
+      ::Event::AutoResolve.perform_in(event.service.try(:auto_resolve_timeout).minutes, event.id)
     end
 
     after_transition any => :acknowledged do |event, transition|
-      Event::Retrigger.perform_in(event.service.try(:acknowledge_timeout).minutes, event.id)
+      ::Event::Retrigger.perform_in(event.service.try(:acknowledge_timeout).minutes, event.id)
     end
 
     after_transition on: :resolve do |event, transition|

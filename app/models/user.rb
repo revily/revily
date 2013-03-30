@@ -1,4 +1,4 @@
-# == Schema Information
+ # == Schema Information
 #
 # Table name: users
 #
@@ -49,6 +49,8 @@ class User < ActiveRecord::Base
     dependent: :destroy
 
   has_many :schedules, through: :schedule_layers
+
+  has_many :events, foreign_key: :current_user_id #, primary_key: :current_user_id
 
   before_save :ensure_authentication_token
 end

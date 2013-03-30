@@ -1,15 +1,16 @@
 require 'api_constraints'
+require 'sidekiq/web'
 
 Reveille::Application.routes.draw do
   apipie
+  mount Sidekiq::Web => '/sidekiq'
 
   namespace :api, defaults: { format: :json } do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       put 'trigger' => 'integration#trigger'
       put 'resolve' => 'integration#resolve'
 
-      post 'sms/send' => 'sms#send_sms'
-      post 'sms/receive' => 'sms#receive_sms'
+      post 'sms/receive' => 'sms#receive'
 
       resources :services, shallow: true do
         resources :events

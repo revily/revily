@@ -3,28 +3,26 @@ class Api::V1::SmsController < Api::V1::BaseController
 
   respond_to :json
 
-  def send_sms
-    @event = Event.find_by_uuid(params[:event_id])
+  def receive
+    body = params['Body'].to_i
+    from = params['From']
 
-    @user = User.find_by_uuid(params[:id])
-    @user.sms_contacts.each do |contact|
-      $twilio.account.sms.messages.create(
-        from: Figaro.env.twilio_number,
-        to: contact.address,
-        body: "Please press 4"
-      )
+    @user = Contact.where("address LIKE ?", "%#{from}%").first.contactable
 
+    action = case body
+    when "4"
+      :acknowledge
+    when "6"
+      :resolve
+    when "8"
+      :escalate
+    else
+      nil
     end
 
-    render :json => params
-  end
 
-  def receive_sms
-    body = params['Body']
-    from = params['From']
-    @user = Contact.find_by_address(from).first
 
-    render :json => params
+    render :json => @user
   end
 
 end 

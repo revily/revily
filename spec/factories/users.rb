@@ -15,16 +15,9 @@ FactoryGirl.define do
       end
     end
 
-    factory :complex do
-      ignore do
-        users []
-      end
-
-      before(:create) do |schedule|
-        create(:user)
-      end
-      after(:create) do |schedule|
-
+    factory :dan_ryan do
+      after(:create) do |user|
+        create(:sms_contact, contactable: user, address: "5172145853")
       end
     end
   end
