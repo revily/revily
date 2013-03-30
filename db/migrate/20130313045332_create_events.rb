@@ -13,6 +13,7 @@ class CreateEvents < ActiveRecord::Migration
 
       t.references :service
 
+      t.datetime :triggered_at
       t.datetime :acknowledged_at
       t.datetime :resolved_at
       

@@ -284,6 +284,9 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    rspec-sidekiq (0.2.2)
+      rspec (~> 2.0)
+      sidekiq (>= 2.4.0)
     rspec_api_test (0.0.1)
       activesupport
       bundler
@@ -453,6 +456,7 @@ DEPENDENCIES
   rb-inotify
   recipient_interceptor
   rspec-rails
+  rspec-sidekiq
   rspec_api_test
   ruby_gntp
   sass-rails (>= 3.2.6)

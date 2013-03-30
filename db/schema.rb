@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20130323084331) do
     t.integer  "escalation_loop_count",      :default => 0
     t.string   "uuid",                                      :null => false
     t.integer  "service_id"
+    t.datetime "triggered_at"
     t.datetime "acknowledged_at"
     t.datetime "resolved_at"
     t.datetime "created_at",                                :null => false

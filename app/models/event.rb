@@ -13,6 +13,7 @@
 #  escalation_loop_count      :integer          default(0)
 #  uuid                       :string(255)      not null
 #  service_id                 :integer
+#  triggered_at               :datetime
 #  acknowledged_at            :datetime
 #  resolved_at                :datetime
 #  created_at                 :datetime         not null
@@ -21,9 +22,10 @@
 
 class Event < ActiveRecord::Base
   include Identifiable
+  include Trackable
   include ActiveModel::ForbiddenAttributesProtection
 
-  hound actions: [ :create, :update, :trigger, :acknowledge, :resolve ]
+  # hound actions: [ :create, :update, :trigger, :acknowledge, :resolve ]
 
   serialize :details, JSON
 
@@ -51,7 +53,8 @@ class Event < ActiveRecord::Base
   before_save :ensure_key
   before_create :associate_current_escalation_rule
   before_create :associate_current_user
-
+  after_create :trigger
+  
   scope :unresolved, where("state != 'resolved'")
 
   def self.first_or_initialize_by_key_or_message(params)
@@ -70,7 +73,7 @@ class Event < ActiveRecord::Base
     end.last
   end
 
-  state_machine initial: :triggered do
+  state_machine initial: :pending do
     state :triggered do
       validate :escalation_loop_limit_not_reached
     end
@@ -78,7 +81,7 @@ class Event < ActiveRecord::Base
     state :resolved
 
     event :trigger do
-      transition [ :acknowledged ] => :triggered
+      transition [ :pending, :acknowledged ] => :triggered
     end
 
     event :acknowledge do
@@ -93,18 +96,35 @@ class Event < ActiveRecord::Base
       transition [ :triggered, :acknowledged ] => :resolved
     end
 
+    before_transition pending: :triggered, do: :update_triggered_at
     before_transition triggered: :acknowledged, do: :update_acknowledged_at
     before_transition triggered: :resolved, do: [ :update_acknowledged_at, :update_resolved_at ]
     before_transition acknowledged: :resolved, do: :update_resolved_at
     before_transition on: :escalate, do: :escalate_to_next_escalation_rule
+
+    after_transition any => any do |event, transition|
+      event.log_action(transition.event)
+    end
+
+    after_transition any => :triggered do |event, transition|
+      Event::Notify.perform_async(event.id)
+      Event::Escalate.perform_in(event.try(:current_escalation_rule).escalation_timeout.minutes, event.id)
+    end
+
+    after_transition :pending => :triggered do |event, transition|
+      Event::AutoResolve.perform_in(event.service.try(:auto_resolve_timeout).minutes, event.id)
+    end
+
+    after_transition any => :acknowledged do |event, transition|
+      Event::Retrigger.perform_in(event.service.try(:acknowledge_timeout).minutes, event.id)
+    end
+
+    after_transition on: :resolve do |event, transition|
+    end
   end
 
   def key_or_uuid
     self.key || self.uuid
-  end
-
-  def triggered_at
-    self.created_at
   end
 
   protected
@@ -122,16 +142,16 @@ class Event < ActiveRecord::Base
     self[:key] ||= SecureRandom.hex
   end
 
+  def update_triggered_at
+    self[:triggered_at] = Time.zone.now
+  end
+
   def update_resolved_at
     self[:resolved_at] = Time.zone.now
   end
 
   def update_acknowledged_at
     self[:acknowledged_at] = Time.zone.now
-  end
-
-  def fire_alerts!
-    AlertWorker.perform_async(self.id)
   end
 
   def associate_current_escalation_rule

@@ -108,6 +108,7 @@ group :test do
   gem 'state_machine_rspec'
   gem 'launchy'
   gem 'coveralls', require: false
+  gem 'rspec-sidekiq'
 end
 
 group :staging, :production do

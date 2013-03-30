@@ -20,14 +20,30 @@ describe Event do
   context 'scopes' do
   end
 
-  context 'states' do
+  describe 'states' do
+    # it { should have_states :triggered, :acknowledged, :resolved }
+    # it { should handle_event :trigger, when: :pending }
+    # it { should handle_event :trigger, when: :acknowledged }
+
+    # it { should handle_event :escalate, when: :triggered }
+    # it { should handle_event :escalate, when: :acknowledged }
+
+    # it { should handle_event :acknowledge, when: :triggered }
+    # it { should handle_event :resolve, when: :triggered }
+    # it { should handle_event :resolve, when: :acknowledged }
+
     let(:service) { create(:service, :with_escalation_policy) }
     describe 'initial state' do
-      it { create(:event, service: service).should be_triggered }
+      it { build(:event, service: service).should be_pending }
     end
 
     describe 'trigger' do
-      let(:event) { create(:event, service: service) }
+      let(:event) { build(:event, service: service) }
+
+      before { event.save }
+
+      it { expect(Event::Notify).to have_enqueued_jobs(1) }
+      it { expect(Event::Escalate).to have_enqueued_jobs(1) }
 
       it 'cannot transition to :triggered' do
         event.trigger
@@ -57,6 +73,7 @@ describe Event do
       let(:event) { create(:event, service: service) }
 
       it 'can transition from :triggered' do
+        event.trigger
         event.escalate
 
         event.should be_triggered
