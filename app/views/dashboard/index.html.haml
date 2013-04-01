@@ -1,1 +1,40 @@
-%h1 Dashboard
+= content_for :header do
+  %h1 Dashboard
+
+%h2 My Open Events
+%table.table.table-striped.table-hover
+  %thead
+    %tr
+      %th ID
+      %th Service
+      %th State
+      %th Message
+
+  %tbody
+    - @events.each do |event|
+      %tr
+        %td= event.uuid
+        %td= event.service.name
+        %td= event.state_label
+        %td= event.message
+
+%h2 All Events
+%table.table.table-striped
+  %thead
+    %tr
+      %th ID
+      %th Service
+      %th State
+      %th Message
+
+  %tbody
+    - @all_events.each do |event|
+      %tr.success
+        %td= event.uuid
+        %td= event.service.name
+        %td= event.state_label
+        %td= event.message
+
+
+- @all_events.each do |event|
+  = render 'events/event', event: event

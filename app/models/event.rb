@@ -37,19 +37,6 @@ class Event < ActiveRecord::Base
   validates :message, presence: true
   validates :service, existence: true
 
-  # validates :message,
-  #   uniqueness: { scope: [ :service_id, :state ] },
-  #   on: :create,
-  #   unless: :key?
-
-  # on: :save
-  # validates :key,
-  #   # uniqueness: { scope: [ :service_id, :state, :uuid ] },
-  #   uniqueness: { scope: [ :service_id, :state ] },
-  #   allow_nil: true,
-  #   allow_blank: true,
-  #   on: :create
-
   before_save :ensure_key
   before_create :associate_current_escalation_rule
   before_create :associate_current_user
@@ -127,6 +114,14 @@ class Event < ActiveRecord::Base
     self.key || self.uuid
   end
 
+  def next_escalation_rule
+    self.current_escalation_rule.try(:lower_item) || escalation_policy.escalation_rules.first
+  end
+
+  def escalation_policy
+    service.try(:escalation_policy)
+  end
+
   protected
 
   # def escalation_loop_limit_reached?
@@ -160,14 +155,6 @@ class Event < ActiveRecord::Base
 
   def associate_current_user
     self.current_user = self.current_escalation_rule.assignee
-  end
-
-  def escalation_policy
-    service.try(:escalation_policy)
-  end
-
-  def next_escalation_rule
-    self.current_escalation_rule.try(:lower_item) || escalation_policy.escalation_rules.first
   end
 
   def escalate_to_next_escalation_rule    

@@ -14,10 +14,6 @@
 #
 
 class SmsContact < Contact
-  def response_options
-    "ACKNOWLEDGE: 4, RESOLVE: 6, ESCALATE: 8"
-  end
-
   def trigger_message
     "#{@event.message}\n#{response_options}"
   end

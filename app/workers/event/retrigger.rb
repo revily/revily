@@ -5,11 +5,7 @@ class Event
     def perform(event_id)
       @event = Event.find(event_id)
 
-      if @event.triggered? || @event.resolved?
-        return true
-      else
-        @event.trigger
-      end
+      @event.trigger unless ( @event.triggered? || @event.resolved? )
     end
 
   end

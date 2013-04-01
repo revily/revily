@@ -23,16 +23,17 @@ Reveille::Application.routes.draw do
   end
 
   resources :services, shallow: true do
-    resources :events do
-      resources :alerts
-    end
+    resources :events
   end
 
+  resources :escalation_policies
   resources :events
 
   resources :schedules do
     resources :schedule_layers, path: :layers
   end
+
+
 
   devise_for :users
   devise_for :services, skip: [ :sessions ]

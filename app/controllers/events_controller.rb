@@ -6,8 +6,8 @@ class EventsController < ApplicationController
 
   def index
     @events = events.all
-
-    respond_with @events
+    location_url = service ? service_events_url : events_url
+    respond_with @events, location: location_url
   end
 
   def show

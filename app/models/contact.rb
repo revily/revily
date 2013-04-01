@@ -17,10 +17,20 @@ class Contact < ActiveRecord::Base
   include Identifiable
   include ActiveModel::ForbiddenAttributesProtection
 
+  RESPONSE_MAP = {
+    :acknowledge => 4,
+    :resolve => 6,
+    :escalate => 8
+  }
+
   belongs_to :contactable, polymorphic: true
   has_many :notification_rules
 
   validates :type, presence: true
   validates :label, presence: true
   validates :address, presence: true
+
+  def response_options
+    RESPONSE_MAP.map{|k,v| "#{k}: #{v}"}.join(', ')
+  end
 end

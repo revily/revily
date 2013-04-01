@@ -9,4 +9,18 @@ class EventDecorator < Draper::Decorator
   #       source.created_at.strftime("%a %m/%d/%y")
   #     end
   #   end
+
+  def state_label
+    css_class = case source.state
+    when 'triggered'
+      'label-important'
+    when 'acknowledged'
+      'label-warning'
+    when 'resolved'
+      'label-success'
+    end
+    helpers.content_tag :span, class: "label #{css_class}" do
+      source.state.upcase
+    end
+  end
 end

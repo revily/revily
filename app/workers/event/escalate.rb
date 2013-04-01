@@ -5,11 +5,7 @@ class Event
     def perform(event_id)
       @event = Event.find(event_id)
 
-      if @event.acknowledged? || @event.resolved?
-        return true
-      else
-        @event.escalate
-      end
+      @event.escalate unless ( @event.acknowledged? || @event.resolved? )
     end
 
   end
