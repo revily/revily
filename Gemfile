@@ -61,6 +61,7 @@ group :assets do
   gem 'twitter-bootstrap-rails'
   gem 'bootswatch-rails'
   gem 'bootstrap-datepicker-rails'
+  gem 'font-awesome-sass-rails'
 end
 
 group :development do
