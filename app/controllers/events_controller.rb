@@ -11,7 +11,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = events.find_by_uuid(params[:id]).decorate
+    @event = events.find(params[:id]).decorate
 
     respond_with @event
   end
@@ -30,14 +30,14 @@ class EventsController < ApplicationController
   end
 
   def update
-    @event = events.find_by_uuid(params[:id])
+    @event = events.find(params[:id])
     @event.update_attributes(event_params)
 
     respond_with @event
   end
 
   def destroy
-    @event = events.find_by_uuid(params[:id])
+    @event = events.find(params[:id])
     @event.destroy
 
     respond_with @event.service, @event
@@ -50,7 +50,7 @@ class EventsController < ApplicationController
   end
 
   def service
-    @service ||= Service.find_by_uuid(params[:service_id]) if params[:service_id]
+    @service ||= Service.find(params[:service_id]) if params[:service_id]
   end
 
   def events

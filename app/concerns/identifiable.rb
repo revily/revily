@@ -7,7 +7,7 @@ module Identifiable
   end
 
   def ensure_uuid
-    self[:uuid] ||= SecureRandom.uuid
+    self.uuid = generate_uuid
   end
 
   # TODO: uncomment this when it matters.
@@ -15,25 +15,20 @@ module Identifiable
     self.uuid || self.id
   end
 
-  # module ClassMethods
-  #   def find(*ids)
-  #     expects_array = ids.first.kind_of?(Array)
+  def generate_uuid
+    loop do
+      uuid = SecureRandom.urlsafe_base64(6).tr('+/=_-', 'pqrsxyz')
+      break uuid unless self.class.find_by_uuid(uuid)
+    end
+  end
 
-  #     ids = ids.flatten.compact.uniq
-
-  #     if ids.first.is_a?(Integer)
-  #       super(*ids)
-  #     else
-  #       case ids.size
-  #       when 0
-  #         raise RecordNotFound, "Couldn't find #{@klass.name} without an ID"
-  #       when 1
-  #         result = find_by_uuid(ids.first)
-  #         expects_array ? [ result ] : result
-  #       else
-  #         where("uuid IN (ids)")
-  #       end
-  #     end
-  #   end
-  # end
+  module ClassMethods
+    def find(*args)
+      if !args[0].respond_to?(:match) || args[0].match(/^\d+$/) # assume we are an ID
+        super(*args)
+      else
+        find_by_uuid(args[0])
+      end
+    end
+  end
 end
