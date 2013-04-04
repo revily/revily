@@ -28,6 +28,9 @@ gem 'active_model_serializers'
 gem 'squeel'
 gem 'acts_as_list'
 gem 'validates_existence'
+gem 'kaminari'
+gem 'acts_as_tenant'
+gem 'active_attr'
 
 gem 'apipie-rails'
 

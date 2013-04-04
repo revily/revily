@@ -34,6 +34,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
       ## Token authenticatable
       t.string :authentication_token
 
+      # Multi-tenancy
+      t.references :account
 
       t.timestamps
     end
@@ -44,5 +46,6 @@ class DeviseCreateUsers < ActiveRecord::Migration
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
     add_index :users, :authentication_token, unique: true
+    add_index :users, :account_id, unique: true
   end
 end

@@ -34,6 +34,8 @@ class User < ActiveRecord::Base
 
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
+  belongs_to :account
+  
   has_many :contacts, as: :contactable
   has_many :sms_contacts, as: :contactable, class_name: "SmsContact"
   has_many :phone_contacts, as: :contactable, class_name: "PhoneContact"

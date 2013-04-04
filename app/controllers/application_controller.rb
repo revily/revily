@@ -4,5 +4,9 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource_or_scope)
     dashboard_url
   end
+
+  def current_account
+    current_user.account
+  end
   
 end

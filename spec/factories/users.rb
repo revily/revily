@@ -2,6 +2,7 @@
 
 FactoryGirl.define do
   factory :user do
+    account
     name { Forgery(:name).full_name }
     email { Forgery(:internet).email_address }
     password "asdfasdf"
