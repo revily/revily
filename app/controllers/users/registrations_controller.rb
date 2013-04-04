@@ -1,14 +1,21 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  # def new
+    # @registration = Forms::Registration.new
+  # end
+
   def new
-    @registration = Forms::Registration.new
+    @accout = Account.new
+    resource = build_resource({})
+    respond_with resource
   end
 
   def create
-    @registration = Forms::Registration.new(params[:registration])
+    subdomain = params[resource_name].delete(:subdomain)
+    account = Account.new(subdomain: subdomain)
+    self.resource = build_resource(resource_params) #, {unsafe: true})
+    resource.account = account
 
-    if @registration.save
-      resource = @registration.user
-
+    if account.save && resource.save
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_in(:user, resource)
@@ -23,11 +30,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       respond_with resource
     end
 
-    user = User.new(params[:user])
-    account = Account.new(subdomain: params[:subdomain])
   end
 
-  private
+  # def resource_params
+    # params[resource_name].merge(:account_id => @account.id)
+  # end
 
   # def resource
     # @user

@@ -33,7 +33,8 @@ class User < ActiveRecord::Base
     :token_authenticatable
 
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
-
+  attr_reader :subdomain # we need this to build our registration form
+  
   belongs_to :account
   
   has_many :contacts, as: :contactable
@@ -54,5 +55,7 @@ class User < ActiveRecord::Base
 
   has_many :events, foreign_key: :current_user_id #, primary_key: :current_user_id
 
+  validates :account, presence: true
+  
   before_save :ensure_authentication_token
 end
