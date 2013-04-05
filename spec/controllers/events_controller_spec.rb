@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe EventsController do
-  let(:user) { create(:user) }
-  let(:service) { create(:service_with_escalation_policy) }
+  let(:account) { create(:account) }
+  let(:user) { create(:user, account: account) }
+  let(:service) { create(:service_with_escalation_policy, account: account) }
 
   before do
     sign_in user
@@ -26,7 +27,7 @@ describe EventsController do
   end
 
   describe 'GET /services/:service_id/events/new' do
-    before { get :new, service_id: service.id }
+    before { get :new, service_id: service.uuid }
 
     it { should respond_with(:ok) }
     it { should render_template(:new) }

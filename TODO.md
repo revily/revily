@@ -14,3 +14,5 @@
   - 9AM-5PM EST
 
 - what else?!
+
+- increment/decrement service trigger/ackd/resolve event counts

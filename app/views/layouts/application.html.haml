@@ -18,30 +18,36 @@
 
 
   %body
-    = render 'shared/header'
-    
-    .container-fluid
-      .row-fluid
-        %head.span9
-          - if content_for? :header
-            .well
-              = yield :header if content_for? :header
+    #wrap
+      = render 'shared/header'
+      
+      .container
+        .row
+          %head.12
+            - if content_for? :header
+              .well
+                = yield :header if content_for? :header
+            - else
+
+        .row
+          .span12
+            = bootstrap_flash
+        .row
+          - if content_for? :sidebar
+            %aside.span3
+              = yield :sidebar if content_for?(:sidebar)
+            %article.span9.offset3
+              = yield
           - else
+            %article.span12
+              = yield
 
-      .row-fluid
-        .span12
-          = bootstrap_flash
-      .row-fluid
-        %aside.span3
-          = yield :sidebar if content_for?(:sidebar)
+      #push
+        /--//--
 
-      .row-fluid
-        %article.span9.offset3
-          = yield
-
-      .row-fluid
-        %footer
-          %p &copy;
+    %footer
+      .container
+        %p.muted.credit Copyright &copy; 2013 Applied Awesome LLC.
     /
       Javascripts
       \==================================================

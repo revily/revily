@@ -5,3 +5,15 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+include FactoryGirl::Syntax::Methods
+
+account = create(:account, subdomain: "acme")
+
+user = create(:user,
+  name: "Dan Ryan",
+  email: "dan@example.com",
+  password: "asdfasdf",
+  password_confirmation: "asdfasdf"
+)
+

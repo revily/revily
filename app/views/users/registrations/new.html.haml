@@ -1,10 +1,17 @@
-%h2 Sign up
-= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-  = f.error_notification
-  .form-inputs
-    = f.input :email, :required => true, :autofocus => true
-    = f.input :password, :required => true
-    = f.input :password_confirmation, :required => true
-  .form-actions
-    = f.button :submit, "Sign up"
-= render "devise/shared/links"
+.row
+  .offset2.span8
+    %h2 Sign up
+    = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'form-horizontal' }) do |f|
+      = f.error_notification
+      .well.form-inputs
+        = f.input :email, required: true
+        = f.input :password, required: true
+        = f.input :password_confirmation, required: true
+      = f.simple_fields_for :account do |account|
+        .well.form-inputs
+          = account.input :subdomain, required: true
+          = account.input :terms_of_service, required: true, as: :boolean, wrapper: :prepend
+      .form-actions
+        = f.button :submit, "Sign up", class: 'btn btn-primary btn-large'
+
+    = render "devise/shared/links"

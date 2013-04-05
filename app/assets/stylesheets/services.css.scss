@@ -1,0 +1,31 @@
+ul#services {
+  li.service {
+    border-bottom: 1px solid #dddddd;
+    // border-top: 1px solid #dddddd;
+    min-height: 75px;
+
+    .row .counters ul li {
+      line-height: 25px;
+    }
+
+    h1, .events {
+      line-height: 75px;
+    }
+
+    .events {
+      padding-top: 10px;
+    }
+  }
+}
+
+// .badge-important {
+//   background-color: #ff0039;
+// }
+
+// .badge-warning {
+//   background-color: #ff7518;
+// }
+
+// .badge-success {
+//   background-color: #3fb618;
+// }

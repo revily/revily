@@ -20,16 +20,20 @@ class Service < ActiveRecord::Base
 
   devise :token_authenticatable
 
+  belongs_to :account
   has_many :events
-  has_many :alerts, through: :events
+  
+  # scope :triggered_events, includes(:events).where('events.state = ?', 'triggered')
+  # scope :acknowledged_events, includes(:events).where('events.state = ?', 'acknowledged')
+  # scope :resolved_events, includes(:events).where('events.state = ?', 'resolved')
 
+  has_many :alerts, through: :events
   has_one :service_escalation_policy
   has_one :escalation_policy, through: :service_escalation_policy
 
   validates :name, :acknowledge_timeout, :auto_resolve_timeout, :state,
     presence: true
   validates :name, uniqueness: true
-  # validates :escalation_policy, existence: true
   
   before_save :ensure_authentication_token
 

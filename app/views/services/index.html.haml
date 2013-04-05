@@ -1,2 +1,30 @@
-%h1 Services#index
-%p Find me in app/views/services/index.html.haml
+.page-header
+  %h1 Services
+
+%ul#services.unstyled
+  - @services.each do |service|
+    %li.service
+      .row
+        .span10
+          %h1
+            = service.current_status
+            = link_to service.name, service_path(service)
+        .span2
+          .events
+            %ul.inline
+              %li= service.triggered_count
+              %li= service.acknowledged_count
+              %li= service.resolved_count
+
+        / %li= service.acknowledged_count
+        / %li= service.resolved_count
+
+      / .row
+      / .status
+      /   = service.current_status
+      / .details
+      /   .service-name
+      /     = service.name
+      /   .service-event-count
+      /     = service.events.count
+

@@ -43,7 +43,10 @@ class Event < ActiveRecord::Base
   after_create :trigger
   
   scope :unresolved, where("state != 'resolved'")
-
+  scope :triggered, where("state = ?", 'triggered')
+  scope :acknowledged, where("state = ?", 'acknowledged')
+  scope :resolved, where("state = ?", 'resolved')
+  
   def self.first_or_initialize_by_key_or_message(params)
     if params[:key]
       where(key: params[:key])

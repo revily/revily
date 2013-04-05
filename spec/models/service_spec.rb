@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Service do
   describe 'associations' do
+    it { should belong_to(:account) }
     it { should have_many(:events) }
     it { should have_many(:alerts).through(:events) }
     it { should have_one(:service_escalation_policy) }
@@ -17,5 +18,9 @@ describe Service do
 
   describe 'attributes' do
     it { should have_readonly_attribute(:uuid) }
+    it 'uses uuid for #to_param' do
+      obj = create(subject.class)
+      obj.to_param.should == obj.uuid
+    end
   end
 end

@@ -8,10 +8,11 @@ class CreateServices < ActiveRecord::Migration
       t.string  :uuid
       t.string  :authentication_token
 
+      t.references :account
       # t.references :escalation_policy
 
       t.timestamps
     end
-    # add_index :services, :escalation_policy_id
+    add_index :services, :account_id
   end
 end

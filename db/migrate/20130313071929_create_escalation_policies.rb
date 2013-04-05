@@ -4,7 +4,11 @@ class CreateEscalationPolicies < ActiveRecord::Migration
       t.string :name
       t.string :uuid, :null => false
       t.integer :escalation_loop_limit
+
+      t.references :account
+
       t.timestamps
     end
+    add_index :escalation_policies, :account_id
   end
 end

@@ -4,45 +4,45 @@ class ServicesController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @services = Service.all
+    @services = current_account.services.decorate
 
-    respond_with @service
+    respond_with @services
   end
 
   def show
-    @service = Service.find_by_uuid(params[:id]).decorate
+    @service = current_account.services.where(uuid: params[:id]).first.decorate
 
     respond_with @service
   end
 
   def new
-    @service = Service.new
+    @service = current_account.services.new
 
     respond_with @service
   end
 
   def create
-    @service = Service.new(service_params)
+    @service = current_account.services.new(service_params)
     @service.save
 
     respond_with @service
   end
 
   def edit
-    @service = Service.find_by_uuid(params[:id]).decorate
+    @service = current_account.services.where(uuid: params[:id]).first.decorate
 
     respond_with @service
   end
 
   def update
-    @service = Service.find_by_uuid(params[:id])
+    @service = current_account.services.where(uuid: params[:id]).first
     @service.update_attributes(service_params)
 
     respond_with @service
   end
 
   def destroy
-    @service = Service.find_by_uuid(params[:id])
+    @service = current_account.services.where(uuid: params[:id]).first
     @service.destroy
 
     respond_with @service

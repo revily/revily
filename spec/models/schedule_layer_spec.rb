@@ -30,6 +30,13 @@ describe ScheduleLayer do
     end
   end
 
+  describe 'attributes' do
+    it 'uses uuid for #to_param' do
+      obj = create(subject.class)
+      obj.to_param.should == obj.uuid
+    end
+  end
+
   describe 'duration calculations' do
     let(:hourly) { create(:schedule_layer, rule: 'hourly', count: 8) }
     let(:daily) { create(:schedule_layer, rule: 'daily') }

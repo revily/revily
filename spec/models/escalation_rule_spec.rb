@@ -12,5 +12,9 @@ describe EscalationRule do
 
   describe 'attributes' do
     it { should have_readonly_attribute(:uuid) }
+    it 'uses uuid for #to_param' do
+      obj = create(subject.class)
+      obj.to_param.should == obj.uuid
+    end
   end
 end

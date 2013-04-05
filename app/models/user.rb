@@ -32,7 +32,10 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable,
     :token_authenticatable
 
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :account_attributes
+  
+  belongs_to :account
+  accepts_nested_attributes_for :account
 
   has_many :contacts, as: :contactable
   has_many :sms_contacts, as: :contactable, class_name: "SmsContact"
@@ -45,12 +48,17 @@ class User < ActiveRecord::Base
   has_many :user_schedule_layers, order: :position
   has_many :schedule_layers,
     through: :user_schedule_layers,
-    # uniq: true,
     dependent: :destroy
 
   has_many :schedules, through: :schedule_layers
 
-  has_many :events, foreign_key: :current_user_id #, primary_key: :current_user_id
+  has_many :events, foreign_key: :current_user_id
 
+  validates :account, 
+    presence: true
+  validates :name, 
+    presence: true,
+    allow_blank: false
+  
   before_save :ensure_authentication_token
 end

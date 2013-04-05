@@ -5,6 +5,7 @@ describe Schedule do
   include ScheduleMixins::Helpers
 
   describe 'associations' do
+    it { should belong_to(:account) }
     it { should have_many(:schedule_layers) }
     it { should have_many(:user_schedule_layers).through(:schedule_layers) }
     it { should have_many(:users).through(:user_schedule_layers) }
@@ -18,6 +19,10 @@ describe Schedule do
 
   describe 'attributes' do
     it { should have_readonly_attribute(:uuid) }
+    it 'uses uuid for #to_param' do
+      obj = create(subject.class)
+      obj.to_param.should == obj.uuid
+    end
   end
 
   describe '#current_user_on_call' do
