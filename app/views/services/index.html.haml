@@ -9,12 +9,21 @@
           %h1
             = service.current_status
             = link_to service.name, service_path(service)
+            %small 
         .span2
-          .events
-            %ul.inline
-              %li= service.triggered_count
-              %li= service.acknowledged_count
-              %li= service.resolved_count
+          .controls.btn-group
+            = link_to edit_service_path(service), class: 'btn' do
+              %i.icon-pencil
+            
+            = link_to service_path(service), method: :delete, class: 'btn' do
+              %i.icon-trash
+            
+          / .events
+          /   %ul.inline
+          /     %li
+          /       %h3= service.triggered_count
+          /     %li= service.acknowledged_count
+          /     %li= service.resolved_count
 
         / %li= service.acknowledged_count
         / %li= service.resolved_count

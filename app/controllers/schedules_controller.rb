@@ -10,7 +10,7 @@ class SchedulesController < ApplicationController
   end
 
   def show
-    @schedule = current_account.schedules.find_by_uuid(params[:id]).decorate
+    @schedule = current_account.schedules.where(uuid: params[:id]).first
 
     respond_with @schedule
   end
@@ -29,20 +29,20 @@ class SchedulesController < ApplicationController
   end
 
   def edit
-    @schedule = current_account.schedules.find(params[:id]).decorate
+    @schedule = current_account.schedules.where(uuid: params[:id]).first
 
     respond_with @schedule
   end
 
   def update
-    @schedule = current_account.schedules.find(params[:id])
+    @schedule = current_account.schedules.where(uuid: params[:id]).first
     @schedule.update_attributes(schedule_params)
 
     respond_with @schedule
   end
 
   def destroy
-    @schedule = current_account.schedules.find(params[:id])
+    @schedule = current_account.schedules.where(uuid: params[:id]).first
     @schedule.destroy
 
     respond_with @schedule
