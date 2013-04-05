@@ -1,14 +1,15 @@
 require 'spec_helper'
 
 describe ServicesController do
-  let(:user) { create(:user) }
+  let(:account) { create(:account) }
+  let(:user) { create(:user, account: account) }
 
   before do
     sign_in user
   end
 
   describe 'GET /services' do
-    let!(:service) { create(:service) }
+    let(:service) { create(:service, account: account) }
     before { get :index }
 
     it { should respond_with(:success) }
@@ -17,7 +18,7 @@ describe ServicesController do
   end
 
   describe 'GET /services/:id' do
-    let!(:service) { create(:service) }
+    let(:service) { create(:service, account: account) }
     before { get :show, id: service.uuid }
 
     it { should respond_with(:ok) }
@@ -34,24 +35,24 @@ describe ServicesController do
   end
 
   describe 'POST /services' do
-    before { post :create, service: attributes_for(:service) }
+    before { post :create, service: attributes_for(:service, account: account) }
 
     it { should respond_with(:found) }
     it { should redirect_to service_url(assigns(:service)) }
   end
 
   describe 'GET /services/:id/edit' do
-    let!(:service) { create(:service) }
+    let(:service) { create(:service, account: account) }
     before { get 'edit', id: service.uuid }
 
     it { should respond_with(:ok) }
     it { should render_template(:edit) }
-    it { should assign_to(:service).with(service) }
+    it { should assign_to(:service).with(service.decorate) }
   end
 
   describe 'PUT /services/:id' do
-    let(:service) { create(:service) }
-    before { put :update, id: service.uuid, service: attributes_for(:service) }
+    let(:service) { create(:service, account: account) }
+    before { put :update, id: service.uuid, service: attributes_for(:service, account: account) }
 
     it { should respond_with(:found) }
     it { should redirect_to service_url(service) }
@@ -59,7 +60,7 @@ describe ServicesController do
   end
 
   describe 'DELETE /services/:id' do
-    let(:service) { create(:service) }
+    let(:service) { create(:service, account: account) }
     before { delete :destroy, id: service.uuid }
 
     it { should respond_with(:found) }

@@ -9,6 +9,10 @@ FactoryGirl.define do
       key "app1.example.com/load_average"
     end
 
+    trait :with_random_state do
+      state { %w[ triggered acknowledged resolved ].sample }
+    end
+
     factory :acknowledged_event do
       state "acknowledged"
     end

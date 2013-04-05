@@ -48,9 +48,12 @@ ActiveRecord::Schema.define(:version => 20130403234809) do
     t.string   "name"
     t.string   "uuid",                  :null => false
     t.integer  "escalation_loop_limit"
+    t.integer  "account_id"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
   end
+
+  add_index "escalation_policies", ["account_id"], :name => "index_escalation_policies_on_account_id"
 
   create_table "escalation_rules", :force => true do |t|
     t.integer  "escalation_timeout",   :default => 30
@@ -128,9 +131,12 @@ ActiveRecord::Schema.define(:version => 20130403234809) do
     t.string   "name"
     t.string   "time_zone",  :default => "UTC"
     t.string   "uuid"
+    t.integer  "account_id"
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
   end
+
+  add_index "schedules", ["account_id"], :name => "index_schedules_on_account_id"
 
   create_table "service_escalation_policies", :force => true do |t|
     t.string   "uuid",                 :null => false
@@ -150,9 +156,12 @@ ActiveRecord::Schema.define(:version => 20130403234809) do
     t.string   "state"
     t.string   "uuid"
     t.string   "authentication_token"
+    t.integer  "account_id"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
   end
+
+  add_index "services", ["account_id"], :name => "index_services_on_account_id"
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

@@ -5,11 +5,22 @@ FactoryGirl.define do
     name { Forgery(:name).company_name }
     auto_resolve_timeout 240
     acknowledge_timeout 30
+    account
 
     escalation_policy
 
     trait :with_escalation_policy do
       association :escalation_policy, factory: :escalation_policy_with_rules
+    end
+
+    trait :with_events do
+      ignore do
+        events_count 10
+      end
+
+      after(:create) do |service, evaluator|
+        create_list(:event, evaluator.events_count, :with_random_state, service: service)
+      end
     end
 
     factory :enabled_service do
@@ -19,6 +30,7 @@ FactoryGirl.define do
     factory :disabled_service do
       state "disabled"
     end
+
 
     factory :service_with_events do
       after(:create) do |service|

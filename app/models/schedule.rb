@@ -16,6 +16,8 @@ class Schedule < ActiveRecord::Base
 
   attr_accessible :name, :time_zone, :schedule_layer_attributes
 
+  belongs_to :account
+  
   has_many :escalation_rules, as: :assignable
   has_many :escalation_policies, through: :escalation_rules
   has_many :schedule_layers, order: :position, dependent: :destroy

@@ -4,18 +4,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def new
-    @accout = Account.new
     resource = build_resource({})
+    @account = resource.build_account
+
     respond_with resource
   end
 
   def create
-    subdomain = params[resource_name].delete(:subdomain)
-    account = Account.new(subdomain: subdomain)
+    # subdomain = params[resource_name].delete(:subdomain)
+    # account = Account.new(subdomain: subdomain)
     self.resource = build_resource(resource_params) #, {unsafe: true})
-    resource.account = account
+    # resource.account = account
 
-    if account.save && resource.save
+    # if resource.account.save && resource.save
+    if resource.save
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_in(:user, resource)

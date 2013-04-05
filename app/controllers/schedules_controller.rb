@@ -4,45 +4,45 @@ class SchedulesController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @schedules = Schedule.all
+    @schedules = current_account.schedules.decorate
 
     respond_with @schedule
   end
 
   def show
-    @schedule = Schedule.find_by_uuid(params[:id]).decorate
+    @schedule = current_account.schedules.find_by_uuid(params[:id]).decorate
 
     respond_with @schedule
   end
 
   def new
-    @schedule = Schedule.new
+    @schedule = current_account.schedules.new
 
     respond_with @schedule
   end
 
   def create
-    @schedule = Schedule.new(schedule_params)
+    @schedule = current_account.schedules.new(schedule_params)
     @schedule.save
 
     respond_with @schedule
   end
 
   def edit
-    @schedule = Schedule.find_by_uuid(params[:id]).decorate
+    @schedule = current_account.schedules.find(params[:id]).decorate
 
     respond_with @schedule
   end
 
   def update
-    @schedule = Schedule.find_by_uuid(params[:id])
+    @schedule = current_account.schedules.find(params[:id])
     @schedule.update_attributes(schedule_params)
 
     respond_with @schedule
   end
 
   def destroy
-    @schedule = Schedule.find_by_uuid(params[:id])
+    @schedule = current_account.schedules.find(params[:id])
     @schedule.destroy
 
     respond_with @schedule

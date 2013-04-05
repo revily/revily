@@ -16,6 +16,8 @@ class EscalationPolicy < ActiveRecord::Base
 
   # attr_accessible :name
 
+  belongs_to :account
+
   has_many :escalation_rules, order: :position, dependent: :destroy
   has_many :service_escalation_policies
   has_many :services, through: :service_escalation_policies

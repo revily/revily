@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :account do
-    subdomain "acme"
+    subdomain { Forgery(:name).company_name.downcase }
   end
 
   # factory :account_with_users do

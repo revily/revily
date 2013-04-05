@@ -13,7 +13,7 @@
 #= require modernizr
 #= require jquery
 #= require jquery_ujs
-#= require jquery.ui.all
+#=# require jquery.ui.all
 #= require jquery.transit
 #= require bootstrap
 #= require bootstrap_ujs

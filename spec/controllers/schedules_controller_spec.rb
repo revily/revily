@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe SchedulesController do
-
-let(:user) { create(:user) }
+  let(:account) { create(:account) }
+  let(:user) { create(:user, account: account) }
 
   before do
     sign_in user
   end
 
   describe 'GET /schedules' do
-    let!(:schedule) { create(:schedule) }
+    let(:schedule) { create(:schedule, account: account) }
     before { get :index }
 
     it { should respond_with(:success) }
@@ -18,7 +18,7 @@ let(:user) { create(:user) }
   end
 
   describe 'GET /schedules/:id' do
-    let!(:schedule) { create(:schedule) }
+    let(:schedule) { create(:schedule, account: account) }
     before { get :show, id: schedule.uuid }
 
     it { should respond_with(:ok) }
@@ -35,14 +35,14 @@ let(:user) { create(:user) }
   end
 
   describe 'POST /schedules' do
-    before { post :create, schedule: attributes_for(:schedule) }
+    before { post :create, schedule: attributes_for(:schedule, account: account) }
 
     it { should respond_with(:found) }
     it { should redirect_to schedule_url(assigns(:schedule)) }
   end
 
   describe 'GET /schedules/:id/edit' do
-    let!(:schedule) { create(:schedule) }
+    let(:schedule) { create(:schedule, account: account) }
     before { get 'edit', id: schedule.uuid }
 
     it { should respond_with(:ok) }
@@ -51,7 +51,7 @@ let(:user) { create(:user) }
   end
 
   describe 'PUT /schedules/:id' do
-    let(:schedule) { create(:schedule) }
+    let(:schedule) { create(:schedule, account: account) }
     before { put :update, id: schedule.uuid, schedule: attributes_for(:schedule) }
 
     it { should respond_with(:found) }
@@ -59,8 +59,8 @@ let(:user) { create(:user) }
     it { should assign_to(:schedule).with(schedule) }
   end
 
-  describe 'DELETE /schedules/:id' do
-    let(:schedule) { create(:schedule) }
+  describe 'DELETE /schedules/:id', :focus do
+    let(:schedule) { create(:schedule, account: account) }
     before { delete :destroy, id: schedule.uuid }
 
     it { should respond_with(:found) }

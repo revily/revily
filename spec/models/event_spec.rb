@@ -13,8 +13,15 @@ describe Event do
   end
 
   describe 'attributes' do
+    let(:account) { create(:account) }
+    let(:service) { create(:service, :with_escalation_policy, account: account) }
+    
     it { should serialize(:details) }
     it { should have_readonly_attribute(:uuid) }
+    it 'uses uuid for #to_param' do
+      event = create(:event, service: service)
+      event.to_param.should == event.uuid
+    end
   end
 
   context 'scopes' do

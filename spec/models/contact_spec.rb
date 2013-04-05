@@ -14,5 +14,9 @@ describe Contact do
   describe 'attributes' do
     it { should_not allow_mass_assignment_of(:type) }
     it { should have_readonly_attribute(:uuid) }
+    it 'uses uuid for #to_param' do
+      contact = create(:sms_contact)
+      contact.to_param.should == contact.uuid
+    end
   end
 end
