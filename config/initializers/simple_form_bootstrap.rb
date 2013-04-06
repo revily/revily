@@ -1,61 +1,61 @@
 # Use this setup block to configure all options available in SimpleForm.
 SimpleForm.setup do |config|
-  config.wrappers :bootstrap, :tag => 'div', :class => 'control-group', :error_class => 'error' do |b|
+  config.wrappers :bootstrap, tag: 'div', class: 'control-group', error_class: 'error' do |b|
     b.use :html5
     b.use :placeholder
     b.use :label
-    b.wrapper :tag => 'div', :class => 'controls' do |ba|
+    b.wrapper tag: 'div', class: 'controls' do |ba|
       ba.use :input
-      ba.use :error, :wrap_with => { :tag => 'span', :class => 'help-inline' }
-      ba.use :hint,  :wrap_with => { :tag => 'p', :class => 'help-block' }
+      ba.use :error, wrap_with: { tag: 'span', class: 'help-inline' }
+      ba.use :hint,  wrap_with: { tag: 'p', class: 'help-block' }
     end
   end
 
-  config.wrappers :prepend, :tag => 'div', :class => "control-group", :error_class => 'error' do |b|
+  config.wrappers :prepend, tag: 'div', class: "control-group", error_class: 'error' do |b|
     b.use :html5
     b.use :placeholder
     b.use :label
-    b.wrapper :tag => 'div', :class => 'controls' do |input|
-      input.wrapper :tag => 'div', :class => 'input-prepend' do |prepend|
+    b.wrapper tag: 'div', class: 'controls' do |input|
+      input.wrapper tag: 'div', class: 'input-prepend' do |prepend|
         prepend.use :input
       end
-      input.use :hint,  :wrap_with => { :tag => 'span', :class => 'help-block' }
-      input.use :error, :wrap_with => { :tag => 'span', :class => 'help-inline' }
+      input.use :hint,  wrap_with: { tag: 'span', class: 'help-block' }
+      input.use :error, wrap_with: { tag: 'span', class: 'help-inline' }
     end
   end
 
-  config.wrappers :append, :tag => 'div', :class => "control-group", :error_class => 'error' do |b|
+  config.wrappers :append, tag: 'div', class: "control-group", error_class: 'error' do |b|
     b.use :html5
     b.use :placeholder
     b.use :label
-    b.wrapper :tag => 'div', :class => 'controls' do |input|
-      input.wrapper :tag => 'div', :class => 'input-append' do |append|
+    b.wrapper tag: 'div', class: 'controls' do |input|
+      input.wrapper tag: 'div', class: 'input-append' do |append|
         append.use :input
       end
-      input.use :hint,  :wrap_with => { :tag => 'span', :class => 'help-block' }
-      input.use :error, :wrap_with => { :tag => 'span', :class => 'help-inline' }
+      input.use :hint,  wrap_with: { tag: 'span', class: 'help-block' }
+      input.use :error, wrap_with: { tag: 'span', class: 'help-inline' }
     end
   end
 
-  config.wrappers :inline_no_label, :tag => 'span', :class => 'control-group', :error_class => 'error' do |b|
+  config.wrappers :inline_no_label, tag: 'span', class: 'control-group', error_class: 'error' do |b|
     b.use :html5
     b.use :placeholder
-    b.use :label #, :tag => 'span', :class => 'inline'
-    b.wrapper :tag => 'span', :class => 'controls' do |input|
+    b.use :label #, tag: 'span', class: 'inline'
+    b.wrapper tag: 'span', class: 'controls' do |input|
       input.use :input
-      input.use :error, :wrap_with => { :tag => :span, :class => :'help-inline' }
-      input.use :hint,  :wrap_with => { :tag => :span, :class => :'help-block' }
+      input.use :error, wrap_with: { tag: :span, class: :'help-inline' }
+      input.use :hint,  wrap_with: { tag: :span, class: :'help-block' }
     end
   end
 
-  config.wrappers :stacked, :class => "clearfix", :error_class => :error do |b|
+  config.wrappers :stacked, class: "clearfix", error_class: :error do |b|
     b.use :html5
     b.use :placeholder
     b.use :label
-    b.use :hint,  :tag => :span, :class => :'help-block'
-    b.use :tag => 'div', :class => 'input' do |input|
+    b.use :hint, wrap_with: { tag: :span, class: :'help-block' }
+    b.wrapper tag: 'div', class: 'input' do |input|
       input.use :input
-      input.use :error, :tag => :span, :class => :'help-inline'
+      input.use :error, wrap_with: { tag: :span, class: :'help-inline' }
     end
   end
   # Wrappers for forms and inputs using the Twitter Bootstrap toolkit.
