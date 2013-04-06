@@ -14,6 +14,9 @@ def require_all(*patterns)
 end
 
 def configure
+  require 'coveralls'
+  Coveralls.wear!('rails')
+
   require File.expand_path("../../config/environment", __FILE__)
   # http://my.rails-royce.org/2012/01/14/reloading-models-in-rails-3-1-when-usign-spork-and-cache_classes-true/
   require 'rails/application'
