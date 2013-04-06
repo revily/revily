@@ -220,13 +220,6 @@ GEM
     polyamorous (0.5.0)
       activerecord (~> 3.0)
     polyglot (0.3.3)
-    postmark (0.9.19)
-      json
-      rake
-    postmark-rails (0.4.1)
-      actionmailer
-      postmark (>= 0.9.0)
-      rake
     pry (0.9.12)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -463,7 +456,6 @@ DEPENDENCIES
   neat
   newrelic_rpm
   pg (>= 0.14.1)
-  postmark-rails (>= 0.4.1)
   pry-rails (>= 0.2.2)
   quiet_assets
   rack-timeout

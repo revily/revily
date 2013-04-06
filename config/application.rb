@@ -78,9 +78,5 @@ module Reveille
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
     config.assets.initialize_on_precompile = false
-
-    # Postmark configuration
-    config.action_mailer.postmark_settings = { :api_key => Figaro.env.postmark_api_key }
-    config.action_mailer.delivery_method = :postmark
   end
 end
