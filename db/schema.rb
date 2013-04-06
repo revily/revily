@@ -88,8 +88,8 @@ ActiveRecord::Schema.define(:version => 20130406211154) do
     t.datetime "updated_at",                                :null => false
   end
 
-  add_index "incidents", ["current_user_id"], :name => "index_events_on_current_user_id"
-  add_index "incidents", ["uuid"], :name => "index_events_on_uuid", :unique => true
+  add_index "incidents", ["current_user_id"], :name => "index_incidents_on_current_user_id"
+  add_index "incidents", ["uuid"], :name => "index_incidents_on_uuid", :unique => true
 
   create_table "notification_rules", :force => true do |t|
     t.integer  "start_delay", :default => 0
