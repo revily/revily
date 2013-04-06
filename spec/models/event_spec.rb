@@ -3,12 +3,11 @@ require 'spec_helper'
 describe Event do
   describe 'associations' do
     it { should belong_to(:service) }
-    it { should have_many(:alerts) }
   end
 
   describe 'validations' do
     it { should validate_presence_of(:message) }
-    # it { should validate_uniqueness_of(:message).scoped_to([:service_id]).on(:save) }
+[]    # it { should validate_uniqueness_of(:message).scoped_to([:service_id]).on(:save) }
     # it { should validate_uniqueness_of(:key).scoped_to([:service_id]) }
   end
 
@@ -93,7 +92,6 @@ describe Event do
 
         event.should be_triggered
         event.should have(0).errors
-        event.current_escalation_rule.should == service.escalation_policy.escalation_rules.second
       end
 
       it 'cannot transition from :resolved' do
