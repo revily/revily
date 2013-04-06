@@ -15,7 +15,7 @@
 
 class SmsContact < Contact
   def trigger_message
-    "#{@event.message}\n#{response_options}"
+    "#{@incident.message}\n#{response_options}"
   end
 
   def acknowledge_message
@@ -34,8 +34,8 @@ class SmsContact < Contact
     "The incidents assigned to you could not be #{action}d."
   end
 
-  def notify(action, event)
-    @event = event
+  def notify(action, incident)
+    @incident = incident
 
     $twilio.account.sms.messages.create(
       from: Figaro.env.twilio_number,

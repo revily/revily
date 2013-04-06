@@ -22,12 +22,12 @@ class Api::V1::SmsController < Api::V1::BaseController
     end
 
     if action
-      user.events.each do |event|
-        event.send(action) 
+      user.incidents.each do |incident|
+        incident.send(action) 
       end
-      Event::NotifyContact.perform_async(action, contact.id)
+      Incident::NotifyContact.perform_async(action, contact.id)
     else
-      Event::NotifyContact.perform_async('unknown', contact.id)
+      Incident::NotifyContact.perform_async('unknown', contact.id)
     end      
 
     render :json => @user

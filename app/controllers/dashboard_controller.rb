@@ -4,13 +4,13 @@ class DashboardController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @assigned_events = current_user.events.unresolved.decorate
-    @open_events = current_account.events.decorate
-    @all_events = current_account.events.decorate
+    @assigned_incidents = current_user.incidents.unresolved.decorate
+    @open_incidents = current_account.incidents.decorate
+    @all_incidents = current_account.incidents.decorate
 
     @services = current_account.services.decorate
     
-    respond_with @events
+    respond_with @incidents
   end
   
 end

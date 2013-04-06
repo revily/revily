@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
 
   has_many :schedules, through: :schedule_layers
 
-  has_many :events, foreign_key: :current_user_id
+  has_many :incidents, foreign_key: :current_user_id
 
   validates :account, 
     presence: true

@@ -5,8 +5,8 @@ class Api::V1::ServicesController < Api::V1::BaseController
 
   def_param_group :service do
     param :name, String, desc: 'the name of the service', required: true, action_aware: true 
-    param :auto_resolve_timeout, Fixnum, desc: 'timeout in minutes after which any triggered events will auto-resolve ', required: true, action_aware: true
-    param :acknowledge_timeout, Fixnum, desc: 'timeout in minutes that any acknowledged events will re-trigger', required: true, action_aware: true
+    param :auto_resolve_timeout, Fixnum, desc: 'timeout in minutes after which any triggered incidents will auto-resolve ', required: true, action_aware: true
+    param :acknowledge_timeout, Fixnum, desc: 'timeout in minutes that any acknowledged incidents will re-trigger', required: true, action_aware: true
     param :escalation_policy_id, String, desc: 'the id of the escalation policy associated with the service', required: true, action_aware: true
   end
 
@@ -18,7 +18,7 @@ class Api::V1::ServicesController < Api::V1::BaseController
   end
 
   api :GET, '/services/:id', 'Show a service'
-  param :id, String, desc: 'The event id', required: true
+  param :id, String, desc: 'The incident id', required: true
   def show
     @service = Service.find_by_uuid(params[:id])
 

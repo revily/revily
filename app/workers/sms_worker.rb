@@ -3,7 +3,7 @@ class SMSWorker
 
   def perform(alert_id)
     alert = Alert.find(alert_id)
-    user = alert.event.service.current_user
+    user = alert.incident.service.current_user
 
     $twilio.account.sms.messages.create(
       from: Figaro.env.twilio_number,

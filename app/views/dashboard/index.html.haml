@@ -11,7 +11,7 @@
           = link_to service.name, service_path(service)
 
   .span8
-    %h2 My Open Events
+    %h2 My Open Incidents
     %table.table.table-striped.table-hover
       %thead
         %tr
@@ -21,14 +21,14 @@
           %th Message
 
       %tbody
-        - @assigned_events.each do |event|
+        - @assigned_incidents.each do |incident|
           %tr
-            %td= event.uuid
-            %td= event.service.name
-            %td= event.state_label
-            %td= event.message
+            %td= incident.uuid
+            %td= incident.service.name
+            %td= incident.state_label
+            %td= incident.message
 
-    %h2 All Events
+    %h2 All Incidents
     %table.table.table-striped
       %thead
         %tr
@@ -38,13 +38,13 @@
           %th Message
 
       %tbody
-        - @all_events.each do |event|
+        - @all_incidents.each do |incident|
           %tr.success
-            %td= event.uuid
-            %td= event.service.name
-            %td= event.state_label
-            %td= event.message
+            %td= incident.uuid
+            %td= incident.service.name
+            %td= incident.state_label
+            %td= incident.message
 
 
-    - @all_events.each do |event|
-      = render 'events/event', event: event
+    - @all_incidents.each do |incident|
+      = render 'incidents/incident', incident: incident
