@@ -59,6 +59,8 @@ class User < ActiveRecord::Base
   validates :name, 
     presence: true,
     allow_blank: false
+  validates :email,
+    uniqueness: { scope: [ :account_id ] }
   
   before_save :ensure_authentication_token
 end

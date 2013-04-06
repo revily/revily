@@ -7,11 +7,13 @@ FactoryGirl.define do
     
     factory :escalation_policy_with_rules do
       after(:create) do |escalation_policy|
-        create(:escalation_rule_for_user, escalation_policy: escalation_policy)
-        create(:escalation_rule_for_user, escalation_policy: escalation_policy)
+        # create(:escalation_rule_for_user, escalation_policy: escalation_policy)
+        # create(:escalation_rule_for_user, escalation_policy: escalation_policy)
         create(:escalation_rule_for_schedule, escalation_policy: escalation_policy)
       end
     end
+
+    
 
     factory :policy_for_dan_ryan do
       after(:create) do |escalation_policy|

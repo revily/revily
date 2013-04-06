@@ -59,7 +59,7 @@ describe SchedulesController do
     it { should assign_to(:schedule).with(schedule) }
   end
 
-  describe 'DELETE /schedules/:id', :focus do
+  describe 'DELETE /schedules/:id' do
     let(:schedule) { create(:schedule, account: account) }
     before { delete :destroy, id: schedule.uuid }
 

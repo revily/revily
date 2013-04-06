@@ -21,7 +21,7 @@ class Service < ActiveRecord::Base
   devise :token_authenticatable
 
   belongs_to :account
-  has_many :events
+  has_many :events, dependent: :destroy
   
   # scope :triggered_events, includes(:events).where('events.state = ?', 'triggered')
   # scope :acknowledged_events, includes(:events).where('events.state = ?', 'acknowledged')

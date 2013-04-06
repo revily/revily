@@ -4,19 +4,22 @@
 %ul#services.unstyled
   - @services.each do |service|
     %li.service
-      .row
+      .row.success
         .span10
-          %h1
+          %h2.inline
             = service.current_status
             = link_to service.name, service_path(service)
             %small 
+              = service.event_counts
         .span2
-          .controls.btn-group
+          .controls.pull-right
             = link_to edit_service_path(service), class: 'btn' do
               %i.icon-pencil
+              Edit
             
             = link_to service_path(service), method: :delete, class: 'btn' do
               %i.icon-trash
+              Delete
             
           / .events
           /   %ul.inline

@@ -1,12 +1,14 @@
-= content_for :header do
+.page-header
   %h1 Dashboard
 
 .row
-  .span4
+  #services.span2
     %h3 Services
-    - @services.each do |service|
-      .service
-        = service.name
+    %ul#services.unstyled
+      - @services.each do |service|
+        %li
+          = service.current_status
+          = link_to service.name, service_path(service)
 
   .span8
     %h2 My Open Events
