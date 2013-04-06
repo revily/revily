@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Service do
   describe 'associations' do
     it { should belong_to(:account) }
-    it { should have_many(:events) }
-    it { should have_many(:alerts).through(:events) }
+    it { should have_many(:incidents) }
+    it { should have_many(:alerts).through(:incidents) }
     it { should have_one(:service_escalation_policy) }
     it { should have_one(:escalation_policy).through(:service_escalation_policy) }
   end

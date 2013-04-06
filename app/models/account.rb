@@ -4,7 +4,7 @@ class Account < ActiveRecord::Base
   has_many :users, dependent: :destroy
   has_many :schedules, dependent: :destroy
   has_many :services, dependent: :destroy
-  has_many :events, through: :services
+  has_many :incidents, through: :services
   has_many :escalation_policies, dependent: :destroy
   has_many :escalation_rules, through: :escalation_policies
 

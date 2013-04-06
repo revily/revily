@@ -13,7 +13,7 @@ Reveille::Application.routes.draw do
       post 'sms/receive' => 'sms#receive'
 
       resources :services, shallow: true do
-        resources :events
+        resources :incidents
         member do
           put 'enable'
           put 'disable'
@@ -23,11 +23,11 @@ Reveille::Application.routes.draw do
   end
 
   resources :services, shallow: true do
-    resources :events
+    resources :incidents
   end
 
   resources :escalation_policies
-  resources :events
+  resources :incidents
 
   resources :schedules do
     resources :schedule_layers, path: :layers

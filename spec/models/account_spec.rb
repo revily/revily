@@ -5,7 +5,7 @@ describe Account do
     it { should have_many(:users) }
     it { should have_many(:schedules) }
     it { should have_many(:services) }
-    it { should have_many(:events).through(:services) }
+    it { should have_many(:incidents).through(:services) }
     it { should have_many(:escalation_policies) }
   end
 

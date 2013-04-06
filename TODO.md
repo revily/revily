@@ -16,3 +16,5 @@
 - what else?!
 
 - increment/decrement service trigger/ackd/resolve event counts
+
+- switch to zeus for distributed tests

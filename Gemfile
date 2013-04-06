@@ -86,6 +86,7 @@ group :development do
   gem 'rb-inotify', require: false
   gem 'ruby_gntp', require: false
   gem 'libnotify',  '>= 0.8.0', require: false
+  gem 'rails_refactor'
 end
 
 # Gems useful in both test and development environments

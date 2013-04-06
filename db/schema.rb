@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130403234809) do
+ActiveRecord::Schema.define(:version => 20130406201859) do
 
   create_table "accounts", :force => true do |t|
     t.string   "subdomain"
@@ -69,7 +69,20 @@ ActiveRecord::Schema.define(:version => 20130403234809) do
   add_index "escalation_rules", ["assignable_id"], :name => "index_escalation_rules_on_assignable_id"
   add_index "escalation_rules", ["escalation_policy_id"], :name => "index_escalation_rules_on_escalation_policy_id"
 
-  create_table "events", :force => true do |t|
+  create_table "hound_actions", :force => true do |t|
+    t.string   "action",          :null => false
+    t.string   "actionable_type", :null => false
+    t.integer  "actionable_id",   :null => false
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.datetime "created_at"
+    t.text     "changeset"
+  end
+
+  add_index "hound_actions", ["actionable_type", "actionable_id"], :name => "index_hound_actions_on_actionable_type_and_actionable_id"
+  add_index "hound_actions", ["user_type", "user_id"], :name => "index_hound_actions_on_user_type_and_user_id"
+
+  create_table "incidents", :force => true do |t|
     t.text     "message"
     t.text     "description"
     t.text     "details"
@@ -87,21 +100,8 @@ ActiveRecord::Schema.define(:version => 20130403234809) do
     t.datetime "updated_at",                                :null => false
   end
 
-  add_index "events", ["current_user_id"], :name => "index_events_on_current_user_id"
-  add_index "events", ["uuid"], :name => "index_events_on_uuid", :unique => true
-
-  create_table "hound_actions", :force => true do |t|
-    t.string   "action",          :null => false
-    t.string   "actionable_type", :null => false
-    t.integer  "actionable_id",   :null => false
-    t.integer  "user_id"
-    t.string   "user_type"
-    t.datetime "created_at"
-    t.text     "changeset"
-  end
-
-  add_index "hound_actions", ["actionable_type", "actionable_id"], :name => "index_hound_actions_on_actionable_type_and_actionable_id"
-  add_index "hound_actions", ["user_type", "user_id"], :name => "index_hound_actions_on_user_type_and_user_id"
+  add_index "incidents", ["current_user_id"], :name => "index_events_on_current_user_id"
+  add_index "incidents", ["uuid"], :name => "index_events_on_uuid", :unique => true
 
   create_table "notification_rules", :force => true do |t|
     t.integer  "start_delay", :default => 0
