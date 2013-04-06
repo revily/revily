@@ -10,7 +10,7 @@
             = service.current_status
             = link_to service.name, service_path(service)
             %small 
-              = service.event_counts
+              = service.incident_counts
         .span2
           .controls.pull-right
             = link_to edit_service_path(service), class: 'btn' do
@@ -21,7 +21,7 @@
               %i.icon-trash
               Delete
             
-          / .events
+          / .incidents
           /   %ul.inline
           /     %li
           /       %h3= service.triggered_count
@@ -37,6 +37,6 @@
       / .details
       /   .service-name
       /     = service.name
-      /   .service-event-count
-      /     = service.events.count
+      /   .service-incident-count
+      /     = service.incidents.count
 

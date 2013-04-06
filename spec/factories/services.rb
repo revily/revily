@@ -13,13 +13,13 @@ FactoryGirl.define do
       association :escalation_policy, factory: :escalation_policy_with_rules
     end
 
-    trait :with_events do
+    trait :with_incidents do
       ignore do
-        events_count 10
+        incidents_count 10
       end
 
       after(:create) do |service, evaluator|
-        create_list(:event, evaluator.events_count, :with_random_state, service: service)
+        create_list(:incident, evaluator.incidents_count, :with_random_state, service: service)
       end
     end
 
@@ -32,9 +32,9 @@ FactoryGirl.define do
     end
 
 
-    factory :service_with_events do
+    factory :service_with_incidents do
       after(:create) do |service|
-        create(:event, service: service)
+        create(:incident, service: service)
       end
     end
 

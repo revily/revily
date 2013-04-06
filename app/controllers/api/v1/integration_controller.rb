@@ -4,29 +4,29 @@ class Api::V1::IntegrationController < Api::V1::BaseController
   respond_to :json
 
   def trigger
-    @event = current_service.events.unresolved.first_or_initialize_by_key_or_message(event_params)
+    @incident = current_service.incidents.unresolved.first_or_initialize_by_key_or_message(incident_params)
 
-    http_status = @event.new_record? ? :created : :accepted
+    http_status = @incident.new_record? ? :created : :accepted
 
-    respond_with @event do |format|
-      if @event.save
-        hound_action @event, 'trigger' if @event.new_record?
-        format.json { render json: @event, status: http_status }
+    respond_with @incident do |format|
+      if @incident.save
+        hound_action @incident, 'trigger' if @incident.new_record?
+        format.json { render json: @incident, status: http_status }
       else
-        format.json { render json: { errors: @event.errors }, status: :unprocessable_entity }
+        format.json { render json: { errors: @incident.errors }, status: :unprocessable_entity }
       end
     end
   end
 
   def resolve
-    @event = current_service.events.find_by_key_or_message(event_params)
+    @incident = current_service.incidents.find_by_key_or_message(incident_params)
 
-    respond_with @event do |format|
-      # if @event.persisted?
-      if @event
-        @event.resolve unless @event.resolved?
-        hound_action @event, 'resolve'
-        format.json { render json: @event, status: :accepted }
+    respond_with @incident do |format|
+      # if @incident.persisted?
+      if @incident
+        @incident.resolve unless @incident.resolved?
+        hound_action @incident, 'resolve'
+        format.json { render json: @incident, status: :accepted }
       else
         format.json { head :not_found }
       end
@@ -41,7 +41,7 @@ class Api::V1::IntegrationController < Api::V1::BaseController
 
   private
 
-  def event_params
+  def incident_params
     logger.info params.inspect
     params.permit(:message, :description, :key)
   end

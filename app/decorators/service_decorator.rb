@@ -1,23 +1,23 @@
 class ServiceDecorator < Draper::Decorator
   delegate_all
-  # decorates_association :events, with: EventsDecorator
+  # decorates_association :incidents, with: IncidentsDecorator
 
   def current_status
-    events = source.events
+    incidents = source.incidents
     if source.disabled?
       h.content_tag :i, "", class: 'icon-circle-blank muted'
-    elsif events.any?(&:triggered?)
+    elsif incidents.any?(&:triggered?)
       helpers.content_tag :i, "", class: 'icon-exclamation-sign text-error'
-    elsif events.any?(&:acknowledged?)
+    elsif incidents.any?(&:acknowledged?)
       helpers.content_tag :i, "", class: 'icon-minus-sign text-warning'
     else
       helpers.content_tag :i, "", class: 'icon-ok-sign text-success'
     end
   end
 
-  def event_counts
-    triggered_count = source.events.triggered.count
-    acknowledged_count = source.events.acknowledged.count
+  def incident_counts
+    triggered_count = source.incidents.triggered.count
+    acknowledged_count = source.incidents.acknowledged.count
 
     h.content_tag :span do
       "#{triggered_count} triggered, #{acknowledged_count} acknowledged"
@@ -26,19 +26,19 @@ class ServiceDecorator < Draper::Decorator
 
   def triggered_count
     h.content_tag :span do
-      "#{source.events.triggered.count} triggered"
+      "#{source.incidents.triggered.count} triggered"
     end
   end
 
   def acknowledged_count
     h.content_tag :span do
-      "#{source.events.acknowledged.count} acknowledged"
+      "#{source.incidents.acknowledged.count} acknowledged"
     end
   end
 
   def resolved_count
     h.content_tag :span, class: 'badge badge-success' do
-      source.events.resolved.count.to_s
+      source.incidents.resolved.count.to_s
     end
   end
 

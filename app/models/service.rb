@@ -21,13 +21,13 @@ class Service < ActiveRecord::Base
   devise :token_authenticatable
 
   belongs_to :account
-  has_many :events, dependent: :destroy
+  has_many :incidents, dependent: :destroy
   
-  # scope :triggered_events, includes(:events).where('events.state = ?', 'triggered')
-  # scope :acknowledged_events, includes(:events).where('events.state = ?', 'acknowledged')
-  # scope :resolved_events, includes(:events).where('events.state = ?', 'resolved')
+  # scope :triggered_incidents, includes(:incidents).where('incidents.state = ?', 'triggered')
+  # scope :acknowledged_incidents, includes(:incidents).where('incidents.state = ?', 'acknowledged')
+  # scope :resolved_incidents, includes(:incidents).where('incidents.state = ?', 'resolved')
 
-  has_many :alerts, through: :events
+  has_many :alerts, through: :incidents
   has_one :service_escalation_policy
   has_one :escalation_policy, through: :service_escalation_policy
 
