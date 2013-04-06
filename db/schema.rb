@@ -11,25 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130406201859) do
+ActiveRecord::Schema.define(:version => 20130406211154) do
 
   create_table "accounts", :force => true do |t|
     t.string   "subdomain"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-
-  create_table "alerts", :force => true do |t|
-    t.string   "type"
-    t.datetime "sent_at"
-    t.string   "uuid",       :default => "", :null => false
-    t.integer  "event_id"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-  end
-
-  add_index "alerts", ["event_id"], :name => "index_alerts_on_event_id"
-  add_index "alerts", ["uuid"], :name => "index_alerts_on_uuid", :unique => true
 
   create_table "contacts", :force => true do |t|
     t.string   "label"
