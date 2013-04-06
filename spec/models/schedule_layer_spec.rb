@@ -38,11 +38,11 @@ describe ScheduleLayer do
   end
 
   describe 'duration calculations' do
-    let(:hourly) { create(:schedule_layer, rule: 'hourly', count: 8) }
-    let(:daily) { create(:schedule_layer, rule: 'daily') }
-    let(:weekly) { create(:schedule_layer, rule: 'weekly') }
-    let(:monthly) { create(:schedule_layer, rule: 'monthly') }
-    let(:yearly) { create(:schedule_layer, rule: 'yearly') }
+    let(:hourly) { create(:schedule_layer, :hourly) }
+    let(:daily) { create(:schedule_layer, :daily) }
+    let(:weekly) { create(:schedule_layer, :weekly) }
+    let(:monthly) { create(:schedule_layer, :monthly) }
+    let(:yearly) { create(:schedule_layer, :yearly) }
 
     it 'calculates the correct rotation length in seconds' do
       hourly.duration.should be 28800
