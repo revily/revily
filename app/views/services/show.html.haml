@@ -1,2 +1,15 @@
-%h1 Services#show
-%p Find me in app/views/services/show.html.haml
+.page-header
+  %h1 Services
+
+%ul.breadcrumb
+  %li
+    = link_to 'Home', dashboard_path
+    %span.divider /
+  %li
+    = link_to 'Services', services_path
+    %span.divider /
+  %li.active= @service.name
+
+%ul#actions.unstyled
+  - @service.actions.each do |action|
+    %li.action= action

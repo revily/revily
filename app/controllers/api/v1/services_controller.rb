@@ -47,14 +47,14 @@ class Api::V1::ServicesController < Api::V1::BaseController
 
   def enable
     @service = Service.find_by_uuid(params[:id])
-    @service.enable
+    @service.enable && hound_action(@service, 'enable')
 
     respond_with @service, json: @service
   end
 
   def disable
     @service = Service.find_by_uuid(params[:id])
-    @service.disable
+    @service.disable && hound_action(@service, 'disable')
 
     respond_with @service, json: @service
   end

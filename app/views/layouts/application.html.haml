@@ -23,10 +23,10 @@
       
       .container
         .row
-          %head.12
+          %header.span12
             - if content_for? :header
-              .well
-                = yield :header if content_for? :header
+              .page-header
+                = yield :header
             - else
 
         .row
@@ -34,10 +34,10 @@
             = bootstrap_flash
         .row
           - if content_for? :sidebar
+            %article.span9
+              = yield
             %aside.span3
               = yield :sidebar if content_for?(:sidebar)
-            %article.span9.offset3
-              = yield
           - else
             %article.span12
               = yield

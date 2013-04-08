@@ -1,4 +1,6 @@
 class Account < ActiveRecord::Base
+  hound
+
   attr_accessible :subdomain, :terms_of_service
 
   has_many :users, dependent: :destroy

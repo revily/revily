@@ -16,7 +16,9 @@
 
 class ScheduleLayer < ActiveRecord::Base
   include Identifiable
-
+  
+  hound
+  
   VALID_RULES = %w[ hourly daily weekly monthly yearly ]
 
   belongs_to :schedule

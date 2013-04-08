@@ -41,6 +41,20 @@ class ServicesController < ApplicationController
     respond_with @service
   end
 
+  def enable
+    @service = current_account.services.where(uuid: params[:id]).first
+    @service.enable && hound_action(@service, 'enable')
+
+    respond_with @service
+  end
+
+  def disable
+    @service = current_account.services.where(uuid: params[:id]).first
+    @service.disable && hound_action(@service, 'disable')
+
+    respond_with @service
+  end
+
   def destroy
     @service = current_account.services.where(uuid: params[:id]).first
     @service.destroy

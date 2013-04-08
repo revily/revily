@@ -14,6 +14,8 @@ class Schedule < ActiveRecord::Base
   include Identifiable
   include ActiveModel::ForbiddenAttributesProtection
 
+  hound
+  
   attr_accessible :name, :time_zone, :schedule_layer_attributes
 
   belongs_to :account

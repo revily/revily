@@ -1,11 +1,32 @@
-.page-header
+= content_for :header do
   %h1 Services
+
+= content_for :sidebar do
+  = link_to 'Create New Service', new_service_path, class: 'btn btn-primary btn-block'
+
+  %h4 Services
+
+  %ul
+    %li= "Enabled Services: #{current_account.services.enabled.count}"
+    %li= "Disabled Services: #{current_account.services.disabled.count}"
+
+  %h4 Recent Activity
+
+  %ul
+    - Service.actions.each do |action|
+      %li= action.to_s
+
+%ul.breadcrumb
+  %li
+    = link_to 'Home', dashboard_path
+    %span.divider /
+  %li.active Services
 
 %ul#services.unstyled
   - @services.each do |service|
     %li.service
       .row.success
-        .span10
+        .span7
           %h2.inline
             = service.current_status
             = link_to service.name, service_path(service)
@@ -17,26 +38,6 @@
               %i.icon-pencil
               Edit
             
-            = link_to service_path(service), method: :delete, class: 'btn' do
+            = link_to service_path(service), method: :delete, class: 'btn btn-danger' do
               %i.icon-trash
               Delete
-            
-          / .incidents
-          /   %ul.inline
-          /     %li
-          /       %h3= service.triggered_count
-          /     %li= service.acknowledged_count
-          /     %li= service.resolved_count
-
-        / %li= service.acknowledged_count
-        / %li= service.resolved_count
-
-      / .row
-      / .status
-      /   = service.current_status
-      / .details
-      /   .service-name
-      /     = service.name
-      /   .service-incident-count
-      /     = service.incidents.count
-

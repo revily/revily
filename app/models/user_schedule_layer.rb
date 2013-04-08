@@ -13,7 +13,8 @@
 
 class UserScheduleLayer < ActiveRecord::Base
   include Identifiable
-
+  hound
+  
   belongs_to :schedule_layer
   belongs_to :user
 

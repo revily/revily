@@ -17,6 +17,7 @@ class Service < ActiveRecord::Base
   include Identifiable
   
   hound_user
+  hound
 
   devise :token_authenticatable
 
@@ -26,6 +27,9 @@ class Service < ActiveRecord::Base
   # scope :triggered_incidents, includes(:incidents).where('incidents.state = ?', 'triggered')
   # scope :acknowledged_incidents, includes(:incidents).where('incidents.state = ?', 'acknowledged')
   # scope :resolved_incidents, includes(:incidents).where('incidents.state = ?', 'resolved')
+
+  scope :enabled, where(state: 'enabled')
+  scope :disabled, where(state: 'disabled')
 
   has_many :alerts, through: :incidents
   has_one :service_escalation_policy
@@ -42,11 +46,17 @@ class Service < ActiveRecord::Base
     state :disabled
 
     event :enable do
-      transition all => :enabled
+      # transition all => :enabled
+      transition :disabled => :enabled
     end
 
     event :disable do
-      transition all => :disabled
+      # transition all => :enabled
+      transition :enabled => :disabled
     end
+  end
+
+  def self.actions
+    Hound::Action.where(actionable_type: 'Service')
   end
 end
