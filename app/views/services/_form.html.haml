@@ -1,6 +1,8 @@
-= simple_form_for service do |f|
-  = f.input :name
-  = f.input :auto_resolve_timeout
-  = f.input :acknowledge_timeout
+.row
+  .span8
+    = simple_form_for service, html: { class: 'form-horizontal' } do |f|
+      = f.input :name
+      = f.input :auto_resolve_timeout
+      = f.input :acknowledge_timeout
 
-  = f.button :submit
+      = f.button :submit, class: 'btn-large btn-primary btn-block'

@@ -47,3 +47,12 @@ body {
 .unknown {
   color: #ECF0F1;
 }
+
+form {
+  background-color: #ecf0f5;
+  border-radius: 6px 6px 0 0;
+  padding-top: 20px;
+  .btn {
+    border-radius: 0 0 6px 6px;
+  }
+}
