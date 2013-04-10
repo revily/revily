@@ -33,14 +33,19 @@
           = bootstrap_flash
       .row
         - if content_for? :sidebar
-          %article.span9
+          %article.span8
             = yield
-          %aside.span3
-            = yield :sidebar if content_for?(:sidebar)
+          %aside.span4
+            #sidebar
+              = yield :sidebar if content_for?(:sidebar)
         - else
           %article.span12
             = yield
 
+    %br
+    %br
+    %br
+    
     %footer
       .container
         = render 'application/footer'

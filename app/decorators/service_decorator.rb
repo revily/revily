@@ -5,20 +5,20 @@ class ServiceDecorator < Draper::Decorator
   def current_status
     incidents = source.incidents
     if source.disabled?
-      h.content_tag :div, class: 'status palette palette-concrete' do
-        h.content_tag :i, "", class: 'icon-off icon-2x'
+      h.content_tag :div, class: 'status unknown' do
+        h.content_tag :i, "", class: 'icon-circle-blank icon-4x'
       end
     elsif incidents.any?(&:triggered?)
-      h.content_tag :div, class: 'status palette palette-alizarin' do
-        h.content_tag :i, "", class: 'icon-exclamation-sign'
+      h.content_tag :div, class: 'status critical' do
+        h.content_tag :i, "", class: 'icon-exclamation-sign icon-4x'
       end
     elsif incidents.any?(&:acknowledged?)
-      h.content_tag :div, class: 'status palette palette-bright' do
-        h.content_tag :i, "", class: 'icon-comment'
+      h.content_tag :div, class: 'status warning' do
+        h.content_tag :i, "", class: 'icon-minus-sign icon-4x'
       end
     else
-      h.content_tag :div, class: 'status palette-success' do
-        h.content_tag :i, "", class: 'icon-ok icon-4x'
+      h.content_tag :div, class: 'status okay' do
+        h.content_tag :i, "", class: 'icon-ok-sign icon-4x'
       end
     end
   end
@@ -29,24 +29,6 @@ class ServiceDecorator < Draper::Decorator
 
     h.content_tag :span do
       "#{triggered_count} triggered, #{acknowledged_count} acknowledged"
-    end
-  end
-
-  def triggered_count
-    h.content_tag :span do
-      "#{source.incidents.triggered.count} triggered"
-    end
-  end
-
-  def acknowledged_count
-    h.content_tag :span do
-      "#{source.incidents.acknowledged.count} acknowledged"
-    end
-  end
-
-  def resolved_count
-    h.content_tag :span, class: 'badge badge-success' do
-      source.incidents.resolved.count.to_s
     end
   end
 

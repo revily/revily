@@ -1,26 +1,26 @@
 = content_for :header do
   .row
-    .span9
+    .span8
       %h1 Services
-    .span3
+    .span4
       = link_to 'Create New Service', new_service_path, class: 'btn btn-primary btn-block btn-large'
 
 = content_for :sidebar do
-  
-
-  %h4 Services
-
-  %ul
-    %li= "Enabled Services: #{current_account.services.enabled.count}"
-    %li= "Disabled Services: #{current_account.services.disabled.count}"
-
   %h4 Recent Activity
 
   %ul
-    - Service.actions.each do |action|
-      %li= action.action.to_s
+    - current_account.services.actions.decorate.each do |action|
+      %li= action.message
 
 #services
   = render @services
   / - @services.each do |service|
   /  = render 'services/service', locals: { service: service }
+
+%br
+
+.page-header
+  %h3 Disabled
+#disabled_services
+  = render @disabled_services
+

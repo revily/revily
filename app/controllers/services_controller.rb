@@ -4,8 +4,8 @@ class ServicesController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @services = current_account.services.decorate
-
+    @services = current_account.services.enabled.decorate
+    @disabled_services = current_account.services.disabled.decorate
     respond_with @services
   end
 
