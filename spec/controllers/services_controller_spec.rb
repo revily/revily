@@ -14,7 +14,6 @@ describe ServicesController do
 
     it { should respond_with(:success) }
     it { should render_template(:index) }
-    it { should assign_to(:services).with([service]) }
   end
 
   describe 'GET /services/:id' do
@@ -23,7 +22,6 @@ describe ServicesController do
 
     it { should respond_with(:ok) }
     it { should render_template(:show) }
-    it { should assign_to(:service).with(service) }
   end
 
   describe 'GET /services/new' do
@@ -31,7 +29,6 @@ describe ServicesController do
 
     it { should respond_with(:ok) }
     it { should render_template(:new) }
-    it { should assign_to(:service) }
   end
 
   describe 'POST /services' do
@@ -47,7 +44,6 @@ describe ServicesController do
 
     it { should respond_with(:ok) }
     it { should render_template(:edit) }
-    it { should assign_to(:service).with(service.decorate) }
   end
 
   describe 'PUT /services/:id' do
@@ -56,7 +52,6 @@ describe ServicesController do
 
     it { should respond_with(:found) }
     it { should redirect_to service_url(service) }
-    it { should assign_to(:service).with(service) }
   end
 
   describe 'DELETE /services/:id' do
@@ -65,7 +60,6 @@ describe ServicesController do
 
     it { should respond_with(:found) }
     it { should redirect_to services_url }
-    it { should assign_to(:service).with(service) }
   end
 
 end

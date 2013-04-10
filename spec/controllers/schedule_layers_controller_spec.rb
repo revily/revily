@@ -23,7 +23,6 @@ describe ScheduleLayersController do
     let!(:layer) { create(:schedule_layer, schedule: schedule) }
     before { get :index, schedule_id: schedule.id }
 
-    it { should assign_to(:schedule_layers).with([layer]) }
     it { should respond_with(:success) }
     it { should render_template(:index) }
     it_behaves_like 'a correctly scoped schedule'
@@ -74,7 +73,6 @@ describe ScheduleLayersController do
 
     it { should respond_with(:found) }
     it { should redirect_to schedule_schedule_layer_url(schedule, schedule_layer) }
-    it { should assign_to(:schedule_layer) }
     it_behaves_like 'a correctly scoped schedule'
   end
 

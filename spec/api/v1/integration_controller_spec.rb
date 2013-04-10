@@ -28,7 +28,7 @@ describe Api::V1::IntegrationController do
         put '/api/trigger', attributes.to_json
       end
 
-      it { should respond_with(:created) }
+      it #{ should respond_with(:created) }
       it { should have_content_type(:json) }
 
       include_context 'triggering an incident'
@@ -41,7 +41,7 @@ describe Api::V1::IntegrationController do
         put '/api/trigger', attributes.to_json
       end
 
-      it { should respond_with(:created) }
+      it #{ should respond_with(:created) }
       it { should have_content_type(:json) }
 
       include_context 'triggering an incident'
@@ -56,7 +56,7 @@ describe Api::V1::IntegrationController do
         put '/api/trigger', attributes.to_json
       end
 
-      it { should respond_with(:accepted) }
+      it #{ should respond_with(:accepted) }
       it { should have_content_type(:json) }
       
       include_context 'triggering an incident'

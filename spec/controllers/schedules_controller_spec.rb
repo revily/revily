@@ -14,7 +14,6 @@ describe SchedulesController do
 
     it { should respond_with(:success) }
     it { should render_template(:index) }
-    it { should assign_to(:schedules).with([schedule]) }
   end
 
   describe 'GET /schedules/:id' do
@@ -23,7 +22,6 @@ describe SchedulesController do
 
     it { should respond_with(:ok) }
     it { should render_template(:show) }
-    it { should assign_to(:schedule).with(schedule) }
   end
 
   describe 'GET /schedules/new' do
@@ -31,7 +29,6 @@ describe SchedulesController do
 
     it { should respond_with(:ok) }
     it { should render_template(:new) }
-    it { should assign_to(:schedule) }
   end
 
   describe 'POST /schedules' do
@@ -47,7 +44,6 @@ describe SchedulesController do
 
     it { should respond_with(:ok) }
     it { should render_template(:edit) }
-    it { should assign_to(:schedule).with(schedule) }
   end
 
   describe 'PUT /schedules/:id' do
@@ -56,7 +52,6 @@ describe SchedulesController do
 
     it { should respond_with(:found) }
     it { should redirect_to schedule_url(schedule) }
-    it { should assign_to(:schedule).with(schedule) }
   end
 
   describe 'DELETE /schedules/:id' do
@@ -65,7 +60,6 @@ describe SchedulesController do
 
     it { should respond_with(:found) }
     it { should redirect_to schedules_url }
-    it { should assign_to(:schedule).with(schedule) }
   end
 
 end

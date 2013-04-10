@@ -13,7 +13,6 @@ describe IncidentsController do
     let!(:incident) { create(:incident, service: service) }
     before { get :index, service_id: service.uuid }
 
-    it { should assign_to(:incidents).with([incident]) }
     it { should respond_with(:success) }
     it { should render_template(:index) }
   end
@@ -54,7 +53,6 @@ describe IncidentsController do
 
     it { should respond_with(:found) }
     it { should redirect_to incident_url(incident) }
-    it { should assign_to(:incident) }
   end
 
   describe 'DELETE /incidents/:id' do
