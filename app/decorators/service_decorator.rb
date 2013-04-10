@@ -5,13 +5,21 @@ class ServiceDecorator < Draper::Decorator
   def current_status
     incidents = source.incidents
     if source.disabled?
-      h.content_tag :i, "", class: 'icon-circle-blank muted'
+      h.content_tag :div, class: 'status palette palette-concrete' do
+        h.content_tag :i, "", class: 'icon-off icon-2x'
+      end
     elsif incidents.any?(&:triggered?)
-      helpers.content_tag :i, "", class: 'icon-exclamation-sign text-error'
+      h.content_tag :div, class: 'status palette palette-alizarin' do
+        h.content_tag :i, "", class: 'icon-exclamation-sign'
+      end
     elsif incidents.any?(&:acknowledged?)
-      helpers.content_tag :i, "", class: 'icon-minus-sign text-warning'
+      h.content_tag :div, class: 'status palette palette-bright' do
+        h.content_tag :i, "", class: 'icon-comment'
+      end
     else
-      helpers.content_tag :i, "", class: 'icon-ok-sign text-success'
+      h.content_tag :div, class: 'status palette-success' do
+        h.content_tag :i, "", class: 'icon-ok icon-4x'
+      end
     end
   end
 

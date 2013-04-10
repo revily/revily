@@ -18,36 +18,32 @@
 
 
   %body
-    #wrap
-      = render 'shared/header'
+    = render 'application/header'
       
-      .container
-        .row
-          %header.span12
-            - if content_for? :header
-              .page-header
-                = yield :header
-            - else
-
-        .row
-          .span12
-            = bootstrap_flash
-        .row
-          - if content_for? :sidebar
-            %article.span9
-              = yield
-            %aside.span3
-              = yield :sidebar if content_for?(:sidebar)
+    .container
+      .row
+        %header.span12
+          - if content_for? :header
+            .page-header
+              = yield :header
           - else
-            %article.span12
-              = yield
 
-      #push
-        /--//--
+      .row
+        .span12
+          = bootstrap_flash
+      .row
+        - if content_for? :sidebar
+          %article.span9
+            = yield
+          %aside.span3
+            = yield :sidebar if content_for?(:sidebar)
+        - else
+          %article.span12
+            = yield
 
     %footer
       .container
-        %p.muted.credit Copyright &copy; 2013 Applied Awesome LLC.
+        = render 'application/footer'
     /
       Javascripts
       \==================================================

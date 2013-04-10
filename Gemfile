@@ -65,6 +65,7 @@ group :assets do
   gem 'bootswatch-rails'
   gem 'bootstrap-datepicker-rails'
   gem 'font-awesome-sass-rails'
+  gem 'flatui-rails'
 end
 
 group :development do

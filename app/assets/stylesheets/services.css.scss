@@ -1,20 +1,50 @@
-ul#services {
-  li.service {
-    border-bottom: 1px solid #dddddd;
+#services {
+  .service {
+    // border-bottom: 1px solid #dddddd;
     // border-top: 1px solid #dddddd;
-    min-height: 75px;
+    // min-height: 75px;
+    // line-height: 70px;
+    margin-bottom: 20px;
+    height: 70px;
 
-    .row .counters ul li {
-      line-height: 25px;
+    .status {
+      color: white;
+      height: 70px;
+      width: 70px;
+      // display: block;
+      // float: left;
+      // vertical-align: middle;
+      // line-height: 70px;
+      // padding-top: 10px;
+      display: inline-block;
+      vertical-align: middle;
+      
+      [class^="icon-"], [class*=" icon-"] {
+        display: block;
+        text-align: center;
+        padding-top: .125em;
+      }
     }
 
-    h2, .controls {
-      line-height: 75px;
+    .details {
+      // margin-left: 90px;
     }
 
     .controls {
-      padding-top: 13px;
+      height: 70px;
+      line-height: 70px;
     }
+    // .row .counters ul li {
+      // line-height: 25px;
+    // }
+
+    // h2, .controls {
+      // line-height: 75px;
+    // }
+
+    // .controls {
+      // padding-top: 13px;
+    // }
   }
 }
 
