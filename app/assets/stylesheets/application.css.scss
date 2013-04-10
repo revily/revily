@@ -8,47 +8,42 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ *=* require flat-ui
  */
 
 // @import 'bootswatch/slate/variables';
 // @import 'bootswatch/cosmo/variables';
-@import 'bootstrap';
-@import 'bootstrap-responsive';
+// @import 'bootstrap';
+// @import 'bootstrap-responsive';
 // @import 'bootswatch/slate/bootswatch';
 // @import 'bootswatch/cosmo/bootswatch';
+@import 'flat-ui/flat-ui';
 @import 'font-awesome';
-@import 'bootstrap-datepicker';
-@import 'fullcalendar';
+// @import 'bootstrap-datepicker';
+// @import 'fullcalendar';
 @import 'services';
 
 body {
   height: 100%;
+  // margin-top: 51px;
 }
 
-#wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -60px;
+#sidebar {
+  background-color: #ecf0f5;
+  border-radius: 6px;
+  padding: 14px;
+  position: relative;
 }
 
-#wrap > .container {
-  padding-top: 60px;
+.okay {
+  color: #2ECC71;
 }
-
-#push, footer {
-  height: 60px;
+.warning {
+  color: #F39C12;
 }
-
-footer {
-  background-color: #f5f5f5;
+.critical {
+  color: #E74C3C;
 }
-
-// @media (max-width: 767px) {
-  footer {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-// }
+.unknown {
+  color: #ECF0F1;
+}

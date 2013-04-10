@@ -2,6 +2,7 @@ require 'api_constraints'
 require 'sidekiq/web'
 
 Reveille::Application.routes.draw do
+
   apipie
   mount Sidekiq::Web => '/sidekiq'
 
@@ -33,7 +34,7 @@ Reveille::Application.routes.draw do
     resources :schedule_layers, path: :layers
   end
 
-
+  resources :users, only: [ :index ]
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
   devise_for :services, skip: [ :sessions ]

@@ -1,43 +1,26 @@
 = content_for :header do
-  %h1 Services
+  .row
+    .span8
+      %h1 Services
+    .span4
+      = link_to 'Create New Service', new_service_path, class: 'btn btn-primary btn-block btn-large'
 
 = content_for :sidebar do
-  = link_to 'Create New Service', new_service_path, class: 'btn btn-primary btn-block'
-
-  %h4 Services
-
-  %ul
-    %li= "Enabled Services: #{current_account.services.enabled.count}"
-    %li= "Disabled Services: #{current_account.services.disabled.count}"
-
   %h4 Recent Activity
 
   %ul
-    - Service.actions.each do |action|
-      %li= action.to_s
+    - current_account.services.actions.decorate.each do |action|
+      %li= action.message
 
-%ul.breadcrumb
-  %li
-    = link_to 'Home', dashboard_path
-    %span.divider /
-  %li.active Services
+#services
+  = render @services
+  / - @services.each do |service|
+  /  = render 'services/service', locals: { service: service }
 
-%ul#services.unstyled
-  - @services.each do |service|
-    %li.service
-      .row.success
-        .span7
-          %h2.inline
-            = service.current_status
-            = link_to service.name, service_path(service)
-            %small 
-              = service.incident_counts
-        .span2
-          .controls.pull-right
-            = link_to edit_service_path(service), class: 'btn' do
-              %i.icon-pencil
-              Edit
-            
-            = link_to service_path(service), method: :delete, class: 'btn btn-danger' do
-              %i.icon-trash
-              Delete
+%br
+
+.page-header
+  %h3 Disabled
+#disabled_services
+  = render @disabled_services
+
