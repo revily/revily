@@ -64,4 +64,8 @@ class User < ActiveRecord::Base
     uniqueness: { scope: [ :account_id ] }
   
   before_save :ensure_authentication_token
+
+  def assignable_name
+    "User"
+  end
 end

@@ -2,7 +2,6 @@ require 'api_constraints'
 require 'sidekiq/web'
 
 Reveille::Application.routes.draw do
-
   apipie
   mount Sidekiq::Web => '/sidekiq'
 
@@ -27,7 +26,7 @@ Reveille::Application.routes.draw do
     resources :incidents
   end
 
-  resources :escalation_policies
+  resources :escalation_policies, path: :policies
   resources :incidents
 
   resources :schedules do

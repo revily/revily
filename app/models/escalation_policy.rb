@@ -23,4 +23,9 @@ class EscalationPolicy < ActiveRecord::Base
   has_many :services, through: :service_escalation_policies
 
   validates :name, presence: true
+  validates :escalation_loop_limit, 
+    numericality: { only_integer: true }
+
+  accepts_nested_attributes_for :escalation_rules, allow_destroy: true, reject_if: :all_blank
+
 end

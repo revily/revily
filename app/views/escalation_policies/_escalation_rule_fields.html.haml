@@ -1,0 +1,4 @@
+.nested-fields
+  = f.input :escalation_timeout
+  = f.input :assignable, collection: AssignableDecorator.decorate_collection(current_account.assignables)
+  = link_to_remove_association "remove rule", f

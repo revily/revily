@@ -1,0 +1,28 @@
+.policy{ class: cycle('odd', 'even') }
+  .row
+    .span9
+      .details
+        %h3= link_to escalation_policy.name, escalation_policy_path(escalation_policy)
+    .span3
+      .controls
+        .btn-group.pull-right
+          = link_to edit_escalation_policy_path(escalation_policy), class: 'btn' do
+            %i.icon-pencil 
+              Edit      
+          = link_to escalation_policy_path(escalation_policy), 
+            method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger' do
+            %i.icon-trash 
+              Delete
+
+  .row
+    .span12
+      .rules
+        - if escalation_policy.escalation_rules.any?
+          %ol
+            - escalation_policy.escalation_rules.each do |rule|
+              %li
+                = "Assign to #{rule.assignable_type.downcase} #{rule.assignable.name}."
+                - if rule.escalation_timeout?
+                  %em.small.muted= " Escalate after #{pluralize(rule.escalation_timeout, 'minute')}."
+        - else
+          %em.small.muted No rules for this policy.

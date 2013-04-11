@@ -2,17 +2,10 @@
   .service {
     margin-bottom: 20px;
     height: 60px;
-    // border-bottom: 1px solid #eeeeee;
-    // background-color: #eeeeee    
+
     .status {
-      // color: white;
       height: 60px;
       width: 60px;
-      // display: block;
-      // float: left;
-      // vertical-align: middle;
-      // line-height: 70px;
-      // padding-top: 10px;
       display: inline-block;
       vertical-align: middle;
       
@@ -27,35 +20,11 @@
       h3 {
         line-height: 30px;
       }
-      // margin-left: 90px;
     }
 
     .controls {
       height: 60px;
       line-height: 60px;
     }
-    // .row .counters ul li {
-      // line-height: 25px;
-    // }
-
-    // h2, .controls {
-      // line-height: 75px;
-    // }
-
-    // .controls {
-      // padding-top: 13px;
-    // }
   }
 }
-
-// .badge-important {
-//   background-color: #ff0039;
-// }
-
-// .badge-warning {
-//   background-color: #ff7518;
-// }
-
-// .badge-success {
-//   background-color: #3fb618;
-// }

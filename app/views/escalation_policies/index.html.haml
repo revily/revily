@@ -1,0 +1,13 @@
+= content_for :header do
+  .row
+    .span8
+      %h1 Policies
+    .span4
+      = link_to 'Create New Policy', new_escalation_policy_path, class: 'btn btn-primary btn-block btn-large'
+
+#policies
+  = render @policies
+
+%br
+
+%h3 Recent Activity

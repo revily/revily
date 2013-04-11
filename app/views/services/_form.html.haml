@@ -1,8 +1,13 @@
 .row
-  .span8
+  .span8.offset2
     = simple_form_for service, html: { class: 'form-horizontal' } do |f|
-      = f.input :name
-      = f.input :auto_resolve_timeout
-      = f.input :acknowledge_timeout
-
-      = f.button :submit, class: 'btn-large btn-primary btn-block'
+      .form-inputs
+        = f.input :name, 
+          hint: "The name of the service with which you are integrating.",
+          placeholder: "Nagios"
+        = f.input :auto_resolve_timeout, 
+          hint: "The time in minutes after which an incident will auto-resolve."
+        = f.input :acknowledge_timeout, 
+          hint: "The time in minutes after which an acknowledged incident will re-trigger."
+      .form-actions
+        = f.button :submit, class: 'btn-large btn-primary'

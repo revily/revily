@@ -38,6 +38,9 @@ class Service < ActiveRecord::Base
   validates :name, :acknowledge_timeout, :auto_resolve_timeout, :state,
     presence: true
   validates :name, uniqueness: true
+  validates :acknowledge_timeout, :auto_resolve_timeout,
+    numericality: { only_integer: true }
+
   
   before_save :ensure_authentication_token
 

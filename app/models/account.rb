@@ -18,4 +18,8 @@ class Account < ActiveRecord::Base
     acceptance: true
 
   accepts_nested_attributes_for :users
+
+  def assignables
+    users.all + schedules.all
+  end
 end

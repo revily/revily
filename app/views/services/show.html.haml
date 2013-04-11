@@ -1,14 +1,21 @@
 .page-header
-  %h1 Services
+  %h1= "Services > #{@service.name}"
 
-%ul.breadcrumb
-  %li
-    = link_to 'Home', dashboard_path
-    %span.divider /
-  %li
-    = link_to 'Services', services_path
-    %span.divider /
-  %li.active= @service.name
+#service
+  #service_name
+    %strong Name: 
+    = @service.name
+  #service_auto_resolve_timeout
+    %strong Auto-Resolve Timeout: 
+    = @service.auto_resolve_timeout
+  #service_acknowledge_timeout
+    %strong Acknowledge Timeout: 
+    = @service.acknowledge_timeout
+  #service_api_key
+    %strong API Key: 
+    = @service.authentication_token
+
+%br
 
 %ul#actions.unstyled
   - @service.actions.each do |action|

@@ -4,7 +4,7 @@
       = service.current_status
     .span5
       .details
-        %h3= link_to service.name, service_path(service)
+        %h3= link_to service.name.truncate(30), service_path(service)
         = service.incident_counts
     .span2
       .controls.pull-right

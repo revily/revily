@@ -15,7 +15,14 @@
 //= require jquery_ujs
 //= require jquery.transit
 //= require select2
-//=# require flat-ui
+//= require jquery.dropkick
+//= require custom_checkbox_and_radio
+//= require custom_radio
+//= require jquery.tagsinput
+//= require bootstrap-tooltip
+//= require jquery.placeholder
+//= require run_everything
+//= require cocoon
 //= require_self
 //= require_tree .
 

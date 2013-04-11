@@ -86,6 +86,7 @@ GEM
     choice (0.1.6)
     clockwork (0.5.0)
       tzinfo (~> 0.3.35)
+    cocoon (1.1.2)
     coderay (1.0.9)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -420,6 +421,7 @@ DEPENDENCIES
   bullet
   capybara (>= 2.0.2)
   clockwork (>= 0.5.0)
+  cocoon
   coffee-rails (>= 3.2.2)
   coveralls
   dalli (>= 2.6.2)
