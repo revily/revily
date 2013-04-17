@@ -22,6 +22,7 @@ class EscalationPoliciesController < ApplicationController
   end
 
   def create
+    @escalation_rules = 
     @policy = current_account.escalation_policies.new(escalation_policy_params)
     @policy.save
 
@@ -50,8 +51,13 @@ class EscalationPoliciesController < ApplicationController
 
   private
 
+  def escalation_rules_params
+
+  end
+
   def escalation_policy_params
-    params.require(:escalation_policy).permit(:name, :escalation_loop_limit)
+    params.require(:escalation_policy).
+      permit(:name, :escalation_loop_limit,  escalation_rules_attributes: [ :escalation_timeout, :assignable_id, :assignable_type, :_destroy ])
   end
 
 end

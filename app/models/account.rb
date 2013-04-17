@@ -10,6 +10,8 @@ class Account < ActiveRecord::Base
   has_many :escalation_policies, dependent: :destroy
   has_many :escalation_rules, through: :escalation_policies
 
+  # has_many :assignables, finder_sql: proc { 'SELECT * FROM users.*, }
+  
   validates :subdomain, 
     uniqueness: true,
     presence: true,
@@ -20,6 +22,14 @@ class Account < ActiveRecord::Base
   accepts_nested_attributes_for :users
 
   def assignables
-    users.all + schedules.all
+    (users + schedules)
+  end
+
+  def assignables_hash
+    assignables.inject({}) do |result, assignable|
+      name = assignable.class.name
+      (result[name] ||= []) << [assignable.name, assignable.uuid]
+      result
+    end
   end
 end

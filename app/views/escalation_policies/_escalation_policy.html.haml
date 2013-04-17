@@ -25,4 +25,6 @@
                 - if rule.escalation_timeout?
                   %em.small.muted= " Escalate after #{pluralize(rule.escalation_timeout, 'minute')}."
         - else
-          %em.small.muted No rules for this policy.
+          %ul.unstyled
+            %li
+              %em.small.muted No rules for this policy.
