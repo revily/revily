@@ -13,6 +13,7 @@
 //= require modernizr
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.all
 //= require jquery.transit
 //= require select2
 //= require jquery.dropkick
@@ -22,7 +23,7 @@
 //= require bootstrap-tooltip
 //= require jquery.placeholder
 //= require run_everything
-//= require cocoon
+//= require jquery_nested_form
 //= require_self
 //= require_tree .
 

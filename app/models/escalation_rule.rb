@@ -22,8 +22,10 @@ class EscalationRule < ActiveRecord::Base
 
   acts_as_list scope: :escalation_policy
 
-  validates :escalation_timeout, presence: true
-
+  validates :escalation_timeout,
+    presence: true
+  validates :assignable_id,
+    uniqueness: { scope: :escalation_policy_id }
 
   def assignee
     @assignee ||= if assignable.respond_to?(:current_user_on_call)

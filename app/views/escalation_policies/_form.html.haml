@@ -1,14 +1,21 @@
 .row
   .span8.offset2
-    = simple_form_for policy, html: { class: 'form-horizontal' } do |f|
+    = simple_nested_form_for policy, html: { class: 'form-horizontal' } do |f|
       .form-inputs
-        = f.input :name, hint: "A good descriptive name for your policy.", placeholder: 'Operations'
-        = f.input :escalation_loop_limit, hint: "How many times the rules will loop through before giving up.", placeholder: 3
+        = f.input :name, 
+          hint: "A good descriptive name for your policy.", 
+          placeholder: 'Operations'
+        = f.input :escalation_loop_limit, 
+          hint: "How many times the rules will loop through before giving up.", 
+          placeholder: 3
 
-        #rules
-          = f.simple_fields_for :escalation_rules do |rule|
-            = render 'escalation_rule_fields', f: rule
-          .links
-            = link_to_add_association 'add rule', f, :escalation_rules
+      %legend
+        Rules
+      
+      = f.link_to_add 'add rule', :escalation_rules, data: { target: '#rules' }, class: 'btn'
+      %hr
+      #rules
+        = f.simple_fields_for :escalation_rules do |rule|
+          = render 'escalation_rule_fields', f: rule
       .form-actions
         = f.button :submit, class: 'btn-large btn-primary'

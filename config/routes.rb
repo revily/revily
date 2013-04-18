@@ -26,7 +26,13 @@ Reveille::Application.routes.draw do
     resources :incidents
   end
 
-  resources :escalation_policies, path: :policies
+  resources :escalation_policies, path: :policies do
+    resources :escalation_rules do
+      collection do
+        post :sort
+      end
+    end
+  end
   resources :incidents
 
   resources :schedules do

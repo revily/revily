@@ -31,7 +31,7 @@ gem 'kaminari'
 gem 'acts_as_tenant'
 gem 'active_attr'
 gem 'tabletastic'
-gem 'cocoon'
+gem 'nested_form'
 
 gem 'apipie-rails'
 

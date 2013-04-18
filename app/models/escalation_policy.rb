@@ -27,5 +27,4 @@ class EscalationPolicy < ActiveRecord::Base
     numericality: { only_integer: true }
 
   accepts_nested_attributes_for :escalation_rules, allow_destroy: true, reject_if: :all_blank
-
 end

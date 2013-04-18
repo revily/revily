@@ -18,3 +18,10 @@
 - increment/decrement service trigger/ackd/resolve event counts
 
 - switch to zeus for distributed tests
+
+
+## Policies
+
+* ajax form to create
+* create new rules inline on index
+* sortable rules in index

@@ -1,9 +1,11 @@
-.nested-fields
+.rule
   = f.input :escalation_timeout
   = f.association :assignable do
     .control-group.required.string
       = f.label :assignable_id, 'User or Schedule', class: 'required control-label string'
       .controls
         = f.select :assignable_id, grouped_options_for_select(current_account.assignables_hash), id: nil
-        = f.hidden_field :assignable_type
-        = link_to_remove_association "remove rule", f
+    .control-group
+      .controls
+        = f.link_to_remove('remove rule', class: 'btn')
+  %hr
