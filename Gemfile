@@ -32,6 +32,9 @@ gem 'acts_as_tenant'
 gem 'active_attr'
 gem 'tabletastic'
 gem 'nested_form'
+gem 'best_in_place'
+gem 'client_side_validations'
+gem 'client_side_validations-simple_form', github: 'davekrupinski/client_side_validations-simple_form'
 
 gem 'apipie-rails'
 
@@ -45,16 +48,12 @@ gem 'sinatra', '>= 1.3.0', require: false
 gem 'clockwork', '>= 0.5.0', require: false
 
 # Assets and UI
-gem 'bourbon'
-gem 'flutie'
-gem 'high_voltage'
-gem 'neat'
 gem 'sass-rails', '>= 3.2.6'
-# gem 'zurb-foundation'
 gem 'jquery-rails', '>= 2.2.1'
 gem 'jquery-ui-rails', '>= 4.0.1'
 gem 'select2-rails', '>= 3.3.1'
 gem 'underscore-rails', '>= 1.4.3'
+gem 'backbone-rails'
 gem 'jquery-validation-rails', '>= 1.10.0'
 gem 'sugar-rails', '>= 1.3.7'
 
@@ -67,6 +66,7 @@ group :assets do
   gem 'bootstrap-datepicker-rails'
   gem 'font-awesome-sass-rails'
   gem 'flatui-rails'
+  # gem 'bootstrap-x-editable-rails'
 end
 
 group :development do

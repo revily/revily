@@ -3,11 +3,38 @@
     .span8
       %h1 Policies
     .span4
-      = link_to 'Create New Policy', new_escalation_policy_path, class: 'btn btn-primary btn-block btn-large'
+      = link_to 'Create New Policy', '#', class: 'btn btn-primary btn-block btn-large', id: 'new_escalation_policy_button'
 
-#policies
-  = render @policies
+= render 'form', escalation_policy: @escalation_policy
+
+%table#policies.table.table-striped
+  %thead
+    %tr
+      %th
+      %th
+      %th
+  %tbody
+    = render @escalation_policies
+
 
 %br
 
-%h3 Recent Activity
+.page-header
+  %h3 Recent Activity
+
+/ :handlebars
+/   <tr class="policy">
+/     <td class="name">{{name}}</td>
+/     <td class="timeout">{{escalation_loop_limit}}</td>
+/     <td class="rules">
+/     {{#if rules}}
+/       <ol>
+/         {{#each rules}}
+/           <li>Assign to {{assignable}}</li>
+/         {{/each}}
+/       </ol>
+/     {{else}}
+/       <em class="small muted">No rules for this policy.</em>
+/     {{/if}}
+/     </td>
+/   </tr>  

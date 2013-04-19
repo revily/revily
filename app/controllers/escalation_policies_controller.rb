@@ -4,8 +4,8 @@ class EscalationPoliciesController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @policies = current_account.escalation_policies
-
+    @escalation_policies = current_account.escalation_policies
+    
     respond_with @escalation_policies
   end
 
@@ -18,7 +18,7 @@ class EscalationPoliciesController < ApplicationController
   def new
     @policy = current_account.escalation_policies.new
 
-    respond_with @policy
+    respond_with @policy, location: escalation_policies_url
   end
 
   def create
@@ -32,7 +32,7 @@ class EscalationPoliciesController < ApplicationController
     @policy = current_account.escalation_policies.new(escalation_policy_params)
     @policy.save
 
-    respond_with @policy
+    respond_with @policy, location: escalation_policies_url
   end
 
   def edit

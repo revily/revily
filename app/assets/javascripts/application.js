@@ -15,6 +15,12 @@
 //= require jquery_ujs
 //= require jquery.ui.all
 //= require jquery.transit
+//= require bootstrap
+//= require bootstrap-popover
+//= require bootstrap-editable
+//= require bootstrap-editable-rails
+//= require rails.validations
+//= require rails.validations.simple_form
 //= require select2
 //= require jquery.dropkick
 //= require custom_checkbox_and_radio
@@ -24,6 +30,7 @@
 //= require jquery.placeholder
 //= require run_everything
 //= require jquery_nested_form
+//= require editable
 //= require_self
 //= require_tree .
 

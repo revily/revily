@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/davekrupinski/client_side_validations-simple_form.git
+  revision: ed55ef75d174b1961c3e59a67569c2d4a3ca7e74
+  specs:
+    client_side_validations-simple_form (2.0.0)
+      client_side_validations (~> 3.2.0)
+      simple_form (~> 2.1.0.dev)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -54,7 +62,12 @@ GEM
       rails (>= 3.0.10)
     arel (3.0.2)
     awesome_print (1.1.0)
+    backbone-rails (0.9.10)
+      rails (>= 3.0.0)
     bcrypt-ruby (3.0.1)
+    best_in_place (2.1.0)
+      jquery-rails
+      rails (~> 3.1)
     better_errors (0.8.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -66,9 +79,6 @@ GEM
       sass (~> 3.2)
     bootswatch-rails (0.4.0)
       railties (>= 3.1)
-    bourbon (3.1.1)
-      sass (>= 3.2.0)
-      thor
     builder (3.0.4)
     bullet (4.5.0)
       uniform_notifier
@@ -84,6 +94,7 @@ GEM
     childprocess (0.3.9)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.1.6)
+    client_side_validations (3.2.5)
     clockwork (0.5.0)
       tzinfo (~> 0.3.35)
     coderay (1.0.9)
@@ -134,7 +145,6 @@ GEM
     flatui-rails (0.0.2)
       railties (~> 3.1)
       sass-rails (~> 3.2.0)
-    flutie (2.0.0)
     font-awesome-sass-rails (3.0.2.2)
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
@@ -172,7 +182,6 @@ GEM
       activesupport (>= 3.1, < 4.1)
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
-    high_voltage (1.2.2)
     hike (1.2.2)
     hound (0.3.0)
       rails (>= 3.1.0)
@@ -214,9 +223,6 @@ GEM
     method_source (0.8.1)
     mime-types (1.22)
     multi_json (1.7.2)
-    neat (1.2.1)
-      bourbon (>= 2.1)
-      sass (>= 3.2)
     nested_form (0.3.2)
     newrelic_rpm (3.6.0.83)
     nokogiri (1.5.9)
@@ -412,14 +418,17 @@ DEPENDENCIES
   annotate
   apipie-rails
   awesome_print
+  backbone-rails
+  best_in_place
   better_errors
   binding_of_caller
   bootstrap-datepicker-rails
   bootstrap-sass
   bootswatch-rails
-  bourbon
   bullet
   capybara (>= 2.0.2)
+  client_side_validations
+  client_side_validations-simple_form!
   clockwork (>= 0.5.0)
   coffee-rails (>= 3.2.2)
   coveralls
@@ -431,7 +440,6 @@ DEPENDENCIES
   factory_girl_rails (>= 4.2.0)
   figaro (>= 0.6.3)
   flatui-rails
-  flutie
   font-awesome-sass-rails
   foreman (>= 0.61.0)
   forgery (>= 0.5.0)
@@ -443,7 +451,6 @@ DEPENDENCIES
   guard-spork (>= 1.5.0)
   haml (>= 4.0.0)
   haml-rails (>= 0.4)
-  high_voltage
   hound
   hstore-attributes
   ice_cube (>= 0.10.0)
@@ -454,7 +461,6 @@ DEPENDENCIES
   kaminari
   launchy
   libnotify (>= 0.8.0)
-  neat
   nested_form
   newrelic_rpm
   pg (>= 0.14.1)

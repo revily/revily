@@ -22,7 +22,10 @@ class EscalationPolicy < ActiveRecord::Base
   has_many :service_escalation_policies
   has_many :services, through: :service_escalation_policies
 
-  validates :name, presence: true
+  validates :name,
+    presence: true,
+    uniqueness: { scope: :account_id }
+    
   validates :escalation_loop_limit, 
     numericality: { only_integer: true }
 
