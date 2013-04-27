@@ -18,37 +18,8 @@
 
 
   %body
-    = render 'application/header'
-      
-    .container
-      .row
-        %header.span12
-          - if content_for? :header
-            .page-header
-              = yield :header
-          - else
+    = yield
 
-      .row
-        .span12
-          = bootstrap_flash
-      .row
-        - if content_for? :sidebar
-          %article.span8
-            = yield
-          %aside.span4
-            #sidebar
-              = yield :sidebar if content_for?(:sidebar)
-        - else
-          %article.span12
-            = yield
-
-    %br
-    %br
-    %br
-    
-    %footer
-      .container
-        = render 'application/footer'
     /
       Javascripts
       \==================================================

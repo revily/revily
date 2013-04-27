@@ -66,6 +66,7 @@ group :assets do
   gem 'bootstrap-datepicker-rails'
   gem 'font-awesome-sass-rails'
   gem 'flatui-rails'
+  gem 'ember-rails'
   # gem 'bootstrap-x-editable-rails'
 end
 

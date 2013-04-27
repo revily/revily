@@ -62,4 +62,16 @@ class Service < ActiveRecord::Base
   def self.actions
     Hound::Action.where(actionable_type: 'Service')
   end
+
+  def current_status
+    if disabled?
+      'unknown'
+    elsif incidents.any?(&:triggered?)
+      'critical'
+    elsif incidents.any?(&:acknowledged?)
+      'warning'
+    else
+      'okay'
+    end
+  end
 end

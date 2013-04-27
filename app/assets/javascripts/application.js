@@ -30,10 +30,14 @@
 //= require jquery.placeholder
 //= require run_everything
 //= require jquery_nested_form
-//= require editable
+//=# require editable
+//= require handlebars
+//= require ember
+//= require ember-data
 //= require_self
-//= require_tree .
+//= require reveille
+//=# require_tree
 
-$.ajaxSetup({
-  dataType: 'json'
+Reveille = Ember.Application.create({
+  LOG_TRANSITIONS: true
 });

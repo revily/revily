@@ -10,4 +10,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_account
   
+  def index
+  end  
 end

@@ -1,0 +1,30 @@
+<div class="navbar navbar-inverse navbar-static-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <ul class="nav">
+        <li>{{#linkTo index}}Reveille{{/linkTo}}</li>
+      </ul>
+      <ul class="nav pull-right">
+        <li>
+        {{! = render 'users/menu/registration_items' }}
+        {{! = render 'users/menu/login_items' }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="navbar navbar-static-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <ul class="nav">
+        <li>{{#linkTo index}}Dashboard{{/linkTo}}</li>
+        <li>{{#linkTo incidents.index}}Incidents{{/linkTo}}</li>
+        <li>{{#linkTo services.index}}Services{{/linkTo}}</li>
+        <li>{{#linkTo policies.index}}Policies{{/linkTo}}</li>
+        <li>{{#linkTo schedules.index}}Schedules{{/linkTo}}</li>
+        <li>{{#linkTo users.index}}Users{{/linkTo}}</li>
+      </ul>
+    </div>
+  </div>
+</div>

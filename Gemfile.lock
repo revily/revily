@@ -64,6 +64,10 @@ GEM
     awesome_print (1.1.0)
     backbone-rails (0.9.10)
       rails (>= 3.0.0)
+    barber (0.4.0)
+      ember-template-compiler-source
+      execjs
+      handlebars-source
     bcrypt-ruby (3.0.1)
     best_in_place (2.1.0)
       jquery-rails
@@ -129,6 +133,13 @@ GEM
     email_spec (1.4.0)
       launchy (~> 2.1)
       mail (~> 2.2)
+    ember-rails (0.10.0)
+      active_model_serializers
+      barber
+      execjs (>= 1.2)
+      railties (>= 3.1)
+    ember-template-compiler-source (1.0.0.pre4.4)
+      handlebars-source (>= 1.0.0.rc2)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -182,6 +193,7 @@ GEM
       activesupport (>= 3.1, < 4.1)
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
+    handlebars-source (1.0.9)
     hike (1.2.2)
     hound (0.3.0)
       rails (>= 3.1.0)
@@ -437,6 +449,7 @@ DEPENDENCIES
   devise (>= 2.2.3)
   draper
   email_spec (>= 1.4.0)
+  ember-rails
   factory_girl_rails (>= 4.2.0)
   figaro (>= 0.6.3)
   flatui-rails

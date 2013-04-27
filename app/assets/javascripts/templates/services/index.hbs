@@ -1,0 +1,14 @@
+<h1>Services</h1>
+
+<div id="services">
+  
+<ul class="unstyled">
+  {{#each service in services}}
+    {{ view Reveille.ServiceView }}
+  {{else}}
+    <li>There are no services.</li>
+  {{/each}}
+</ul>
+</div>
+
+{{outlet}}

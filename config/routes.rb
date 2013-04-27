@@ -22,29 +22,30 @@ Reveille::Application.routes.draw do
     end
   end
 
-  resources :services, shallow: true do
-    resources :incidents
-  end
+  # resources :services, shallow: true do
+  #   resources :incidents
+  # end
 
-  resources :escalation_policies, path: :policies do
-    resources :escalation_rules do
-      collection do
-        post :sort
-      end
-    end
-  end
-  resources :incidents
+  # resources :escalation_policies, path: :policies do
+  #   resources :escalation_rules do
+  #     collection do
+  #       post :sort
+  #     end
+  #   end
+  # end
+  # resources :incidents
 
-  resources :schedules do
-    resources :schedule_layers, path: :layers
-  end
+  # resources :schedules do
+  #   resources :schedule_layers, path: :layers
+  # end
 
-  resources :users, only: [ :index ]
+  # resources :users, only: [ :index ]
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
   devise_for :services, skip: [ :sessions ]
   
-  get 'dashboard' => 'dashboard#index'
+  # get 'dashboard' => 'dashboard#index'
 
-  root to: 'home#index'
+  root to: 'application#index'
+  match "(*url)" => 'application#index'
 end

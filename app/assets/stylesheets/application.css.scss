@@ -11,16 +11,8 @@
  *=* require flat-ui
  */
 
-// @import 'bootswatch/slate/variables';
-// @import 'bootswatch/cosmo/variables';
-// @import 'bootstrap';
-// @import 'bootstrap-responsive';
-// @import 'bootswatch/slate/bootswatch';
-// @import 'bootswatch/cosmo/bootswatch';
 @import 'flat-ui/flat-ui';
 @import 'font-awesome';
-// @import 'bootstrap-datepicker';
-// @import 'fullcalendar';
 @import 'services';
 @import 'escalation_policies';
 @import 'flat-ui-select2';
@@ -52,4 +44,11 @@ body {
 
 .odd {
   background-color: #f7f7f7;
+}
+
+.box {
+  background-color: #eceff1;
+  border-radius: 6px;
+  padding: 24px 23px 20px;
+  position: relative;
 }

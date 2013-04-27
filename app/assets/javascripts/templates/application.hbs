@@ -1,0 +1,27 @@
+<nav>
+  {{ partial 'application/header' }}
+</nav>
+
+
+<div class="container">
+  <div class="row">
+    <header class="span12">
+      {{! {{outlet header}}
+    </header>
+  </div>
+  <div class="row">
+    {{! FLASH }}
+  </div>
+
+  <div class="row">
+    <article class="span12">
+      {{outlet}}
+    </article>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    {{ partial 'application/footer' }}
+  </div>
+</footer>
