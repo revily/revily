@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ServicesController do
+describe V1::ServicesController do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
 

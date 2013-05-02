@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ScheduleLayersController do
+describe V1::ScheduleLayersController do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
   before do

@@ -1,4 +1,4 @@
-class ScheduleLayersController < ApplicationController
+class V1::ScheduleLayersController < V1::ApplicationController
   respond_to :html, :json
 
   before_filter :schedule, :schedule_layers
@@ -22,14 +22,14 @@ class ScheduleLayersController < ApplicationController
   end
 
   def create
-    @schedule_layer = schedule_layers.create(schedule_layer_params)
+    @schedule_layer = schedule_layers.create(sanitized_params)
 
     respond_with schedule, @schedule_layer
   end
 
   def update
     @schedule_layer = schedule_layers.find_by_uuid(params[:id])
-    @schedule_layer.update_attributes(schedule_layer_params)
+    @schedule_layer.update_attributes(sanitized_params)
 
     respond_with schedule, @schedule_layer
   end
@@ -43,12 +43,12 @@ class ScheduleLayersController < ApplicationController
 
   private
 
-  def schedule_layer_params
-    params.require(:schedule_layer).permit(:position, :rule, :count, :start_at, :schedule_id, :users)
+  def permitted_params
+    [ :position, :rule, :count, :start_at, :schedule_id, :users ]
   end
 
   def schedule
-    @schedule ||= Schedule.find_by_uuid(params[:schedule_id]) if params[:schedule_id]
+    @schedule ||= Schedule.where(uuid: params[:schedule_id]).first if params[:schedule_id]
   end
 
   def schedule_layers

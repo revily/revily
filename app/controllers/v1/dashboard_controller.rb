@@ -1,4 +1,4 @@
-class DashboardController < ApplicationController
+class V1::DashboardController < V1::ApplicationController
   respond_to :html
 
   before_filter :authenticate_user!

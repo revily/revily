@@ -37,7 +37,7 @@ class Service < ActiveRecord::Base
 
   validates :name, :acknowledge_timeout, :auto_resolve_timeout, :state,
     presence: true
-  validates :name, uniqueness: true
+  validates :name, uniqueness: { scope: [ :account_id ] }
   validates :acknowledge_timeout, :auto_resolve_timeout,
     numericality: { only_integer: true }
 

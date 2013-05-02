@@ -1,4 +1,4 @@
-class Users::RegistrationsController < Devise::RegistrationsController
+class V1::Users::RegistrationsController < Devise::RegistrationsController
 
   def new
     resource = build_resource({})

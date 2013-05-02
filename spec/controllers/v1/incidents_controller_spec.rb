@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe IncidentsController do
+describe V1::IncidentsController do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
   let(:service) { create(:service_with_escalation_policy, account: account) }

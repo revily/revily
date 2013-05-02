@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe IncidentsController do
+describe V1::IncidentsController do
   it { should route(:get, '/services/1/incidents').to(action: :index, service_id: '1') }
   it { should route(:get, '/incidents/1').to(action: :show, id: '1') }
   it { should route(:get, '/incidents/1').to(action: :show, id: '1') }

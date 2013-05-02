@@ -1,4 +1,4 @@
-class IncidentsController < ApplicationController
+class V1::IncidentsController < V1::ApplicationController
   respond_to :html, :json
 
   before_filter :authenticate_user!
@@ -6,8 +6,8 @@ class IncidentsController < ApplicationController
 
   def index
     @incidents = incidents.all
-    location_url = service ? service_incidents_url : incidents_url
-    respond_with @incidents, location: location_url
+    # location_url = service ? service_incidents_url : incidents_url
+    respond_with @incidents #, location: location_url
   end
 
   def show
@@ -23,7 +23,7 @@ class IncidentsController < ApplicationController
   end
 
   def create
-    @incident = incidents.new(incident_params)
+    @incident = incidents.new(sanitized_params)
     @incident.save
 
     respond_with @incident
@@ -31,7 +31,7 @@ class IncidentsController < ApplicationController
 
   def update
     @incident = incidents.where(uuid: params[:id]).first
-    @incident.update_attributes(incident_params)
+    @incident.update_attributes(sanitized_params)
 
     respond_with @incident
   end
@@ -43,10 +43,38 @@ class IncidentsController < ApplicationController
     respond_with @incident.service, @incident
   end
 
+  def trigger
+    @incident = incidents.where(uuid: params[:id]).first
+    @incident.trigger 
+
+    respond_with @incident
+  end
+
+  def acknowledge
+    @incident = incidents.where(uuid: params[:id]).first
+    @incident.acknowledge
+
+    respond_with @incident
+  end
+
+  def escalate
+    @incident = incidents.where(uuid: params[:id]).first
+    @incident.escalate
+
+    respond_with @incident
+  end
+
+  def resolve
+    @incident = incidents.where(uuid: params[:id]).first
+    @incident.resolve
+
+    respond_with @incident
+  end
+
   private
 
-  def incident_params
-    params.require(:incident).permit(:message, :details)
+  def permitted_params
+    [:message, :details]
   end
 
   def service
