@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe ServicesController do
+describe V1::ServicesController do
   it do
     should route(:get, '/services').
-      to(controller: 'services', action: :index)
+      to(controller: 'v1/services', action: :index)
   end
 
   it do

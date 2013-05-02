@@ -1,72 +1,75 @@
 require 'spec_helper'
 
-describe Api::V1::ServicesController do
+describe V1::ServicesController do
   sign_in_user
 
-  describe 'GET /api/services' do
-    let!(:service) { create(:service) }
-    before { get '/api/services' }
+  describe 'GET /services' do
 
-    it #{ should respond_with(:ok) }
+    let!(:service) { create(:service, account: account) }
+    before { get '/services' }
+
+    # it #{ should respond_with(:ok) }
     it { should have_content_type(:json) }
-
     it { expect(body).to be_json_eql serializer([service]) }
   end
 
-  describe 'GET /api/services/:id' do
-    let!(:service) { create(:service) }
-    before { get "/api/services/#{service.to_param}" }
+  describe 'GET /services/:id' do
+    let!(:service) { create(:service, account: account) }
+    before { get "/services/#{service.to_param}" }
 
-    it #{ should respond_with(:ok) }
+    # it #{ should respond_with(:ok) }
     it { should have_content_type(:json) }
     it { expect(body).to be_json_eql serializer(service) }
   end
 
-  describe 'POST /api/services' do
-    let(:escalation_policy) { create(:escalation_policy) }
+  describe 'POST /services' do
+    let(:escalation_policy) { create(:escalation_policy, account: account) }
     let(:attributes) { attributes_for(:service, :escalation_policy_id => escalation_policy.uuid) }
-    before { post '/api/services', attributes.to_json }
+    before { post '/services', attributes.to_json }
 
-    it #{ should respond_with(:created) }
+    # it #{ should respond_with(:created) }
     it { should have_content_type(:json) }
     it { expect(body).to be_json_eql serializer(Service.find_by_name(attributes[:name])) }
   end
 
-  describe 'PUT /api/services/:id' do
-    let!(:service) { create(:service) }
+  describe 'PUT /services/:id' do
+    let!(:service) { create(:service, account: account) }
     let(:attributes) { { name: "AWESOME APPLICATION" } }
-    before { put "/api/services/#{service.to_param}", attributes.to_json }
+    before { put "/services/#{service.to_param}", attributes.to_json }
 
-    it #{ should respond_with(:ok) }
-    it { expect(body).to be_json_eql serializer(service.reload) }
+    # it #{ should respond_with(:ok) }
+    it { expect(body).to be_json_eql ""}
   end
 
-  describe 'PUT /api/services/:id/enable' do
-    let!(:service) { create(:service, state: 'disabled') }
+  describe 'PUT /services/:id/enable' do
+    let!(:service) { create(:service, account: account, state: 'disabled') }
     before do
-      put "/api/services/#{service.to_param}/enable"
+      put "/services/#{service.to_param}/enable"
       service.reload
     end
 
-    it #{ should respond_with(:ok) }
+    # it #{ should respond_with(:ok) }
     it { Service.find(service.id).should be_enabled }
-    it { expect(body).to be_json_eql serializer(service) }
+    it { expect(body).to be_json_eql "" }
   end
 
-  describe 'PUT /api/services/:id/disable' do
-    let!(:service) { create(:service) }
-    before { put "/api/services/#{service.to_param}/disable" }
+  describe 'PUT /services/:id/disable' do
+    let!(:service) { create(:service, account: account) }
+    before do
+      put "/services/#{service.to_param}/disable"
+      service.reload
+    end
 
-    it #{ should respond_with(:ok) }
+    # it #{ should respond_with(:ok) }
     it { Service.find(service.id).should be_disabled }
-    it { expect(body).to be_json_eql serializer(service.reload) }
+    it { expect(body).to be_json_eql "" }
   end
 
-  describe 'DELETE /api/services/:id' do
-    let!(:service) { create(:service) }
-    before { delete "/api/services/#{service.to_param}" }
+  describe 'DELETE /services/:id' do
+    let!(:service) { create(:service, account: account) }
+    before { delete "/services/#{service.to_param}" }
 
-    it #{ should respond_with(:no_content) }
+    # it #{ should respond_with(:no_content) }
     it 'should have zero services' do
       expect(Service.count).to be_zero
     end

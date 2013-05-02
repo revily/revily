@@ -1,4 +1,4 @@
-class Api::V1::SmsController < Api::V1::BaseController
+class V1::SmsController < V1::BaseController
   skip_before_filter :verify_authenticity_token
 
   respond_to :json

@@ -1,4 +1,4 @@
-class EscalationPoliciesController < ApplicationController
+class V1::EscalationPoliciesController < V1::ApplicationController
   respond_to :html, :json
 
   before_filter :authenticate_user!
@@ -29,7 +29,7 @@ class EscalationPoliciesController < ApplicationController
       params[:escalation_policy][:escalation_rules_attributes][key][:assignable_id] = assignable.id
     end
     # e
-    @policy = current_account.escalation_policies.new(escalation_policy_params)
+    @policy = current_account.escalation_policies.new(sanitized_params)
     @policy.save
 
     respond_with @policy, location: escalation_policies_url
@@ -48,7 +48,7 @@ class EscalationPoliciesController < ApplicationController
       params[:escalation_policy][:escalation_rules_attributes][key][:assignable_id] = assignable.id
     end
     @policy = current_account.escalation_policies.where(uuid: params[:id]).first
-    @policy.update_attributes(escalation_policy_params)
+    @policy.update_attributes(sanitized_params)
 
     respond_with @policy
   end
@@ -66,10 +66,11 @@ class EscalationPoliciesController < ApplicationController
 
   private
 
-  def escalation_policy_params
-    params.require(:escalation_policy).permit(:name, :escalation_loop_limit,  escalation_rules_attributes: [ 
-      :escalation_timeout, :assignable_id, :assignable_type, :_destroy, :id, :position
-    ])
+  def permitted_params
+    [ :name, :escalation_loop_limit,  escalation_rules_attributes: [ 
+        :escalation_timeout, :assignable_id, :assignable_type, :_destroy, :id, :position
+      ]
+    ]
   end
 
 end

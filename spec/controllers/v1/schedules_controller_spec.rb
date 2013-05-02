@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SchedulesController do
+describe V1::SchedulesController do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
 

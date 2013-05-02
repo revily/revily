@@ -1,4 +1,4 @@
-class Api::V1::IntegrationController < Api::V1::BaseController
+class V1::IntegrationController < V1::ApplicationController
   before_filter :authenticate_service!
 
   respond_to :json
@@ -41,9 +41,8 @@ class Api::V1::IntegrationController < Api::V1::BaseController
 
   private
 
-  def incident_params
-    logger.info params.inspect
-    params.permit(:message, :description, :key)
+  def permitted_params
+    [ :message, :description, :key ]
   end
 
 end

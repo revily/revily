@@ -1,4 +1,4 @@
-class EscalationRulesController < ApplicationController
+class V1::EscalationRulesController < V1::ApplicationController
   respond_to :html, :json
 
   before_filter :authenticate_user!

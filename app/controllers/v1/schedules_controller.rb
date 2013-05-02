@@ -1,4 +1,4 @@
-class SchedulesController < ApplicationController
+class V1::SchedulesController < V1::ApplicationController
   respond_to :html, :json
 
   before_filter :authenticate_user!
@@ -22,7 +22,7 @@ class SchedulesController < ApplicationController
   end
 
   def create
-    @schedule = current_account.schedules.new(schedule_params)
+    @schedule = current_account.schedules.new(sanitized_params)
     @schedule.save
 
     respond_with @schedule
@@ -36,7 +36,7 @@ class SchedulesController < ApplicationController
 
   def update
     @schedule = current_account.schedules.where(uuid: params[:id]).first
-    @schedule.update_attributes(schedule_params)
+    @schedule.update_attributes(sanitized_params)
 
     respond_with @schedule
   end
@@ -50,7 +50,7 @@ class SchedulesController < ApplicationController
 
   private
 
-  def schedule_params
-    params.require(:schedule).permit(:name, :time_zone)
+  def permitted_params
+    [ :name, :time_zone ]
   end
 end

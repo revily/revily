@@ -78,7 +78,7 @@ class ScheduleLayer < ActiveRecord::Base
   end
 
   def reset_start_at_to_beginning_of_day
-    self[:start_at] = start_at.beginning_of_day
+    self[:start_at] = (start_at || Time.zone.now).beginning_of_day
   end
 
 end

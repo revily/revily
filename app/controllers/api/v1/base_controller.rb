@@ -1,5 +1,5 @@
-# class Api::V1::BaseController < ApplicationController
-class Api::V1::BaseController < ActionController::Base
+# class V1::BaseController < ApplicationController
+class V1::BaseController < ActionController::Base
   resource_description do
     api_version "v1"
     formats ['json']

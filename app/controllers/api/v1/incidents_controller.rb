@@ -1,4 +1,4 @@
-class Api::V1::IncidentsController < Api::V1::BaseController
+class V1::IncidentsController < V1::BaseController
   respond_to :json
 
   before_filter :authenticate_user!

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DashboardController do
+describe V1::DashboardController do
   let(:user) { create(:user) }
 
   before do

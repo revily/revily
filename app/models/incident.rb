@@ -98,7 +98,7 @@ class Incident < ActiveRecord::Base
 
     after_transition any => :triggered do |incident, transition|
       ::Incident::DispatchNotifications.perform_async(incident.id)
-      ::Incident::Escalate.perform_in(incident.try(:current_escalation_rule).escalation_timeout.minutes, incident.id)
+      ::Incident::Escalate.perform_in((incident.try(:current_escalation_rule).try(:escalation_timeout) || 1).minutes, incident.id)
     end
 
     after_transition :pending => :triggered do |incident, transition|
@@ -118,7 +118,7 @@ class Incident < ActiveRecord::Base
   end
 
   def next_escalation_rule
-    self.current_escalation_rule.try(:lower_item) || escalation_policy.escalation_rules.first
+    self.current_escalation_rule.try(:lower_item) || escalation_policy.try(:escalation_rules).try(:first)
   end
 
   def escalation_policy
@@ -157,7 +157,7 @@ class Incident < ActiveRecord::Base
   end
 
   def associate_current_user
-    self.current_user = self.current_escalation_rule.assignee
+    self.current_user = self.current_escalation_rule.try(:assignee)
   end
 
   def escalate_to_next_escalation_rule    

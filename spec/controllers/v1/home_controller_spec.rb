@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe HomeController do
+describe V1::HomeController do
 
   describe "GET 'index'" do
     before { get :index }
