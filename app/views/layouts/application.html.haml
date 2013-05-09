@@ -18,7 +18,8 @@
 
 
   %body
-    = render 'application/header'
+    %header#header
+      = render 'application/header'
       
     .container-fluid
       .row-fluid
@@ -28,7 +29,7 @@
               = yield :header
           - else
 
-      .row
+      .row-fluid
         .span12
           = bootstrap_flash
       .row
