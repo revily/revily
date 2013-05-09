@@ -26,9 +26,9 @@
 @import 'flat-ui-select2';
 @import 'bootstrap-editable';
 
-body {
-  height: 100%;
-}
+// body {
+//   height: 100%;
+// }
 
 // #sidebar {
 //   background-color: #ecf0f5;
@@ -56,6 +56,10 @@ body {
 
 .navbar .brand {
   padding-left: 20px !important;
+}
+
+section#main {
+  padding-top: 20px;
 }
 
 #push {
