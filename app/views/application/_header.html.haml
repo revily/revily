@@ -1,20 +1,25 @@
-.navbar.navbar-inverse.navbar-static-top
-  .navbar-inner
-    .container-fluid
-      %ul.nav
-        %li= link_to 'Reveille', root_path
-      %ul.nav.pull-right
-        = render 'users/menu/registration_items'
-        = render 'users/menu/login_items'
-
+/ .container
 .navbar.navbar-static-top
   .navbar-inner
     .container-fluid
-      %ul.nav
-        %li= link_to 'Dashboard', dashboard_path
-        %li= link_to 'Incidents', incidents_path
-        %li= link_to 'Services', services_path
-        %li= link_to 'Policies', escalation_policies_path
-        %li= link_to 'Schedules', schedules_path
-        %li= link_to 'Users', users_path
+      = collapse_button "#topnav-collapse"
+      = brand_link
 
+      #topnav-collapse.nav-collapse.collapse
+        %ul.nav.pull-right
+          = render 'users/menu/registration_items'
+          = render 'users/menu/login_items'
+      
+.navbar.navbar-static-top.navbar-inverse
+  .navbar-inner
+    .container-fluid
+      = collapse_button "#subnav-collapse"
+
+      #subnav-collapse.nav-collapse.collapse
+        %ul.nav
+          %li= link_to 'Dashboard', dashboard_path
+          %li= link_to 'Incidents', incidents_path
+          %li= link_to 'Services', services_path
+          %li= link_to 'Policies', escalation_policies_path
+          %li= link_to 'Schedules', schedules_path
+          %li= link_to 'Users', users_path

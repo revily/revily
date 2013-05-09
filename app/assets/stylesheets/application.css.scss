@@ -8,16 +8,16 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *=* require flat-ui
+ // *=* require flat-ui
  */
 
 // @import 'bootswatch/slate/variables';
 // @import 'bootswatch/cosmo/variables';
-// @import 'bootstrap';
-// @import 'bootstrap-responsive';
+@import 'bootstrap';
+@import 'bootstrap-responsive';
 // @import 'bootswatch/slate/bootswatch';
 // @import 'bootswatch/cosmo/bootswatch';
-@import 'flat-ui/flat-ui';
+@import 'flat-ui';
 @import 'font-awesome';
 // @import 'bootstrap-datepicker';
 // @import 'fullcalendar';
@@ -52,4 +52,12 @@ body {
 
 .odd {
   background-color: #f7f7f7;
+}
+
+.navbar .brand {
+  padding-left: 20px !important;
+}
+
+#push {
+  height: 50px;
 }

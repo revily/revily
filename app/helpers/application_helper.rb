@@ -65,4 +65,20 @@ module ApplicationHelper
     end
     link_to(name, '#', class: 'add_fields', data: { id: id, fields: fields.gsub("\n", "")})
   end
+
+  def brand_link
+    link_to "Reveille", root_path, class: 'brand'
+  end
+
+  def collapse_button(target)
+    content_tag :button, nil, class: 'btn btn-navbar', data: { toggle: 'collapse', target: target }
+  end
+
+  def icon_links
+    content_tag :link, nil, href: "images/apple-touch-icon-144x144.png", rel: "apple-touch-icon-precomposed", sizes: "144x144"
+    content_tag :link, nil, href: "images/apple-touch-icon-72x72.png", rel: "apple-touch-icon-precomposed", sizes: "72x72"
+    content_tag :link, nil, href: "images/apple-touch-icon.png", rel: "apple-touch-icon-precomposed"
+    content_tag :link, nil, href: "favicon.ico", rel: "shortcut icon"
+  end
+
 end
