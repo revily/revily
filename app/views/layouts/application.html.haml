@@ -22,13 +22,14 @@
     = bootstrap_flash
 
     %section#main.container-fluid
+      = yield :page_header
       .row-fluid
         - if content_for? :sidebar
-          %article.span8
-            = yield
-          %aside.span4
+          %aside.span2
             #sidebar
               = yield :sidebar if content_for?(:sidebar)
+          %article.span10
+            = yield
         - else
           %article.span12
             = yield

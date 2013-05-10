@@ -1,4 +1,9 @@
-
+= page_header do
+  .span10
+    %h1 Services
+  .span2
+    = link_to 'Create New Service', new_service_path, class: 'btn btn-primary btn-block btn-large'
+    
 .span8
   %h1 Services
 .span4
@@ -7,9 +12,9 @@
 = content_for :sidebar do
   %h4 Recent Activity
 
-  %ul
-    - current_account.services.actions.decorate.each do |action|
-      %li= action.message
+  / %ul
+  /   - current_account.services.actions.decorate.each do |action|
+  /     %li= action.message
 
 #services
   = render @services
