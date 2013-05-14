@@ -1,17 +1,31 @@
-.service
-  .row
-    .span1
-      = service.current_status
-    .span5
-      .details
-        %h3= link_to service.name.truncate(30), service_path(service)
-        = service.incident_counts
-    .span2
-      .controls.pull-right
-        .btn-group
-          = link_to edit_service_path(service), class: 'btn' do
-            %i.icon-pencil
-            Edit      
-          = link_to service_path(service), method: :delete, class: 'btn btn-danger' do
-            %i.icon-trash
-            Delete
+/ .service
+/   .row
+/     .span1
+/       = service.current_status
+/     .span5
+/       .details
+/         %h3= link_to service.name.truncate(30), service_path(service)
+/         = service.incident_counts
+/     .span2
+/       .controls.pull-right
+/         .btn-group
+/           = link_to edit_service_path(service), class: 'btn' do
+/             %i.icon-pencil
+/             Edit      
+/           = link_to service_path(service), method: :delete, class: 'btn btn-danger' do
+/             %i.icon-trash
+/             Delete
+
+%tr.service
+  %td.service-status= service.current_status
+  %td.service-name
+    %h3= link_to service.name.truncate(30), service_path(service)
+  %td.service-actions
+    .controls.pull-right
+      .btn-group
+        = link_to edit_service_path(service), class: 'btn' do
+          %i.icon-pencil
+          Edit      
+        = link_to service_path(service), method: :delete, class: 'btn btn-danger' do
+          %i.icon-trash
+          Delete

@@ -1,49 +1,67 @@
 / = page_header "Dashboard"
 
-.row-fluid
-  #services.span2
-    %h3 Services
-    %ul#services.unstyled
-      - @services.each do |service|
-        %li
-          = service.current_status
-          = link_to service.name, service_path(service)
+= content_for :sidebar do
+  %ul.nav.nav-list
+    %li.nav-header My Incidents
+    %li
+      .nav-counter= current_user.incidents.triggered.count
+      = link_to "triggered", '#'
+    %li
+      .nav-counter= current_user.incidents.acknowledged.count
+      = link_to "acknowledged", '#'
 
-  .span8
-    %h2 My Open Incidents
-    %table.table.table-striped.table-hover
-      %thead
-        %tr
-          %th ID
-          %th Service
-          %th State
-          %th Message
+    %li.divider
 
-      %tbody
-        - @assigned_incidents.each do |incident|
+    %li.nav-header All Incidents
+    %li
+      .nav-counter= current_account.incidents.count
+      = link_to "triggered", '#'
+    %li
+      .nav-counter= current_account.incidents.count
+      = link_to "acknowledged", '#'
+
+    %li.divider
+
+    %li.nav-header Services
+    - @services.each do |service|
+      %li
+        = link_to service_path(service) do
+          .nav-counter= service.current_status
+          = service.name
+
+#incidents.span12
+  
+  %ul.nav.nav-tabs.nav-append-content
+    %li.active= link_to "My Incidents", "#my-incidents"
+    %li= link_to " All Incidents", "#all-incidents"
+
+  .tab-content
+    #my-incidents.active.tab-pane
+      %h3 My Open Incidents
+      %table.table.table-striped.table-hover
+        %thead
           %tr
-            %td= incident.uuid
-            %td= incident.service.name
-            %td= incident.state_label
-            %td= incident.message
+            %th ID
+            %th Service
+            %th State
+            %th Message
 
-    %h2 All Incidents
-    %table.table.table-striped
-      %thead
-        %tr
-          %th ID
-          %th Service
-          %th State
-          %th Message
+        %tbody
+          - @assigned_incidents.each do |incident|
+            = render incident
 
-      %tbody
-        - @all_incidents.each do |incident|
-          %tr.success
-            %td= incident.uuid
-            %td= incident.service.name
-            %td= incident.state_label
-            %td= incident.message
+    #all-incidents.tab-pane
+      %h3 All Incidents
+      %table.table.table-striped
+        %thead
+          %tr
+            %th ID
+            %th Service
+            %th State
+            %th Message
+
+        %tbody
+          - @all_incidents.each do |incident|
+            = render incident
 
 
-    - @all_incidents.each do |incident|
-      = render 'v1/incidents/incident', incident: incident
