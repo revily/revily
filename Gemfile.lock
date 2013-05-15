@@ -35,10 +35,6 @@ GEM
       activesupport (= 3.2.13)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
-    activerecord-postgres-hstore (0.7.6)
-      activerecord (>= 3.1)
-      pg-hstore (>= 1.1.5)
-      rake
     activeresource (3.2.13)
       activemodel (= 3.2.13)
       activesupport (= 3.2.13)
@@ -62,8 +58,10 @@ GEM
       rails (>= 3.0.10)
     arel (3.0.2)
     awesome_print (1.1.0)
-    backbone-rails (0.9.10)
-      rails (>= 3.0.0)
+    barber (0.4.2)
+      ember-source
+      execjs
+      handlebars-source
     bcrypt-ruby (3.0.1)
     best_in_place (2.1.0)
       jquery-rails
@@ -73,12 +71,10 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.1)
       debug_inspector (>= 0.0.1)
-    bootstrap-datepicker-rails (1.0.0.5)
+    bootstrap-datepicker-rails (1.0.0.7)
       railties (>= 3.0)
     bootstrap-sass (2.3.1.0)
       sass (~> 3.2)
-    bootswatch-rails (0.4.0)
-      railties (>= 3.1)
     builder (3.0.4)
     bullet (4.6.0)
       uniform_notifier
@@ -113,7 +109,7 @@ GEM
       simplecov (>= 0.7)
       thor
     dalli (2.6.3)
-    database_cleaner (0.9.1)
+    database_cleaner (1.0.1)
     debug_inspector (0.0.2)
     devise (2.2.4)
       bcrypt-ruby (~> 3.0)
@@ -129,6 +125,17 @@ GEM
     email_spec (1.4.0)
       launchy (~> 2.1)
       mail (~> 2.2)
+    ember-data-source (0.0.5)
+      ember-source
+    ember-rails (0.12.0)
+      active_model_serializers
+      barber (>= 0.4.1)
+      ember-data-source
+      ember-source (>= 1.0.0.rc2.2)
+      execjs (>= 1.2)
+      railties (>= 3.1)
+    ember-source (1.0.0.rc3.3)
+      handlebars-source (>= 1.0.0.rc3, < 1.0.0.rc4)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -179,13 +186,10 @@ GEM
       activesupport (>= 3.1, < 4.1)
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
+    handlebars-source (1.0.0.rc3)
     hike (1.2.2)
     hound (0.3.0)
       rails (>= 3.1.0)
-    hstore-attributes (0.0.4)
-      activerecord (>= 3.0)
-      activerecord-postgres-hstore
-      pg
     i18n (0.6.1)
     ice_cube (0.10.0)
     journey (1.0.4)
@@ -197,7 +201,7 @@ GEM
       railties (>= 3.1.0)
     jquery-validation-rails (1.11.0)
       thor (~> 0.14)
-    json (1.7.7)
+    json (1.8.0)
     json_spec (1.1.1)
       multi_json (~> 1.0)
       rspec (~> 2.0)
@@ -211,28 +215,24 @@ GEM
       addressable (~> 2.3)
     libnotify (0.8.0)
       ffi (>= 1.0.11)
-    listen (1.0.3)
+    listen (1.1.1)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
       rb-kqueue (>= 0.2)
     lumberjack (1.0.3)
-    mail (2.5.3)
-      i18n (>= 0.4.0)
+    mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     method_source (0.8.1)
     mime-types (1.23)
     multi_json (1.7.3)
     nested_form (0.3.2)
-    newrelic_rpm (3.6.1.88)
+    newrelic_rpm (3.6.2.96)
     nokogiri (1.5.9)
     orm_adapter (0.4.0)
     pg (0.15.1)
-    pg-hstore (1.1.7)
-    polyamorous (0.5.0)
-      activerecord (~> 3.0)
     polyglot (0.3.3)
-    pry (0.9.12.1)
+    pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
@@ -312,12 +312,12 @@ GEM
       rspec (>= 2.0.0)
     ruby-graphviz (1.0.9)
     ruby_gntp (0.3.4)
-    sass (3.2.8)
+    sass (3.2.9)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    select2-rails (3.3.1)
+    select2-rails (3.3.2)
       sass-rails (>= 3.2)
       thor (~> 0.14)
     sham_rack (1.3.6)
@@ -344,7 +344,7 @@ GEM
     slim (1.3.8)
       temple (~> 0.6.3)
       tilt (~> 1.3.3)
-    slop (3.4.4)
+    slop (3.4.5)
     sms-spec (0.1.7)
       rspec
     spork (0.9.2)
@@ -353,10 +353,6 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    squeel (1.0.18)
-      activerecord (~> 3.0)
-      activesupport (~> 3.0)
-      polyamorous (~> 0.5.0)
     state_machine (1.2.0)
     state_machine_rspec (0.1.2)
       activesupport
@@ -412,7 +408,6 @@ PLATFORMS
 DEPENDENCIES
   active_attr
   active_model_serializers
-  activerecord-postgres-hstore
   acts-as-taggable-on (>= 2.3.3)
   acts_as_list
   acts_as_tenant
@@ -420,13 +415,11 @@ DEPENDENCIES
   annotate
   apipie-rails
   awesome_print
-  backbone-rails
   best_in_place
   better_errors
   binding_of_caller
   bootstrap-datepicker-rails
   bootstrap-sass
-  bootswatch-rails
   bullet
   capybara (>= 2.0.2)
   client_side_validations
@@ -439,6 +432,7 @@ DEPENDENCIES
   devise (>= 2.2.3)
   draper
   email_spec (>= 1.4.0)
+  ember-rails
   factory_girl_rails (>= 4.2.0)
   figaro (>= 0.6.3)
   font-awesome-sass-rails
@@ -453,7 +447,6 @@ DEPENDENCIES
   haml (>= 4.0.0)
   haml-rails (>= 0.4)
   hound
-  hstore-attributes
   ice_cube (>= 0.10.0)
   jquery-rails (>= 2.2.1)
   jquery-ui-rails (>= 4.0.1)
@@ -486,7 +479,6 @@ DEPENDENCIES
   sinatra (>= 1.3.0)
   slim (>= 1.3.6)
   sms-spec (>= 0.1.6)
-  squeel
   state_machine (>= 1.1.2)
   state_machine_rspec
   strong_parameters
