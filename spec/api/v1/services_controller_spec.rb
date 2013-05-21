@@ -6,7 +6,7 @@ describe V1::ServicesController do
   describe 'GET /services' do
 
     let!(:service) { create(:service, account: account) }
-    before { get '/api/services' }
+    before { get '/services' }
 
     # it #{ should respond_with(:ok) }
     it { should have_content_type(:json) }
@@ -15,7 +15,7 @@ describe V1::ServicesController do
 
   describe 'GET /services/:id' do
     let!(:service) { create(:service, account: account) }
-    before { get "/api/services/#{service.to_param}" }
+    before { get "/services/#{service.to_param}" }
 
     # it #{ should respond_with(:ok) }
     it { should have_content_type(:json) }
@@ -25,7 +25,7 @@ describe V1::ServicesController do
   describe 'POST /services' do
     let(:escalation_policy) { create(:escalation_policy, account: account) }
     let(:attributes) { attributes_for(:service, :escalation_policy_id => escalation_policy.uuid) }
-    before { post '/api/services', attributes.to_json }
+    before { post '/services', attributes.to_json }
 
     # it #{ should respond_with(:created) }
     it { should have_content_type(:json) }
@@ -35,7 +35,7 @@ describe V1::ServicesController do
   describe 'PUT /services/:id' do
     let!(:service) { create(:service, account: account) }
     let(:attributes) { { name: "AWESOME APPLICATION" } }
-    before { put "/api/services/#{service.to_param}", attributes.to_json }
+    before { put "/services/#{service.to_param}", attributes.to_json }
 
     # it #{ should respond_with(:ok) }
     it { expect(body).to be_json_eql ""}
@@ -44,7 +44,7 @@ describe V1::ServicesController do
   describe 'PUT /services/:id/enable' do
     let!(:service) { create(:service, account: account, state: 'disabled') }
     before do
-      put "/api/services/#{service.to_param}/enable"
+      put "/services/#{service.to_param}/enable"
       service.reload
     end
 
@@ -56,7 +56,7 @@ describe V1::ServicesController do
   describe 'PUT /services/:id/disable' do
     let!(:service) { create(:service, account: account) }
     before do
-      put "/api/services/#{service.to_param}/disable"
+      put "/services/#{service.to_param}/disable"
       service.reload
     end
 
@@ -67,7 +67,7 @@ describe V1::ServicesController do
 
   describe 'DELETE /services/:id' do
     let!(:service) { create(:service, account: account) }
-    before { delete "/api/services/#{service.to_param}" }
+    before { delete "/services/#{service.to_param}" }
 
     # it #{ should respond_with(:no_content) }
     it 'should have zero services' do

@@ -5,8 +5,8 @@ Reveille::Application.routes.draw do
   # apipie
   mount Sidekiq::Web => '/sidekiq'
 
-  scope "/api", defaults: { format: :json } do
-    scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+  # scope path: "/api", shallow_path: "/api", defaults: { format: :json } do
+    scope module: :v1, defaults: { format: :json }, constraints: ApiConstraints.new(version: 1, default: true) do
       # constraints format: :json do
       # constraints ApiConstraints.new(version: 1, default: true) do
       put 'trigger' => 'integration#trigger'
@@ -14,8 +14,8 @@ Reveille::Application.routes.draw do
 
       post 'sms/receive' => 'sms#receive'
       
-      resources :services do
-      # resources :services, shallow: true do
+      # resources :services do
+      resources :services, shallow: true do
         resources :incidents
         member do
           put 'enable'
@@ -45,7 +45,7 @@ Reveille::Application.routes.draw do
       sessions: 'v1/users/sessions'
     }
     devise_for :services, skip: [ :sessions ]
-  end
+  # end
   # scope module: :v1 do
   #   get 'dashboard' => 'dashboard#index'
   # end
