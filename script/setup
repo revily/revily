@@ -16,4 +16,8 @@ echo "Installing hstore extension"
   psql -d template1 -c 'CREATE EXTENSION IF NOT EXISTS hstore'
 } >&3 2>&1
 
+echo "Vendoring gems"
+rm -rf .bundle
+bundle install --binstubs --path vendor/gems "$@"
+
 echo "Done!"
