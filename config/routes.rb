@@ -13,8 +13,9 @@ Reveille::Application.routes.draw do
       put 'resolve' => 'integration#resolve'
 
       post 'sms/receive' => 'sms#receive'
-
-      resources :services, shallow: true do
+      
+      resources :services do
+      # resources :services, shallow: true do
         resources :incidents
         member do
           put 'enable'
@@ -50,5 +51,5 @@ Reveille::Application.routes.draw do
   # end
 
   root to: 'application#index'
-  match "(*url)" => 'application#index'
+  # match "(*url)" => 'application#index'
 end
