@@ -1,0 +1,46 @@
+<div class="navbar navbar-inverse navbar-static-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <button class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse"></button>
+      {{#linkTo index class="brand"}}Reveille{{/linkTo}}
+      <div id="#nav-collapse" class="nav-collapse collapse">
+        <ul class="nav">
+          {{#view Reveille.NavView}}
+          {{#linkTo "incidents" tagName="li"}}
+            <a {{bindAttr href="view.href"}}>Incidents</a>
+          {{/linkTo}}
+          {{#linkTo "services" tagName="li"}}
+            <a {{bindAttr href="view.href"}}>Services</a>
+          {{/linkTo}}
+          {{#linkTo "policies" tagName="li"}}
+            <a {{bindAttr href="view.href"}}>Policies</a>
+          {{/linkTo}}
+          {{#linkTo "schedules" tagName="li"}}
+            <a {{bindAttr href="view.href"}}>Schedules</a>
+          {{/linkTo}}
+          {{#linkTo "users" tagName="li"}}
+            <a {{bindAttr href="view.href"}}>Users</a>
+          {{/linkTo}}
+          {{/view}}
+        </ul>
+        <ul class="nav pull-right">
+        {{#if Reveille.Auth.signedIn}}
+          <li>
+            <a href="#" action signOut target="view">Sign out</a>
+          </li>
+          <li>
+            {{#linkTo 'users.edit'}}Edit profile{{/linkTo}}
+          </li>
+        {{else}}
+          <li>
+            {{#linkTo 'sign_in'}}Sign in{{/linkTo}}
+          </li>
+          <li>
+            {{#linkTo 'sign_up'}}Sign up{{/linkTo}}
+          </li>
+        {{/if}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

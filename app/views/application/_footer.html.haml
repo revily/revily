@@ -1,7 +1,13 @@
-.row
-  .span7
-    %h3.footer-title Reveille
-    %p.muted.credit Copyright &copy; 2013 Applied Awesome LLC.
-  .span5
-    .footer-banner 
-      %h3.footer-title Hi!
+%footer#footer.mtl.pbl
+  .bottom-menu.bottom-menu-inverse
+    .container
+      .row
+        .span2.brand
+          = brand_link
+        .span8
+          %ul.bottom-links
+            %li= link_to "Support", '#'
+            %li= link_to "Documentation", '#'
+            %li= link_to "API", '#'
+        .span2
+          

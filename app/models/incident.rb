@@ -42,7 +42,7 @@ class Incident < ActiveRecord::Base
   before_create :associate_current_user
   after_create :trigger
   
-  scope :unresolved, where("state != 'resolved'")
+  scope :unresolved, where("incidents.state != ?", "resolved")
   scope :triggered, where("state = ?", 'triggered')
   scope :acknowledged, where("state = ?", 'acknowledged')
   scope :resolved, where("state = ?", 'resolved')

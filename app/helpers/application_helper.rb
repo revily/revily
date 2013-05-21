@@ -65,4 +65,12 @@ module ApplicationHelper
     end
     link_to(name, '#', class: 'add_fields', data: { id: id, fields: fields.gsub("\n", "")})
   end
+
+  def icon_links
+    content_tag :link, nil, href: "images/apple-touch-icon-144x144.png", rel: "apple-touch-icon-precomposed", sizes: "144x144"
+    content_tag :link, nil, href: "images/apple-touch-icon-72x72.png", rel: "apple-touch-icon-precomposed", sizes: "72x72"
+    content_tag :link, nil, href: "images/apple-touch-icon.png", rel: "apple-touch-icon-precomposed"
+    content_tag :link, nil, href: "favicon.ico", rel: "shortcut icon"
+  end
+
 end

@@ -1,25 +1,35 @@
-
-.span8
-  %h1 Services
-.span4
-  = link_to 'Create New Service', new_service_path, class: 'btn btn-primary btn-block btn-large'
-
 = content_for :sidebar do
-  %h4 Recent Activity
-
-  %ul
-    - current_account.services.actions.decorate.each do |action|
-      %li= action.message
+  %ul.nav.nav-list
+    %li
+      %span= link_to 'Create New Service', new_service_path, class: 'btn btn-primary btn-block btn-large'
+    %li.divider
+    %li.nav-header Recent Activity
+    %li Dan Ryan created "Application"
+    %li Dan Ryan updated "Nagios"
 
 #services
-  = render @services
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th
+        %th
+        %th
+    %tbody
+      = render @services
   / - @services.each do |service|
   /  = render 'services/service', locals: { service: service }
 
 %br
 
 .page-header
-  %h3 Disabled
+  %h4 Disabled
 #disabled_services
-  = render @disabled_services
+  %table.table.table-striped
+    %thead
+      %tr
+        %th
+        %th Name
+        %th
+    %tbody
+      = render @disabled_services
 

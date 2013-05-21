@@ -21,20 +21,3 @@
 
 .page-header
   %h3 Recent Activity
-
-/ :handlebars
-/   <tr class="policy">
-/     <td class="name">{{name}}</td>
-/     <td class="timeout">{{escalation_loop_limit}}</td>
-/     <td class="rules">
-/     {{#if rules}}
-/       <ol>
-/         {{#each rules}}
-/           <li>Assign to {{assignable}}</li>
-/         {{/each}}
-/       </ol>
-/     {{else}}
-/       <em class="small muted">No rules for this policy.</em>
-/     {{/if}}
-/     </td>
-/   </tr>  

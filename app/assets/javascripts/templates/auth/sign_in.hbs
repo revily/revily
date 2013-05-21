@@ -1,0 +1,32 @@
+<h1>Login</h1>
+<form name="myForm">
+  {{ view Bootstrap.Forms.TextField valueBinding="email" 
+      label=false 
+      placeholder="Email" 
+      name="email"
+      type="email"
+      required="true"
+  }}
+  {{ view Bootstrap.Forms.TextField valueBinding="password" 
+    label=false 
+    placeholder="Password" 
+    name="password"
+    type="password"
+    required="true"
+  }}
+  <div class="control-group">
+    <label class="checkbox" for="remember_me">
+      <input type="checkbox" id="remember_me" name="remember_me" > Remember Me
+    </label>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button {{action "signIn"}} type="button" class="btn btn-primary btn-large">
+        Login
+      </button>
+    </div>
+</form>​
+
+<div>
+  Email: {{ email }}
+</div>
