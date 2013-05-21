@@ -16,29 +16,7 @@
     = icon_links
 
   %body
-    #wrapper
-      %header#header
-        = render 'application/header'
-        
-      = bootstrap_flash
-
-      %section#main.container-fluid
-        = yield :page_header
-        .row-fluid
-          - if content_for? :sidebar
-            %aside.span2
-              #sidebar
-                = yield :sidebar if content_for?(:sidebar)
-            %article.span10
-              = yield
-          - else
-            %article.span12
-              = yield
-
-        
-        #push
-
-    = render 'application/footer'
+    = yield
     /
       Javascripts
       \==================================================

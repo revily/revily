@@ -1,0 +1,42 @@
+html, body {
+  height: 100%;
+  margin: 0 auto;
+}
+
+.container {
+  position: relative;
+}
+
+#wrapper {
+  // min-height: 100%;
+  // height: auto !important;
+  // height: 100%;
+  // margin: 0 auto -50px;
+}
+
+.navbar .brand {
+  padding-left: 20px !important;
+}
+
+section#main {
+  padding-top: 20px;
+}
+
+button.close {
+  padding-right: 20px !important;
+}
+
+#push {
+  padding-bottom: 40px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+header ul.nav li > a {
+  cursor: pointer;
+}

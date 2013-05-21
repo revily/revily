@@ -46,6 +46,7 @@ group :assets do
   gem 'bootstrap-sass'
   gem 'coffee-rails', '>= 3.2.2'
   gem 'ember-rails'
+  gem 'ember-auth-rails'
   gem 'font-awesome-sass-rails'
   gem 'jquery-ui-rails', '>= 4.0.1'
   gem 'jquery-validation-rails', '>= 1.10.0'

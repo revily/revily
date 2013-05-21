@@ -28,9 +28,20 @@
 //= require rails.validations.simple_form
 //= require select2
 //= require jquery_nested_form
-//= require editable
+//=// require editable
+//= require handlebars
+//= require ember
+//= require ember-data
+//= require ember-easyform
+//= require ember-validations
+//= require ember-auth
 //= require_self
-//= require_tree .
+//= require reveille
+
+window.Reveille = Ember.Application.create({
+  LOG_TRANSITIONS: true
+  // LOG_BINDINGS: true
+});
 
 $.ajaxSetup({
   dataType: 'json'

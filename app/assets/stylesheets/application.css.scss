@@ -8,71 +8,15 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- // *=* require flat-ui
  */
 
-// @import 'bootswatch/slate/variables';
-// @import 'bootswatch/cosmo/variables';
 @import 'bootstrap';
 @import 'bootstrap-responsive';
-// @import 'bootswatch/slate/bootswatch';
-// @import 'bootswatch/cosmo/bootswatch';
 @import 'flat-ui';
 @import 'font-awesome';
-// @import 'bootstrap-datepicker';
-// @import 'fullcalendar';
-@import 'services';
-@import 'escalation_policies';
-@import 'flat-ui-select2';
-@import 'bootstrap-editable';
-
-html, body {
-  height: 100%;
-}
-
-#wrapper {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -70px;
-}
-
-// #sidebar {
-//   background-color: #ecf0f5;
-//   border-radius: 6px;
-//   padding: 14px;
-//   position: relative;
-// }
-
-.okay {
-  color: #2ECC71;
-}
-.warning {
-  color: #F39C12;
-}
-.critical {
-  color: #E74C3C;
-}
-.unknown {
-  color: #ECF0F1;
-}
-
-.odd {
-  background-color: #f7f7f7;
-}
-
-.navbar .brand {
-  padding-left: 20px !important;
-}
-
-section#main {
-  padding-top: 20px;
-}
-
-button.close {
-  padding-right: 20px !important;
-}
-
-#push, footer {
-  height: 50px;
-}
+// // @import 'bootstrap-datepicker';
+// // @import 'fullcalendar';
+// @import 'flat-ui-select2';
+// // @import 'bootstrap-editable';
+@import 'layout';
+@import 'colors';

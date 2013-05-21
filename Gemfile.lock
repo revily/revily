@@ -125,6 +125,11 @@ GEM
     email_spec (1.4.0)
       launchy (~> 2.1)
       mail (~> 2.2)
+    ember-auth-rails (4.0.1)
+      ember-auth-source
+      rails
+    ember-auth-source (6.0.3)
+      ember-source (>= 0.0.2, != 1.0.0.rc1.2, != 1.0.0.rc1.1, != 1.0.0.rc1.0.0, != 1.0.0.pre4.1)
     ember-data-source (0.0.5)
       ember-source
     ember-rails (0.12.0)
@@ -432,6 +437,7 @@ DEPENDENCIES
   devise (>= 2.2.3)
   draper
   email_spec (>= 1.4.0)
+  ember-auth-rails
   ember-rails
   factory_girl_rails (>= 4.2.0)
   figaro (>= 0.6.3)

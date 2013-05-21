@@ -1,0 +1,31 @@
+<h1>Login</h1>
+<form name="myForm">
+  <div class="control-group">
+    <label class="control-label" for="email">Email</label>
+    <div class="controls">
+      <input type="email" id="email" name="email" placeholder="Email" required>
+    </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="password">Password</label>
+      <div class="controls">
+        <input type="password" id="password" name="password" placeholder="Password" password-validate required>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="checkbox" for="remember_me">
+        <input type="checkbox" id="remember_me" name="remember_me" > Remember Me
+      </label>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn">Login</button>
+      </div>
+  </div>
+</form>​
+
+{{#formFor}}
+  {{input email}}
+  {{input password}}
+  {{submit}}
+{{/formFor}}
