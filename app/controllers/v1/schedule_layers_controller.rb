@@ -10,9 +10,9 @@ class V1::ScheduleLayersController < V1::ApplicationController
   end
 
   def show
-    @schedule_layer = schedule_layers.find_by_uuid(params[:id])
+    @schedule_layer = schedule_layers.where(uuid: params[:id]).first
 
-    respond_with schedule, @schedule_layer
+    respond_with [schedule, @schedule_layer]
   end
 
   def new
@@ -22,20 +22,20 @@ class V1::ScheduleLayersController < V1::ApplicationController
   end
 
   def create
-    @schedule_layer = schedule_layers.create(sanitized_params)
+    @schedule_layer = schedule_layers.create(schedule_layer_params)
 
     respond_with schedule, @schedule_layer
   end
 
   def update
-    @schedule_layer = schedule_layers.find_by_uuid(params[:id])
-    @schedule_layer.update_attributes(sanitized_params)
+    @schedule_layer = schedule_layers.where(uuid: params[:id]).first
+    @schedule_layer.update_attributes(schedule_layer_params)
 
     respond_with schedule, @schedule_layer
   end
 
   def destroy
-    @schedule_layer = schedule_layers.find_by_uuid(params[:id])
+    @schedule_layer = schedule_layers.where(uuid: params[:id]).first
     @schedule_layer.destroy
 
     respond_with schedule, @schedule_layer
@@ -43,12 +43,12 @@ class V1::ScheduleLayersController < V1::ApplicationController
 
   private
 
-  def permitted_params
-    [ :position, :rule, :count, :start_at, :schedule_id, :users ]
+  def schedule_layer_params
+    params.permit(:position, :rule, :count, :start_at, :schedule_id, :users)
   end
 
   def schedule
-    @schedule ||= Schedule.where(uuid: params[:schedule_id]).first if params[:schedule_id]
+    @schedule ||= current_account.schedules.where(uuid: params[:schedule_id]).first if params[:schedule_id]
   end
 
   def schedule_layers

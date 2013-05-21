@@ -2,60 +2,60 @@ class V1::ServicesController < V1::ApplicationController
   respond_to :json
 
   before_filter :authenticate_user!
-
+  before_filter :services
+  
   def index
-    @services = current_account.services.enabled.includes(:incidents).decorate
-    @disabled_services = current_account.services.disabled.decorate
+    @services = services.all
     respond_with @services
   end
 
   def show
-    @service = current_account.services.where(uuid: params[:id]).first.decorate
+    @service = services.where(uuid: params[:id]).first.decorate
 
     respond_with @service
   end
 
   def new
-    @service = current_account.services.new
+    @service = services.new
 
     respond_with @service
   end
 
   def create
-    @service = current_account.services.new(sanitized_params)
+    @service = services.new(service_params)
     @service.save
 
     respond_with @service
   end
 
   def edit
-    @service = current_account.services.where(uuid: params[:id]).first.decorate
+    @service = services.where(uuid: params[:id]).first.decorate
 
     respond_with @service
   end
 
   def update
-    @service = current_account.services.where(uuid: params[:id]).first
-    @service.update_attributes(sanitized_params)
+    @service = services.where(uuid: params[:id]).first
+    @service.update_attributes(service_params)
 
     respond_with @service
   end
 
   def enable
-    @service = current_account.services.where(uuid: params[:id]).first
+    @service = services.where(uuid: params[:id]).first
     @service.enable && hound_action(@service, 'enable')
 
     respond_with @service
   end
 
   def disable
-    @service = current_account.services.where(uuid: params[:id]).first
+    @service = services.where(uuid: params[:id]).first
     @service.disable && hound_action(@service, 'disable')
     respond_with @service
   end
 
   def destroy
-    @service = current_account.services.where(uuid: params[:id]).first
+    @service = services.where(uuid: params[:id]).first
     @service.destroy
 
     respond_with @service
@@ -63,8 +63,12 @@ class V1::ServicesController < V1::ApplicationController
 
   private
 
-  def permitted_params
-    [:name, :acknowledge_timeout, :auto_resolve_timeout]
+  def services
+    @services ||= current_account.services
+  end
+
+  def service_params
+    params.permit(:name, :acknowledge_timeout, :auto_resolve_timeout)
   end
 
 end

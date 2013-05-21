@@ -7,8 +7,8 @@ class Account < ActiveRecord::Base
   has_many :schedules, dependent: :destroy
   has_many :services, dependent: :destroy
   has_many :incidents, through: :services
-  has_many :escalation_policies, dependent: :destroy
-  has_many :escalation_rules, through: :escalation_policies
+  has_many :policies, dependent: :destroy
+  has_many :policy_rules, through: :policies
 
   # has_many :assignables, finder_sql: proc { 'SELECT * FROM users.*, }
   

@@ -2,47 +2,48 @@ class V1::SchedulesController < V1::ApplicationController
   respond_to :json
 
   before_filter :authenticate_user!
-  
-  def index
-    @schedules = current_account.schedules.decorate
+  before_filter :schedules
 
-    respond_with @schedule
+  def index
+    @schedules = schedules.decorate
+
+    respond_with @schedules
   end
 
   def show
-    @schedule = current_account.schedules.where(uuid: params[:id]).first
+    @schedule = schedules.where(uuid: params[:id]).first
 
     respond_with @schedule
   end
 
   def new
-    @schedule = current_account.schedules.new
+    @schedule = schedules.new
 
     respond_with @schedule
   end
 
   def create
-    @schedule = current_account.schedules.new(sanitized_params)
+    @schedule = schedules.new(schedule_params)
     @schedule.save
 
     respond_with @schedule
   end
 
   def edit
-    @schedule = current_account.schedules.where(uuid: params[:id]).first
+    @schedule = schedules.where(uuid: params[:id]).first
 
     respond_with @schedule
   end
 
   def update
-    @schedule = current_account.schedules.where(uuid: params[:id]).first
-    @schedule.update_attributes(sanitized_params)
+    @schedule = schedules.where(uuid: params[:id]).first
+    @schedule.update_attributes(schedule_params)
 
     respond_with @schedule
   end
 
   def destroy
-    @schedule = current_account.schedules.where(uuid: params[:id]).first
+    @schedule = schedules.where(uuid: params[:id]).first
     @schedule.destroy
 
     respond_with @schedule
@@ -50,7 +51,11 @@ class V1::SchedulesController < V1::ApplicationController
 
   private
 
-  def permitted_params
-    [ :name, :time_zone ]
+  def schedule_params
+    params.permit(:name, :time_zone)
+  end
+
+  def schedules
+    @schedules ||= current_account.schedules
   end
 end

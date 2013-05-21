@@ -32,8 +32,8 @@ class Service < ActiveRecord::Base
   scope :disabled, where(state: 'disabled')
 
   has_many :alerts, through: :incidents
-  has_one :service_escalation_policy
-  has_one :escalation_policy, through: :service_escalation_policy
+  has_one :service_policy
+  has_one :policy, through: :service_policy
 
   validates :name, :acknowledge_timeout, :auto_resolve_timeout, :state,
     presence: true

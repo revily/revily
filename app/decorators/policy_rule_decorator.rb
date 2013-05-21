@@ -1,4 +1,4 @@
-class EscalationPolicyDecorator < Draper::Decorator
+class PolicyRuleDecorator < Draper::Decorator
   delegate_all
 
   # Define presentation-specific methods here. Helpers are accessed through

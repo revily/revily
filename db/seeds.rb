@@ -30,14 +30,14 @@ user = account.users.first_or_create(
   )
 end
 
-puts "create escalation_policy"
-escalation_policy = account.escalation_policies.first_or_create(
+puts "create policy"
+policy = account.policies.first_or_create(
   name: "Operations",
   escalation_loop_limit: 3
 )
 
 puts "create rule"
-escalation_policy.escalation_rules.first_or_create(
+policy.policy_rules.first_or_create(
   assignable: user,
   escalation_timeout: 1
 )

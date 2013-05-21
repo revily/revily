@@ -3,7 +3,7 @@ module API
 
     def sign_in_service
       let(:account) { create(:account) }
-      let(:service) { create(:service, :with_escalation_policy, account: account) }
+      let(:service) { create(:service, :with_policy, account: account) }
       let(:token) { service.authentication_token }
 
       before do

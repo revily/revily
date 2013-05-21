@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe EscalationRuleDecorator do
+describe PolicyRuleDecorator do
 end

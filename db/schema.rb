@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130406211154) do
+ActiveRecord::Schema.define(:version => 20130521162720) do
 
   create_table "accounts", :force => true do |t|
     t.string   "subdomain"
@@ -31,31 +31,6 @@ ActiveRecord::Schema.define(:version => 20130406211154) do
   end
 
   add_index "contacts", ["contactable_id"], :name => "index_contacts_on_contactable_id"
-
-  create_table "escalation_policies", :force => true do |t|
-    t.string   "name"
-    t.string   "uuid",                  :null => false
-    t.integer  "escalation_loop_limit"
-    t.integer  "account_id"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-  end
-
-  add_index "escalation_policies", ["account_id"], :name => "index_escalation_policies_on_account_id"
-
-  create_table "escalation_rules", :force => true do |t|
-    t.integer  "escalation_timeout",   :default => 30
-    t.integer  "position"
-    t.string   "uuid",                                 :null => false
-    t.integer  "assignable_id"
-    t.string   "assignable_type"
-    t.integer  "escalation_policy_id"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-  end
-
-  add_index "escalation_rules", ["assignable_id"], :name => "index_escalation_rules_on_assignable_id"
-  add_index "escalation_rules", ["escalation_policy_id"], :name => "index_escalation_rules_on_escalation_policy_id"
 
   create_table "hound_actions", :force => true do |t|
     t.string   "action",          :null => false
@@ -77,15 +52,15 @@ ActiveRecord::Schema.define(:version => 20130406211154) do
     t.string   "state"
     t.string   "key"
     t.integer  "current_user_id"
-    t.integer  "current_escalation_rule_id"
-    t.integer  "escalation_loop_count",      :default => 0
-    t.string   "uuid",                                      :null => false
+    t.integer  "current_policy_rule_id"
+    t.integer  "escalation_loop_count",  :default => 0
+    t.string   "uuid",                                  :null => false
     t.integer  "service_id"
     t.datetime "triggered_at"
     t.datetime "acknowledged_at"
     t.datetime "resolved_at"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
   end
 
   add_index "incidents", ["current_user_id"], :name => "index_incidents_on_current_user_id"
@@ -100,6 +75,31 @@ ActiveRecord::Schema.define(:version => 20130406211154) do
   end
 
   add_index "notification_rules", ["contact_id"], :name => "index_notification_rules_on_contact_id"
+
+  create_table "policies", :force => true do |t|
+    t.string   "name"
+    t.string   "uuid",                  :null => false
+    t.integer  "escalation_loop_limit"
+    t.integer  "account_id"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  add_index "policies", ["account_id"], :name => "index_policies_on_account_id"
+
+  create_table "policy_rules", :force => true do |t|
+    t.integer  "escalation_timeout", :default => 30
+    t.integer  "position"
+    t.string   "uuid",                               :null => false
+    t.integer  "assignable_id"
+    t.string   "assignable_type"
+    t.integer  "policy_id"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  add_index "policy_rules", ["assignable_id"], :name => "index_policy_rules_on_assignable_id"
+  add_index "policy_rules", ["policy_id"], :name => "index_policy_rules_on_policy_id"
 
   create_table "schedule_layers", :force => true do |t|
     t.integer  "duration"
@@ -126,16 +126,16 @@ ActiveRecord::Schema.define(:version => 20130406211154) do
 
   add_index "schedules", ["account_id"], :name => "index_schedules_on_account_id"
 
-  create_table "service_escalation_policies", :force => true do |t|
-    t.string   "uuid",                 :null => false
+  create_table "service_policies", :force => true do |t|
+    t.string   "uuid",       :null => false
     t.integer  "service_id"
-    t.integer  "escalation_policy_id"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.integer  "policy_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  add_index "service_escalation_policies", ["escalation_policy_id"], :name => "index_service_escalation_policies_on_escalation_policy_id"
-  add_index "service_escalation_policies", ["service_id"], :name => "index_service_escalation_policies_on_service_id"
+  add_index "service_policies", ["policy_id"], :name => "index_service_policies_on_policy_id"
+  add_index "service_policies", ["service_id"], :name => "index_service_policies_on_service_id"
 
   create_table "services", :force => true do |t|
     t.string   "name"
@@ -199,7 +199,7 @@ ActiveRecord::Schema.define(:version => 20130406211154) do
     t.datetime "updated_at",                             :null => false
   end
 
-  add_index "users", ["account_id"], :name => "index_users_on_account_id", :unique => true
+  add_index "users", ["account_id"], :name => "index_users_on_account_id"
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true

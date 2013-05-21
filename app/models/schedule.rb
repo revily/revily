@@ -20,8 +20,8 @@ class Schedule < ActiveRecord::Base
 
   belongs_to :account
   
-  has_many :escalation_rules, as: :assignable
-  has_many :escalation_policies, through: :escalation_rules
+  has_many :policy_rules, as: :assignable
+  has_many :policies, through: :policy_rules
   has_many :schedule_layers, order: :position, dependent: :destroy
   alias_method :layers, :schedule_layers
 

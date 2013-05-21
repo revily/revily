@@ -13,7 +13,7 @@ describe Incident do
 
   describe 'attributes' do
     let(:account) { create(:account) }
-    let(:service) { create(:service, :with_escalation_policy, account: account) }
+    let(:service) { create(:service, :with_policy, account: account) }
     
     it { should serialize(:details) }
     it { should have_readonly_attribute(:uuid) }
@@ -38,7 +38,7 @@ describe Incident do
     # it { should handle_incident :resolve, when: :triggered }
     # it { should handle_incident :resolve, when: :acknowledged }
 
-    let(:service) { create(:service, :with_escalation_policy) }
+    let(:service) { create(:service, :with_policy) }
     describe 'initial state' do
       it { build(:incident, service: service).should be_pending }
     end

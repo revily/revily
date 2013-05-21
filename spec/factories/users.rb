@@ -14,7 +14,7 @@ FactoryGirl.define do
       end
     end
 
-    factory :dan_ryan do
+    trait :dan_ryan do
       name "Dan Ryan"
       email "dan@appliedawesome.com"
       password "asdfasdf"

@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe ServiceEscalationPolicy do
+describe ServicePolicy do
   describe 'associations' do
     it { should belong_to(:service) }
-    it { should belong_to(:escalation_policy) }
+    it { should belong_to(:policy) }
   end
 
   it 'uses uuid for #to_param' do

@@ -6,7 +6,7 @@ describe User do
     it { should have_many(:contacts) }
     it { should have_many(:user_schedule_layers) }
     it { should have_many(:schedule_layers).through(:user_schedule_layers) }
-    it { should have_many(:escalation_rules) }
+    it { should have_many(:policy_rules) }
   end
 
   describe 'validations' do

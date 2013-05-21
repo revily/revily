@@ -1,11 +1,5 @@
 class V1::ApplicationController < ActionController::Base
   respond_to :json
-  # before_filter :default_json
-
-  def sanitized_params
-    resource = self.class.name.demodulize.gsub("Controller", "").downcase.singularize.to_sym
-    @sanitized_params ||= (params[resource] ? params.require(resource) : params).permit(*permitted_params)
-  end
 
   def after_sign_in_path_for(resource_or_scope)
     dashboard_url

@@ -7,10 +7,10 @@ FactoryGirl.define do
     acknowledge_timeout 30
     account
 
-    escalation_policy
+    policy
 
-    trait :with_escalation_policy do
-      association :escalation_policy, factory: :escalation_policy_with_rules
+    trait :with_policy do
+      association :policy, factory: [ :policy, :with_rules ]
     end
 
     trait :with_incidents do
@@ -38,6 +38,6 @@ FactoryGirl.define do
       end
     end
 
-    factory :service_with_escalation_policy, traits: [ :with_escalation_policy ]
+    factory :service_with_policy, traits: [ :with_policy ]
   end
 end

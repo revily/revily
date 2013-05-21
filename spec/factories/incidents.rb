@@ -24,7 +24,7 @@ FactoryGirl.define do
     factory :incident_with_key, traits: [ :key ]
     
     factory :incident_with_service, traits: [ :key ] do
-      association :service, :with_escalation_policy
+      association :service, :with_policy
     end
 
   end

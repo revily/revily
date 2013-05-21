@@ -1,15 +1,13 @@
 require 'spec_helper'
 
-describe EscalationPolicy do
+describe PolicyRule do
   describe 'associations' do
-    it { should belong_to(:account) }
-    it { should have_many(:escalation_rules) }
-    it { should have_many(:service_escalation_policies) }
-    it { should have_many(:services).through(:service_escalation_policies) }
+    it { should belong_to(:policy) }
+    it { should belong_to(:assignable) }
   end
 
   describe 'validations' do
-    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:escalation_timeout) }
   end
 
   describe 'attributes' do

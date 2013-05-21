@@ -24,7 +24,7 @@ FactoryGirl.define do
       rule 'yearly'
     end
 
-    factory :schedule_layer_with_users do
+    trait :with_users do
       rule 'daily'
 
       ignore do

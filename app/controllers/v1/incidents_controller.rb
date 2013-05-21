@@ -17,7 +17,7 @@ class V1::IncidentsController < V1::ApplicationController
   end
 
   def create
-    @incident = incidents.new(sanitized_params)
+    @incident = incidents.new(incident_params)
     @incident.save
 
     respond_with @incident
@@ -25,7 +25,7 @@ class V1::IncidentsController < V1::ApplicationController
 
   def update
     @incident = incidents.where(uuid: params[:id]).first
-    @incident.update_attributes(sanitized_params)
+    @incident.update_attributes(incident_params)
 
     respond_with @incident
   end
@@ -67,8 +67,8 @@ class V1::IncidentsController < V1::ApplicationController
 
   private
 
-  def permitted_params
-    [:message, :details]
+  def incident_params
+    params.permit(:message, :details)
   end
 
   def service
