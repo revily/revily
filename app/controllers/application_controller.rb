@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  respond_to :html
+  respond_to :json
   
   protect_from_forgery
   
@@ -11,7 +11,5 @@ class ApplicationController < ActionController::Base
     current_user.account
   end
   helper_method :current_account
-  
-  def index
-  end
+
 end

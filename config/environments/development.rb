@@ -38,6 +38,4 @@ Reveille::Application.configure do
   config.action_mailer.default_url_options = { :host => 'example.local' }
 
   config.action_controller.action_on_unpermitted_parameters = :log
-
-  config.ember.variant = :development
 end

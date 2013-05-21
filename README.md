@@ -6,7 +6,6 @@ Reveille - It wakes you up!
 
 [![Build Status](https://secure.travis-ci.org/danryan/reveille.png?branch=master)](https://travis-ci.org/danryan/reveille)
 [![Code Climate](https://codeclimate.com/github/danryan/reveille.png)](https://codeclimate.com/github/danryan/reveille)
-[![Coverage Status](https://coveralls.io/repos/danryan/reveille/badge.png?branch=master)](https://coveralls.io/r/danryan/reveille)
 
 ## DESCRIPTION
 

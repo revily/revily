@@ -1,32 +1,48 @@
-# require 'spec_helper'
+require 'spec_helper'
 
-# describe 'Incidents' do
-#   sign_in_user
+describe "incidents" do
+  sign_in_user
 
-#   let(:service) { create(:service) }
-#   let(:incident) { create(:incident, service: service) }
+  let(:service) { create(:service_with_escalation_policy, account: account) }
 
-#   describe 'GET /incidents' do
-#     before { get "/services/#{service.id}/incidents" }
+  describe 'GET /services/:service_id/incidents' do
+    let!(:incident) { create(:incident, service: service) }
+    before { get "/services/#{service.uuid}/incidents" }
 
-#     # it { should respond_with(:ok) }
-#     it { should have_content_type(:json) }
-#     its(:body) { should be_json_eql Incident.all.to_json }
-#   end
+    it { should respond_with(:ok) }
+    it { should have_content_type(:json) }
+  end
 
-#   describe 'GET /incidents/:id' do
+  describe 'GET /incidents/:id' do
+    let(:incident) { create(:incident, service: service) }
+    before { get "/incidents/#{incident.uuid}" }
 
-#   end
+    it { should respond_with(:ok) }
+    it { should have_content_type(:json) }
+  end
 
-#   describe 'POST /incidents' do
+  describe 'POST /services/:service_id/incidents' do
+    before { post "/services/#{service.uuid}/incidents", attributes_for(:incident).to_json }
 
-#   end
+    it { should respond_with(:created) }
+    it { should have_content_type(:json) }
+  end
 
-#   describe 'PUT /incidents/:id' do
+  describe 'PUT /incidents/:id' do
+    let(:incident) { create(:incident, service: service) }
+    before { put "/incidents/#{incident.uuid}", attributes_for(:incident).to_json }
 
-#   end
+    it { should respond_with(:no_content) }
+    it { should_not have_body }
+     # have_content_type(:json) }
+  end
 
-#   describe 'DELETE /incidents/:id' do
+  describe 'DELETE /incidents/:id' do
+    let(:incident) { create(:incident, service: service) }
+    before { delete "/incidents/#{incident.uuid}" }
 
-#   end
-# end
+    it { should respond_with(:no_content) }
+    it { should_not have_body }
+  end
+
+end

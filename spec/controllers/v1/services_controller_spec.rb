@@ -13,7 +13,7 @@ describe V1::ServicesController do
     before { get :index }
 
     it { should respond_with(:success) }
-    it { should render_template(:index) }
+
   end
 
   describe 'GET /services/:id' do
@@ -21,14 +21,14 @@ describe V1::ServicesController do
     before { get :show, id: service.uuid }
 
     it { should respond_with(:ok) }
-    it { should render_template(:show) }
+
   end
 
   describe 'GET /services/new' do
     before { get :new }
 
     it { should respond_with(:ok) }
-    it { should render_template(:new) }
+
   end
 
   describe 'POST /services' do
@@ -43,7 +43,7 @@ describe V1::ServicesController do
     before { get 'edit', id: service.uuid }
 
     it { should respond_with(:ok) }
-    it { should render_template(:edit) }
+
   end
 
   describe 'PUT /services/:id' do

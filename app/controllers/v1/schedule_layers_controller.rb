@@ -1,5 +1,5 @@
 class V1::ScheduleLayersController < V1::ApplicationController
-  respond_to :html, :json
+  respond_to :json
 
   before_filter :schedule, :schedule_layers
 

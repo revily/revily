@@ -13,7 +13,7 @@ describe V1::SchedulesController do
     before { get :index }
 
     it { should respond_with(:success) }
-    it { should render_template(:index) }
+
   end
 
   describe 'GET /schedules/:id' do
@@ -21,14 +21,14 @@ describe V1::SchedulesController do
     before { get :show, id: schedule.uuid }
 
     it { should respond_with(:ok) }
-    it { should render_template(:show) }
+
   end
 
   describe 'GET /schedules/new' do
     before { get :new }
 
     it { should respond_with(:ok) }
-    it { should render_template(:new) }
+
   end
 
   describe 'POST /schedules' do
@@ -43,7 +43,7 @@ describe V1::SchedulesController do
     before { get 'edit', id: schedule.uuid }
 
     it { should respond_with(:ok) }
-    it { should render_template(:edit) }
+
   end
 
   describe 'PUT /schedules/:id' do

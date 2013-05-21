@@ -1,5 +1,5 @@
 class V1::AccountsController < V1::ApplicationController
-  respond_to :html
+  respond_to :json
 
   before_filter :require_no_authentication, :only => [ :new, :create ]
   

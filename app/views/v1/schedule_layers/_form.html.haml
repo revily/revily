@@ -1,9 +1,0 @@
-#schedule_layer_form
-
-= simple_form_for [schedule, schedule_layer] do |f|
-  = f.association :users, collection: User.all, as: :check_boxes
-  = f.input :count, as: :string
-  = f.input :rule, collection: ScheduleLayer::VALID_RULES
-  = f.input :start_at, as: :string
-
-  = f.button :submit

@@ -1,5 +1,5 @@
 class V1::IncidentsController < V1::ApplicationController
-  respond_to :html, :json
+  respond_to :json
 
   before_filter :authenticate_user!
   before_filter :service, :incidents
@@ -12,12 +12,6 @@ class V1::IncidentsController < V1::ApplicationController
 
   def show
     @incident = incidents.where(uuid: params[:id]).first.decorate
-
-    respond_with @incident
-  end
-
-  def new
-    @incident = incidents.new
 
     respond_with @incident
   end

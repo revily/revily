@@ -24,7 +24,7 @@ describe V1::ScheduleLayersController do
     before { get :index, schedule_id: schedule.id }
 
     it { should respond_with(:success) }
-    it { should render_template(:index) }
+
     it_behaves_like 'a correctly scoped schedule'
   end
 
@@ -34,7 +34,7 @@ describe V1::ScheduleLayersController do
     before { get :show, schedule_id: schedule.uuid, id: layer.uuid }
 
     it { should respond_with(:ok) }
-    it { should render_template(:show) }
+
     it_behaves_like 'a correctly scoped schedule'
   end
 
@@ -43,7 +43,7 @@ describe V1::ScheduleLayersController do
     before { get :new, schedule_id: schedule.uuid }
 
     it { should respond_with(:ok) }
-    it { should render_template(:new) }
+
     it_behaves_like 'a correctly scoped schedule'
   end
 
@@ -62,7 +62,7 @@ describe V1::ScheduleLayersController do
     before { get 'edit', schedule_id: schedule.uuid, id: layer.uuid }
 
     it { should respond_with(:ok) }
-    it { should render_template(:edit) }
+
     it_behaves_like 'a correctly scoped schedule'
   end
 
