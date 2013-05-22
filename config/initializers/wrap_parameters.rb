@@ -15,5 +15,6 @@ ActiveSupport.on_load(:active_record) do
 end
 
 ActiveSupport.on_load(:active_model_serializers) do
-  # self.root = false
+  self.root = false
+  ActiveModel::ArraySerializer.root = false
 end

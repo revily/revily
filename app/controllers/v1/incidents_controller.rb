@@ -76,6 +76,6 @@ class V1::IncidentsController < V1::ApplicationController
   end
 
   def incidents
-    @incidents ||= (@service) ? @service.incidents : Incident
+    @incidents ||= (@service) ? @service.incidents : current_account.incidents
   end
 end

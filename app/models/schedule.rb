@@ -35,7 +35,7 @@ class Schedule < ActiveRecord::Base
   accepts_nested_attributes_for :schedule_layers, allow_destroy: true
 
   def current_user_on_call
-    schedule_layers.first.user_schedules.find { |us| us.occurring_at?(Time.zone.now) }.user
+    schedule_layers.first.user_schedules.find { |us| us.occurring_at?(Time.zone.now) }.try(:user)
   end
 
   def group_method

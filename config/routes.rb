@@ -10,34 +10,42 @@ Reveille::Application.routes.draw do
 
     post 'sms/receive' => 'sms#receive'
 
-    resources :services, shallow: true do
-      resources :incidents
+    resources :services do
+      resources :incidents, only: [ :index, :create ]
       member do
         put 'enable'
         put 'disable'
       end
     end
+    resources :incidents, only: [ :index, :show, :update, :destroy ] do
+      member do
+        put 'acknowledge'
+        put 'resolve'
+      end
+    end
 
-    resources :policies, shallow: true do
-      resources :policy_rules do
+    resources :policies do
+      resources :policy_rules, path: :rules, as: :rules do
         collection do
           post :sort
         end
       end
     end
 
-    resources :incidents
-
     # resources :schedules, shallow: true do
     resources :schedules do
-      resources :schedule_layers, path: :layers #, as: :layers
+      resources :schedule_layers, path: :layers, as: :layers, only: [ :index, :create ]
+      member do
+        get 'on_call'
+      end
     end
-
+    resources :schedule_layers, path: :layers, only: [ :show, :update, :destroy ]
+    
     resources :users #, only: [ :index ]
   end
 
   devise_for :users, controllers: { registrations: 'v1/users/registrations', sessions: 'v1/users/sessions' }
   devise_for :services, skip: [ :sessions ]
 
-  root to: 'application#index'
+  root to: 'v1/root#index'
 end

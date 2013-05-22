@@ -10,7 +10,7 @@ class V1::ServicesController < V1::ApplicationController
   end
 
   def show
-    @service = services.where(uuid: params[:id]).first.decorate
+    @service = services.where(uuid: params[:id]).first
 
     respond_with @service
   end
@@ -29,7 +29,7 @@ class V1::ServicesController < V1::ApplicationController
   end
 
   def edit
-    @service = services.where(uuid: params[:id]).first.decorate
+    @service = services.where(uuid: params[:id]).first
 
     respond_with @service
   end

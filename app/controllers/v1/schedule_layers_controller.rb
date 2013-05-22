@@ -12,7 +12,7 @@ class V1::ScheduleLayersController < V1::ApplicationController
   def show
     @schedule_layer = schedule_layers.where(uuid: params[:id]).first
 
-    respond_with [schedule, @schedule_layer]
+    respond_with schedule, @schedule_layer
   end
 
   def new
@@ -52,6 +52,6 @@ class V1::ScheduleLayersController < V1::ApplicationController
   end
 
   def schedule_layers
-    @schedule_layers ||= (@schedule) ? @schedule.schedule_layers : ScheduleLayer
+    @schedule_layers ||= (@schedule) ? @schedule.schedule_layers : current_account.schedule_layers
   end
 end

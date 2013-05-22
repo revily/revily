@@ -49,6 +49,13 @@ class V1::SchedulesController < V1::ApplicationController
     respond_with @schedule
   end
 
+
+  def on_call
+    @schedule = schedules.where(uuid: params[:id]).first
+
+    respond_with @schedule.current_user_on_call
+  end
+
   private
 
   def schedule_params

@@ -4,14 +4,13 @@ FactoryGirl.define do
   factory :policy do
     name "Operations"
     escalation_loop_limit 3
-    
+    account
+
     trait :with_rules do
       after(:create) do |policy|
         create(:policy_rule, :for_schedule, policy: policy)
       end
     end
-
-    
 
     trait :for_dan_ryan do
       after(:create) do |policy|
