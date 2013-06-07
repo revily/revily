@@ -13,11 +13,11 @@ FactoryGirl.define do
       state { %w[ triggered acknowledged resolved ].sample }
     end
 
-    factory :acknowledged_incident do
+    trait :acknowledged do
       state "acknowledged"
     end
 
-    factory :resolved_incident do
+    trait :resolved do
       state "resolved"
     end
 

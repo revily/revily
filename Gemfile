@@ -68,3 +68,9 @@ group :staging, :production do
   gem 'airbrake',                          '3.1.12'
   gem 'newrelic_rpm',                      '3.6.2.96'
 end
+
+group :doc do
+  gem 'yard'
+  gem 'redcarpet'
+  gem 'yard-restful'
+end
