@@ -1,39 +1,40 @@
 source 'https://rubygems.org'
 ruby '1.9.3'
 
-gem 'rails',                               '3.2.13'
+gem 'rails',                               '4.0.0'
+
 gem 'active_model_serializers',            '0.8.1'
 gem 'acts_as_list',                        '0.2.0'
 gem 'acts-as-taggable-on',                 '2.4.1'
-gem 'acts_as_tenant',                      '0.2.9'
-gem 'clockwork',                           '0.5.0', require: false
+gem 'acts_as_tenant',                      '0.3.1'
+gem 'clockwork',                           '0.5.2', require: false
 gem 'dalli',                               '2.6.4'
-gem 'devise',                              '2.2.4'
+gem 'devise',                              '3.0.0.rc'
 gem 'draper',                              '1.2.1'
-gem 'figaro',                              '0.6.4'
+gem 'figaro',                              '0.7.0'
 gem 'hound',                               '0.3.0'
-gem 'ice_cube',                            '0.10.1'
+gem 'ice_cube',                            '0.11.0'
 gem 'kaminari',                            '0.14.1'
 gem 'pg',                                  '0.15.1'
 gem 'rack-timeout',                        '0.0.4'
 gem 'recipient_interceptor',               '0.1.1'
-gem 'sidekiq',                             '2.12.1'
+gem 'sidekiq',                             '2.12.4'
 # gem 'sinatra',                             '1.4.2', require: false
-gem 'slim',                                '1.3.8'
+gem 'slim',                                '2.0.0'
 gem 'state_machine',                       '1.2.0'
-gem 'strong_parameters',                   '0.2.1'
+# gem 'strong_parameters',                   '0.2.1'
 gem 'twilio-ruby',                         '3.9.0'
-gem 'unicorn',                             '4.6.2'
+gem 'unicorn',                             '4.6.3'
 gem 'validates_existence',                 '0.8.0'
 
 group :development do
   gem 'annotate',                          '2.5.0'
   gem 'bullet',                            '4.6.0'
   gem 'foreman',                           '0.63.0'
-  gem 'guard-rspec',                       '3.0.1'
-  gem 'guard-spork',                       '1.5.0'
+  gem 'guard-rspec',                       '3.0.2'
+  gem 'guard-spork',                       '1.5.1'
   gem 'guard-shell',                       '0.5.1'
-  gem 'libnotify',                         '0.8.0', require: false
+  gem 'libnotify',                         '0.8.1', require: false
   gem 'pry-rails',                         '0.3.1'
   gem 'rb-fsevent',                        '0.9.3', require: false
   gem 'rb-inotify',                        '0.9.0', require: false
@@ -57,16 +58,16 @@ group :test do
   gem 'launchy',                           '2.3.0'
   gem 'rspec_api_test',                    '0.0.1'
   gem 'rspec-sidekiq',                     '0.3.0'
-  gem 'shoulda-matchers',                  '2.1.0', require: false
+  gem 'shoulda-matchers',                  '2.2.0', require: false
   gem 'sms-spec',                          '0.1.7'
   gem 'state_machine_rspec',               '0.1.2'
   gem 'timecop',                           '0.6.1'
-  gem 'twilio-test-toolkit',               '3.1.0'
+  gem 'twilio-test-toolkit',               '3.2.0'
 end
 
 group :staging, :production do
   gem 'airbrake',                          '3.1.12'
-  gem 'newrelic_rpm',                      '3.6.3.111'
+  gem 'newrelic_rpm',                      '3.6.5.130'
 end
 
 group :doc do
