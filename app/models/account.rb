@@ -1,7 +1,7 @@
 class Account < ActiveRecord::Base
   hound
 
-  attr_accessible :subdomain, :terms_of_service
+  attr_accessor :terms_of_service
 
   has_many :users, dependent: :destroy
   has_many :schedules, dependent: :destroy

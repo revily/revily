@@ -12,9 +12,6 @@
 
 class Policy < ActiveRecord::Base
   include Identifiable
-  include ActiveModel::ForbiddenAttributesProtection
-
-  # attr_accessible :name
 
   belongs_to :account
 
