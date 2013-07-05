@@ -6,7 +6,6 @@
 *.DS_Store
 *.swp
 .env
-/bin
 /config/application.yml
 coverage/*
 bin/stubs
