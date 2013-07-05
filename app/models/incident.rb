@@ -22,10 +22,6 @@
 
 class Incident < ActiveRecord::Base
   include Identifiable
-  include Trackable
-  include ActiveModel::ForbiddenAttributesProtection
-
-  # hound actions: [ :create, :update, :trigger, :acknowledge, :resolve ]
 
   serialize :details, JSON
 

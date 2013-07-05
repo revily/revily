@@ -13,8 +13,6 @@
 class Schedule < ActiveRecord::Base
   include Identifiable
 
-  hound
-  
   belongs_to :account
   
   has_many :policy_rules, as: :assignable

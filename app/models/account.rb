@@ -1,6 +1,4 @@
 class Account < ActiveRecord::Base
-  hound
-
   attr_accessor :terms_of_service
 
   has_many :users, dependent: :destroy

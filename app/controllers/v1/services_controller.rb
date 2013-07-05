@@ -43,14 +43,14 @@ class V1::ServicesController < V1::ApplicationController
 
   def enable
     @service = services.where(uuid: params[:id]).first
-    @service.enable && hound_action(@service, 'enable')
+    @service.enable
 
     respond_with @service
   end
 
   def disable
     @service = services.where(uuid: params[:id]).first
-    @service.disable && hound_action(@service, 'disable')
+    @service.disable
     respond_with @service
   end
 

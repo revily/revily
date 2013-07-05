@@ -16,9 +16,6 @@
 class Service < ActiveRecord::Base
   include Identifiable
   
-  hound_user
-  hound
-
   devise :token_authenticatable
 
   belongs_to :account

@@ -15,7 +15,6 @@
 
 class Contact < ActiveRecord::Base
   include Identifiable
-  include ActiveModel::ForbiddenAttributesProtection
 
   RESPONSE_MAP = {
     :acknowledge => 4,

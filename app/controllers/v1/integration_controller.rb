@@ -10,7 +10,6 @@ class V1::IntegrationController < V1::ApplicationController
 
     respond_with @incident do |format|
       if @incident.save
-        hound_action @incident, 'trigger' if @incident.new_record?
         format.json { render json: @incident, status: http_status }
       else
         format.json { render json: { errors: @incident.errors }, status: :unprocessable_entity }
@@ -25,7 +24,6 @@ class V1::IntegrationController < V1::ApplicationController
       # if @incident.persisted?
       if @incident
         @incident.resolve unless @incident.resolved?
-        hound_action @incident, 'resolve'
         format.json { render json: @incident, status: :accepted }
       else
         format.json { head :not_found }
@@ -34,10 +32,6 @@ class V1::IntegrationController < V1::ApplicationController
   end
 
   protected
-
-  def hound_user
-    current_service
-  end
 
   private
 
