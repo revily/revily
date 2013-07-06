@@ -19,12 +19,12 @@ class PolicyRuleSerializer < BaseSerializer
     object.assignee
   end
 
-  def assignment
-    {
-      id: object.assignable_id,
-      type: object.assignable_type
-    }
-  end
+  # def assignment
+  #   {
+  #     id: object.assignable_id,
+  #     type: object.assignable_type
+  #   }
+  # end
 
   def assignable
     object.assignable

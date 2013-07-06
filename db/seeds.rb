@@ -33,7 +33,7 @@ end
 puts "create policy"
 policy = account.policies.first_or_create(
   name: "Operations",
-  escalation_loop_limit: 3
+  loop_limit: 3
 )
 
 puts "create rule"

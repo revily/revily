@@ -24,7 +24,15 @@ class PolicyRule < ActiveRecord::Base
   validates :escalation_timeout,
     presence: true
   validates :assignable_id,
-    uniqueness: { scope: :policy_id }
+    uniqueness: { scope: :policy_id },
+    allow_nil: true
+  validates :assignable_type,
+    presence: true,
+    allow_nil: true
+
+  accepts_nested_attributes_for :assignable
+
+  attr_accessor :assignment_id
 
   def assignee
     @assignee ||= if assignable.respond_to?(:current_user_on_call)

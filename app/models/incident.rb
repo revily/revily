@@ -62,7 +62,7 @@ class Incident < ActiveRecord::Base
 
   state_machine initial: :pending do
     state :triggered do
-      validate :escalation_loop_limit_not_reached
+      validate :loop_limit_not_reached
     end
     state :acknowledged
     state :resolved
@@ -124,9 +124,9 @@ class Incident < ActiveRecord::Base
 
   protected
 
-  # def escalation_loop_limit_reached?
-  def escalation_loop_limit_not_reached
-    if policy && policy.escalation_loop_limit <= self.escalation_loop_count
+  # def loop_limit_reached?
+  def loop_limit_not_reached
+    if policy && policy.loop_limit <= self.escalation_loop_count
       errors.add(:state, 'cannot escalate when the incident has has reached the escalation loop limit')
     end
   end

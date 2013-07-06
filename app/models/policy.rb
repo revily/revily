@@ -5,7 +5,7 @@
 #  id                    :integer          not null, primary key
 #  name                  :string(255)
 #  uuid                  :string(255)      not null
-#  escalation_loop_limit :integer
+#  loop_limit :integer
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
@@ -23,7 +23,7 @@ class Policy < ActiveRecord::Base
     presence: true,
     uniqueness: { scope: :account_id }
     
-  validates :escalation_loop_limit, 
+  validates :loop_limit, 
     numericality: { only_integer: true }
 
   accepts_nested_attributes_for :policy_rules, allow_destroy: true, reject_if: :all_blank

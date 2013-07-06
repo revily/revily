@@ -60,7 +60,7 @@ class V1::PoliciesController < V1::ApplicationController
   end
 
   def policy_params
-    params.permit(:name, :escalation_loop_limit)
+    params.permit(:name, :loop_limit)
   end
 
 end

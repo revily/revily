@@ -6,6 +6,7 @@ Reveille::Application.routes.draw do
 
   scope module: :v1, defaults: { format: :json }, constraints: ApiConstraints.new(version: 1, default: true) do
     put 'trigger' => 'integration#trigger'
+    put 'acknowledge' => 'integration#acknowledge'
     put 'resolve' => 'integration#resolve'
 
     post 'sms/receive' => 'sms#receive'

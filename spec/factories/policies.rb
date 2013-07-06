@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :policy do
-    name "Operations"
-    escalation_loop_limit 3
+    name { Forgery(:name).job_title.pluralize }
+    loop_limit 3
     account
 
     trait :with_rules do

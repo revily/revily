@@ -17,6 +17,27 @@ class V1::IntegrationController < V1::ApplicationController
     end
   end
 
+  def acknowledge
+    @incident = current_service.incidents.unresolved.where(key: params[:key])
+
+    respond_with @incident do |format|
+      if @incident 
+        last_state = @incident.state
+        @incident.acknowledge
+        http_status = (last_state == @incident.state) ? :not_modified : :ok
+        format.json { render json: @incident, status: http_status }
+      else
+        format.json { head :not_found }
+      end
+    end
+
+        format.json { render json: @incident, status: http_status }
+      else
+        format.json { render json: { errors: @incident.errors }, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def resolve
     @incident = current_service.incidents.find_by_key_or_message(incident_params)
 
@@ -35,8 +56,8 @@ class V1::IntegrationController < V1::ApplicationController
 
   private
 
-  def permitted_params
-    [ :message, :description, :key ]
-  end
+    def permitted_params
+      [ :message, :description, :key ]
+    end
 
 end

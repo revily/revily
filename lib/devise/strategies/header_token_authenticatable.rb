@@ -20,7 +20,7 @@ module Devise
       private
 
       def token_value
-        if header && header =~ /^Token token="(.+)"$/
+        if header && header =~ /^token (.+)$/
           $~[1]
         end
       end

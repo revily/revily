@@ -50,7 +50,7 @@ class V1::PolicyRulesController < V1::ApplicationController
   private
 
     def policy_rule_params
-      params.permit(:escalation_timeout, :assignable_id, :assignable_type, :_destroy, :id, :position)
+      params.permit(:escalation_timeout, :assignment_id, :_destroy, :id, :position)
     end
 
     def policy

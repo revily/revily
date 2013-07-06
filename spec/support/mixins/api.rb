@@ -7,7 +7,7 @@ module API
       let(:token) { service.authentication_token }
 
       before do
-        header 'Authorization', %[Token token="#{token}"]
+        header 'Authorization', %[token #{token}]
       end
     end
 
@@ -21,7 +21,7 @@ module API
       let(:token) { user.authentication_token }
 
       before do
-        header 'Authorization', %[Token token="#{token}"]
+        header 'Authorization', %[token #{token}]
       end
     end
 
