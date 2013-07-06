@@ -25,8 +25,8 @@ class Service < ActiveRecord::Base
   # scope :acknowledged_incidents, includes(:incidents).where('incidents.state = ?', 'acknowledged')
   # scope :resolved_incidents, includes(:incidents).where('incidents.state = ?', 'resolved')
 
-  scope :enabled, where(state: 'enabled')
-  scope :disabled, where(state: 'disabled')
+  scope :enabled, -> { where(state: 'enabled') }
+  scope :disabled, -> { where(state: 'disabled') }
 
   has_many :alerts, through: :incidents
   has_one :service_policy

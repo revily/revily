@@ -1,10 +1,10 @@
 class V1::UsersController < V1::ApplicationController
   respond_to :json
 
-  before_filter :users
+  before_action :users
   
   def index
-    @users = users.all
+    @users = users
 
     respond_with @users
   end

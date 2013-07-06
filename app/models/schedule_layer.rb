@@ -20,15 +20,15 @@ class ScheduleLayer < ActiveRecord::Base
   VALID_RULES = %w[ hourly daily weekly monthly yearly ]
 
   belongs_to :schedule
-  has_many :user_schedule_layers, order: :position, dependent: :destroy
+  has_many :user_schedule_layers, -> { order(:position) }, dependent: :destroy
   has_many :users,
+    -> { order('user_schedule_layers.position') },
     through: :user_schedule_layers,
-    order: 'user_schedule_layers.position',
     dependent: :destroy
 
   acts_as_list scope: :schedule
 
-  attr_accessible :position, :rule, :count, :start_at, :schedule_id, :schedule
+  # attr_accessible :position, :rule, :count, :start_at, :schedule_id, :schedule
 
   before_save :calculate_duration_in_seconds
   before_save :reset_start_at_to_beginning_of_day

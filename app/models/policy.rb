@@ -15,7 +15,7 @@ class Policy < ActiveRecord::Base
 
   belongs_to :account
 
-  has_many :policy_rules, order: :position, dependent: :destroy
+  has_many :policy_rules, -> { order(:position) }, dependent: :destroy
   has_many :service_policies
   has_many :services, through: :service_policies
 

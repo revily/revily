@@ -1,12 +1,13 @@
 class V1::ScheduleLayersController < V1::ApplicationController
   respond_to :json
 
-  before_filter :schedule, :schedule_layers
+  before_action :schedule
+  before_action :schedule_layers
 
   def index
-    @schedule_layers = schedule_layers.all
+    @schedule_layers = schedule_layers
 
-    respond_with schedule, @schedule_layers
+    respond_with @schedule_layers
   end
 
   def show
@@ -15,16 +16,10 @@ class V1::ScheduleLayersController < V1::ApplicationController
     respond_with schedule, @schedule_layer
   end
 
-  def new
-    @schedule_layer = schedule_layers.new
-
-    respond_with schedule, @schedule_layer
-  end
-
   def create
     @schedule_layer = schedule_layers.create(schedule_layer_params)
 
-    respond_with schedule, @schedule_layer
+    respond_with schedule, @schedule_layer, location: schedule_layer_url(schedule, @schedule_layer)
   end
 
   def update
@@ -48,10 +43,10 @@ class V1::ScheduleLayersController < V1::ApplicationController
   end
 
   def schedule
-    @schedule ||= current_account.schedules.where(uuid: params[:schedule_id]).first if params[:schedule_id]
+    @schedule = current_account.schedules.where(uuid: params[:schedule_id]).first if params[:schedule_id]
   end
 
   def schedule_layers
-    @schedule_layers ||= (@schedule) ? @schedule.schedule_layers : current_account.schedule_layers
+    @schedule_layers = (@schedule) ? @schedule.schedule_layers : current_account.schedule_layers
   end
 end

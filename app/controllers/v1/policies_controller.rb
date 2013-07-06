@@ -1,11 +1,11 @@
 class V1::PoliciesController < V1::ApplicationController
   respond_to :json
 
-  before_filter :authenticate_user!
-  before_filter :policies
+  before_action :authenticate_user!
+  before_action :policies
   
   def index
-    @policies = policies.all
+    @policies = policies
     
     respond_with @policies
   end
@@ -56,7 +56,7 @@ class V1::PoliciesController < V1::ApplicationController
   private
 
   def policies
-    @policies ||= current_account.policies
+    @policies = current_account.policies
   end
 
   def policy_params

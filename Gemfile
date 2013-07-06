@@ -3,7 +3,9 @@ ruby '1.9.3'
 
 gem 'rails',                               '4.0.0'
 
-gem 'active_model_serializers',            '0.8.1'
+# current AMS is broken for rails 4; using github master
+# gem 'active_model_serializers',            '0.8.1'
+gem 'active_model_serializers',            github: 'rails-api/active_model_serializers'
 gem 'acts_as_list',                        '0.2.0'
 gem 'acts-as-taggable-on',                 '2.4.1'
 gem 'acts_as_tenant',                      '0.3.1'
@@ -29,8 +31,9 @@ group :development do
   gem 'annotate',                          '2.5.0'
   gem 'bullet',                            '4.6.0'
   gem 'foreman',                           '0.63.0'
+  gem 'spring',                            '0.0.10'
   gem 'guard-rspec',                       '3.0.2'
-  gem 'guard-spork',                       '1.5.1'
+  gem 'guard-spring',                      '0.0.3'
   gem 'guard-shell',                       '0.5.1'
   gem 'libnotify',                         '0.8.1', require: false
   gem 'pry-rails',                         '0.3.1'

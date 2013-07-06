@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   # has_many :notification_rules, through: :contacts
   
   has_many :policy_rules, as: :assignable
-  has_many :user_schedule_layers, order: :position
+  has_many :user_schedule_layers, -> { order(:position) }
   has_many :schedule_layers,
     through: :user_schedule_layers,
     dependent: :destroy

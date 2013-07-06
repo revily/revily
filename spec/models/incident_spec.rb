@@ -6,7 +6,7 @@ describe Incident do
   end
 
   describe 'validations' do
-    it { should validate_presence_of(:message) }
+    # it { should validate_presence_of(:message) }
     # it { should validate_uniqueness_of(:message).scoped_to([:service_id]).on(:save) }
     # it { should validate_uniqueness_of(:key).scoped_to([:service_id]) }
   end

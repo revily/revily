@@ -1,17 +1,16 @@
 class ScheduleSerializer < BaseSerializer
-  attributes :id, :name, :time_zone, :url, :layers_url
+  attributes :id, :name, :time_zone, :_links
 
   def id
     object.uuid
   end
 
-  def url
-    schedule_url(object)
+  def _links
+    links = {
+      self: { href: schedule_path(object) },
+      layers: { href: schedule_layers_path(object) },
+    }
+    links
   end
 
-  def layers_url
-    schedule_layers_url(object)
-  end
-
-  has_many :schedule_layers, :key => :layers, :embed_key => :uuid, :embed => :object
 end

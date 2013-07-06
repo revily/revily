@@ -22,7 +22,8 @@
 
 class Incident < ActiveRecord::Base
   include Identifiable
-
+  include Trackable
+  
   serialize :details, JSON
 
   belongs_to :service
@@ -38,10 +39,10 @@ class Incident < ActiveRecord::Base
   before_create :associate_current_user
   after_create :trigger
   
-  scope :unresolved, where("incidents.state != ?", "resolved")
-  scope :triggered, where("state = ?", 'triggered')
-  scope :acknowledged, where("state = ?", 'acknowledged')
-  scope :resolved, where("state = ?", 'resolved')
+  scope :unresolved, -> { where("incidents.state != ?", "resolved") }
+  scope :triggered, -> { where("state = ?", 'triggered') }
+  scope :acknowledged, -> { where("state = ?", 'acknowledged') }
+  scope :resolved, -> { where("state = ?", 'resolved') }
   
   def self.first_or_initialize_by_key_or_message(params)
     if params[:key]
@@ -89,7 +90,7 @@ class Incident < ActiveRecord::Base
     before_transition on: :escalate, do: :escalate_to_next_policy_rule
 
     after_transition any => any do |incident, transition|
-      incident.log_action(transition.event)
+      # incident.log_action(transition.event)
     end
 
     after_transition any => :triggered do |incident, transition|
@@ -114,7 +115,7 @@ class Incident < ActiveRecord::Base
   end
 
   def next_policy_rule
-    self.current_policy_rule.try(:lower_item) || policy.try(:policy_rules).try(:first)
+    self.current_policy_rule.try(:lower_item) || policy.try(:policy_rules).first
   end
 
   def policy

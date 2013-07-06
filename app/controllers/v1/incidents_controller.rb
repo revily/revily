@@ -1,17 +1,17 @@
 class V1::IncidentsController < V1::ApplicationController
   respond_to :json
 
-  before_filter :authenticate_user!
-  before_filter :service, :incidents
+  before_action :authenticate_user!
+  before_action :service, :incidents
 
   def index
-    @incidents = incidents.all
+    @incidents = incidents
     # location_url = service ? service_incidents_url : incidents_url
     respond_with @incidents #, location: location_url
   end
 
   def show
-    @incident = incidents.where(uuid: params[:id]).first.decorate
+    @incident = incidents.where(uuid: params[:id]).first
 
     respond_with @incident
   end
@@ -72,10 +72,10 @@ class V1::IncidentsController < V1::ApplicationController
   end
 
   def service
-    @service ||= current_account.services.where(uuid: params[:service_id]).first if params[:service_id]
+    @service = current_account.services.where(uuid: params[:service_id]).first if params[:service_id]
   end
 
   def incidents
-    @incidents ||= (@service) ? @service.incidents : current_account.incidents
+    @incidents = (@service) ? @service.incidents : current_account.incidents
   end
 end

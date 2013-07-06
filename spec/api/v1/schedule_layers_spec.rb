@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'schedule layers' do
   sign_in_user
-  
+
   let(:schedule) { create(:schedule, account: account) }
 
   describe 'GET /schedules/:schedule_id/layers' do
@@ -24,7 +24,6 @@ describe 'schedule layers' do
 
   describe 'POST /schedules/:schedule_id/layers' do
     before { post "/schedules/#{schedule.uuid}/layers", attributes_for(:schedule_layer).to_json }
-
     it { should respond_with(:created) }
     it { should have_content_type(:json) }
   end

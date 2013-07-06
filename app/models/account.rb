@@ -3,6 +3,7 @@ class Account < ActiveRecord::Base
 
   has_many :users, dependent: :destroy
   has_many :schedules, dependent: :destroy
+  has_many :schedule_layers, through: :schedules
   has_many :services, dependent: :destroy
   has_many :incidents, through: :services
   has_many :policies, dependent: :destroy
@@ -11,7 +12,7 @@ class Account < ActiveRecord::Base
   # has_many :assignables, finder_sql: proc { 'SELECT * FROM users.*, }
   
   validates :subdomain, 
-    uniqueness: true,
+    # uniqueness: true,
     presence: true,
     allow_blank: false
   validates :terms_of_service,

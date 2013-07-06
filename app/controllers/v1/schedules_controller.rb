@@ -1,11 +1,11 @@
 class V1::SchedulesController < V1::ApplicationController
   respond_to :json
 
-  before_filter :authenticate_user!
-  before_filter :schedules
+  before_action :authenticate_user!
+  before_action :schedules
 
   def index
-    @schedules = schedules.decorate
+    @schedules = schedules
 
     respond_with @schedules
   end
@@ -63,6 +63,6 @@ class V1::SchedulesController < V1::ApplicationController
   end
 
   def schedules
-    @schedules ||= current_account.schedules
+    @schedules = current_account.schedules
   end
 end

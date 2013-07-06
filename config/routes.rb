@@ -32,16 +32,14 @@ Reveille::Application.routes.draw do
       end
     end
 
-    # resources :schedules, shallow: true do
     resources :schedules do
-      resources :schedule_layers, path: :layers, as: :layers, only: [ :index, :create ]
+      resources :schedule_layers, path: :layers, as: :layers #, shallow: true
       member do
         get 'on_call'
       end
     end
-    resources :schedule_layers, path: :layers, only: [ :show, :update, :destroy ]
     
-    resources :users #, only: [ :index ]
+    resources :users
   end
 
   devise_for :users, controllers: { registrations: 'v1/users/registrations', sessions: 'v1/users/sessions' }

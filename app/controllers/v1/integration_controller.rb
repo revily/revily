@@ -1,5 +1,5 @@
 class V1::IntegrationController < V1::ApplicationController
-  before_filter :authenticate_service!
+  before_action :authenticate_service!
 
   respond_to :json
 

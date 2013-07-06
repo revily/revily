@@ -1,11 +1,11 @@
 class V1::ServicesController < V1::ApplicationController
   respond_to :json
 
-  before_filter :authenticate_user!
-  before_filter :services
+  before_action :authenticate_user!
+  before_action :services
   
   def index
-    @services = services.all
+    @services = services
     respond_with @services
   end
 

@@ -1,8 +1,8 @@
 class V1::PolicyRulesController < V1::ApplicationController
   respond_to :json
 
-  before_filter :authenticate_user!
-  before_filter :policy, :policy_rules
+  before_action :authenticate_user!
+  before_action :policy, :policy_rules
 
   def sort
     params[:policy_rules].each_with_index do |id, index|
@@ -12,7 +12,7 @@ class V1::PolicyRulesController < V1::ApplicationController
   end
 
   def index
-    @policy_rules = policy_rules.all
+    @policy_rules = policy_rules
     respond_with @policy_rules
   end
 
@@ -54,11 +54,11 @@ class V1::PolicyRulesController < V1::ApplicationController
     end
 
     def policy
-      @policy ||= current_account.policies.where(uuid: params[:policy_id]).first if params[:policy_id]
+      @policy = current_account.policies.where(uuid: params[:policy_id]).first if params[:policy_id]
     end
 
     def policy_rules
       # @policy_rules ||= (@policy) ? @policy.policy_rules : current_account.policy_rules
-      @policy_rules ||= @policy.policy_rules
+      @policy_rules = @policy ? @policy.policy_rules : PolicyRule
     end
 end

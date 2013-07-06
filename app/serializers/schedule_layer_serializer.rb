@@ -1,19 +1,10 @@
 class ScheduleLayerSerializer < BaseSerializer
-  attributes :id, :schedule_id, :rule, :position, :duration, :start_at, 
-             :url, :schedule_url
+  attributes :id, :schedule_id, :rule, :position, :duration, :start_at, :_links
   attribute :users
 
   def schedule_id
     object.schedule.uuid
   end
-
-  def url
-    schedule_layer_url(object)
-  end
-
-  # def schedule_url
-  #   super.schedule_url(object.schedule)
-  # end
 
   def users
     object.user_schedule_layers.sort_by(&:position).map do |user_schedule_layer|
@@ -22,5 +13,13 @@ class ScheduleLayerSerializer < BaseSerializer
         :position => user_schedule_layer.position
       }
     end
+  end
+
+  def _links
+    links = {
+      self: { href: schedule_layer_path(object.schedule, object) },
+      schedule: { href: schedule_path(object.schedule) },
+    }
+    links
   end
 end

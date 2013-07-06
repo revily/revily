@@ -19,8 +19,8 @@ def configure
   require 'rails/application'
   require 'rspec/rails'
 
-  Rails.application.railties.all { |r| r.eager_load! }
-  Spork.trap_method(Rails::Application, :eager_load!) if defined?(Spork)
+  # Rails.application.railties.all { |r| r.eager_load! }
+  # Spork.trap_method(Rails::Application, :eager_load!) if defined?(Spork)
 
   RSpec.configure do |config|
     config.mock_with :rspec
