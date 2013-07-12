@@ -1,9 +1,27 @@
 GIT
+  remote: git://github.com/plataformatec/devise.git
+  revision: 49aebde435cf556a9a897f83babfc1f4e7f4a4cc
+  specs:
+    devise (3.0.0.rc)
+      bcrypt-ruby (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      warden (~> 1.2.1)
+
+GIT
   remote: git://github.com/rails-api/active_model_serializers.git
   revision: 8ac4bf90067eef442a6208848f86e55892d724f1
   specs:
     active_model_serializers (0.8.1)
       activemodel (>= 3.2)
+
+GIT
+  remote: git://github.com/sporkrb/spork-rails.git
+  revision: 3224f84d8c31fcb0894e9a43f6c3ac67e3aa0d71
+  specs:
+    spork-rails (3.2.1)
+      rails (>= 3.0.0, < 5)
+      spork (>= 1.0rc0)
 
 GEM
   remote: https://rubygems.org/
@@ -49,7 +67,7 @@ GEM
     arel (4.0.0)
     atomic (1.1.10)
     awesome_print (1.1.0)
-    bcrypt-ruby (3.0.1)
+    bcrypt-ruby (3.1.1)
     builder (3.1.4)
     bullet (4.6.0)
       uniform_notifier
@@ -61,6 +79,8 @@ GEM
       xpath (~> 2.0)
     celluloid (0.14.1)
       timers (>= 1.0.0)
+    childprocess (0.3.9)
+      ffi (~> 1.0, >= 1.0.11)
     clockwork (0.5.2)
       activesupport
       tzinfo (~> 0.3.35)
@@ -68,11 +88,6 @@ GEM
     connection_pool (1.1.0)
     dalli (2.6.4)
     database_cleaner (1.0.1)
-    devise (3.0.0.rc)
-      bcrypt-ruby (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 3.2.6, < 5)
-      warden (~> 1.2.1)
     diff-lcs (1.2.4)
     dotenv (0.8.0)
     draper (1.2.1)
@@ -108,9 +123,10 @@ GEM
       rspec (~> 2.13)
     guard-shell (0.5.1)
       guard (>= 1.1.0)
-    guard-spring (0.0.3)
-      guard
-      spring
+    guard-spork (1.5.1)
+      childprocess (>= 0.2.3)
+      guard (>= 1.1)
+      spork (>= 0.8.4)
     hike (1.2.3)
     i18n (0.6.4)
     ice_cube (0.11.0)
@@ -232,7 +248,7 @@ GEM
     slop (3.4.5)
     sms-spec (0.1.7)
       rspec
-    spring (0.0.10)
+    spork (1.0.0rc3)
     sprockets (2.10.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -296,7 +312,7 @@ DEPENDENCIES
   clockwork (= 0.5.2)
   dalli (= 2.6.4)
   database_cleaner (= 1.0.1)
-  devise (= 3.0.0.rc)
+  devise!
   draper (= 1.2.1)
   email_spec (= 1.4.0)
   factory_girl_rails (= 4.2.1)
@@ -305,7 +321,7 @@ DEPENDENCIES
   forgery (= 0.5.0)
   guard-rspec (= 3.0.2)
   guard-shell (= 0.5.1)
-  guard-spring (= 0.0.3)
+  guard-spork (= 1.5.1)
   ice_cube (= 0.11.0)
   json_spec (= 1.1.1)
   kaminari (= 0.14.1)
@@ -330,7 +346,7 @@ DEPENDENCIES
   sinatra (= 1.4.3)
   slim (= 2.0.0)
   sms-spec (= 0.1.7)
-  spring (= 0.0.10)
+  spork-rails!
   state_machine (= 1.2.0)
   state_machine_rspec (= 0.1.2)
   timecop (= 0.6.1)

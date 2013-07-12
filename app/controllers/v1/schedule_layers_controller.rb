@@ -38,15 +38,15 @@ class V1::ScheduleLayersController < V1::ApplicationController
 
   private
 
-  def schedule_layer_params
-    params.permit(:position, :rule, :count, :start_at, :schedule_id, :users)
-  end
+    def schedule_layer_params
+      params.permit(:position, :rule, :count, :start_at, :schedule_id, :users)
+    end
 
-  def schedule
-    @schedule = current_account.schedules.where(uuid: params[:schedule_id]).first if params[:schedule_id]
-  end
+    def schedule
+      @schedule = current_account.schedules.where(uuid: params[:schedule_id]).first if params[:schedule_id]
+    end
 
-  def schedule_layers
-    @schedule_layers = (@schedule) ? @schedule.schedule_layers : current_account.schedule_layers
-  end
+    def schedule_layers
+      @schedule_layers = (@schedule) ? @schedule.schedule_layers : current_account.schedule_layers
+    end
 end

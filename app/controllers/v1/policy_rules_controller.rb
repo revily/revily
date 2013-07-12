@@ -2,7 +2,8 @@ class V1::PolicyRulesController < V1::ApplicationController
   respond_to :json
 
   before_action :authenticate_user!
-  before_action :policy, :policy_rules
+  before_action :policy
+  before_action :policy_rules
 
   def sort
     params[:policy_rules].each_with_index do |id, index|
@@ -19,28 +20,28 @@ class V1::PolicyRulesController < V1::ApplicationController
   def show
     @policy_rule = policy_rules.where(uuid: params[:id]).first
 
-    respond_with @policy_rule
+    respond_with policy, @policy_rule
   end
 
   def create
     @policy_rule = policy_rules.new(policy_rule_params)
     @policy_rule.save
 
-    respond_with @policy_rule
+    respond_with policy, @policy_rule
   end
 
   def update
     @policy_rule = policy_rules.where(uuid: params[:id]).first
     @policy_rule.update_attributes(policy_rule_params)
 
-    respond_with @policy_rule
+    respond_with policy, @policy_rule
   end
 
   def destroy
     @policy_rule = policy_rules.where(uuid: params[:id]).first
     @policy_rule.destroy
 
-    respond_with @policy_rule
+    respond_with policy, @policy_rule
   end
 
   def assignables
@@ -58,7 +59,6 @@ class V1::PolicyRulesController < V1::ApplicationController
     end
 
     def policy_rules
-      # @policy_rules ||= (@policy) ? @policy.policy_rules : current_account.policy_rules
-      @policy_rules = @policy ? @policy.policy_rules : PolicyRule
+      @policy_rules = @policy.policy_rules
     end
 end

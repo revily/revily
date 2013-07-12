@@ -33,8 +33,4 @@ class Schedule < ActiveRecord::Base
     schedule_layers.first.user_schedules.find { |us| us.occurring_at?(Time.zone.now) }.try(:user)
   end
 
-  def group_method
-  # 
-  end
-
 end

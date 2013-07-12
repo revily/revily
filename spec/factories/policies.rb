@@ -6,9 +6,18 @@ FactoryGirl.define do
     loop_limit 3
     account
 
+    # ignored do
+      # uuid
+    # end
+
+    # after(:stub) do |policy|
+      # policy.ensure_uuid
+    # end
+
     trait :with_rules do
       after(:create) do |policy|
-        create(:policy_rule, :for_schedule, policy: policy)
+        user = create(:user, account: policy.account)
+        create(:policy_rule, :for_schedule, policy: policy, assignment: user)
       end
     end
 

@@ -32,7 +32,7 @@ FactoryGirl.define do
       end
 
       after(:create) do |schedule_layer, evaluator|
-        users = create_list(:user, evaluator.users_count)
+        users = create_list(:user, evaluator.users_count, account: schedule_layer.schedule.account)
         users.each do |user|
           schedule_layer.users << user
         end

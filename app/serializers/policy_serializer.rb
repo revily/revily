@@ -4,7 +4,7 @@ class PolicySerializer < BaseSerializer
   def _links
     {
       self: { href: policy_path(object) },
-      rules: { href: policy_rules_path(object) }
+      rules: { href: policy_policy_rules_path(object) }
     }
   end
 end

@@ -26,7 +26,7 @@ Reveille::Application.routes.draw do
     end
 
     resources :policies do
-      resources :policy_rules, path: :rules, as: :rules do
+      resources :policy_rules, path: :rules do
         collection do
           post :sort
         end

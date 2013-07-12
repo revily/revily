@@ -60,7 +60,7 @@ class V1::PoliciesController < V1::ApplicationController
   end
 
   def policy_params
-    params.permit(:name, :loop_limit)
+    params.permit(:name, :loop_limit, policy_rules_attributes: [:escalation_timeout, :position, :assignment_id])
   end
 
 end
