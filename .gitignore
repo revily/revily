@@ -17,6 +17,7 @@ vendor/gems
 vendor/ruby
 vendor/bin
 vendor/bundle
+vendor/bundler
 vendor/cache
 vendor/gems
 vendor/specifications
