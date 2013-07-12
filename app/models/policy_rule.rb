@@ -27,17 +27,22 @@ class PolicyRule < ActiveRecord::Base
     presence: true
   # validates :assignment_id,
   #   uniqueness: { scope: :policy_id },
-  #   presence: true
+    # presence: true
   # validates :assignment_type,
-  #   presence: true,
+    # presence: true
   #   inclusion: { in: %w[ User Schedule ], message: "must be either 'User' or 'Schedule'" }
 
 
-  validate :ensure_unique_assignment
+  validate :validate_assignment_uniqueness_on_create, on: :create
+  validate :validate_assignment_uniqueness_on_update, on: :update
+  validate :validate_assignment_attributes
 
-  accepts_nested_attributes_for :assignment
+  # validate :ensure_assignment_exists
 
-  before_validation :set_assignment
+  # accepts_nested_attributes_for :assignment
+
+  after_initialize :set_assignment
+  # before_validation :set_assignment
 
   def current_user
     @assignee ||= if assignment.respond_to?(:current_user_on_call)
@@ -52,18 +57,50 @@ class PolicyRule < ActiveRecord::Base
   end
 
   def ensure_unique_assignment
-    if policy.policy_rules.find_by(assignment_id: assignment_id, assignment_type: assignment_type)
-      errors.add(:assignment, 'has already been created on this policy')
+
+  end
+
+  def assignment_attributes
+    @assignment_attributes ||= {}
+  end
+
+  def validate_assignment_uniqueness_on_create
+    existing_rule = policy.policy_rules.find_by(assignment_id: assignment_id, assignment_type: assignment_type)
+    errors.add(:assignment, 'has already been taken for this policy') if existing_rule
+  end
+
+  def validate_assignment_uniqueness_on_update
+    existing_rule = policy.policy_rules.find_by(assignment_id: assignment_id, assignment_type: assignment_type)
+
+   if existing_rule
+      return if existing_rule.id == self.id
+      errors.add(:assignment, 'has already been taken for this policy')
     end
   end
 
+  def validate_assignment_attributes
+
+    errors.add(:assignment, "could not be found") if assignment.nil?    
+    errors.add(:assignment_attributes, ":id can't be blank") if assignment_attributes[:id].nil?
+    errors.add(:assignment_attributes, ":type can't be blank") if assignment_attributes[:type].nil?
+  end
+
   def set_assignment
+    # return false if assignment_attributes.nil?
+    # return false if assignment_attributes[:type].nil?
+    # return false if assignment_attributes[:id].nil?
+
+    return unless assignment_attributes[:type] && assignment_attributes[:id]
+
     klass = self.assignment_attributes[:type].downcase.pluralize
     assign = account.send(klass).find_by_uuid(assignment_attributes[:id])
     self.assignment = assign
   end
 
-  def assignment_type=(value)
-    write_attribute(:assignment_type, value.capitalize)
+  def assignment_attributes=(assignment_attributes)
+    attrs = Hash.new.with_indifferent_access
+    attrs[:type] = assignment_attributes[:type].capitalize if assignment_attributes[:type]
+    attrs[:id] = assignment_attributes[:id] if assignment_attributes[:id]
+    @assignment_attributes = attrs
   end
 end

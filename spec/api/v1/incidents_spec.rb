@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "incidents" do
   sign_in_user
 
-  let(:service) { create(:service_with_policy, account: account) }
+  let(:service) { create(:service, :with_policy, account: account) }
 
   describe 'GET /services/:service_id/incidents' do
     let(:incident) { create(:incident, service: service) }

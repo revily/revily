@@ -17,7 +17,7 @@ FactoryGirl.define do
     trait :with_rules do
       after(:create) do |policy|
         user = create(:user, account: policy.account)
-        create(:policy_rule, :for_schedule, policy: policy, assignment: user)
+        create(:policy_rule, :for_schedule, policy: policy, assignment_attributes: { id: user.uuid, type: "User" })
       end
     end
 

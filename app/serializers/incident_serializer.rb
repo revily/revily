@@ -16,7 +16,7 @@ class IncidentSerializer < BaseSerializer
       service: { href: service_path(object.service) },
     }
     links[:current_user] = { href: user_path(current_user_id) } if current_user_id.present?
-    links[:current_policy_rule] = { href: policy_rule_path(policy, current_policy_rule_id) } if current_policy_rule_id.present?
+    links[:current_policy_rule] = { href: policy_policy_rule_path(policy, current_policy_rule_id) } if current_policy_rule_id.present?
     links
   end
 

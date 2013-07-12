@@ -52,19 +52,24 @@ class V1::PolicyRulesController < V1::ApplicationController
   private
 
     def policy_rule_params
-      p = Hash.new.with_indifferent_access
-      [ :escalation_timeout, :_destroy, :position ].each do |key|
-        p[key] = params[key]
-      end
-      p[:assignment_attributes] = Hash.new.with_indifferent_access
+      params.permit(:escalation_timeout, :position, assignment_attributes: [ :id, :type ])
 
-      p[:assignment_attributes] = params[:assignment]
+      # p = Hash.new.with_indifferent_access
+      # [ :escalation_timeout, :_destroy, :position ].each do |key|
+      #   p[key] = params[key]
+      # end
+      # p[:assignment_attributes] = Hash.new.with_indifferent_access
+      # p[:assignment_attributes][:id] = params[:assignment][:id]
+      # p[:assignment_attributes][:type] = params[:assignment][:type]
 
-      p.permit(
-        :escalation_timeout, :_destroy, :position, 
-        assignment_attributes: [ :id, :type ],
-        assignment: [ :id, :type ]
-      )
+      # p[:assignment_attributes] = params[:assignment]
+
+      # strong_params = ActionController::Parameters.new(p)
+      # strong_params.permit(
+      #   :escalation_timeout, :_destroy, :position, 
+      #   assignment_attributes: [ :id, :type ],
+      #   assignment: [ :id, :type ]
+      # )
     end
 
     def policy

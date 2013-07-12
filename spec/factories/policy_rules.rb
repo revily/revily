@@ -5,6 +5,10 @@ FactoryGirl.define do
     policy
     escalation_timeout 1
     
+    after(:build) do |rule|
+      rule.set_assignment
+    end
+    
     trait :for_user do
       association :assignment, factory: :user
     end
