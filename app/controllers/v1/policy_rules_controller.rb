@@ -24,7 +24,12 @@ class V1::PolicyRulesController < V1::ApplicationController
   end
 
   def create
+    logger.info policy_rule_params
+
     @policy_rule = policy_rules.new(policy_rule_params)
+
+    logger.info @policy_rule.inspect
+
     @policy_rule.save
 
     respond_with policy, @policy_rule
@@ -44,14 +49,22 @@ class V1::PolicyRulesController < V1::ApplicationController
     respond_with policy, @policy_rule
   end
 
-  def assignables
-    respond_with current_account.assignables_hash
-  end
-
   private
 
     def policy_rule_params
-      params.permit(:escalation_timeout, :assignment_id, :_destroy, :id, :position)
+      p = Hash.new.with_indifferent_access
+      [ :escalation_timeout, :_destroy, :position ].each do |key|
+        p[key] = params[key]
+      end
+      p[:assignment_attributes] = Hash.new.with_indifferent_access
+
+      p[:assignment_attributes] = params[:assignment]
+
+      p.permit(
+        :escalation_timeout, :_destroy, :position, 
+        assignment_attributes: [ :id, :type ],
+        assignment: [ :id, :type ]
+      )
     end
 
     def policy

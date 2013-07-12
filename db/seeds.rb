@@ -38,6 +38,6 @@ policy = account.policies.first_or_create(
 
 puts "create rule"
 policy.policy_rules.first_or_create(
-  assignable: user,
+  assignment: user,
   escalation_timeout: 1
 )

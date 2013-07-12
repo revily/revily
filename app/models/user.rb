@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 
   # has_many :notification_rules, through: :contacts
   
-  has_many :policy_rules, as: :assignable
+  has_many :policy_rules, as: :assignment
   has_many :user_schedule_layers, -> { order(:position) }
   has_many :schedule_layers,
     through: :user_schedule_layers,
@@ -61,8 +61,4 @@ class User < ActiveRecord::Base
     uniqueness: { scope: [ :account_id ] }
   
   before_save :ensure_authentication_token
-
-  def assignable_name
-    "User"
-  end
 end

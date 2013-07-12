@@ -25,7 +25,7 @@ describe 'policy_rules' do
 
   describe 'POST /policies:policy_id/rules', :focus do
     let(:assignment) { create(:user, account: account) }
-    let(:attributes) { attributes_for(:policy_rule, policy: policy, assignment_id: assignment.uuid) }
+    let(:attributes) { attributes_for(:policy_rule, :for_user, policy: policy) }
     before { puts attributes.inspect }
     before { post "/policies", attributes.to_json }
 

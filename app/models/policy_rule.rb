@@ -6,8 +6,8 @@
 #      escalation_timeout   :integer          default(30)
 #      position             :integer
 #      uuid                 :string(255)      not null
-#      assignable_id        :integer
-#      assignable_type      :string(255)
+#      assignment_id        :integer
+#      assignment_type      :string(255)
 #      policy_id :integer
 #      created_at           :datetime         not null
 #      updated_at           :datetime         not null
@@ -16,40 +16,34 @@
 class PolicyRule < ActiveRecord::Base
   include Identifiable
 
-  attr_accessor :assignment_id, :assignment
+  attr_accessor :assignment_attributes
 
-  belongs_to :assignable, polymorphic: true
+  belongs_to :assignment, polymorphic: true
   belongs_to :policy
 
   acts_as_list scope: :policy
 
   validates :escalation_timeout,
     presence: true
-  validates :assignable_id,
-    uniqueness: { scope: :policy_id }
-  # #   presence: true
-  # validates :assignable_type,
-  # #   presence: true,
-  #   inclusion: { in: %w[ User Schedule ] },
-  #   unless: lambda {|a| a.assignment.present? }
-  # validates :assignment,
+  # validates :assignment_id,
+  #   uniqueness: { scope: :policy_id },
+  #   presence: true
+  # validates :assignment_type,
   #   presence: true,
-  #   on: :create
+  #   inclusion: { in: %w[ User Schedule ], message: "must be either 'User' or 'Schedule'" }
 
-  validates :assignable,
-    presence: true,
-    uniqueness: { scope: :policy_id },
-    if: "assignment.present?"
 
-  accepts_nested_attributes_for :assignable
+  validate :ensure_unique_assignment
 
-  before_validation :ensure_assignment
+  accepts_nested_attributes_for :assignment
+
+  before_validation :set_assignment
 
   def current_user
-    @assignee ||= if assignable.respond_to?(:current_user_on_call)
-      assignable.current_user_on_call
+    @assignee ||= if assignment.respond_to?(:current_user_on_call)
+      assignment.current_user_on_call
     else
-      assignable
+      assignment
     end
   end
 
@@ -57,16 +51,19 @@ class PolicyRule < ActiveRecord::Base
     self.policy.account
   end
 
-  def ensure_assignment
-    self.assignable = assignment
-  end
-
-  def assignment
-    @assignment ||= account.users.find_by(uuid: assignment_id) || account.schedules.find_by(uuid: assignment_id)
-    if @assignment.nil?
-      errors.add(:assignment_id, "could not be found") unless errors[:assignment_id].include?("could not be found")
+  def ensure_unique_assignment
+    if policy.policy_rules.find_by(assignment_id: assignment_id, assignment_type: assignment_type)
+      errors.add(:assignment, 'has already been created on this policy')
     end
-    @assignment
   end
 
+  def set_assignment
+    klass = self.assignment_attributes[:type].downcase.pluralize
+    assign = account.send(klass).find_by_uuid(assignment_attributes[:id])
+    self.assignment = assign
+  end
+
+  def assignment_type=(value)
+    write_attribute(:assignment_type, value.capitalize)
+  end
 end
