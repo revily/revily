@@ -25,7 +25,6 @@ describe 'policy_rules' do
   end
 
   describe 'POST /policies:policy_id/rules' do
-    let(:assignment) { create(:user, account: account) }
     let(:attributes) { attributes_for(:policy_rule, policy: policy, assignment_attributes: assignment_attributes) }
     before { post "/policies/#{policy.uuid}/rules", attributes.to_json }
 
@@ -34,10 +33,13 @@ describe 'policy_rules' do
   end
 
   describe 'PATCH /policies/:policy_id/rules/:id' do
-    before { patch "/policies/#{policy.uuid}", attributes_for(:policy).to_json }
+    let(:rule) { create(:policy_rule, policy: policy, assignment_attributes: assignment_attributes) }
+    let(:attributes) { { escalation_timeout: 30 } }
+    before { patch "/policies/#{policy.uuid}/rules/#{rule.uuid}", attributes.to_json }
 
     it { should respond_with(:no_content) }
     it { should_not have_body }
+    it { expect(rule.reload.escalation_timeout).to eq 30 }
   end
 
   describe 'DELETE /policies/:policy_id/rules/:id' do

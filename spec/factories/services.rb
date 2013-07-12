@@ -23,21 +23,13 @@ FactoryGirl.define do
       end
     end
 
-    factory :enabled_service do
+    trait :enabled do
       state "enabled"
     end
 
-    factory :disabled_service do
+    trait :disabled do
       state "disabled"
     end
 
-
-    factory :service_with_incidents do
-      after(:create) do |service|
-        create(:incident, service: service)
-      end
-    end
-
-    factory :service_with_policy, traits: [ :with_policy ]
   end
 end

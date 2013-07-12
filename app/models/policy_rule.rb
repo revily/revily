@@ -35,7 +35,7 @@ class PolicyRule < ActiveRecord::Base
 
   validate :validate_assignment_uniqueness_on_create, on: :create
   validate :validate_assignment_uniqueness_on_update, on: :update
-  validate :validate_assignment_attributes
+  validate :validate_assignment_attributes, on: :create
 
   # validate :ensure_assignment_exists
 
@@ -79,10 +79,12 @@ class PolicyRule < ActiveRecord::Base
   end
 
   def validate_assignment_attributes
-
-    errors.add(:assignment, "could not be found") if assignment.nil?    
     errors.add(:assignment_attributes, ":id can't be blank") if assignment_attributes[:id].nil?
     errors.add(:assignment_attributes, ":type can't be blank") if assignment_attributes[:type].nil?
+  end
+
+  def validate_assignment_exists
+    errors.add(:assignment, "could not be found") if assignment.nil?
   end
 
   def set_assignment

@@ -1,34 +1,39 @@
 require 'spec_helper'
 
+def stub_rule
+  subject.stub(:assignment_attributes).and_return({ id: user.uuid, type: "User" })
+  subject.stub(:policy).and_return(policy)
+end
+
 describe PolicyRule do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
   let(:schedule) { create(:schedule, account: account) }
   let(:policy) { create(:policy, account: account) }
 
-  it 'associations' do
-    subject.stub(:assignment_attributes).and_return({ id: user.uuid, type: "User" })
-    subject.stub(:policy).and_return(policy)
-    should belong_to(:policy)
-    should belong_to(:assignment)
+  describe 'associations' do
+    before { stub_rule }
+
+    it { should belong_to(:policy) }
+    it { should belong_to(:assignment) }
   end
 
-  it 'validations' do
-    subject.stub(:assignment_attributes).and_return({ id: user.uuid, type: "User" })
-    subject.stub(:policy).and_return(policy)
-    should validate_presence_of(:escalation_timeout)
-    # it 'assignment not found'
-    # it 'assignment not unique'
+  describe 'validations' do
+    before { stub_rule }
+
+    it { should validate_presence_of(:escalation_timeout) }
   end
 
-  it 'attributes' do
-    subject.stub(:assignment_attributes).and_return({ id: user.uuid, type: "User" })
-    subject.stub(:policy).and_return(policy)
-    subject.should have_readonly_attribute(:uuid)
+  describe 'attributes' do
+    before { stub_rule }
 
-    obj = build(:policy_rule, policy: policy)
-    obj.save(:validate => false)
-    obj.to_param.should == obj.uuid
+    it { should have_readonly_attribute(:uuid) }
+
+    it 'sets to_param to uuid' do
+      obj = build(:policy_rule, policy: policy)
+      obj.save(:validate => false)
+      obj.to_param.should == obj.uuid
+    end
   end
 
   describe '#assignment_attributes=' do

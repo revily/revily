@@ -23,7 +23,7 @@ FactoryGirl.define do
 
     trait :for_dan_ryan do
       after(:create) do |policy|
-        create(:rule, :for_dan_ryan, policy: policy)
+        create(:policy_rule, :for_dan_ryan, policy: policy)
       end
     end
   end
