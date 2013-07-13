@@ -20,17 +20,13 @@ class Service < ActiveRecord::Base
 
   belongs_to :account
   has_many :incidents, dependent: :destroy
-  
-  # scope :triggered_incidents, includes(:incidents).where('incidents.state = ?', 'triggered')
-  # scope :acknowledged_incidents, includes(:incidents).where('incidents.state = ?', 'acknowledged')
-  # scope :resolved_incidents, includes(:incidents).where('incidents.state = ?', 'resolved')
+  has_many :alerts, through: :incidents
+  has_one :service_policy
+  has_one :policy, through: :service_policy
 
   scope :enabled, -> { where(state: 'enabled') }
   scope :disabled, -> { where(state: 'disabled') }
 
-  has_many :alerts, through: :incidents
-  has_one :service_policy
-  has_one :policy, through: :service_policy
 
   validates :name, :acknowledge_timeout, :auto_resolve_timeout, :state,
     presence: true
@@ -38,7 +34,6 @@ class Service < ActiveRecord::Base
   validates :acknowledge_timeout, :auto_resolve_timeout,
     numericality: { only_integer: true }
 
-  
   before_save :ensure_authentication_token
 
   state_machine initial: :enabled do
@@ -54,10 +49,6 @@ class Service < ActiveRecord::Base
       # transition all => :enabled
       transition :enabled => :disabled
     end
-  end
-
-  def self.actions
-    Hound::Action.where(actionable_type: 'Service')
   end
 
   def current_status

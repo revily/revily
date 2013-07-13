@@ -12,7 +12,6 @@ gem 'acts_as_tenant',                      '0.3.1'
 gem 'clockwork',                           '0.5.2', require: false
 gem 'dalli',                               '2.6.4'
 gem 'devise',                              github: 'plataformatec/devise'
-gem 'draper',                              '1.2.1'
 gem 'figaro',                              '0.7.0'
 gem 'ice_cube',                            '0.11.0'
 gem 'kaminari',                            '0.14.1'
