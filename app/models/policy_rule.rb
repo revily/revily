@@ -79,8 +79,8 @@ class PolicyRule < ActiveRecord::Base
   end
 
   def validate_assignment_attributes
-    errors.add(:assignment_attributes, ":id can't be blank") if assignment_attributes[:id].nil?
-    errors.add(:assignment_attributes, ":type can't be blank") if assignment_attributes[:type].nil?
+    errors.add(:assignment_attributes, ":id can't be blank") if assignment_attributes[:id].nil? && assignment_id.nil?
+    errors.add(:assignment_attributes, ":type can't be blank") if assignment_attributes[:type].nil? && assignment_type.nil?
   end
 
   def validate_assignment_exists

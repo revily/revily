@@ -11,7 +11,7 @@ class V1::ScheduleLayersController < V1::ApplicationController
   end
 
   def show
-    @schedule_layer = schedule_layers.where(uuid: params[:id]).first
+    @schedule_layer = schedule_layers.find_by!(uuid: params[:id])
 
     respond_with schedule, @schedule_layer
   end
@@ -23,14 +23,14 @@ class V1::ScheduleLayersController < V1::ApplicationController
   end
 
   def update
-    @schedule_layer = schedule_layers.where(uuid: params[:id]).first
+    @schedule_layer = schedule_layers.find_by!(uuid: params[:id])
     @schedule_layer.update_attributes(schedule_layer_params)
 
     respond_with schedule, @schedule_layer
   end
 
   def destroy
-    @schedule_layer = schedule_layers.where(uuid: params[:id]).first
+    @schedule_layer = schedule_layers.find_by!(uuid: params[:id])
     @schedule_layer.destroy
 
     respond_with schedule, @schedule_layer
@@ -43,7 +43,7 @@ class V1::ScheduleLayersController < V1::ApplicationController
     end
 
     def schedule
-      @schedule = current_account.schedules.where(uuid: params[:schedule_id]).first if params[:schedule_id]
+      @schedule = current_account.schedules.find_by!(uuid: params[:schedule_id]) if params[:schedule_id]
     end
 
     def schedule_layers

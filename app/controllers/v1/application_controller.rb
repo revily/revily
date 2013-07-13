@@ -1,6 +1,10 @@
 class V1::ApplicationController < ActionController::Base
   respond_to :json
 
+  rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do |e|
+    render nothing: true, status: :not_found
+  end
+
   def after_sign_in_path_for(resource_or_scope)
     dashboard_url
   end
@@ -18,7 +22,8 @@ class V1::ApplicationController < ActionController::Base
 
   def auth!
     unless params[:auth_token] && user_signed_in?
-      render json: {}, status: 401
+      # render json: {}, status: 401
+      render nothing: true, status: 401
     end
   end
   

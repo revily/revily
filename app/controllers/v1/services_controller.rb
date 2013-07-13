@@ -10,7 +10,7 @@ class V1::ServicesController < V1::ApplicationController
   end
 
   def show
-    @service = services.where(uuid: params[:id]).first
+    @service = services.find_by!(uuid: params[:id])
 
     respond_with @service
   end
@@ -29,33 +29,33 @@ class V1::ServicesController < V1::ApplicationController
   end
 
   def edit
-    @service = services.where(uuid: params[:id]).first
+    @service = services.find_by!(uuid: params[:id])
 
     respond_with @service
   end
 
   def update
-    @service = services.where(uuid: params[:id]).first
+    @service = services.find_by!(uuid: params[:id])
     @service.update_attributes(service_params)
 
     respond_with @service
   end
 
   def enable
-    @service = services.where(uuid: params[:id]).first
+    @service = services.find_by!(uuid: params[:id])
     @service.enable
 
     respond_with @service
   end
 
   def disable
-    @service = services.where(uuid: params[:id]).first
+    @service = services.find_by!(uuid: params[:id])
     @service.disable
     respond_with @service
   end
 
   def destroy
-    @service = services.where(uuid: params[:id]).first
+    @service = services.find_by!(uuid: params[:id])
     @service.destroy
 
     respond_with @service

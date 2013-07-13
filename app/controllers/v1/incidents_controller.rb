@@ -11,7 +11,7 @@ class V1::IncidentsController < V1::ApplicationController
   end
 
   def show
-    @incident = incidents.where(uuid: params[:id]).first
+    @incident = incidents.find_by!(uuid: params[:id])
 
     respond_with @incident
   end
@@ -24,42 +24,42 @@ class V1::IncidentsController < V1::ApplicationController
   end
 
   def update
-    @incident = incidents.where(uuid: params[:id]).first
+    @incident = incidents.find_by!(uuid: params[:id])
     @incident.update_attributes(incident_params)
 
     respond_with @incident
   end
 
   def destroy
-    @incident = incidents.where(uuid: params[:id]).first
+    @incident = incidents.find_by!(uuid: params[:id])
     @incident.destroy
 
     respond_with @incident.service, @incident
   end
 
   def trigger
-    @incident = incidents.where(uuid: params[:id]).first
+    @incident = incidents.find_by!(uuid: params[:id])
     @incident.trigger 
 
     respond_with @incident
   end
 
   def acknowledge
-    @incident = incidents.where(uuid: params[:id]).first
+    @incident = incidents.find_by!(uuid: params[:id])
     @incident.acknowledge
 
     respond_with @incident
   end
 
   def escalate
-    @incident = incidents.where(uuid: params[:id]).first
+    @incident = incidents.find_by!(uuid: params[:id])
     @incident.escalate
 
     respond_with @incident
   end
 
   def resolve
-    @incident = incidents.where(uuid: params[:id]).first
+    @incident = incidents.find_by!(uuid: params[:id])
     @incident.resolve
 
     respond_with @incident
@@ -72,7 +72,7 @@ class V1::IncidentsController < V1::ApplicationController
   end
 
   def service
-    @service = current_account.services.where(uuid: params[:service_id]).first if params[:service_id]
+    @service = current_account.services.find_by!(uuid: params[:service_id]) if params[:service_id]
   end
 
   def incidents

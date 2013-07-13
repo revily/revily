@@ -11,7 +11,7 @@ class V1::PoliciesController < V1::ApplicationController
   end
 
   def show
-    @policy = policies.where(uuid: params[:id]).first
+    @policy = policies.find_by!(uuid: params[:id])
 
     respond_with @policy
   end
@@ -30,20 +30,20 @@ class V1::PoliciesController < V1::ApplicationController
   end
 
   def edit
-    @policy = policies.where(uuid: params[:id]).first
+    @policy = policies.find_by!(uuid: params[:id])
 
     respond_with @policy
   end
 
   def update
-    @policy = policies.where(uuid: params[:id]).first
+    @policy = policies.find_by!(uuid: params[:id])
     @policy.update_attributes(policy_params)
 
     respond_with @policy
   end
 
   def destroy
-    @policy = policies.where(uuid: params[:id]).first
+    @policy = policies.find_by!(uuid: params[:id])
     @policy.destroy
 
     respond_with @policy

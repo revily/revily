@@ -10,7 +10,7 @@ class V1::UsersController < V1::ApplicationController
   end
 
   def show
-    @user = users.where(uuid: params[:id]).first
+    @user = users.find_by!(uuid: params[:id])
 
     respond_with @user
   end

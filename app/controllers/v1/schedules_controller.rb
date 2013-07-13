@@ -11,7 +11,7 @@ class V1::SchedulesController < V1::ApplicationController
   end
 
   def show
-    @schedule = schedules.where(uuid: params[:id]).first
+    @schedule = schedules.find_by!(uuid: params[:id])
 
     respond_with @schedule
   end
@@ -30,20 +30,20 @@ class V1::SchedulesController < V1::ApplicationController
   end
 
   def edit
-    @schedule = schedules.where(uuid: params[:id]).first
+    @schedule = schedules.find_by!(uuid: params[:id])
 
     respond_with @schedule
   end
 
   def update
-    @schedule = schedules.where(uuid: params[:id]).first
+    @schedule = schedules.find_by!(uuid: params[:id])
     @schedule.update_attributes(schedule_params)
 
     respond_with @schedule
   end
 
   def destroy
-    @schedule = schedules.where(uuid: params[:id]).first
+    @schedule = schedules.find_by!(uuid: params[:id])
     @schedule.destroy
 
     respond_with @schedule
@@ -51,7 +51,7 @@ class V1::SchedulesController < V1::ApplicationController
 
 
   def on_call
-    @schedule = schedules.where(uuid: params[:id]).first
+    @schedule = schedules.find_by!(uuid: params[:id])
 
     respond_with @schedule.current_user_on_call
   end

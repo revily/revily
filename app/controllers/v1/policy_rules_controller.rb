@@ -18,32 +18,27 @@ class V1::PolicyRulesController < V1::ApplicationController
   end
 
   def show
-    @policy_rule = policy_rules.where(uuid: params[:id]).first
+    @policy_rule = policy_rules.find_by!(uuid: params[:id])
 
-    respond_with policy, @policy_rule
+    respond_with @policy_rule
   end
 
   def create
-    logger.info policy_rule_params
-
     @policy_rule = policy_rules.new(policy_rule_params)
-
-    logger.info @policy_rule.inspect
-
     @policy_rule.save
 
     respond_with policy, @policy_rule
   end
 
   def update
-    @policy_rule = policy_rules.where(uuid: params[:id]).first
+    @policy_rule = policy_rules.find_by_uuid!(params[:id])
     @policy_rule.update_attributes(policy_rule_params)
 
     respond_with policy, @policy_rule
   end
 
   def destroy
-    @policy_rule = policy_rules.where(uuid: params[:id]).first
+    @policy_rule = policy_rules.find_by!(uuid: params[:id])
     @policy_rule.destroy
 
     respond_with policy, @policy_rule
@@ -53,27 +48,10 @@ class V1::PolicyRulesController < V1::ApplicationController
 
     def policy_rule_params
       params.permit(:escalation_timeout, :position, assignment_attributes: [ :id, :type ])
-
-      # p = Hash.new.with_indifferent_access
-      # [ :escalation_timeout, :_destroy, :position ].each do |key|
-      #   p[key] = params[key]
-      # end
-      # p[:assignment_attributes] = Hash.new.with_indifferent_access
-      # p[:assignment_attributes][:id] = params[:assignment][:id]
-      # p[:assignment_attributes][:type] = params[:assignment][:type]
-
-      # p[:assignment_attributes] = params[:assignment]
-
-      # strong_params = ActionController::Parameters.new(p)
-      # strong_params.permit(
-      #   :escalation_timeout, :_destroy, :position, 
-      #   assignment_attributes: [ :id, :type ],
-      #   assignment: [ :id, :type ]
-      # )
     end
 
     def policy
-      @policy = current_account.policies.where(uuid: params[:policy_id]).first if params[:policy_id]
+      @policy = current_account.policies.find_by!(uuid: params[:policy_id]) if params[:policy_id]
     end
 
     def policy_rules
