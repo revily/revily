@@ -90,10 +90,6 @@ GEM
     database_cleaner (1.0.1)
     diff-lcs (1.2.4)
     dotenv (0.8.0)
-    draper (1.2.1)
-      actionpack (>= 3.0)
-      activesupport (>= 3.0)
-      request_store (~> 1.0.3)
     email_spec (1.4.0)
       launchy (~> 2.1)
       mail (~> 2.2)
@@ -313,7 +309,6 @@ DEPENDENCIES
   dalli (= 2.6.4)
   database_cleaner (= 1.0.1)
   devise!
-  draper (= 1.2.1)
   email_spec (= 1.4.0)
   factory_girl_rails (= 4.2.1)
   figaro (= 0.7.0)
