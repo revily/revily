@@ -22,6 +22,7 @@ Reveille::Application.routes.draw do
       member do
         put 'acknowledge'
         put 'resolve'
+        put 'trigger'
       end
     end
 

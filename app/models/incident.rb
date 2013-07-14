@@ -23,6 +23,7 @@
 class Incident < ActiveRecord::Base
   include Identifiable
   include Trackable
+  include Reveille::Event
   
   serialize :details, JSON
 
@@ -30,6 +31,7 @@ class Incident < ActiveRecord::Base
   belongs_to :current_user, class_name: 'User', foreign_key: :current_user_id
   belongs_to :current_policy_rule, class_name: 'PolicyRule'
   has_many :alerts
+  has_many :events, as: :source
 
   validates :message, presence: true
   validates :service, existence: true
@@ -90,6 +92,7 @@ class Incident < ActiveRecord::Base
     before_transition on: :escalate, do: :escalate_to_next_policy_rule
 
     after_transition any => any do |incident, transition|
+      incident.dispatch(transition.event, incident)
       # incident.log_action(transition.event)
     end
 
@@ -120,6 +123,10 @@ class Incident < ActiveRecord::Base
 
   def policy
     service.try(:policy)
+  end
+
+  def account
+    service.try(:account)
   end
 
   protected

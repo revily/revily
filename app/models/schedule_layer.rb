@@ -25,6 +25,8 @@ class ScheduleLayer < ActiveRecord::Base
     -> { order('user_schedule_layers.position') },
     through: :user_schedule_layers,
     dependent: :destroy
+  has_many :events, as: :source
+
 
   acts_as_list scope: :schedule
 
