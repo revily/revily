@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130713060607) do
+ActiveRecord::Schema.define(version: 20130714084621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,16 @@ ActiveRecord::Schema.define(version: 20130713060607) do
 
   add_index "events", ["account_id"], name: "index_events_on_account_id", using: :btree
   add_index "events", ["source_id", "source_type"], name: "index_events_on_source_id_and_source_type", using: :btree
+
+  create_table "hooks", force: true do |t|
+    t.string   "name"
+    t.text     "config",     default: "{}"
+    t.text     "events",     default: "[]"
+    t.boolean  "active",     default: false
+    t.integer  "account_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "incidents", force: true do |t|
     t.text     "message"
