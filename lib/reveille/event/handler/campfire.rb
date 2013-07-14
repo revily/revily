@@ -1,7 +1,7 @@
 module Reveille
   module Event
     class Handler
-      class Log < Handler
+      class Campfire < Handler
         EVENTS = /.*/
 
         def handle?
@@ -9,7 +9,11 @@ module Reveille
         end
 
         def handle
-          Event::Job::Log.run(:log, payload)
+          Event::Job::Campfire.run(:campfire, payload, targets: targets)
+        end
+
+        def targets
+          @targets
         end
 
       end

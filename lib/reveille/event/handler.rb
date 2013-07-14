@@ -2,6 +2,7 @@ module Reveille
   module Event
     class Handler
       autoload :Log, 'reveille/event/handler/log'
+      autoload :Campfire, 'reveille/event/handler/campfire'
 
       class << self
 

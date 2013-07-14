@@ -21,7 +21,7 @@ class V1::IntegrationController < V1::ApplicationController
     @incident = current_service.incidents.unresolved.where(key: params[:key])
 
     respond_with @incident do |format|
-      if @incident 
+      if @incident
         last_state = @incident.state
         @incident.acknowledge
         http_status = (last_state == @incident.state) ? :not_modified : :ok
@@ -31,11 +31,11 @@ class V1::IntegrationController < V1::ApplicationController
       end
     end
 
-        format.json { render json: @incident, status: http_status }
-      else
-        format.json { render json: { errors: @incident.errors }, status: :unprocessable_entity }
-      end
-    end
+    # format.json { render json: @incident, status: http_status }
+    # else
+    # format.json { render json: { errors: @incident.errors }, status: :unprocessable_entity }
+    # end
+    # end
   end
 
   def resolve
@@ -51,8 +51,6 @@ class V1::IntegrationController < V1::ApplicationController
       end
     end
   end
-
-  protected
 
   private
 

@@ -2,7 +2,11 @@ require 'active_support/core_ext/string/inflections'
 
 module Reveille
   module Event
+    # include Celluloid
+    # include Celluloid::Notifications
+    
     autoload :Handler,      'reveille/event/handler'
+    autoload :Job,          'reveille/event/job'
     autoload :Subscription, 'reveille/event/subscription'
 
     SUBSCRIBERS = %w( log )
