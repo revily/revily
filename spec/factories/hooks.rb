@@ -22,12 +22,24 @@ FactoryGirl.define do
     name 'log'
   end
 
-  trait :for_incidents do
-    events %w[ incident.triggered incident.acknowledged incident.resolved ]
+  trait :with_config do
+    config { { 'foo' => 'bar', 'baz' => 'qux' } }
   end
-# 
+
+  trait :for_incidents do
+    events %w[ incident.* ]
+  end
+
   trait :for_services do
     events %w[ service.created service.updated service.deleted ]
+  end
+
+  trait :specific_events do
+    events %w[ incident.triggered service.updated policy.created ]
+  end
+
+  trait :all_events do
+    events %w[ * ]
   end
 
   trait :test do

@@ -31,25 +31,29 @@ describe Reveille::Event::Subscription do
 
     it 'should notify when the event matches' do
       subscription.notify('incident.triggered', resource)
-      subscription.handler.events.should have(1).item
+      expect(subscription.handler.events).to have(1).item
     end
 
     it 'should not notify when the event does not match' do
       subscription.notify('service.created', resource)
-      subscription.handler.events.should have(0).items
+      expect(subscription.handler.events).to have(0).items
     end
   end
 
 
   describe '#new' do
     context 'initialize' do
-      let(:hook) { create(:hook) }
+      let(:hook) { build_stubbed(:hook, :test, :with_config, :for_incidents) }
       let(:subscription) { Reveille::Event::Subscription.new(hook) }
       subject { subscription }
 
-      its(:name) { should eq 'test' }
-      its(:events) { should be_an Array }
-      its(:config) {should be_a Hash }
+      it 'initializes the correct attributes' do
+        expect(subscription.name).to eq 'test'
+        expect(subscription.events).to be_an Array
+        expect(subscription.events).to eq %w[ incident.* ]
+        expect(subscription.config).to be_a Hash
+        expect(subscription.config).to eq({ 'foo' => 'bar', 'baz' => 'qux' })
+      end
     end
 
     context 'missing event handler' do
@@ -57,7 +61,7 @@ describe Reveille::Event::Subscription do
       let(:subscription) { Reveille::Event::Subscription.new(hook) }
 
       it 'raises no exception' do
-        -> { subscription.handler }.should_not raise_error
+        expect { subscription.handler }.to_not raise_error
       end
     end
   end
@@ -67,8 +71,14 @@ describe Reveille::Event::Subscription do
     let(:hook) { build_stubbed(:hook, name: 'test', events: %w[ incident.triggered incident.acknowledged ]) }
     let(:subscription) { Reveille::Event::Subscription.new(hook) }
 
-    it 'matches an event pattern' do
-      subscription.matches?(event).should be_true
+    context 'exact' do
+      it 'matches an event pattern' do
+        expect(subscription.matches?(event)).to be_true
+      end
+
+      it 'does not match a missing event pattern' do
+        expect(subscription.matches?('incident.resolved')).to be_false
+      end
     end
 
     context 'wildcards' do
@@ -77,29 +87,28 @@ describe Reveille::Event::Subscription do
         let(:subscription) { Reveille::Event::Subscription.new(hook) }
 
         it 'matches all events' do
-          subscription.matches?('incident.triggered').should be_true
-          subscription.matches?('incident.acknowledged').should be_true
-          subscription.matches?('incident.resolved').should be_true
-          subscription.matches?('service.created').should_not be_true
+          expect(subscription.matches?('incident.triggered')).to be_true
+          expect(subscription.matches?('incident.acknowledged')).to be_true
+          expect(subscription.matches?('incident.resolved')).to be_true
+          expect(subscription.matches?('service.created')).to_not be_true
+          expect(subscription.matches?('user.deleted')).to_not be_true
         end
       end
 
       context 'all models' do
-        let(:hook) { create(:hook, name: 'test', events: %w[ .* ]) }
+        let(:hook) { build_stubbed(:hook, name: 'test', events: %w[ * ]) }
         let(:subscription) { Reveille::Event::Subscription.new(hook) }
 
         it 'all events' do
-          subscription.matches?('incident.triggered').should be_true
-          subscription.matches?('service.created').should be_true
-          subscription.matches?('policy.updated').should be_true
-          subscription.matches?('schedule.deleted').should be_true
+          expect(subscription.matches?('incident.triggered')).to be_true
+          expect(subscription.matches?('service.created')).to be_true
+          expect(subscription.matches?('policy.updated')).to be_true
+          expect(subscription.matches?('schedule.deleted')).to be_true
+          expect(subscription.matches?('incident.*')).to be_true
+          expect(subscription.matches?('schedule.*')).to be_true
+          expect(subscription.matches?('policy.*')).to be_true
         end
       end
-    end
-
-
-    it 'does not match a missing event pattern' do
-      subscription.matches?('incident.resolved').should be_false
     end
   end
 
