@@ -93,7 +93,6 @@ class Incident < ActiveRecord::Base
 
     after_transition any => any do |incident, transition|
       incident.dispatch(transition.event, incident)
-      # incident.log_action(transition.event)
     end
 
     after_transition any => :triggered do |incident, transition|
