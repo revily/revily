@@ -37,7 +37,7 @@ module Reveille
 
       module ClassMethods
         def schema
-          @schema ||= {}
+          @schema ||= []
         end
 
         def string(*attrs)

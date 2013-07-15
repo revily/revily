@@ -34,8 +34,7 @@ module Reveille
       end
 
       def matches?(event)
-        events.any? { |events| /#{events}/.match(event) }
-        # patterns.any? { |patterns| patterns.is_a?(Regexp) ? patterns.match(event) : patterns == event }
+        events.any? { |events| /^#{events}$/i.match(event) }
       end
     end
   end
