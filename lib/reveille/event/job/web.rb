@@ -1,10 +1,10 @@
 module Reveille
   module Event
     class Job
-      class Log < Job
-        
+      class Web < Job
+
         def process
-          Rails.logger.info "logging!!!"
+          Rails.logger.info "processing web handler"
         end
 
       end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Account do
-  describe 'associations' do
+  context 'associations' do
     it { should have_many(:users) }
     it { should have_many(:schedules) }
     it { should have_many(:services) }
@@ -9,10 +9,10 @@ describe Account do
     it { should have_many(:policies) }
   end
 
-  describe 'validations' do
+  context 'validations' do
     it { should validate_presence_of(:subdomain) }
   end
 
-  describe 'attributes' do
+  context 'attributes' do
   end
 end

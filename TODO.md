@@ -1,27 +1,8 @@
-* configure event state machine
+# Models
 
+* add state machine to every eventful model
 
-# Specs
+# Events
 
-* routing
-* models
-* controllers, html and json
-
-
-# Schedule scenarios
-
-- Business hours
-  - 9AM-5PM EST
-
-- what else?!
-
-- increment/decrement service trigger/ackd/resolve event counts
-
-- switch to zeus for distributed tests
-
-
-## Policies
-
-* ajax form to create
-* create new rules inline on index
-* sortable rules in index
+* make sure handler supported_events can handle regexp
+  - actually, just explicitly set supported events. there's not that many now, and won't be many more in the future.

@@ -1,17 +1,17 @@
 require 'spec_helper'
 
 describe Incident do
-  describe 'associations' do
+  context 'associations' do
     it { should belong_to(:service) }
   end
 
-  describe 'validations' do
+  context 'validations' do
     # it { should validate_presence_of(:message) }
     # it { should validate_uniqueness_of(:message).scoped_to([:service_id]).on(:save) }
     # it { should validate_uniqueness_of(:key).scoped_to([:service_id]) }
   end
 
-  describe 'attributes' do
+  context 'attributes' do
     let(:account) { create(:account) }
     let(:service) { create(:service, :with_policy, account: account) }
     
@@ -26,7 +26,7 @@ describe Incident do
   context 'scopes' do
   end
 
-  describe 'states' do
+  context 'states' do
     # it { should have_states :triggered, :acknowledged, :resolved }
     # it { should handle_incident :trigger, when: :pending }
     # it { should handle_incident :trigger, when: :acknowledged }

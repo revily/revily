@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20130714084621) do
 
   create_table "hooks", force: true do |t|
     t.string   "name"
+    t.string   "uuid",                       null: false
     t.text     "config",     default: "{}"
     t.text     "events",     default: "[]"
     t.boolean  "active",     default: false

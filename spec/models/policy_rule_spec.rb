@@ -11,20 +11,20 @@ describe PolicyRule do
   let(:schedule) { create(:schedule, account: account) }
   let(:policy) { create(:policy, account: account) }
 
-  describe 'associations' do
+  context 'associations' do
     before { stub_rule }
 
     it { should belong_to(:policy) }
     it { should belong_to(:assignment) }
   end
 
-  describe 'validations' do
+  context 'validations' do
     before { stub_rule }
 
     it { should validate_presence_of(:escalation_timeout) }
   end
 
-  describe 'attributes' do
+  context 'attributes' do
     before { stub_rule }
 
     it { should have_readonly_attribute(:uuid) }
@@ -36,7 +36,7 @@ describe PolicyRule do
     end
   end
 
-  describe '#assignment_attributes=' do
+  context '#assignment_attributes=' do
     it 'finds and associates the appropriate user' do
       policy_rule = build(:policy_rule, policy: policy, assignment_attributes: { id: user.uuid, type: "User" })
       policy_rule.save

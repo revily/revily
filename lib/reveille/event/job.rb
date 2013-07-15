@@ -1,8 +1,10 @@
 module Reveille
   module Event
     class Job
-      autoload :Log, 'reveille/event/job/log'
       autoload :Campfire, 'reveille/event/job/campfire'
+      autoload :Log,      'reveille/event/job/log'
+      autoload :Test,     'reveille/event/job/test'
+      autoload :Web,      'reveille/event/job/web'
 
       class << self
         def run(queue, *args)
@@ -28,10 +30,14 @@ module Reveille
         end
       end
 
+      def process
+        raise StandardError, "override #process in subclass #{self.class.name}"
+      end
+
       private
 
         def account
-          @account ||= payload[:account]
+          @account ||= payload['account']
         end
 
         def timeout(options = { after: 60 }, &block)

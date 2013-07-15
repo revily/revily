@@ -42,6 +42,8 @@ Reveille::Application.routes.draw do
     end
     
     resources :users
+    
+    resources :hooks
   end
 
   devise_for :users, controllers: { registrations: 'v1/users/registrations', sessions: 'v1/users/sessions' }

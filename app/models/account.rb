@@ -9,6 +9,7 @@ class Account < ActiveRecord::Base
   has_many :policies, dependent: :destroy
   has_many :policy_rules, through: :policies
   has_many :events
+  has_many :hooks
   
   validates :subdomain, 
     # uniqueness: true,

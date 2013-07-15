@@ -1,13 +1,13 @@
 module Reveille
   module Event
     class Handler
-      class Log < Handler
+      class Web < Handler
         def handle?
           true
         end
 
         def handle
-          Event::Job::Log.run(:log, payload)
+          Event::Job::Web.run(:web, payload)
         end
 
       end
