@@ -2,12 +2,11 @@
 
 FactoryGirl.define do
   factory :service do
+    account
+    policy
     name { Forgery(:name).company_name }
     auto_resolve_timeout 240
     acknowledge_timeout 30
-    account
-
-    policy
 
     trait :with_policy do
       association :policy, factory: [ :policy, :with_rules ]

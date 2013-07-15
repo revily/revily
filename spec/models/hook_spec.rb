@@ -5,6 +5,7 @@ describe Hook do
 
   context 'validations' do
     it { should validate_presence_of(:name) }
+    it { should belong_to(:account) }
 
     describe 'handler_exists?' do
       let(:hook) { build_stubbed(:hook, :for_incidents) }

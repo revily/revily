@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :event do
-    source nil
+    association :source, factory: :service
     data "MyText"
-    account nil
+    account
     event "MyString"
   end
 end

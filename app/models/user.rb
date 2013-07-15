@@ -27,7 +27,8 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable,
     :token_authenticatable
 
-  belongs_to :account
+  acts_as_tenant # belongs_to :account
+
   has_many :contacts, as: :contactable
   has_many :sms_contacts, as: :contactable, class_name: "SmsContact"
   has_many :phone_contacts, as: :contactable, class_name: "PhoneContact"

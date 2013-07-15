@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Incident do
   context 'associations' do
     it { should belong_to(:service) }
+    it { should belong_to(:account) }
   end
 
   context 'validations' do
@@ -14,7 +15,7 @@ describe Incident do
   context 'attributes' do
     let(:account) { create(:account) }
     let(:service) { create(:service, :with_policy, account: account) }
-    
+
     it { should serialize(:details) }
     it { should have_readonly_attribute(:uuid) }
     it 'uses uuid for #to_param' do

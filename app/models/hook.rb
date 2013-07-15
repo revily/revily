@@ -1,7 +1,7 @@
 class Hook < ActiveRecord::Base
   include Identifiable
 
-  belongs_to :account
+  acts_as_tenant # belongs_to :account
 
   serialize :config, JSON
   serialize :events, JSON

@@ -19,6 +19,8 @@ class ScheduleLayer < ActiveRecord::Base
   
   VALID_RULES = %w[ hourly daily weekly monthly yearly ]
 
+  acts_as_tenant # belongs_to :account
+  
   belongs_to :schedule
   has_many :user_schedule_layers, -> { order(:position) }, dependent: :destroy
   has_many :users,

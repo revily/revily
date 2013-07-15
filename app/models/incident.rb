@@ -27,6 +27,8 @@ class Incident < ActiveRecord::Base
   
   serialize :details, JSON
 
+  acts_as_tenant # belongs_to :account
+
   belongs_to :service
   belongs_to :current_user, class_name: 'User', foreign_key: :current_user_id
   belongs_to :current_policy_rule, class_name: 'PolicyRule'
@@ -117,7 +119,7 @@ class Incident < ActiveRecord::Base
   end
 
   def next_policy_rule
-    self.current_policy_rule.try(:lower_item) || policy.try(:policy_rules).first
+    self.current_policy_rule.try(:lower_item) || policy.try(:policy_rules).try(:first)
   end
 
   def policy

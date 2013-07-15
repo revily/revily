@@ -13,7 +13,7 @@
 class Schedule < ActiveRecord::Base
   include Identifiable
 
-  belongs_to :account
+  acts_as_tenant # belongs_to :account
   
   has_many :policy_rules, as: :assignment
   has_many :policies, through: :policy_rules

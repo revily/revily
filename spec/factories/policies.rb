@@ -2,17 +2,9 @@
 
 FactoryGirl.define do
   factory :policy do
+    account
     name { Forgery(:name).job_title.pluralize }
     loop_limit 3
-    account
-
-    # ignored do
-      # uuid
-    # end
-
-    # after(:stub) do |policy|
-      # policy.ensure_uuid
-    # end
 
     trait :with_rules do
       after(:create) do |policy|

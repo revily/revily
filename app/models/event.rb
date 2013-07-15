@@ -1,6 +1,7 @@
 class Event < ActiveRecord::Base
+  acts_as_tenant # belongs_to :account
+
   belongs_to :source, polymorphic: true
-  belongs_to :account
 
   serialize :data, JSON
 

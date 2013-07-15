@@ -13,7 +13,7 @@
 class Policy < ActiveRecord::Base
   include Identifiable
 
-  belongs_to :account
+  acts_as_tenant # belongs_to :account
 
   has_many :policy_rules, -> { order(:position) }, dependent: :destroy
   has_many :service_policies

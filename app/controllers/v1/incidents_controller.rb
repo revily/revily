@@ -18,6 +18,7 @@ class V1::IncidentsController < V1::ApplicationController
 
   def create
     @incident = incidents.new(incident_params)
+    @incident.account = current_account
     @incident.save
 
     respond_with @incident
