@@ -15,6 +15,7 @@
 
 class PolicyRule < ActiveRecord::Base
   include Identifiable
+  include Eventable
 
   attr_accessor :assignment_attributes
 

@@ -25,27 +25,38 @@ module Reveille
         @hooks ||= hash_from_constant(Event::Hook)
       end
 
-      def source_names
-        @source_names ||= []
-      end
-
+      # Due to Rails' preference for autoloading, we call every source here because I have no idea
+      # what I'm doing.
       def sources
-        @sources ||= {}.with_indifferent_access
+        @sources ||= Hash[{
+          incident: Incident,
+          policy: Policy,
+          policy_rule: PolicyRule,
+          schedule: Schedule,
+          schedule_layer: ScheduleLayer,
+          service: Service,
+          user: User
+        }.sort].with_indifferent_access
       end
 
       def events
-        @events ||= sources.inject({}.with_indifferent_access) do |hash, (name, klass)|
-          hash[name] = klass.state_machine.states.keys
-          hash
+        @events ||= begin
+          array = %w[ * ]
+          sources.each do |name, klass|
+            keys = klass.events.map {|event| "#{name}.#{event}" }
+            array.concat %W[ #{name}.* ]
+            array.concat keys
+            array
+          end
+          array.sort
         end
-        # @events ||= {}.with_indifferent_access
       end
 
       def events_hash
         {
           all:            %w[ * ],
           contact:        %w[ contact.* contact.created contact.updated contact.deleted contact.notified ],
-          incident:       %w[ incident.* incident.triggered incident.escalated incident.acknowledged incident.resolved ],
+          incident:       %w[ incident.* incident.triggered incident.acknowledged incident.resolved ],
           policy:         %w[ policy.* policy.created policy.updated policy.deleted ],
           policy_rule:    %w[ policy_rule.* policy_rule.created policy_rule.updated policy_rule.deleted ],
           schedule:       %w[ schedule.* schedule.created schedule.updated schedule.deleted ],
@@ -60,10 +71,10 @@ module Reveille
       end
 
       def hash_from_constant(constant)
-        constant.constants(false).inject({}.with_indifferent_access) do |hash, const|
+        Hash[constant.constants(false).inject({}) do |hash, const|
           hash[const.to_s.underscore] = constant.const_get(const)
           hash
-        end
+        end.sort].with_indifferent_access
       end
 
       private :hash_from_constant
@@ -81,18 +92,20 @@ module Reveille
       end.compact
     end
 
+    # Global subscriptions, for things that are not customized per-account (triggering, logging, etc) 
+    def global_subscriptions
+    end
+
     def dispatch(event, *args)
-      formatted_event = format_event(event, self)
       subscriptions.each do |subscription|
-        subscription.notify(formatted_event, self, *args)
+        subscription.notify(format_event(event, self), self, *args)
       end
-      # Reveille::Event.dispatch(formatted_event(event, self), self, *args)
     end
 
     protected
 
       def format_event(event, object)
-        event = "#{event}ed".gsub(/eded$|eed$/, 'ed') unless [:log, :ready].include?(event)
+        # event = "#{event}ed".gsub(/eded$|eed$/, 'ed') unless [:log, :ready].include?(event)
         namespace = object.class.name.underscore.gsub('/', '.')
         [namespace, event].join('.')
       end

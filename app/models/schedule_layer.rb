@@ -16,7 +16,8 @@
 
 class ScheduleLayer < ActiveRecord::Base
   include Identifiable
-  
+  include Eventable
+
   VALID_RULES = %w[ hourly daily weekly monthly yearly ]
 
   acts_as_tenant # belongs_to :account

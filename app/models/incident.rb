@@ -94,7 +94,7 @@ class Incident < ActiveRecord::Base
     before_transition on: :escalate, do: :escalate_to_next_policy_rule
 
     after_transition any => any do |incident, transition|
-      incident.dispatch(transition.event, incident)
+      incident.dispatch(transition.to, incident)
     end
 
     after_transition any => :triggered do |incident, transition|

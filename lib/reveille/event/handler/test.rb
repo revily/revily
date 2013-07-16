@@ -8,7 +8,7 @@ module Reveille
 
         self.events = []
 
-        default_events Event.all_events
+        default_events Event.events
 
         def handle?
           true

@@ -22,7 +22,8 @@
 
 class User < ActiveRecord::Base
   include Identifiable
-  
+  include Eventable
+
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable,
     :token_authenticatable
