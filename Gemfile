@@ -38,6 +38,7 @@ group :development do
   gem 'pry-rails',                         '0.3.1'
   gem 'rb-fsevent',                        '0.9.3', require: false
   gem 'rb-inotify',                        '0.9.0', require: false
+  gem 'ruby-graphviz',                     '1.0.9', require: false
   gem 'ruby_gntp',                         '0.3.4', require: false
 end
 
