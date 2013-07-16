@@ -8,10 +8,13 @@ class Hook < ActiveRecord::Base
 
   scope :active, -> { where(active: true) }
 
-  validates :name, 
+  # validates :events,
+    # presence: true
+  validates :name,
     presence: true
-  validate :handler_supports_events?
+  validate :events_present?
   validate :handler_exists?
+  validate :handler_supports_events?
 
   def handler
     Reveille::Event.handlers[name]
@@ -20,9 +23,9 @@ class Hook < ActiveRecord::Base
   private
 
     def handler_supports_events?
-      return false unless handler.present?
+      return unless handler
       events.each do |event|
-        unless handler.default_events.include?(event)
+        unless handler && handler.supports?(event)
           errors.add(:events, "handler does not support event '#{event}'")
         end
       end
@@ -31,6 +34,12 @@ class Hook < ActiveRecord::Base
     def handler_exists?
       unless handler
         errors.add(:name, 'handler does not exist')
+      end
+    end
+
+    def events_present?
+      unless events.present?
+        errors.add(:events, 'cannot be empty')
       end
     end
 

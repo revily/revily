@@ -5,8 +5,6 @@ module Reveille
     module HandlerMixin
       extend ActiveSupport::Concern
 
-
-
       def raise_config_error(msg = "Invalid configuration")
         raise ConfigurationError, msg
       end

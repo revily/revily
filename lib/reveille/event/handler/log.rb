@@ -2,6 +2,9 @@ module Reveille
   module Event
     class Handler
       class Log < Handler
+
+        supports_events 'incident.*'
+        
         def handle?
           true
         end

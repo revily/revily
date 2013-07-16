@@ -14,14 +14,9 @@ describe Reveille::Event do
     let(:resource) { build_stubbed(:incident) }
     before do
       resource.stub(account: account)
-      
     end
 
     it do
-
-      puts resource.inspect
-      puts hook.inspect
-      puts resource.account.inspect
     end
 
   end

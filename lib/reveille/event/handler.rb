@@ -9,26 +9,51 @@ module Reveille
       autoload :Test,     'reveille/event/handler/test'
       autoload :Web,      'reveille/event/handler/web'
 
-      class << self
-        def notify(event, object, config)
-          handler = new(event, object, config)
+      class << self        
+        def notify(event, source, config)
+          handler = new(event, source, config)
           handler.notify if handler.handle?
         end
 
-        def default_events(*events)
-          if events.empty?
-            @default_events ||= []
-          else
-            @default_events = events.flatten.uniq
+        def supports_events=(*events)
+          @supports_events = events.flatten.uniq
+        end
+
+        def supports_events(*events)
+          @supports_events ||= []
+          @supports_events.concat(events.flatten).uniq! unless events.blank?
+          @supports_events.delete_if { |e| !all_events.include?(e) }
+
+          return @supports_events
+        end
+
+        def supports?(event)
+          # puts all_supported_events.inspect
+          all_supported_events.include?(event)
+        end
+
+        def all_supported_events
+          all_supported_events = []
+          
+          all_events.each do |all|
+            supports_events.each do |support|
+              all_supported_events << all if /^#{support}$/.match(all)
+            end
           end
+
+          all_supported_events.compact.uniq
+        end
+
+        def all_events
+          Reveille::Event.events
         end
       end
 
-      attr_reader :event, :object, :data
+      attr_reader :event, :source, :data
 
-      def initialize(event, object, config)
+      def initialize(event, source, config)
         @event   = event
-        @object  = object
+        @source  = source
         @config  = config
       end
 
@@ -37,7 +62,7 @@ module Reveille
       end
 
       def payload
-        @payload ||= {}
+        @payload ||= Payload.new(event, source)
       end
 
       def handle
@@ -51,7 +76,7 @@ module Reveille
       private
 
         def account
-          @account ||= object.try(:account)
+          @account ||= source.try(:account)
         end
 
     end

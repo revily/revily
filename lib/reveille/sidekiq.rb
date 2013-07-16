@@ -5,9 +5,6 @@ module Reveille
       include ::Sidekiq::Worker
 
       def perform(target, method, *args)
-        Sidekiq.logger.info target.inspect
-        Sidekiq.logger.info method.inspect
-        Sidekiq.logger.info args.inspect
         eval(target).send(method, *args)
       end
     end
@@ -20,6 +17,15 @@ module Reveille
         target = target.name if target.is_a?(Module)
         args = [target, method, *args]
         ::Sidekiq::Client.push('queue' => queue, 'retry' => retries, 'class' => Worker, 'args' => args)
+      end
+
+      def schedule(target, method, options, *args)
+        queue = options[:queue]
+        retries = options[:retries]
+        at = options[:at]
+        target = target.name if target.is_a?(Module)
+        args = [target, method, *args]
+        ::Sidekiq::Client.push('queue' => queue, 'retry' => retries, 'class' => Worker, 'at' => at, 'args' => args)
       end
     end
   end

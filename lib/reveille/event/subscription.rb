@@ -2,10 +2,6 @@ module Reveille
   module Event
     class Subscription
       class << self
-        def register(name, const)
-          handlers[name.to_sym] = const
-        end
-
         def handlers
           @handlers ||= {}
         end
@@ -20,15 +16,14 @@ module Reveille
       end
 
       def handler
-        # Handler.const_get(name.to_s.camelize, false)
         self.class.handlers[name.to_sym] || Handler.const_get(name.to_s.camelize, false)
       rescue NameError => e
         Rails.logger.info "No event handler #{name.inspect} found."
       end
 
-      def notify(event, object)
+      def notify(event, source)
         if matches?(event)
-          handler.notify(event, object, config)
+          handler.notify(event, source, config)
           # increment_counter(event)
         end
       end

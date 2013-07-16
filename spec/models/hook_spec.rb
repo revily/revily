@@ -45,8 +45,8 @@ describe Hook do
   context 'scopes' do
     describe '.active' do
       before do
-        create(:hook, :log, account: account)
-        create(:hook, :log, account: account, active: false)
+        create(:hook, account: account)
+        create(:hook, account: account, active: false)
       end
 
       it 'returns only active hooks' do

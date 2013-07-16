@@ -6,7 +6,7 @@ FactoryGirl.define do
     
     name 'test'
     config Hash.new
-    events []
+    events { %w[ * ] }
     active true
     
     after(:stub) do |hook|
@@ -39,7 +39,7 @@ FactoryGirl.define do
   end
 
   trait :all_events do
-    events %w[ * ]
+    events { Reveille::Event.events }
   end
 
   trait :test do

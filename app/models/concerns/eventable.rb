@@ -3,21 +3,28 @@ module Eventable
 
   included do
     include Reveille::Event
-    # Reveille::Event.sources[self.name.underscore] = self
 
-    after_create do
-      self.dispatch('created', self)
-    end
-
-    after_update do
-      self.dispatch('updated', self)
-    end
-
-    after_destroy do
-      self.dispatch('deleted', self)
-    end
+    after_create :dispatch_created
+    after_update :dispatch_updated
+    after_destroy :dispatch_deleted
   end
 
+  def dispatch_created
+    self.dispatch('created', self)
+  end
+
+  def dispatch_updated
+    self.dispatch('updated', self)
+  end
+
+  def dispatch_deleted
+    self.dispatch('deleted', self)
+  end
+
+  def eventable?
+    self.class.eventable?
+  end
+  
   module ClassMethods
     def events
       @events ||= begin
@@ -26,6 +33,10 @@ module Eventable
         events.concat [:created, :updated, :deleted]
         events
       end
+    end
+
+    def eventable?
+      true
     end
   end
 

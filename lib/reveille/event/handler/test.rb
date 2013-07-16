@@ -8,15 +8,13 @@ module Reveille
 
         self.events = []
 
-        default_events Event.events
+        supports_events Event.events
 
         def handle?
           true
         end
 
         def handle
-          # puts self.inspect
-          # self.class.events << self
           Event::Job::Test.run(:test, payload)
         end
 
@@ -26,7 +24,7 @@ module Reveille
 
         def payload
           @payload ||= {
-            object: object.to_json,
+            source: source,
             config: {}
           }
         end

@@ -1,4 +1,6 @@
 class Account < ActiveRecord::Base
+  include Identifiable
+  
   attr_accessor :terms_of_service
 
   has_many :users, dependent: :destroy

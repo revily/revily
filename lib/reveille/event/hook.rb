@@ -1,18 +1,38 @@
-class Reveille::Event::Hook
-  attr_accessor :name, :events, :config
+module Reveille
+  module Event
+    class Hook
+      autoload :IncidentTrigger, 'reveille/event/hook/incident_trigger'
+      autoload :Test, 'reveille/event/hook/test'
 
-  def initialize(attrs={})
-    attrs = attrs.with_indifferent_access
-    @name = attrs[:name]
-    @config = (attrs[:config] || {}).with_indifferent_access
-    @events = attrs[:events] || []
-  end
+      attr_accessor :name, :events, :config
 
-  def active
-    true
-  end
+      def name
+        raise StandardError, "override #name in subclass #{self.class.name}"
+      end
 
-  def active?
-    active
+      def events
+        raise StandardError, "override #name in subclass #{self.class.name}"
+      end
+
+      def config
+        {}
+      end
+
+      def config=(config)
+        @config = config.with_indifferent_access
+      end
+
+      def handler
+        Reveille::Event.handlers[name]
+      end
+      
+      def active
+        true
+      end
+
+      def active?
+        active
+      end
+    end
   end
 end
