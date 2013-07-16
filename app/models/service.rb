@@ -15,6 +15,7 @@
 
 class Service < ActiveRecord::Base
   include Identifiable
+  include Eventable
   
   devise :token_authenticatable
 

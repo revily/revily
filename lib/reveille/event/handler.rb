@@ -4,6 +4,7 @@ module Reveille
       include HandlerMixin
 
       autoload :Campfire, 'reveille/event/handler/campfire'
+      autoload :IncidentTrigger, 'reveille/event/handler/incident_trigger'
       autoload :Log,      'reveille/event/handler/log'
       autoload :Test,     'reveille/event/handler/test'
       autoload :Web,      'reveille/event/handler/web'

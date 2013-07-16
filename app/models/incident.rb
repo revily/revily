@@ -23,7 +23,7 @@
 class Incident < ActiveRecord::Base
   include Identifiable
   include Trackable
-  include Reveille::Event
+  include Eventable
   
   serialize :details, JSON
 

@@ -2,6 +2,7 @@ module Reveille
   module Event
     class Job
       autoload :Campfire, 'reveille/event/job/campfire'
+      autoload :Incident, 'reveille/event/job/incident'
       autoload :Log,      'reveille/event/job/log'
       autoload :Test,     'reveille/event/job/test'
       autoload :Web,      'reveille/event/job/web'

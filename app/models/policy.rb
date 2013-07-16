@@ -12,6 +12,7 @@
 
 class Policy < ActiveRecord::Base
   include Identifiable
+  include Eventable
 
   acts_as_tenant # belongs_to :account
 

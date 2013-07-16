@@ -5,6 +5,9 @@ module Reveille
       include ::Sidekiq::Worker
 
       def perform(target, method, *args)
+        Sidekiq.logger.info target.inspect
+        Sidekiq.logger.info method.inspect
+        Sidekiq.logger.info args.inspect
         eval(target).send(method, *args)
       end
     end

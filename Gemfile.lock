@@ -335,7 +335,7 @@ DEPENDENCIES
   rspec-rails (= 2.13.2)
   rspec-sidekiq (= 0.3.0)
   rspec_api_test (= 0.0.1)
-  ruby-graphviz
+  ruby-graphviz (= 1.0.9)
   ruby_gntp (= 0.3.4)
   sham_rack (= 1.3.6)
   shoulda-matchers (= 2.2.0)

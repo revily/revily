@@ -1,19 +1,18 @@
 module Reveille
   module Event
     class Handler
-      class Campfire < Handler
+      class IncidentTrigger
         def handle?
           true
         end
 
         def handle
-          Event::Job::Campfire.run(:campfire, payload, targets: targets)
+          Event::Job::IncidentTrigger.run(:incidents, payload, targets: targets)
         end
 
         def targets
           @targets
         end
-
       end
     end
   end
