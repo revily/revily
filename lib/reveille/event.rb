@@ -42,19 +42,6 @@ module Reveille
         }.sort].with_indifferent_access
       end
 
-      # def events
-      #   @events ||= begin
-      #     array = %w[ * ]
-      #     sources.each do |name, klass|
-      #       keys = klass.events.map {|event| "#{name}.#{event}" }
-      #       array.concat %W[ #{name}.* ]
-      #       array.concat keys
-      #       array
-      #     end
-      #     array.sort
-      #   end
-      # end
-
       def events
         @events ||= sources.map do |name, klass|
           klass.events.map do |event|
@@ -79,7 +66,6 @@ module Reveille
       self.account.hooks.active + global_hooks
     end
 
-    # TODO(dryan): how do we add default global hooks, like incident handling?
     def subscriptions
       @subscriptions ||= hooks.map do |hook|
         subscription = Event::Subscription.new(hook)
@@ -100,7 +86,6 @@ module Reveille
 
 
     def format_event(event, source)
-      # event = "#{event}ed".gsub(/eded$|eed$/, 'ed') unless [:log, :ready].include?(event)
       namespace = source.class.name.underscore.gsub('/', '.')
       [namespace, event].join('.')
     end

@@ -10,7 +10,6 @@ module Identifiable
     write_attribute(:uuid, generate_uuid) unless self.uuid.present?
   end
 
-  # TODO: uncomment this when it matters.
   def to_param
     self.uuid || self.id
   end
