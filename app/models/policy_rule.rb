@@ -15,12 +15,16 @@
 
 class PolicyRule < ActiveRecord::Base
   include Identifiable
+  include Eventable
 
   attr_accessor :assignment_attributes
 
+  acts_as_tenant # belongs_to :account
+
   belongs_to :assignment, polymorphic: true
   belongs_to :policy
-
+  has_many :events, as: :source
+  
   acts_as_list scope: :policy
 
   validates :escalation_timeout,

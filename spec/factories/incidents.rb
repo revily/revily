@@ -5,6 +5,10 @@ FactoryGirl.define do
     service
     message { Forgery(:lorem_ipsum).words(5) }
 
+    after(:build) do |incident|
+      incident.account = incident.service.account
+    end
+
     trait :key do
       key "app1.example.com/load_average"
     end

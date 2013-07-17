@@ -7,6 +7,7 @@ FactoryGirl.define do
     
     after(:build) do |rule|
       rule.set_assignment
+      rule.account = rule.policy.account
     end
     
     trait :for_user do

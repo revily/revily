@@ -22,6 +22,10 @@ class Contact < ActiveRecord::Base
     :escalate => 8
   }
 
+  acts_as_tenant # belongs_to :account
+
+  belongs_to :account
+  
   belongs_to :contactable, polymorphic: true
   has_many :notification_rules
 

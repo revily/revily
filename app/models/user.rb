@@ -22,35 +22,29 @@
 
 class User < ActiveRecord::Base
   include Identifiable
-  
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
+  include Eventable
+
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable,
     :token_authenticatable
 
-  # attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :account_attributes
-  
-  belongs_to :account
-  accepts_nested_attributes_for :account
+  acts_as_tenant # belongs_to :account
 
   has_many :contacts, as: :contactable
   has_many :sms_contacts, as: :contactable, class_name: "SmsContact"
   has_many :phone_contacts, as: :contactable, class_name: "PhoneContact"
   has_many :email_contacts, as: :contactable, class_name: "EmailContact"
-
-  # has_many :notification_rules, through: :contacts
-  
   has_many :policy_rules, as: :assignment
   has_many :user_schedule_layers, -> { order(:position) }
   has_many :schedule_layers,
     through: :user_schedule_layers,
     dependent: :destroy
-
   has_many :schedules, through: :schedule_layers
-
   has_many :incidents, foreign_key: :current_user_id
+  has_many :events, as: :source
+
+  accepts_nested_attributes_for :account
+
 
   validates :account, 
     presence: true

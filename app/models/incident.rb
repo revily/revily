@@ -23,13 +23,17 @@
 class Incident < ActiveRecord::Base
   include Identifiable
   include Trackable
+  include Eventable
   
   serialize :details, JSON
+
+  acts_as_tenant # belongs_to :account
 
   belongs_to :service
   belongs_to :current_user, class_name: 'User', foreign_key: :current_user_id
   belongs_to :current_policy_rule, class_name: 'PolicyRule'
   has_many :alerts
+  has_many :events, as: :source
 
   validates :message, presence: true
   validates :service, existence: true
@@ -90,20 +94,20 @@ class Incident < ActiveRecord::Base
     before_transition on: :escalate, do: :escalate_to_next_policy_rule
 
     after_transition any => any do |incident, transition|
-      # incident.log_action(transition.event)
+      incident.dispatch(transition.to, incident)
     end
 
     after_transition any => :triggered do |incident, transition|
-      ::Incident::DispatchNotifications.perform_async(incident.id)
-      ::Incident::Escalate.perform_in((incident.try(:current_policy_rule).try(:escalation_timeout) || 1).minutes, incident.id)
+      # ::Incident::DispatchNotifications.perform_async(incident.id)
+      # ::Incident::Escalate.perform_in((incident.try(:current_policy_rule).try(:escalation_timeout) || 1).minutes, incident.id)
     end
 
     after_transition :pending => :triggered do |incident, transition|
-      ::Incident::AutoResolve.perform_in(incident.service.try(:auto_resolve_timeout).minutes, incident.id)
+      # ::Incident::AutoResolve.perform_in(incident.service.try(:auto_resolve_timeout).minutes, incident.id)
     end
 
     after_transition any => :acknowledged do |incident, transition|
-      ::Incident::Retrigger.perform_in(incident.service.try(:acknowledge_timeout).minutes, incident.id)
+      # ::Incident::Retrigger.perform_in(incident.service.try(:acknowledge_timeout).minutes, incident.id)
     end
 
     after_transition on: :resolve do |incident, transition|
@@ -115,11 +119,15 @@ class Incident < ActiveRecord::Base
   end
 
   def next_policy_rule
-    self.current_policy_rule.try(:lower_item) || policy.try(:policy_rules).first
+    self.current_policy_rule.try(:lower_item) || policy.try(:policy_rules).try(:first)
   end
 
   def policy
     service.try(:policy)
+  end
+
+  def account
+    service.try(:account)
   end
 
   protected

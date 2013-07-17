@@ -15,10 +15,12 @@
 
 class Service < ActiveRecord::Base
   include Identifiable
+  include Eventable
   
   devise :token_authenticatable
 
-  belongs_to :account
+  acts_as_tenant # belongs_to :account
+    
   has_many :incidents, dependent: :destroy
   has_many :alerts, through: :incidents
   has_one :service_policy

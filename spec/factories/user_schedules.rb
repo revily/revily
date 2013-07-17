@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :user_schedule do
-    schedule nil
-    user nil
+    schedule
+    user
   end
 end

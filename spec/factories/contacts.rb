@@ -1,6 +1,9 @@
 FactoryGirl.define do
   factory :contact do
     association :contactable, factory: :user
+    after(:build, :stub) do |contact|
+      contact.account = contact.contactable.account
+    end
     label "random label"
 
     factory :email_contact, class: EmailContact do

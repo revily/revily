@@ -12,13 +12,15 @@
 
 class Policy < ActiveRecord::Base
   include Identifiable
+  include Eventable
 
-  belongs_to :account
+  acts_as_tenant # belongs_to :account
 
   has_many :policy_rules, -> { order(:position) }, dependent: :destroy
   has_many :service_policies
   has_many :services, through: :service_policies
-
+  has_many :events, as: :source
+  
   validates :name,
     presence: true,
     uniqueness: { scope: :account_id }

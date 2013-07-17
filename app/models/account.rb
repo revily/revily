@@ -1,4 +1,6 @@
 class Account < ActiveRecord::Base
+  include Identifiable
+  
   attr_accessor :terms_of_service
 
   has_many :users, dependent: :destroy
@@ -8,7 +10,9 @@ class Account < ActiveRecord::Base
   has_many :incidents, through: :services
   has_many :policies, dependent: :destroy
   has_many :policy_rules, through: :policies
-
+  has_many :events
+  has_many :hooks
+  
   validates :subdomain, 
     # uniqueness: true,
     presence: true,
@@ -17,5 +21,9 @@ class Account < ActiveRecord::Base
     acceptance: true
 
   accepts_nested_attributes_for :users
+
+  def notifications
+    @notifications ||= []
+  end
   
 end

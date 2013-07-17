@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :service_policy do
-    service nil
-    policy nil
+    service
+    policy
   end
 end

@@ -1,20 +1,21 @@
 require 'spec_helper'
 
 describe Incident do
-  describe 'associations' do
+  context 'associations' do
     it { should belong_to(:service) }
+    it { should belong_to(:account) }
   end
 
-  describe 'validations' do
+  context 'validations' do
     # it { should validate_presence_of(:message) }
     # it { should validate_uniqueness_of(:message).scoped_to([:service_id]).on(:save) }
     # it { should validate_uniqueness_of(:key).scoped_to([:service_id]) }
   end
 
-  describe 'attributes' do
+  context 'attributes' do
     let(:account) { create(:account) }
     let(:service) { create(:service, :with_policy, account: account) }
-    
+
     it { should serialize(:details) }
     it { should have_readonly_attribute(:uuid) }
     it 'uses uuid for #to_param' do
@@ -26,7 +27,7 @@ describe Incident do
   context 'scopes' do
   end
 
-  describe 'states' do
+  context 'states' do
     # it { should have_states :triggered, :acknowledged, :resolved }
     # it { should handle_incident :trigger, when: :pending }
     # it { should handle_incident :trigger, when: :acknowledged }
@@ -48,8 +49,8 @@ describe Incident do
 
       before { incident.save }
 
-      it { expect(Incident::DispatchNotifications).to have_enqueued_jobs(1) }
-      it { expect(Incident::Escalate).to have_enqueued_jobs(1) }
+      # it { expect(Incident::DispatchNotifications).to have_enqueued_jobs(1) }
+      # it { expect(Incident::Escalate).to have_enqueued_jobs(1) }
 
       it 'cannot transition to :triggered' do
         incident.trigger

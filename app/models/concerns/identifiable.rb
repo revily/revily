@@ -7,19 +7,27 @@ module Identifiable
   end
 
   def ensure_uuid
-    self.uuid = generate_uuid
+    write_attribute(:uuid, generate_uuid) unless self.uuid.present?
   end
 
   # TODO: uncomment this when it matters.
   def to_param
     self.uuid || self.id
   end
-
+ 
   def generate_uuid
     loop do
       uuid = SecureRandom.urlsafe_base64(6).tr('+/=_-', 'pqrsxyz')
       break uuid unless self.class.find_by_uuid(uuid)
     end
+  end
+
+  def eventable?
+    self.class.eventable?
+  end
+
+  def identifiable?
+    self.class.identifiable?
   end
 
   module ClassMethods
@@ -30,5 +38,18 @@ module Identifiable
         find_by_uuid(args[0])
       end
     end
+
+    def identifiable?
+      true
+    end
+
+    def eventable?
+      false
+    end
+  end
+
+
+  def self.generate_uuid
+    SecureRandom.urlsafe_base64(6).tr('+/=_-', 'pqrsxyz')
   end
 end

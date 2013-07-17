@@ -4,19 +4,19 @@ describe ScheduleLayer do
   extend ScheduleMixins::Macros
   include ScheduleMixins::Helpers
 
-  describe 'associations' do
+  context 'associations' do
     it { should belong_to(:schedule) }
     it { should have_many(:user_schedule_layers) }
     it { should have_many(:users).through(:user_schedule_layers) }
   end
 
-  describe 'validations' do
+  context 'validations' do
     it { should ensure_inclusion_of(:rule).in_array(%w[ hourly daily weekly monthly yearly ])}
     it { should validate_presence_of(:count) }
     it { should validate_presence_of(:rule) }
   end
 
-  describe 'callbacks' do
+  context 'callbacks' do
     let(:schedule_layer) { build(:schedule_layer) }
 
     it 'resets start_at to beginning of day' do
@@ -30,14 +30,14 @@ describe ScheduleLayer do
     end
   end
 
-  describe 'attributes' do
+  context 'attributes' do
     it 'uses uuid for #to_param' do
       obj = create(subject.class)
       obj.to_param.should == obj.uuid
     end
   end
 
-  describe 'duration calculations' do
+  context 'duration calculations' do
     let(:hourly) { create(:schedule_layer, :hourly) }
     let(:daily) { create(:schedule_layer, :daily) }
     let(:weekly) { create(:schedule_layer, :weekly) }

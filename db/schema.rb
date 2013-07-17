@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130712022839) do
+ActiveRecord::Schema.define(version: 20130716144009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,8 +19,9 @@ ActiveRecord::Schema.define(version: 20130712022839) do
 
   create_table "accounts", force: true do |t|
     t.string   "subdomain"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "uuid",       default: ""
   end
 
   create_table "contacts", force: true do |t|
@@ -32,9 +33,33 @@ ActiveRecord::Schema.define(version: 20130712022839) do
     t.string   "uuid",             null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.integer  "account_id",       null: false
   end
 
+  add_index "contacts", ["account_id"], name: "index_contacts_on_account_id", using: :btree
   add_index "contacts", ["contactable_id"], name: "index_contacts_on_contactable_id", using: :btree
+
+  create_table "events", force: true do |t|
+    t.integer "source_id"
+    t.string  "source_type"
+    t.text    "data",        default: "{}"
+    t.integer "account_id",                 null: false
+    t.string  "event"
+  end
+
+  add_index "events", ["account_id"], name: "index_events_on_account_id", using: :btree
+  add_index "events", ["source_id", "source_type"], name: "index_events_on_source_id_and_source_type", using: :btree
+
+  create_table "hooks", force: true do |t|
+    t.string   "name"
+    t.string   "uuid",                       null: false
+    t.text     "config",     default: "{}"
+    t.text     "events",     default: "[]"
+    t.boolean  "active",     default: false
+    t.integer  "account_id",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "incidents", force: true do |t|
     t.text     "message"
@@ -52,8 +77,10 @@ ActiveRecord::Schema.define(version: 20130712022839) do
     t.datetime "resolved_at"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+    t.integer  "account_id",                         null: false
   end
 
+  add_index "incidents", ["account_id"], name: "index_incidents_on_account_id", using: :btree
   add_index "incidents", ["current_user_id"], name: "index_incidents_on_current_user_id", using: :btree
   add_index "incidents", ["uuid"], name: "index_incidents_on_uuid", unique: true, using: :btree
 
@@ -63,15 +90,17 @@ ActiveRecord::Schema.define(version: 20130712022839) do
     t.integer  "contact_id"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.integer  "account_id",              null: false
   end
 
+  add_index "notification_rules", ["account_id"], name: "index_notification_rules_on_account_id", using: :btree
   add_index "notification_rules", ["contact_id"], name: "index_notification_rules_on_contact_id", using: :btree
 
   create_table "policies", force: true do |t|
     t.string   "name"
     t.string   "uuid",       null: false
     t.integer  "loop_limit"
-    t.integer  "account_id"
+    t.integer  "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -87,8 +116,10 @@ ActiveRecord::Schema.define(version: 20130712022839) do
     t.integer  "policy_id"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "account_id",                      null: false
   end
 
+  add_index "policy_rules", ["account_id"], name: "index_policy_rules_on_account_id", using: :btree
   add_index "policy_rules", ["assignment_id", "assignment_type"], name: "index_policy_rules_on_assignment_id_and_assignment_type", using: :btree
   add_index "policy_rules", ["policy_id"], name: "index_policy_rules_on_policy_id", using: :btree
 
@@ -102,8 +133,10 @@ ActiveRecord::Schema.define(version: 20130712022839) do
     t.datetime "start_at"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.integer  "account_id",                    null: false
   end
 
+  add_index "schedule_layers", ["account_id"], name: "index_schedule_layers_on_account_id", using: :btree
   add_index "schedule_layers", ["schedule_id"], name: "index_schedule_layers_on_schedule_id", using: :btree
 
   create_table "schedules", force: true do |t|
@@ -135,7 +168,7 @@ ActiveRecord::Schema.define(version: 20130712022839) do
     t.string   "state"
     t.string   "uuid"
     t.string   "authentication_token"
-    t.integer  "account_id"
+    t.integer  "account_id",           null: false
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
   end
@@ -185,7 +218,7 @@ ActiveRecord::Schema.define(version: 20130712022839) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "authentication_token"
-    t.integer  "account_id"
+    t.integer  "account_id",                          null: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
   end

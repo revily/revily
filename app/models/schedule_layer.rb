@@ -16,15 +16,20 @@
 
 class ScheduleLayer < ActiveRecord::Base
   include Identifiable
-  
+  include Eventable
+
   VALID_RULES = %w[ hourly daily weekly monthly yearly ]
 
+  acts_as_tenant # belongs_to :account
+  
   belongs_to :schedule
   has_many :user_schedule_layers, -> { order(:position) }, dependent: :destroy
   has_many :users,
     -> { order('user_schedule_layers.position') },
     through: :user_schedule_layers,
     dependent: :destroy
+  has_many :events, as: :source
+
 
   acts_as_list scope: :schedule
 

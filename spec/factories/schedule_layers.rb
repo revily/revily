@@ -3,6 +3,10 @@ FactoryGirl.define do
     schedule
     start_at { Time.zone.now }
 
+    after(:build) do |schedule_layer|
+      schedule_layer.account = schedule_layer.schedule.account
+    end
+
     trait :hourly do
       rule 'hourly'
       count 8

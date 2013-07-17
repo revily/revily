@@ -1,0 +1,1 @@
+# Sidekiq.logger = Rails.logger

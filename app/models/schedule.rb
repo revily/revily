@@ -12,17 +12,17 @@
 
 class Schedule < ActiveRecord::Base
   include Identifiable
+  include Eventable
 
-  belongs_to :account
+  acts_as_tenant # belongs_to :account
   
   has_many :policy_rules, as: :assignment
   has_many :policies, through: :policy_rules
   has_many :schedule_layers, -> { order(:position) }, dependent: :destroy
   alias_method :layers, :schedule_layers
-
-  # has_many :layers, class_name: 'ScheduleLayer'
   has_many :user_schedule_layers, through: :schedule_layers
   has_many :users, through: :user_schedule_layers
+  has_many :events, as: :source
 
   validates :name, :time_zone, 
     presence: true
