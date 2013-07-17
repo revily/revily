@@ -4,7 +4,7 @@ module Reveille
       class IncidentAcknowledge < Handler
 
         events %w[ incident.acknowledged ]
-        
+
         def handle?
           true
         end

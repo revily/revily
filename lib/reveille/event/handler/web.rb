@@ -7,7 +7,7 @@ module Reveille
         string :url
 
         white_list :url
-        
+
         def handle?
           true
         end

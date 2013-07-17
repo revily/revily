@@ -4,7 +4,7 @@ module Reveille
       class Log < Handler
 
         events 'incident.*'
-        
+
         def handle?
           true
         end
