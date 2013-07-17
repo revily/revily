@@ -6,6 +6,8 @@ class Hook < ActiveRecord::Base
   serialize :config, JSON
   serialize :events, JSON
 
+  before_validation :expand_events
+
   scope :active, -> { where(active: true) }
 
   # validates :events,
@@ -20,9 +22,19 @@ class Hook < ActiveRecord::Base
     Reveille::Event.handlers[name]
   end
 
+  def events=(*events)
+    write_attribute(:events, Reveille::Event::EventList.new(*events).events)
+  end
+
+  def expand_events
+    write_attribute(:events, Reveille::Event::EventList.new([events]).events)
+  end
+
   private
 
     def handler_supports_events?
+      # expand_events
+      expanded_events = Reveille::Event::Matcher.new(events)
       return unless handler
       events.each do |event|
         unless handler && handler.supports?(event)

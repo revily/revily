@@ -27,13 +27,20 @@
 user creates a hook with the name of a specific handler (incident_trigger)
   - hook is validated to ensure handler exists with hook.name
   - hook is validated to ensure hook.events are available to handler
-incident receives :dispatch with the event 'incident.trigger'
-  - sends event name (incident.trigger) and itself (Incident.new) as args to #dispatch
+incident receives :dispatch with the event 'incident.triggered'
+  - sends event name (incident.triggered) and itself (Incident.new) as args to #dispatch
 Event gathers list of user-created hooks and the default global hooks
   - iterates through each, creating a subscription object
   - subscription validates each hook and determines if hook is concerned about event
     - gets hook.events
-    - matches event name("incident.trigger") with list of events hook cares about
+    - matches event name("incident.triggered") with list of events hook cares about
+      - if event is 'incident.triggered'
+        - each hook will determine:
+          - if hook.events contains 'incident.triggered'
+            - then notify handler
+          - if hook.events does not contain 'incident.triggered'
+            - then do not notify handler
+      - validation is also performed by the handler on hook creation. hooks cannot be created for handlers that do not support the configured events
       - if yes,
         - subscription notifies handler with event.name, source that published event, and hook.config
       - if no, subscription is skipped
@@ -48,6 +55,15 @@ job is
 
 
 # Handler
+
+## matches
+
+hooks are a way to funnel events externally
+if a hook:
+  - events: [ * ]
+  - all events will trigger this hook to be dispatched to a handler
+    - if a handler doesn't support a hook,
+
 
 match if
   - hook

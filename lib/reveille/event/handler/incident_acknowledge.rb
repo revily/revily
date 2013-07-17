@@ -3,7 +3,7 @@ module Reveille
     class Handler
       class IncidentAcknowledge < Handler
 
-        supports_events %w[ incident.acknowledged ]
+        events %w[ incident.acknowledged ]
         
         def handle?
           true

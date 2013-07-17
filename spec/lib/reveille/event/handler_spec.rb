@@ -5,42 +5,43 @@ describe Reveille::Event::Handler do
 
   # let(:handler) { Class.new(Reveille::Event::Handler) }
   let(:handler) { MockHandler }
-  before { MockHandler.supports_events = []}
+  before { MockHandler.events = []}
 
-  describe '.supports_events' do
+  describe '.events' do
+    let(:events) { handler.events }
     it 'defaults to empty array' do
-      handler.should_receive(:supports_events).and_return([])
-      handler.supports_events
+      handler.should_receive(:events).and_return([])
+      handler.events
     end
 
     it 'with no args' do
-      handler.supports_events = %w[ incident.triggered ]
-      handler.should_receive(:supports_events).and_return(['foo.event'])
-      handler.supports_events
+      handler.events = %w[ incident.triggered ]
+      handler.should_receive(:events).and_return(['foo.event'])
+      handler.events
     end
 
     it 'with args' do
-      handler.supports_events %w[ incident.triggered incident.acknowledged ]
-      expect(handler.supports_events).to eq(%w[ incident.triggered incident.acknowledged ])
+      handler.events %w[ incident.triggered incident.acknowledged ]
+      expect(handler.events).to match_array %w[ incident.triggered incident.acknowledged ]
     end
 
     it 'calling multiple times' do
-      handler.supports_events 'incident.triggered'
-      handler.supports_events 'incident.acknowledged'
-      handler.supports_events 'incident.resolved'
-      expect(handler.supports_events).to eq(%w[ incident.triggered incident.acknowledged incident.resolved ])
+      handler.events 'incident.triggered'
+      handler.events 'incident.acknowledged'
+      handler.events 'incident.resolved'
+      expect(events).to eq(%w[ incident.triggered incident.acknowledged incident.resolved ])
     end
 
     it 'removes duplicate events' do
-      handler.supports_events 'incident.triggered'
-      handler.supports_events 'incident.triggered'
-      expect(handler.supports_events).to eq(%w[ incident.triggered ])
+      handler.events 'incident.triggered'
+      handler.events 'incident.triggered'
+      expect(events).to eq(%w[ incident.triggered ])
     end
 
     it 'removes unknown events' do
-      handler.supports_events 'bogus.event'
-      handler.supports_events 'fake.event'
-      expect(handler.supports_events).to eq(%w[])
+      handler.events 'bogus.event'
+      handler.events 'fake.event'
+      expect(events).to eq(%w[])
     end
   end
 
@@ -48,61 +49,61 @@ describe Reveille::Event::Handler do
     # let(:events) {  }
     # let(:handler) do
     #   Class.new(Reveille::Event::Handler) do
-    #     supports_events 'incident.trigger'
+    #     events 'incident.trigger'
     #   end
     # end
     it 'matches supported event' do
-      handler.supports_events 'incident.triggered', 'incident.resolved'
-      expect(handler).to support('incident.triggered')
+      handler.events 'incident.triggered', 'incident.resolved'
+      expect(handler).to match_event('incident.triggered')
     end
 
     it 'does not match unsupported event' do
-      handler.supports_events 'incident.triggered', 'incident.resolved'
-      expect(handler).not_to support('service.created')
+      handler.events 'incident.triggered', 'incident.resolved'
+      expect(handler).not_to match_event('service.created')
     end
 
     context 'wildcards' do
       it 'matches all (*)' do
-        handler.supports_events %w[ * ]
-        expect(handler).to support('incident.triggered')
-        expect(handler).to support('service.created')
-        expect(handler).to support('policy.updated')
-        expect(handler).to support('incident.*')
-        expect(handler).to support('service.*')
-        expect(handler).to support('*')
-        expect(handler).not_to support('bogus.event')
+        handler.events %w[ * ]
+        expect(handler).to match_event('incident.triggered')
+        expect(handler).to match_event('service.created')
+        expect(handler).to match_event('policy.updated')
+        expect(handler).to match_event('incident.*')
+        expect(handler).to match_event('service.*')
+        expect(handler).to match_event('*')
+        expect(handler).not_to match_event('bogus.event')
       end
 
       it 'matches single namespace' do
-        handler.supports_events %w[ incident.* ]
-        expect(handler).to support('incident.*')
-        expect(handler).to support('incident.triggered')
-        expect(handler).to support('incident.acknowledged')
-        expect(handler).not_to support('service.created')
-        expect(handler).not_to support('policy.updated')
+        handler.events %w[ incident.* ]
+        expect(handler).to match_event('incident.*')
+        expect(handler).to match_event('incident.triggered')
+        expect(handler).to match_event('incident.acknowledged')
+        expect(handler).not_to match_event('service.created')
+        expect(handler).not_to match_event('policy.updated')
       end
 
       it 'does not match nonexistent events' do
-        handler.supports_events 'incident.*'
-        expect(handler).not_to support('incident.foobar')
+        handler.events 'incident.*'
+        expect(handler).not_to match_event('incident.foobar')
       end
 
       it 'matches multiple namespaces' do
-        handler.supports_events %w[ incident.* service.* ]
-        expect(handler).to support('incident.*')
-        expect(handler).to support('incident.triggered')
-        expect(handler).to support('service.*')
-        expect(handler).to support('service.created')
-        expect(handler).not_to support('policy.updated')
+        handler.events %w[ incident.* service.* ]
+        expect(handler).to match_event('incident.*')
+        expect(handler).to match_event('incident.triggered')
+        expect(handler).to match_event('service.*')
+        expect(handler).to match_event('service.created')
+        expect(handler).not_to match_event('policy.updated')
       end
 
       it 'matches mix of specific and namespace events' do
-        handler.supports_events %w[ incident.* service.created ]
-        expect(handler).to support('incident.*')
-        expect(handler).to support('incident.triggered')
-        expect(handler).to support('service.created')
-        expect(handler).not_to support('service.updated')
-        expect(handler).not_to support('policy.updated')
+        handler.events %w[ incident.* service.created ]
+        expect(handler).to match_event('incident.*')
+        expect(handler).to match_event('incident.triggered')
+        expect(handler).to match_event('service.created')
+        expect(handler).not_to match_event('service.updated')
+        expect(handler).not_to match_event('policy.updated')
       end
     end
 

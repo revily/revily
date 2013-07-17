@@ -5,14 +5,12 @@ module Reveille
 
         class << self
           def run(queue, *args)
-            Reveille::Event::Handler::Test.events << "event"
-
-            # Rails.logger.info "running test handler job"
+            Reveille::Event::Handler::Test.event_list << "event"
           end
         end
 
         def process
-          Rails.logger.info "logging"
+          Reveille::Event::Handler::Test.event_list << "event"
         end
 
       end

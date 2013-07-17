@@ -6,10 +6,12 @@ module Reveille
     # include Celluloid
     # include Celluloid::Notifications
 
+    autoload :EventList,    'reveille/event/event_list'
     autoload :Handler,      'reveille/event/handler'
     autoload :HandlerMixin, 'reveille/event/handler_mixin'
     autoload :Hook,         'reveille/event/hook'
     autoload :Job,          'reveille/event/job'
+    autoload :Matcher,      'reveille/event/matcher'
     autoload :Payload,      'reveille/event/payload'
     autoload :Subscription, 'reveille/event/subscription'
 
@@ -40,18 +42,27 @@ module Reveille
         }.sort].with_indifferent_access
       end
 
+      # def events
+      #   @events ||= begin
+      #     array = %w[ * ]
+      #     sources.each do |name, klass|
+      #       keys = klass.events.map {|event| "#{name}.#{event}" }
+      #       array.concat %W[ #{name}.* ]
+      #       array.concat keys
+      #       array
+      #     end
+      #     array.sort
+      #   end
+      # end
+
       def events
-        @events ||= begin
-          array = %w[ * ]
-          sources.each do |name, klass|
-            keys = klass.events.map {|event| "#{name}.#{event}" }
-            array.concat %W[ #{name}.* ]
-            array.concat keys
-            array
+        @events ||= sources.map do |name, klass|
+          klass.events.map do |event|
+            "#{name}.#{event}"
           end
-          array.sort
-        end
+        end.flatten.sort.uniq
       end
+      alias_method :all, :events
 
       def hash_from_constant(constant)
         Hash[constant.constants(false).map { |c| [c.to_s.underscore, constant.const_get(c)] }.sort]

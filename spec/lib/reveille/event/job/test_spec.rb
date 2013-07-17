@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe Reveille::Event::Hook::Test do
+describe Reveille::Event::Job::Test do
 end

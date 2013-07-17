@@ -15,34 +15,46 @@ module Reveille
           handler.notify if handler.handle?
         end
 
-        def supports_events=(*events)
-          @supports_events = events.flatten.uniq
+        def events=(*events)
+          @events = events.flatten.uniq
         end
 
-        def supports_events(*events)
-          @supports_events ||= []
-          @supports_events.concat(events.flatten).uniq! unless events.blank?
-          @supports_events.delete_if { |e| !all_events.include?(e) }
+        def events(*events)
+          return @events unless events.present?
+          matched_events ||= Event::EventList.new(events).events
+          @events ||= []
+          @events.concat(matched_events).uniq! unless events.blank?
+          @events.delete_if { |e| !all_events.include?(e) }
 
-          return @supports_events
+          return @events
         end
 
-        def supports?(event)
-          # puts all_supported_events.inspect
-          all_supported_events.include?(event)
+        def matches?(pattern)
+          supports?(pattern)
+        end
+        
+        def supports?(pattern)
+          matcher = Event::Matcher.new(pattern, events)
+          matcher.matches?(pattern)
         end
 
-        def all_supported_events
-          all_supported_events = []
+        alias_method :matches?, :supports?
+
+        def all_events
+          all_events = []
           
           all_events.each do |all|
-            supports_events.each do |support|
-              all_supported_events << all if /^#{support}$/.match(all)
+            events.each do |support|
+              all_events << all if /^#{support}$/.match(all)
             end
           end
 
-          all_supported_events.compact.uniq
+          all_events.compact.uniq.sort
         end
+
+        # def events
+          # @events ||= Event::Matcher.new(events, all_events).matches
+        # end
 
         def all_events
           Reveille::Event.events

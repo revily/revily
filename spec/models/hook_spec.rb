@@ -17,7 +17,7 @@ describe Hook do
       it 'when no handler exists' do
         hook.name = 'bogus_handler'
         hook.should_not be_valid
-        hook.should have(1).error_on(:name)
+        expect(hook).to have(1).error_on(:name)
       end
     end
 
@@ -29,7 +29,12 @@ describe Hook do
       end
 
       it 'when handler does not support all events' do
-        hook.events << 'bogus.event'
+        class Reveille::Event::Handler::Bogus < Reveille::Event::Handler
+          events 'services.*'
+        end
+        hook.stub(:handler).and_return(Reveille::Event::Handler::Bogus)
+        hook.events = %w[ incidents ]
+        hook.name = 'bogus'
         hook.should_not be_valid
         hook.should have(1).error_on(:events)
       end
@@ -37,7 +42,8 @@ describe Hook do
       it 'when handler does not support any events' do
         hook.events = %w[ bogus.event fake.event ]
         hook.should_not be_valid
-        hook.should have(2).errors_on(:events)
+        hook.should have(1).error_on(:events)
+        hook.events.should be_empty
       end
     end
   end

@@ -3,12 +3,12 @@ module Reveille
     class Handler
       class Test < Handler
         class << self
-          attr_accessor :events
+          attr_accessor :event_list
         end
 
-        self.events = []
+        self.event_list = []
 
-        supports_events Event.events
+        events Event.events
 
         def handle?
           true

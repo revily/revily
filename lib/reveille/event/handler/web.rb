@@ -2,7 +2,8 @@ module Reveille
   module Event
     class Handler
       class Web < Handler
-        supports_events Event.events
+        events Event.events
+        string :url
         string :url
 
         white_list :url

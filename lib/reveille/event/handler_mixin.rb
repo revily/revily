@@ -62,7 +62,8 @@ module Reveille
 
         def add_to_schema(type, attrs)
           attrs.each do |attr|
-            schema << [type, attr.to_sym]
+            tuple = [type, attr.to_sym]
+            schema << tuple unless schema.include?(tuple)
           end
         end
 

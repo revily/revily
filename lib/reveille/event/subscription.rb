@@ -22,15 +22,13 @@ module Reveille
       end
 
       def notify(event, source)
-        if matches?(event)
+        if handler.supports?(event)
+          # if matches?(event)
           handler.notify(event, source, config)
           # increment_counter(event)
         end
       end
 
-      def matches?(event)
-        events.any? { |events| /^#{events}$/i.match(event) }
-      end
     end
   end
 end
