@@ -5,6 +5,7 @@ gem 'rails',                               '4.0.0'
 
 # current AMS is broken for rails 4; using github master
 # gem 'active_model_serializers',            '0.8.1'
+gem 'active_attr',                         '0.8.2'
 gem 'active_model_serializers',            github: 'rails-api/active_model_serializers'
 gem 'acts_as_list',                        '0.2.0'
 gem 'acts-as-taggable-on',                 '2.4.1'
