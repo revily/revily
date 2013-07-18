@@ -1,6 +1,8 @@
 module Reveille
   module Event
     class Job
+      include Reveille::Model
+
       autoload :Campfire,            'reveille/event/job/campfire'
       autoload :IncidentAcknowledge, 'reveille/event/job/incident_acknowledge'
       autoload :IncidentEscalate,    'reveille/event/job/incident_escalate'
@@ -11,9 +13,17 @@ module Reveille
       autoload :Test,                'reveille/event/job/test'
       autoload :Web,                 'reveille/event/job/web'
 
+      attribute :payload, type: Object
+      attribute :params, type: Object, default: {}
+
+      validates :payload, presence: true
+      validates :params, presence: true
+
       class << self
         def run(queue, *args)
           options = { queue: queue, retries: 8, backtrace: true }
+          logger.info options
+          logger.info args.inspect
           Reveille::Sidekiq.run(self, :perform, options, *args)
         end
 
@@ -29,16 +39,9 @@ module Reveille
         def timestamp_for(interval)
           interval = interval.to_f
           now = Time.now.to_f
-          
+
           interval < 1_000_000_000 ? now + interval : interval
         end
-      end
-
-      attr_reader :payload, :params
-
-      def initialize(payload, params={})
-        @payload = payload
-        @params = params
       end
 
       def run
@@ -49,6 +52,10 @@ module Reveille
 
       def process
         raise StandardError, "override #process in subclass #{self.class.name}"
+      end
+
+      def active_model_serializer
+        JobSerializer
       end
 
       private

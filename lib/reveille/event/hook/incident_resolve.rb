@@ -2,13 +2,10 @@ module Reveille
   module Event
     class Hook
       class IncidentResolve < Hook
-        def name
-          'incident_resolve'
-        end
+        
+        hook_name 'incident_resolve'
+        events %w[ incident.resolved ]
 
-        def events
-          %w[ incident.resolved ]
-        end
       end
     end
   end

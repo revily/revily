@@ -22,13 +22,6 @@ module Reveille
           @targets
         end
 
-        def payload
-          @payload ||= {
-            source: source,
-            config: {}
-          }
-        end
-
       end
     end
   end

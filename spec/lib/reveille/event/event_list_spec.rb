@@ -25,6 +25,12 @@ describe Reveille::Event::EventList do
       expect(events).to eq(Reveille::Event.events)
     end
 
+    it 'strips duplicate events' do
+      list.patterns = %w[ incident.triggered incident.triggered ]
+      expect(events).to match_array ['incident.triggered']
+      expect(events).not_to match_array ['incident.triggered', 'incident.triggered']
+    end
+
     it 'lists single namespace' do
       list.patterns = %w[ incident.* ]
       expect(events).to include('incident.triggered')
@@ -33,10 +39,10 @@ describe Reveille::Event::EventList do
       expect(events).not_to include('policy.updated')
     end
 
-    it 'does not lists nonexistent events' do
-      list.patterns = %w[ bogus.event ]
+    it 'strips nonexistent events' do
+      list.patterns = %w[ incident.triggered bogus.event ]
       expect(events).not_to include('bogus.event')
-      expect(events).to be_empty
+      expect(events).to include('incident.triggered')
     end
 
     it 'lists multiple namespaces' do

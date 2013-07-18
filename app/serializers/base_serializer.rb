@@ -12,7 +12,6 @@ class BaseSerializer < ActiveModel::Serializer
     object.errors.each do |k,v|
       errors[k] << v
     end
-    errors[:wat] = "lol"
   end
 
   def include_errors?

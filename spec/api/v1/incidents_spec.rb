@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "incidents" do
+  # TODO(dryan): macro to stub out events so they don't get called
+  # stub_events
   sign_in_user
 
   let(:service) { create(:service, :with_policy, account: account) }
@@ -34,7 +36,6 @@ describe "incidents" do
 
     it { should respond_with(:no_content) }
     it { should_not have_body }
-     # have_content_type(:json) }
   end
 
   describe 'DELETE /incidents/:id' do

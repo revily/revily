@@ -8,9 +8,10 @@ module Reveille
         end
 
         def process
-          targets.each do |target|
+          Rails.logger.debug "processing "
+          # targets.each do |target|
             # do something with each target
-          end
+          # end
         end
 
       end

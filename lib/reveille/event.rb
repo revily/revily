@@ -6,14 +6,18 @@ module Reveille
     # include Celluloid
     # include Celluloid::Notifications
 
-    autoload :EventList,    'reveille/event/event_list'
-    autoload :Handler,      'reveille/event/handler'
-    autoload :HandlerMixin, 'reveille/event/handler_mixin'
-    autoload :Hook,         'reveille/event/hook'
-    autoload :Job,          'reveille/event/job'
-    autoload :Matcher,      'reveille/event/matcher'
-    autoload :Payload,      'reveille/event/payload'
-    autoload :Subscription, 'reveille/event/subscription'
+    autoload :EventList,         'reveille/event/event_list'
+    autoload :Handler,           'reveille/event/handler'
+    autoload :HandlerSerializer, 'reveille/event/handler_serializer'
+    autoload :HandlerMixin,      'reveille/event/handler_mixin'
+    autoload :Hook,              'reveille/event/hook'
+    autoload :HookSerializer,    'reveille/event/hook_serializer'
+    autoload :Job,               'reveille/event/job'
+    autoload :JobSerializer,     'reveille/event/job_serializer'
+    autoload :Matcher,           'reveille/event/matcher'
+    autoload :Payload,           'reveille/event/payload'
+    autoload :PayloadSerializer, 'reveille/event/payload_serializer'
+    autoload :Subscription,      'reveille/event/subscription'
 
     class << self
       def handlers
@@ -32,13 +36,13 @@ module Reveille
       # because I have no idea what I'm doing.
       def sources
         @sources ||= Hash[{
-                            incident: Incident,
-                            policy: Policy,
-                            policy_rule: PolicyRule,
-                            schedule: Schedule,
-                            schedule_layer: ScheduleLayer,
-                            service: Service,
-                            user: User
+                            incident: ::Incident,
+                            policy: ::Policy,
+                            policy_rule: ::PolicyRule,
+                            schedule: ::Schedule,
+                            schedule_layer: ::ScheduleLayer,
+                            service: ::Service,
+                            user: ::User
         }.sort].with_indifferent_access
       end
 
@@ -55,7 +59,6 @@ module Reveille
         Hash[constant.constants(false).map { |c| [c.to_s.underscore, constant.const_get(c)] }.sort]
       end
       private :hash_from_constant
-
     end
 
     def global_hooks
@@ -68,7 +71,8 @@ module Reveille
 
     def subscriptions
       @subscriptions ||= hooks.map do |hook|
-        subscription = Event::Subscription.new(hook)
+        options = { name: hook.name, config: hook.config }
+        subscription = Event::Subscription.new(options)
         subscription if subscription.handler
       end.compact
     end
@@ -79,9 +83,10 @@ module Reveille
 
     def dispatch(event, source)
       subscriptions.each do |subscription|
-        subscription.notify(format_event(event, source), source)
+        subscription.source = source
+        subscription.event = format_event(event, source)
+        subscription.notify
       end
-      Rails.logger.info format_event(event, source)
     end
 
 

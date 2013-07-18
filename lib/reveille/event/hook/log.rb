@@ -2,13 +2,10 @@ module Reveille
   module Event
     class Hook
       class Log < Hook
-        def name
-          'log'
-        end
 
-        def events
-          Event.events
-        end
+        hook_name 'log'
+        events Event.all
+
       end
     end
   end

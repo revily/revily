@@ -4,7 +4,7 @@ module Reveille
       class Web < Job
 
         def process
-          Rails.logger.info "processing web handler"
+          Rails.logger.debug "processing web handler"
         end
 
       end

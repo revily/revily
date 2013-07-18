@@ -28,5 +28,6 @@ module Reveille
         ::Sidekiq::Client.push('queue' => queue, 'retry' => retries, 'class' => Worker, 'at' => at, 'args' => args)
       end
     end
+    
   end
 end

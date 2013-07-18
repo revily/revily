@@ -2,13 +2,10 @@ module Reveille
   module Event
     class Hook
       class IncidentAcknowledge < Hook
-        def name
-          'incident_acknowledge'
-        end
+        
+        hook_name 'incident_acknowledge'
+        events %w[ incident.acknowledged ]
 
-        def events
-          %w[ incident.acknowledged ]
-        end
       end
     end
   end
