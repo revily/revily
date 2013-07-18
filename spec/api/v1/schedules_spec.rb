@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'schedules' do
+  pause_events!
   sign_in_user
 
   describe 'GET /schedules' do

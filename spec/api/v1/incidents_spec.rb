@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe "incidents" do
-  # TODO(dryan): macro to stub out events so they don't get called
-  # stub_events
+  pause_events!
   sign_in_user
 
   let(:service) { create(:service, :with_policy, account: account) }

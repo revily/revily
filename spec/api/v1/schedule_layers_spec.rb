@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'schedule layers' do
+  pause_events!
   sign_in_user
 
   let(:schedule) { create(:schedule, account: account) }

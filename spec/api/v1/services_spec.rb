@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe "services" do
+  pause_events!
   sign_in_user
 
   describe 'GET /services' do

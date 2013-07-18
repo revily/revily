@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe 'policy_rules' do
+  pause_events!
   sign_in_user
+  
   let(:policy) { create(:policy, account: account) }
   let(:assignment_attributes) { { id: user.uuid, type: "User" } }
 

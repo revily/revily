@@ -20,6 +20,21 @@ module Reveille
     autoload :Subscription,      'reveille/event/subscription'
 
     class << self
+
+      attr_accessor :paused
+
+      def pause!
+        @paused = true
+      end
+
+      def unpause!
+        @paused = false
+      end
+
+      def paused?
+        @paused ||= false
+      end
+
       def handlers
         @handlers ||= hash_from_constant(Event::Handler)
       end
@@ -82,13 +97,13 @@ module Reveille
     end
 
     def dispatch(event, source)
+      return if Reveille::Event.paused?
       subscriptions.each do |subscription|
         subscription.source = source
         subscription.event = format_event(event, source)
         subscription.notify
       end
     end
-
 
     def format_event(event, source)
       namespace = source.class.name.underscore.gsub('/', '.')

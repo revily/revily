@@ -6,6 +6,8 @@ def stub_rule
 end
 
 describe PolicyRule do
+  pause_events!
+  
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
   let(:schedule) { create(:schedule, account: account) }
