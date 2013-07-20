@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '1.9.3'
+#ruby '1.9.3'
 
 gem 'rails',                               '4.0.0'
 
@@ -16,6 +16,7 @@ gem 'devise',                              github: 'plataformatec/devise'
 gem 'figaro',                              '0.7.0'
 gem 'ice_cube',                            '0.11.0'
 gem 'kaminari',                            '0.14.1'
+gem 'metriks',                             '0.9.9.5'
 gem 'pg',                                  '0.15.1'
 gem 'rack-timeout',                        '0.0.4'
 gem 'recipient_interceptor',               '0.1.1'
@@ -35,6 +36,9 @@ group :development do
   gem 'guard-rspec',                       '3.0.2'
   gem 'guard-spork',                       '1.5.1'
   gem 'guard-shell',                       '0.5.1'
+  gem 'method_profiler',                   '2.0.1'
+  gem 'rbtrace',                           '0.4.1'
+  gem 'perftools.rb',                      '2.0.1'
   gem 'libnotify',                         '0.8.1', require: false
   gem 'pry-rails',                         '0.3.1'
   gem 'rb-fsevent',                        '0.9.3', require: false
