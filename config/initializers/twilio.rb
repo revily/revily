@@ -1,1 +1,1 @@
-$twilio = Twilio::REST::Client.new(Figaro.env.twilio_account_sid, Figaro.env.twilio_auth_token)
+Twilio::Config.setup account_sid: Figaro.env.twilio_account_sid, auth_token: Figaro.env.twilio_auth_token

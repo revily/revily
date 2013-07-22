@@ -24,7 +24,8 @@ gem 'sidekiq',                             '2.12.4'
 gem 'sinatra',                             '1.4.3', require: false
 gem 'slim',                                '2.0.0', require: false
 gem 'state_machine',                       '1.2.0'
-gem 'twilio-ruby',                         '3.9.0'
+# gem 'twilio-ruby',                         '3.9.0'
+gem 'twilio-rb',                           '2.2.2'
 gem 'unicorn',                             '4.6.3'
 gem 'validates_existence',                 '0.8.0'
 
@@ -56,6 +57,7 @@ group :development, :test do
   gem 'forgery',                           '0.5.0'
   gem 'rspec-rails',                       '2.13.2'
   gem 'sham_rack',                         '1.3.6'
+  gem 'forward'
 end
 
 group :test do

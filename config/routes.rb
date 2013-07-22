@@ -10,7 +10,9 @@ Reveille::Application.routes.draw do
     put 'resolve' => 'integration#resolve'
 
     post 'sms/receive' => 'sms#receive'
-
+    post 'voice/receive' => 'voice#receive'
+    get 'voice/send' => 'voice#send'
+    
     resources :services do
       resources :incidents, only: [ :index, :create ]
       member do

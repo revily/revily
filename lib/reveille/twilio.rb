@@ -5,16 +5,15 @@ module Reveille
     end
 
     class << self
-      def client
-        @client ||= Twilio::REST::Client.new(Figaro.env.twilio_account_sid, Figaro.env.twilio_auth_token)
+      def call(to)
+        from = Figaro.env.twilio_number
+        url = "http://requestb.in/19e1zay1"
+        ::Twilio::Call.create(from: from, to: to, url: url)
       end
 
-      def call(from, to, url)
-        client.account.calls.create(from: from, to: to, url: url)
-      end
-
-      def message(from, to, body)
-        client.account.sms.messages.create(from: from, to: to, body: body)
+      def message(to, body)
+        from = Figaro.env.twilio_number
+        ::Twilio::SMS.create(from: from, to: to, body: body)
       end
     end
   end
