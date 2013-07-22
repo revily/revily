@@ -5,7 +5,6 @@ module Reveille
         class << self
           attr_accessor :event_list
         end
-
         self.event_list = []
 
         events Event.events
@@ -15,7 +14,7 @@ module Reveille
         end
 
         def handle
-          Event::Job::Test.run(:test, payload)
+          run Event::Job::Test, :test
         end
 
         def targets

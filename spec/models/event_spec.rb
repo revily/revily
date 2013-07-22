@@ -1,17 +1,62 @@
 require 'spec_helper'
 
 describe Event do
-  
+
   context 'validations' do
     it { should belong_to(:account) }
     it { should belong_to(:source) }
+    it { should belong_to(:actor) }
   end
-  let!(:events) { create_list(:event, 3) }
 
   describe 'recent' do
-    
-    it 'orders events descending by id' do
-      Event.recent.map(&:id).should == events.map(&:id).reverse
+    let!(:events) { create_list(:event, 3) }
+
+    pending do
+      it 'orders events descending by id' do
+        Event.recent.each do |e|
+          puts e.inspect
+        end
+        Event.recent.map(&:id).should == events.map(&:id).reverse
+      end
+    end
+  end
+
+  describe '#dispatch' do
+    let(:account) { build_stubbed(:account) }
+    let(:actor) { build_stubbed(:user, account: account) }
+    let(:source) { build_stubbed(:incident, account: account) }
+    let(:subscription) { build_stubbed(:subscription, name: 'test', source: source, actor: actor, event: 'incident.triggered') }
+
+    let(:event) { build(:event, source: source, actor: actor, action: 'triggered', account: account) }
+
+    before do
+      Reveille::Event.event_store[:current_actor] = actor
+      event.stub(:subscriptions => [ subscription ])
+    end
+
+    it 'dispatches events' do
+      subscription.should_receive(:notify).at_least(:once)
+      event.save
+    end
+
+    context 'not paused' do
+      before { Reveille::Event.stub(paused?: false) }
+
+      it 'sends event notifications' do
+        subscription.should_receive(:notify).at_least(:once)
+        event.save
+        expect(event.dispatch).to_not be_false
+      end
+    end
+
+    context 'paused' do
+      before { Reveille::Event.stub(paused?: true) }
+
+      it 'returns without sending notifications' do
+        subscription.should_not_receive(:notify)
+        event.save
+        expect(event.dispatch).to be_false
+      end
     end
 
   end

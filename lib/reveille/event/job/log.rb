@@ -4,7 +4,7 @@ module Reveille
       class Log < Job
 
         def process
-          Rails.logger.info self.inspect
+          Rails.logger.info self.attributes
         end
 
       end

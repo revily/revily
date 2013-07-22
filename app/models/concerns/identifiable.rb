@@ -25,6 +25,10 @@ module Identifiable
     self.class.eventable?
   end
 
+  def actable?
+    self.class.actable?
+  end
+
   def identifiable?
     self.class.identifiable?
   end
@@ -42,11 +46,14 @@ module Identifiable
       true
     end
 
+    def actable?
+      false
+    end
+
     def eventable?
       false
     end
   end
-
 
   def self.generate_uuid
     SecureRandom.urlsafe_base64(6).tr('+/=_-', 'pqrsxyz')

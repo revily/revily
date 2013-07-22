@@ -23,7 +23,6 @@ class PolicyRule < ActiveRecord::Base
 
   belongs_to :assignment, polymorphic: true
   belongs_to :policy
-  has_many :events, as: :source
   
   acts_as_list scope: :policy
 

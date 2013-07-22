@@ -24,6 +24,7 @@ describe Reveille::Event::Subscription do
     it 'should not notify when the event does not match' do
       subscription.handler.stub(:supports? => false)
       subscription.handler.should_not_receive(:notify)
+      subscription.should_receive(:notify).and_return(false)
       subscription.notify
     end
   end

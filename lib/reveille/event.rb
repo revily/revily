@@ -15,6 +15,7 @@ module Reveille
     autoload :Job,               'reveille/event/job'
     autoload :JobSerializer,     'reveille/event/job_serializer'
     autoload :Matcher,           'reveille/event/matcher'
+    autoload :Mixins,            'reveille/event/mixins'
     autoload :Payload,           'reveille/event/payload'
     autoload :PayloadSerializer, 'reveille/event/payload_serializer'
     autoload :Subscription,      'reveille/event/subscription'
@@ -22,6 +23,18 @@ module Reveille
     class << self
 
       attr_accessor :paused
+
+      def event_store
+        Thread.current[:event_store] ||= {}
+      end
+
+      def actor
+        event_store[:actor]
+      end
+
+      def actor=(actor)
+        event_store[:actor] = actor
+      end
 
       def pause!
         @paused = true
@@ -44,7 +57,7 @@ module Reveille
       end
 
       def hooks
-        @hooks ||= hash_from_constant(Event::Hook)
+        @hooks ||= hash_from_constant(Event::Hook).values.uniq.map(&:new)
       end
 
       # Due to Rails' preference for autoloading, we call every source here
@@ -75,40 +88,5 @@ module Reveille
       end
       private :hash_from_constant
     end
-
-    def global_hooks
-      Reveille::Event.hooks.values.uniq.map(&:new)
-    end
-
-    def hooks
-      self.account.hooks.active + global_hooks
-    end
-
-    def subscriptions
-      @subscriptions ||= hooks.map do |hook|
-        options = { name: hook.name, config: hook.config }
-        subscription = Event::Subscription.new(options)
-        subscription if subscription.handler
-      end.compact
-    end
-
-    # Global subscriptions, for things that are not customized per-account (triggering, logging, etc)
-    def global_subscriptions
-    end
-
-    def dispatch(event, source)
-      return if Reveille::Event.paused?
-      subscriptions.each do |subscription|
-        subscription.source = source
-        subscription.event = format_event(event, source)
-        subscription.notify
-      end
-    end
-
-    def format_event(event, source)
-      namespace = source.class.name.underscore.gsub('/', '.')
-      [namespace, event].join('.')
-    end
-    protected :format_event
   end
 end

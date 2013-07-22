@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130716144009) do
+ActiveRecord::Schema.define(version: 20130721002151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,15 +40,22 @@ ActiveRecord::Schema.define(version: 20130716144009) do
   add_index "contacts", ["contactable_id"], name: "index_contacts_on_contactable_id", using: :btree
 
   create_table "events", force: true do |t|
-    t.integer "source_id"
-    t.string  "source_type"
-    t.text    "data",        default: "{}"
-    t.integer "account_id",                 null: false
-    t.string  "event"
+    t.integer  "source_id"
+    t.string   "source_type"
+    t.integer  "account_id",                 null: false
+    t.integer  "actor_id"
+    t.string   "actor_type"
+    t.string   "action"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "data",        default: "{}"
+    t.string   "uuid",        default: "",   null: false
   end
 
   add_index "events", ["account_id"], name: "index_events_on_account_id", using: :btree
+  add_index "events", ["actor_id", "actor_type"], name: "index_events_on_actor_id_and_actor_type", using: :btree
   add_index "events", ["source_id", "source_type"], name: "index_events_on_source_id_and_source_type", using: :btree
+  add_index "events", ["uuid"], name: "index_events_on_uuid", unique: true, using: :btree
 
   create_table "hooks", force: true do |t|
     t.string   "name"

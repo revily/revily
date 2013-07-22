@@ -4,27 +4,47 @@ module Eventable
   included do
     include Reveille::Event
 
-    after_create :dispatch_created
-    after_update :dispatch_updated
-    after_destroy :dispatch_deleted
+    has_many :events, as: :source
+
+    after_create  :created_event
+    after_update  :updated_event
+    after_destroy :deleted_event
   end
 
-  def dispatch_created
-    self.dispatch('created', self)
+  def created_event
+    Event.create options_for_event('created')
   end
 
-  def dispatch_updated
-    self.dispatch('updated', self)
+  def updated_event
+    Event.create options_for_event('updated')
   end
 
-  def dispatch_deleted
-    self.dispatch('deleted', self)
+  def deleted_event
+    Event.create options_for_event('deleted')
   end
 
   def eventable?
     self.class.eventable?
   end
-  
+
+  def options_for_event(action)
+    { source: self, actor: Reveille::Event.actor, action: action, account: self.account, data: changes_for_event }
+  end
+  private :options_for_event
+
+  def changes_for_event
+    association_foreign_keys = self.class.reflect_on_all_associations.select{|a| a.macro == :belongs_to }.map(&:foreign_key)
+    changes_for_event = self.changes.dup
+
+    changes_for_event.delete('id')
+    association_foreign_keys.each do |key|
+      changes_for_event.delete(key)
+    end
+    changes_for_event
+  end
+  private :changes_for_event
+
+
   module ClassMethods
     def events
       @events ||= begin

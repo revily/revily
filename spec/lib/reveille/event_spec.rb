@@ -8,16 +8,13 @@ describe Reveille::Event do
   describe '.jobs' do
   end
 
-  describe '#dispatch' do
-    let(:account) { build_stubbed(:account) }
-    let(:hook) { build_stubbed(:hook, account: account) }
-    let(:resource) { build_stubbed(:incident) }
-    before do
-      resource.stub(account: account)
-    end
+  describe '.pause!' do
+    before { Reveille::Event.pause! }
+    it { should be_paused }
+  end
 
-    it do
-    end
-
+  describe '.unpause!' do
+    before { Reveille::Event.unpause! }
+    it { should_not be_paused }
   end
 end

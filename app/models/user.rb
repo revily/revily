@@ -23,6 +23,7 @@
 class User < ActiveRecord::Base
   include Identifiable
   include Eventable
+  include Actable
 
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable,
@@ -41,10 +42,8 @@ class User < ActiveRecord::Base
     dependent: :destroy
   has_many :schedules, through: :schedule_layers
   has_many :incidents, foreign_key: :current_user_id
-  has_many :events, as: :source
 
   accepts_nested_attributes_for :account
-
 
   validates :account, 
     presence: true

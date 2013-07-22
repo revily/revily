@@ -1,4 +1,6 @@
 class V1::IntegrationController < V1::ApplicationController
+  #TODO(dryan): Fix integrations :)
+  include Reveille::Event::Mixins::Controller
   before_action :authenticate_service!
 
   respond_to :json
@@ -30,12 +32,6 @@ class V1::IntegrationController < V1::ApplicationController
         format.json { head :not_found }
       end
     end
-
-    # format.json { render json: @incident, status: http_status }
-    # else
-    # format.json { render json: { errors: @incident.errors }, status: :unprocessable_entity }
-    # end
-    # end
   end
 
   def resolve
@@ -54,8 +50,8 @@ class V1::IntegrationController < V1::ApplicationController
 
   private
 
-    def permitted_params
-      [ :message, :description, :key ]
+    def incident_params
+      params.permit(:message, :description, :key)
     end
 
 end

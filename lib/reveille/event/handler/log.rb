@@ -2,17 +2,14 @@ module Reveille
   module Event
     class Handler
       class Log < Handler
-        # queue 'logs'
-        events 'incident.*'
+        events '*'
 
         def handle?
           true
         end
 
         def handle
-          # run Event::Job::Log, :log
-          logger.info "running log job"
-          Event::Job::Log.run(:log, payload: payload, params: params)
+          run Event::Job::Log, :log
         end
 
       end

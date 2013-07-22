@@ -16,6 +16,7 @@
 class Service < ActiveRecord::Base
   include Identifiable
   include Eventable
+  include Actable
   
   devise :token_authenticatable
 
@@ -43,12 +44,10 @@ class Service < ActiveRecord::Base
     state :disabled
 
     event :enable do
-      # transition all => :enabled
       transition :disabled => :enabled
     end
 
     event :disable do
-      # transition all => :enabled
       transition :enabled => :disabled
     end
   end

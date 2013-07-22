@@ -1,4 +1,6 @@
 class V1::ServicesController < V1::ApplicationController
+  include Reveille::Event::Mixins::Controller
+  
   respond_to :json
 
   before_action :authenticate_user!

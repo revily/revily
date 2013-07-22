@@ -13,7 +13,15 @@ class V1::ApplicationController < ActionController::Base
   end
 
   def current_account
-    current_user.account
+    if defined?(current_actor)
+      current_actor.try(:account)
+    elsif defined?(current_user)
+      current_user.try(:account)
+    elsif defined?(current_service)
+      current_service.try(:account)
+    else
+      nil
+    end
   end
   helper_method :current_account
 

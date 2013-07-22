@@ -2,9 +2,11 @@
 
 FactoryGirl.define do
   factory :event do
-    association :source, factory: :service
-    data "MyText"
     account
-    event "MyString"
+    association :source, factory: :service
+    association :actor, factory: :user
+
+    data { {} }
+    action "created"
   end
 end

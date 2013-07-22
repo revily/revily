@@ -1,5 +1,5 @@
 class PolicySerializer < BaseSerializer
-  attributes :id, :name, :_links
+  attributes :id, :name, :loop_limit, :_links
 
   def _links
     {

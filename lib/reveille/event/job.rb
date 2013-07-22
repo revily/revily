@@ -20,16 +20,16 @@ module Reveille
       validates :params, presence: true
 
       class << self
-        def run(queue, *args)
+        def run(queue, payload, params)
+          args = { payload: payload, params: params }
           options = { queue: queue, retries: 8, backtrace: true }
-          logger.info options
-          logger.info args.inspect
-          Reveille::Sidekiq.run(self, :perform, options, *args)
+          Reveille::Sidekiq.run(self, :perform, options, args)
         end
 
-        def schedule(queue, interval, *args)
+        def schedule(queue, interval, payload, params)
+          args = { payload: payload, params: params }
           options = { queue: queue, retries: 8, backtrace: true, at: timestamp_for(interval) }
-          Reveille::Sidekiq.schedule(self, :perform, options, *args)
+          Reveille::Sidekiq.schedule(self, :perform, options, args)
         end
 
         def perform(*args)
@@ -42,6 +42,7 @@ module Reveille
 
           interval < 1_000_000_000 ? now + interval : interval
         end
+        private :timestamp_for
       end
 
       def run
