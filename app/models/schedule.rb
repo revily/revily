@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: schedules
-#
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  time_zone  :string(255)      default("UTC")
-#  uuid       :string(255)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#
-
 class Schedule < ActiveRecord::Base
   include Identifiable
   include Eventable

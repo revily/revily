@@ -2,7 +2,7 @@ class V1::ApplicationController < ActionController::Base
   respond_to :json
 
   set_current_tenant_through_filter
-  prepend_before_filter :set_tenant
+  prepend_before_action :set_tenant
   
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do |e|
     render nothing: true, status: :not_found

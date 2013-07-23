@@ -12,7 +12,7 @@ gem 'acts-as-taggable-on',                 '2.4.1'
 gem 'acts_as_tenant',                      '0.3.1'
 gem 'clockwork',                           '0.5.2', require: false
 gem 'dalli',                               '2.6.4'
-gem 'devise',                              github: 'plataformatec/devise'
+gem 'devise',                              '3.0.0' #github: 'plataformatec/devise'
 gem 'figaro',                              '0.7.0'
 gem 'ice_cube',                            '0.11.0'
 gem 'kaminari',                            '0.14.1'
@@ -69,10 +69,11 @@ group :test do
   gem 'rspec_api_test',                    '0.0.1'
   gem 'rspec-sidekiq',                     '0.3.0'
   gem 'shoulda-matchers',                  '2.2.0', require: false
-  gem 'sms-spec',                          '0.1.7'
   gem 'state_machine_rspec',               '0.1.2'
   gem 'timecop',                           '0.6.1'
   gem 'twilio-test-toolkit',               '3.2.0'
+  gem 'webmock',                           '1.13.0'
+  gem 'vcr',                               '2.5.0'
 end
 
 group :staging, :production do

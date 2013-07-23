@@ -1,12 +1,12 @@
+require 'rack/test'
+require 'json_spec'
+
 module APIHelpers
   extend ActiveSupport::Concern
-  include Rack::Test::Methods
-  include JsonSpec::Helpers
+  include ::Rack::Test::Methods
+  include ::JsonSpec::Helpers
 
   included do
-    require 'rack/test'
-    require 'json_spec'
-
     metadata[:api] = true
 
     before do

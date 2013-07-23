@@ -9,9 +9,19 @@ Reveille::Application.routes.draw do
     put 'acknowledge' => 'integration#acknowledge'
     put 'resolve' => 'integration#resolve'
 
-    post 'sms/receive' => 'sms#receive'
-    post 'voice/receive' => 'voice#receive'
-    get 'voice/send' => 'voice#send'
+    scope 'sms', as: 'sms' do
+      post 'receive' => 'sms#receive'
+      post 'callback' => 'sms#callback'
+      post 'fallback' => 'sms#fallback'
+    end
+
+    scope 'voice', as: 'voice' do
+      post ''         => 'voice#index'
+      post 'receive'  => 'voice#receive'
+      get 'hangup'    => 'voice#hangup'
+      post 'callback' => 'voice#callback'
+      post 'fallback' => 'voice#fallback'
+    end
     
     resources :services do
       resources :incidents, only: [ :index, :create ]

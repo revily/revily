@@ -1,19 +1,3 @@
-# == Schema Information
-#
-# Table name: schedule_layers
-#
-#  id          :integer          not null, primary key
-#  duration    :integer
-#  rule        :string(255)      default("daily"), not null
-#  count       :integer          default(1), not null
-#  position    :integer
-#  uuid        :string(255)
-#  schedule_id :integer
-#  start_at    :datetime
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#
-
 class ScheduleLayer < ActiveRecord::Base
   include Identifiable
   include Eventable
@@ -30,8 +14,6 @@ class ScheduleLayer < ActiveRecord::Base
     dependent: :destroy
 
   acts_as_list scope: :schedule
-
-  # attr_accessible :position, :rule, :count, :start_at, :schedule_id, :schedule
 
   before_save :calculate_duration_in_seconds
   before_save :reset_start_at_to_beginning_of_day

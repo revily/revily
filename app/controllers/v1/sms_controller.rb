@@ -4,6 +4,8 @@ class V1::SmsController < V1::ApplicationController
   respond_to :json
 
   def receive
+    logger.info ap params
+
     body = params['Body'].to_i
     from = params['From']
 
@@ -23,14 +25,28 @@ class V1::SmsController < V1::ApplicationController
 
     if action
       user.incidents.each do |incident|
-        incident.send(action) 
+        incident.send(action)
       end
       Incident::NotifyContact.perform_async(action, contact.id)
     else
       Incident::NotifyContact.perform_async('unknown', contact.id)
-    end      
+    end
 
     render :json => @user
   end
+  
+  # TODO(dryan): do something with sms#callback
+  def callback
+    logger.info ap params
+    head :ok
+  end
 
-end 
+  # TODO(dryan): do something with sms#fallback
+  def fallback
+    logger.info ap params
+    head :ok
+  end
+
+
+
+end

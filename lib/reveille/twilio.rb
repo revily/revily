@@ -5,14 +5,15 @@ module Reveille
     end
 
     class << self
+      def from
+        Figaro.env.twilio_number
+      end
+
       def call(to)
-        from = Figaro.env.twilio_number
-        url = "http://requestb.in/19e1zay1"
-        ::Twilio::Call.create(from: from, to: to, url: url)
+        ::Twilio::Call.create(from: from, to: to, url: "https://reveille.fwd.wf/voice")
       end
 
       def message(to, body)
-        from = Figaro.env.twilio_number
         ::Twilio::SMS.create(from: from, to: to, body: body)
       end
     end

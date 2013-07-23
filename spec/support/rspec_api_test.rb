@@ -1,6 +1,6 @@
-RSpecAPITest.config = {
-  defaults: {
-    content_type: :json,
-    accept: :json
-  }
-}
+# RSpecAPITest.config = {
+#   defaults: {
+#     content_type: :json,
+#     accept: :json
+#   }
+# }

@@ -8,11 +8,9 @@ class UserSchedule < IceCube::Schedule
     self.schedule_layer = layer
     self.position = schedule_layer.user_position(user)
     self.interval = schedule_layer.interval
-    # self.offset = (position - 1) * schedule_layer.duration * schedule_layer.count
     self.offset = schedule_layer.user_offset(user)
     self.start_time = schedule_layer.start_at + offset
     self.duration = schedule_layer.duration
-    # self.end_time = start_time + schedule_layer.duration
 
     super(start_time, options)
 

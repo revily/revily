@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: policies
-#
-#  id                    :integer          not null, primary key
-#  name                  :string(255)
-#  uuid                  :string(255)      not null
-#  loop_limit :integer
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#
-
 class Policy < ActiveRecord::Base
   include Identifiable
   include Eventable

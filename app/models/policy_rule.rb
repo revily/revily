@@ -1,18 +1,3 @@
-# == Schema Information
-#
-#     Table name: policy_rules
-#
-#      id                   :integer          not null, primary key
-#      escalation_timeout   :integer          default(30)
-#      position             :integer
-#      uuid                 :string(255)      not null
-#      assignment_id        :integer
-#      assignment_type      :string(255)
-#      policy_id :integer
-#      created_at           :datetime         not null
-#      updated_at           :datetime         not null
-#
-
 class PolicyRule < ActiveRecord::Base
   include Identifiable
   include Eventable
