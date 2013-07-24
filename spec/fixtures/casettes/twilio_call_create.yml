@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://ACa2b4e3abff33bdb254d43086255d84e1:03319b15699e1a6798a285a9e0b01434@api.twilio.com/2010-04-01/Accounts/ACa2b4e3abff33bdb254d43086255d84e1/Calls.json
+    uri: https://foo:foo@api.twilio.com/2010-04-01/Accounts/foo/Calls.json
     body:
       encoding: UTF-8
       string: To=%2B15172145853&From=%2B14157671567&Url=https%3A%2F%2Freveille.fwd.wf%2Fvoice%2Frespond
