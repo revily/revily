@@ -30,7 +30,7 @@ describe Event do
     let(:event) { build(:event, source: source, actor: actor, action: 'triggered', account: account) }
 
     before do
-      Reveille::Event.event_store[:current_actor] = actor
+      Reveille::Event.actor = actor
       event.stub(:subscriptions => [ subscription ])
     end
 

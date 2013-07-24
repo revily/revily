@@ -20,6 +20,7 @@ gem 'metriks',                             '0.9.9.5'
 gem 'pg',                                  '0.15.1'
 gem 'rack-timeout',                        '0.0.4'
 gem 'recipient_interceptor',               '0.1.1'
+gem 'request_store',                       '1.0.5'
 gem 'sidekiq',                             '2.12.4'
 gem 'sinatra',                             '1.4.3', require: false
 gem 'slim',                                '2.0.0', require: false

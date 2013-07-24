@@ -24,16 +24,12 @@ module Reveille
 
       attr_accessor :paused
 
-      def event_store
-        Thread.current[:event_store] ||= {}
-      end
-
       def actor
-        event_store[:actor]
+        RequestStore.store[:current_actor]
       end
 
       def actor=(actor)
-        event_store[:actor] = actor
+        RequestStore.store[:current_actor] = actor
       end
 
       def pause!

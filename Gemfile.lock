@@ -373,6 +373,7 @@ DEPENDENCIES
   rbtrace (= 0.4.1)
   recipient_interceptor (= 0.1.1)
   redcarpet
+  request_store (= 1.0.5)
   rspec-rails (= 2.13.2)
   rspec-sidekiq (= 0.3.0)
   rspec_api_test (= 0.0.1)

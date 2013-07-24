@@ -20,7 +20,7 @@ module Reveille
         end
 
         def set_current_actor
-          Reveille::Event.event_store[:actor] = current_actor
+          Reveille::Event.actor = current_actor
         end
       end
     end
