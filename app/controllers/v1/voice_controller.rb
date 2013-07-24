@@ -41,12 +41,16 @@ class V1::VoiceController < V1::ApplicationController
     # @contact = Contact.where("address LIKE ?", "%#{to}%").first
     # @user = @contact.contactable if @contact.present?
     contact = Contact.find_by(address: params['To'])
-    logger.info ap contact
-    logger.info ap params
+    user = contact.contactable
+    incident = user.incidents.triggered.first
+    service = incident.service
+    # logger.info ap contact
+    # logger.info ap params
 
     twiml = Twilio::TwiML.build do |res|
-      res.say "Revily Alert on foobar", voice: 'man'
-      res.gather action: voice_receive_path, method: 'POST', num_digits: 1 do |g|
+      res.say "Revily alert on #{service.name}:", voice: 'man'
+      res.say "#{incident.message}"
+      res.gather action: voice_receive_path, method: 'post', num_digits: 1 do |g|
         g.say "Press 4 to acknowledge, press 6 to resolve, or press 8 to escalate."
       end
     end
@@ -94,17 +98,21 @@ class V1::VoiceController < V1::ApplicationController
   #   "controller" => "v1/voice"
   # }
   def receive
-    logger.info ap params
+    # logger.info ap params
 
     contact = Contact.find_by(address: params['To'])
     user = contact.contactable
 
+    # logger.info ap contact
+    # logger.info ap user
+    # logger.info ap user.incidents.count
+
     response = params['Digits']
-    action = response_map[response][:action]
-    message = response_map[response][:message]
+    action = Contact::RESPONSE_MAP[response][:action]
+    message = Contact::RESPONSE_MAP[response][:message]
 
     if action
-      user.incidents.each do |incident|
+      user.incidents.triggered.each do |incident|
         incident.send(action)
       end
     end
@@ -122,44 +130,17 @@ class V1::VoiceController < V1::ApplicationController
     render xml: twiml
   end
 
-  def acknowledge
-  end
-
-  def resolve
-  end
-
-  def escalate
-  end
-
-  def unknown
-  end
-
-  def hangup
-
-  end
-
   # TODO(dryan): do something with voice#callback
   def callback
-    logger.info ap params
+    # logger.info ap params
     head :ok
   end
 
   # TODO(dryan): do something with voice#fallback
   def fallback
-    logger.info ap params
+    # logger.info ap params
     head :ok
   end
 
   protected
-
-    def response_map
-      response_map = {
-        '4' => { action: 'acknowledge', message: 'All incidents were acknowledged.' },
-        '6' => { action: 'resolve', message: 'All incidents were resolved.' },
-        '8' => { action: 'escalate', message: 'All incidents were escalated.'}
-      }
-      response_map.default = { action: nil, message: 'Your response was invalid.' }
-
-      response_map
-    end
 end

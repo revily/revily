@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
     through: :user_schedule_layers,
     dependent: :destroy
   has_many :schedules, through: :schedule_layers
-  has_many :incidents, foreign_key: :current_user_id
+  has_many :incidents, -> { order('created_at DESC') }, foreign_key: :current_user_id
 
   accepts_nested_attributes_for :account
 

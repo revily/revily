@@ -44,6 +44,12 @@ module Reveille
         @paused = false
       end
 
+      def pause(&block)
+        @paused = true
+        block.call if block_given?
+        @paused = false
+      end
+
       def paused?
         @paused ||= false
       end

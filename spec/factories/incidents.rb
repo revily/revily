@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :incident do
     service
+    # current_user
     message { Forgery(:lorem_ipsum).words(5) }
 
     after(:build) do |incident|

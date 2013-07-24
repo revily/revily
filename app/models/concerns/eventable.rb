@@ -12,14 +12,17 @@ module Eventable
   end
 
   def created_event
+    return if Reveille::Event.paused?
     Event.create options_for_event('created')
   end
 
   def updated_event
+    return if Reveille::Event.paused?
     Event.create options_for_event('updated')
   end
 
   def deleted_event
+    return if Reveille::Event.paused?
     Event.create options_for_event('deleted')
   end
 
