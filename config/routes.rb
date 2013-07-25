@@ -5,12 +5,12 @@ Reveille::Application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   scope module: :v1, defaults: { format: :json }, constraints: ApiConstraints.new(version: 1, default: true) do
-    put 'trigger' => 'integration#trigger'
+    put 'trigger'     => 'integration#trigger'
     put 'acknowledge' => 'integration#acknowledge'
-    put 'resolve' => 'integration#resolve'
+    put 'resolve'     => 'integration#resolve'
 
     scope 'sms', as: 'sms' do
-      post 'receive' => 'sms#receive'
+      post 'receive'  => 'sms#receive'
       post 'callback' => 'sms#callback'
       post 'fallback' => 'sms#fallback'
     end
@@ -21,6 +21,14 @@ Reveille::Application.routes.draw do
       get 'hangup'    => 'voice#hangup'
       post 'callback' => 'voice#callback'
       post 'fallback' => 'voice#fallback'
+    end
+
+    scope 'mail', as: 'mail' do
+      post ''            => 'mail#receive'
+      post 'cloudmailin' => 'mail#cloudmailin'
+      post 'mandrill'    => 'mail#mandrill'
+      post 'postmark'    => 'mail#postmark'
+      post 'sendgrid'    => 'mail#sendgrid'
     end
     
     resources :services do

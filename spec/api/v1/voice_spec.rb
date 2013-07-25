@@ -1,40 +1,6 @@
 require 'spec_helper'
 
-# def post_voice
-#   {
-#     "AccountSid" => "ACa2b4e3abff33bdb254d43086255d84e1",
-#     "ToZip" => "48864",
-#     "FromState" => "CA",
-#     "Called" => "+15172145853",
-#     "FromCountry" => "US",
-#     "CallerCountry" => "US",
-#     "CalledZip" => "48864",
-#     "Direction" => "outbound-api",
-#     "FromCity" => "SAN FRANCISCO",
-#     "CalledCountry" => "US",
-#     "CallerState" => "CA",
-#     "CallSid" => "CAa2ca794e2c2bba785d51ba2f9f0796cc",
-#     "CalledState" => "MI",
-#     "From" => "+15175551212",
-#     "CallerZip" => "94108",
-#     "FromZip" => "94108",
-#     "CallStatus" => "in-progress",
-#     "ToCity" => "LANSING",
-#     "ToState" => "MI",
-#     "To" => "+15172145853",
-#     "ToCountry" => "US",
-#     "CallerCity" => "SAN FRANCISCO",
-#     "ApiVersion" => "2010-04-01",
-#     "Caller" => "+14157671567",
-#     "CalledCity" => "LANSING",
-#     "format" => :json,
-#     "controller" => "v1/voice",
-#     "action" => "index"
-#   }
-# end
-
 describe "voice" do
-  # before(:all) { Reveille::Event.pause! }
   pause_events!
 
   let(:account) { create(:account) }
@@ -61,11 +27,6 @@ describe "voice" do
 
   describe 'POST /voice' do
     it 'plays the right message' do
-      # incident.reload
-      # ap policy.policy_rules.all
-      # ap policy_rule_1.assignment
-      # ap policy_rule_1
-
       incident.current_user.should == user_1
 
       call.should have_say "Revily alert on #{service.name}"

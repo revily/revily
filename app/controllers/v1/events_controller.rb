@@ -18,6 +18,6 @@ class V1::EventsController < V1::ApplicationController
   private
 
   def events
-    @events ||= current_account.events
+    @events ||= Event.all
   end
 end

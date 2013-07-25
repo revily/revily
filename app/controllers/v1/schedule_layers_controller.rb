@@ -45,10 +45,10 @@ class V1::ScheduleLayersController < V1::ApplicationController
     end
 
     def schedule
-      @schedule = current_account.schedules.find_by!(uuid: params[:schedule_id]) if params[:schedule_id]
+      @schedule = Schedule.find_by!(uuid: params[:schedule_id]) if params[:schedule_id]
     end
 
     def schedule_layers
-      @schedule_layers = (@schedule) ? @schedule.schedule_layers : current_account.schedule_layers
+      @schedule_layers = (@schedule) ? @schedule.schedule_layers : ScheduleLayer.all
     end
 end

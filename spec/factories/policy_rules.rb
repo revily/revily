@@ -3,11 +3,12 @@
 FactoryGirl.define do
   factory :policy_rule do
     policy
+    account { policy.account }
     escalation_timeout 1
     
     after(:build) do |rule|
       rule.set_assignment
-      rule.account = rule.policy.account
+      # rule.account = rule.policy.account
     end
     
     trait :for_user do

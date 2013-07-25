@@ -52,7 +52,7 @@ class V1::PolicyRulesController < V1::ApplicationController
     end
 
     def policy
-      @policy = current_account.policies.find_by!(uuid: params[:policy_id]) if params[:policy_id]
+      @policy = Policy.find_by!(uuid: params[:policy_id]) if params[:policy_id]
     end
 
     def policy_rules

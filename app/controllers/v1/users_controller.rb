@@ -18,7 +18,7 @@ class V1::UsersController < V1::ApplicationController
   private
 
   def users
-    @users ||= current_account.users
+    @users ||= User.all
   end
 
 end

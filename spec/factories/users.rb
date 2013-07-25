@@ -6,6 +6,10 @@ FactoryGirl.define do
     password "asdfasdf"
     password_confirmation "asdfasdf"
 
+    after(:stub) do |user|
+      user.ensure_authentication_token
+    end
+    
     factory :user_with_contacts do
       after(:create) do |user, evaluator|
         create(:email_contact, contactable: user)

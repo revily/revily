@@ -6,8 +6,7 @@ class V1::IncidentsController < V1::ApplicationController
 
   def index
     @incidents = incidents
-    # location_url = service ? service_incidents_url : incidents_url
-    respond_with @incidents #, location: location_url
+    respond_with @incidents
   end
 
   def show
@@ -40,7 +39,7 @@ class V1::IncidentsController < V1::ApplicationController
 
   def trigger
     @incident = incidents.find_by!(uuid: params[:id])
-    @incident.trigger 
+    @incident.trigger
 
     respond_with @incident
   end
@@ -68,15 +67,15 @@ class V1::IncidentsController < V1::ApplicationController
 
   private
 
-  def incident_params
-    params.permit(:message, :details)
-  end
+    def incident_params
+      params.permit(:message, :details)
+    end
 
-  def service
-    @service = current_account.services.find_by!(uuid: params[:service_id]) if params[:service_id]
-  end
+    def service
+      @service = Service.find_by!(uuid: params[:service_id]) if params[:service_id]
+    end
 
-  def incidents
-    @incidents = (@service) ? @service.incidents : current_account.incidents
-  end
+    def incidents
+      @incidents = (@service) ? @service.incidents : Incident.all
+    end
 end

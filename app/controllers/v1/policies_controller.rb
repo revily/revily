@@ -52,7 +52,7 @@ class V1::PoliciesController < V1::ApplicationController
   private
 
     def policies
-      @policies = current_account.policies
+      @policies = Policy.all
     end
 
     def policy_params

@@ -63,6 +63,6 @@ class V1::SchedulesController < V1::ApplicationController
   end
 
   def schedules
-    @schedules = current_account.schedules
+    @schedules = Schedule.all
   end
 end

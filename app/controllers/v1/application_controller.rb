@@ -1,9 +1,11 @@
 class V1::ApplicationController < ActionController::Base
+  include Reveille::Event::Mixins::Controller
+
   respond_to :json
 
   set_current_tenant_through_filter
-  prepend_before_action :set_tenant
-  
+  before_action :set_tenant
+
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do |e|
     render nothing: true, status: :not_found
   end
@@ -13,22 +15,14 @@ class V1::ApplicationController < ActionController::Base
   end
 
   def current_account
-    if defined?(current_actor)
-      current_actor.try(:account)
-    elsif defined?(current_user)
-      current_user.try(:account)
-    elsif defined?(current_service)
-      current_service.try(:account)
-    else
-      nil
-    end
+    current_actor.try(:account)
   end
   helper_method :current_account
 
   protected
 
   def set_tenant
-    current_account
+    set_current_tenant current_actor.try(:account)
   end
 
   def default_json
@@ -36,7 +30,7 @@ class V1::ApplicationController < ActionController::Base
   end
 
   def auth!
-    unless params[:auth_token] && user_signed_in?
+    unless params[:auth_token] && ( user_signed_in? || service_signed_in? )
       # render json: {}, status: 401
       render nothing: true, status: 401
     end

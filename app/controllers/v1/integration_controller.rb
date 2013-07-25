@@ -1,8 +1,9 @@
 class V1::IntegrationController < V1::ApplicationController
-  #TODO(dryan): Fix integrations :)
-  include Reveille::Event::Mixins::Controller
+  #TODO(dryan): Fix integrations :)  
   before_action :authenticate_service!
-
+  skip_before_action :verify_authenticity_token
+  skip_before_action :set_tenant
+  
   respond_to :json
 
   def trigger

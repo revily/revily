@@ -3,12 +3,12 @@
 FactoryGirl.define do
   factory :incident do
     service
-    # current_user
-    message { Forgery(:lorem_ipsum).words(5) }
-
-    after(:build) do |incident|
-      incident.account = incident.service.account
-    end
+    # association :service, factory: :service
+    message { Forgery(:lorem_ipsum).words(rand(10)) }
+    account { service && service.account }
+    # after(:build) do |incident|
+      # incident.account = incident.service.account# unless incident.account
+    # end
 
     trait :key do
       key "app1.example.com/load_average"
@@ -18,6 +18,10 @@ FactoryGirl.define do
       state { %w[ triggered acknowledged resolved ].sample }
     end
 
+    trait :triggered do
+      state "triggered"
+    end
+    
     trait :acknowledged do
       state "acknowledged"
     end

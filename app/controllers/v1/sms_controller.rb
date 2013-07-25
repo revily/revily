@@ -1,6 +1,7 @@
 class V1::SmsController < V1::ApplicationController
   skip_before_action :verify_authenticity_token
-
+  skip_before_action :set_tenant
+  
   respond_to :json
 
   def receive

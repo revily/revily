@@ -66,7 +66,7 @@ class V1::ServicesController < V1::ApplicationController
   private
 
   def services
-    @services ||= current_account.services
+    @services ||= Service.all
   end
 
   def service_params
