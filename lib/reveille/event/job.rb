@@ -59,6 +59,18 @@ module Reveille
         JobSerializer
       end
 
+      def event
+        payload[:event]
+      end
+
+      def source
+        @source ||= payload[:source][:type].constantize.find_by(uuid: payload[:source][:id])
+      end
+
+      def actor
+        @actor ||= payload[:actor][:type].constantize.find_by(uuid: payload[:actor][:id])
+      end
+
       private
 
         def account

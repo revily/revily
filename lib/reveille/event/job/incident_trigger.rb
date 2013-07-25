@@ -3,15 +3,14 @@ module Reveille
     class Job
       class IncidentTrigger < Job
 
-        def targets
-          params[:targets]
+        def process
+          incident.current_user.contacts.each do |contact|
+            contact.notify(incident.state)
+          end
         end
 
-        def process
-          Rails.logger.debug "processing "
-          # targets.each do |target|
-            # do something with each target
-          # end
+        def incident
+          source
         end
 
       end

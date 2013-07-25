@@ -21,7 +21,9 @@ module Reveille
         result = serializer.new(obj).serialize_object
         # don't need _links here (or do we? :D)
         result.delete(:_links)
+        result[:type] = obj.class.name
         result
+
       end
 
     end

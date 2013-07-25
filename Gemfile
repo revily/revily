@@ -29,6 +29,8 @@ gem 'state_machine',                       '1.2.0'
 gem 'twilio-rb',                           '2.2.2'
 gem 'unicorn',                             '4.6.3'
 gem 'validates_existence',                 '0.8.0'
+gem 'multi_mail',                          '0.1.0'
+# gem 'incoming',                            '0.1.5'
 
 group :development do
   gem 'annotate',                          '2.5.0'

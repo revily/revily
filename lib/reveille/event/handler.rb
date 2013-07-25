@@ -1,11 +1,6 @@
 module Reveille
   module Event
     class Handler
-
-      
-      
-      
-      
       include Reveille::Model
       include HandlerMixin
 
@@ -134,7 +129,6 @@ module Reveille
       def handle?
         raise StandardError, "override #handle in subclass #{self.class.name}"
       end
-
 
       def name
         self.class.name.demodulize.underscore

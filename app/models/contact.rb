@@ -31,6 +31,10 @@ class Contact < ActiveRecord::Base
     response_map
   end
 
+  def notify(event)
+    
+  end
+
   def response_options
     RESPONSE_MAP.map{|k,v| "#{k}: #{v}"}.join(', ')
   end
