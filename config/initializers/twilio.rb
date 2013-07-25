@@ -1,1 +1,1 @@
-Twilio::Config.setup account_sid: Figaro.env.twilio_account_sid, auth_token: Figaro.env.twilio_auth_token
+Twilio::Config.setup account_sid: ENV['TWILIO_ACCOUNT_SID'], auth_token: ENV['TWILIO_AUTH_TOKEN']

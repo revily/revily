@@ -6,7 +6,7 @@ module Reveille
 
     class << self
       def number
-        Figaro.env.twilio_number
+        ENV['TWILIO_NUMBER']
       end
 
       def call(to)

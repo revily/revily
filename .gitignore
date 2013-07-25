@@ -5,6 +5,7 @@
 !.keep
 *.DS_Store
 *.swp
+!.env.*
 .env
 /config/application.yml
 coverage/*
@@ -12,14 +13,7 @@ bin/stubs
 public/system
 rerun.txt
 tags
-vendor/bundler_gems
-vendor/gems
-vendor/ruby
-vendor/bin
+#!vendor/bundle/**/*/cache
 vendor/bundle
-vendor/bundler
-vendor/cache
-vendor/gems
-vendor/specifications
 /doc
 .yardoc/

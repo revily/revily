@@ -10,6 +10,8 @@ class V1::ApplicationController < ActionController::Base
     render nothing: true, status: :not_found
   end
 
+  # rescue_from StateMachine::Invalid
+
   def after_sign_in_path_for(resource_or_scope)
     dashboard_url
   end

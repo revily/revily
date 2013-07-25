@@ -1,6 +1,5 @@
 # require 'rubygems'
-# require 'spork'
-require 'capybara/rspec'
+require 'spork'
 
 ENV["RAILS_ENV"] ||= 'test'
 
@@ -21,6 +20,8 @@ def configure
 
   # Rails.application.railties.all { |r| r.eager_load! }
   # Spork.trap_method(Rails::Application, :eager_load!) if defined?(Spork)
+
+  ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
   RSpec.configure do |config|
     config.mock_with :rspec

@@ -1,19 +1,12 @@
 language: ruby
 rvm:
   - 1.9.3
-env:
-  - APP="reveille" SECRET_TOKEN="d16f597fa59ad5c19c08a53536fcfad" TWILIO_ACCOUNT_SID="foo" TWILIO_AUTH_TOKEN="foo" TWILIO_NUMBER="+15175551212" POSTMARK_API_KEY="foo"
+  - 2.0.0
+env: 
+  - RAILS_ENV="test"
+before_script: "script/bootstrap"
+script: "script/cibuild"
 bundler_args: --without local development staging production
-script: 
-  - bundle exec rake spec
-before_install:
-  - sudo apt-get update -qq
-before_script:
-  - bash script/setup
-  - createuser -s reveille
-  - rake db:create:all
-  - rake db:migrate
-  - rake db:test:prepare
 branches:
   only:
     - master

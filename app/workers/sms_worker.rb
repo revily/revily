@@ -6,7 +6,7 @@ class SMSWorker
     user = alert.incident.service.current_user
 
     $twilio.account.sms.messages.create(
-      from: Figaro.env.twilio_number,
+      from: ENV['TWILIO_NUMBER'],
       to: user.id
     )
   end

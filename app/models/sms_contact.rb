@@ -27,7 +27,7 @@ class SmsContact < Contact
     @incident = incident
 
     $twilio.account.sms.messages.create(
-      from: Figaro.env.twilio_number,
+      from: ENV['TWILIO_NUMBER'],
       to: address,
       body: self.send("#{action}_message")
     )

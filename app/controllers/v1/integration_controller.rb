@@ -7,10 +7,8 @@ class V1::IntegrationController < V1::ApplicationController
   respond_to :json
 
   def trigger
-    # @incident = current_service.incidents.unresolved.first_or_initialize_by_key_or_message(incident_params)
-    @incident = incidents.unresolved.integration(params[:message], params[:key]).first_or_initialize(incident_params)
+    @incident = incidents.integration(params[:message], params[:key]).first_or_initialize(incident_params)
     http_status = @incident.new_record? ? :created : :not_modified
-    # http_status = @incident.new_record? ? :created : :accepted
 
     respond_with @incident do |format|
       if @incident.save
@@ -22,15 +20,16 @@ class V1::IntegrationController < V1::ApplicationController
   end
 
   def acknowledge
-    @incident = current_service.incidents.unresolved.where(key: params[:key])
-    @incident = current_service.incidents
+    @incident = incidents.integration(params[:message], params[:key]).first
 
     respond_with @incident do |format|
       if @incident
-        last_state = @incident.state
-        @incident.acknowledge
-        http_status = (last_state == @incident.state) ? :not_modified : :ok
-        format.json { render json: @incident, status: http_status }
+        # last_state = @incident.state
+        if @incident.acknowledge
+          format.json { head :no_content }
+        else
+          format.json { head :not_modified }
+        end
       else
         format.json { head :not_found }
       end
@@ -38,13 +37,15 @@ class V1::IntegrationController < V1::ApplicationController
   end
 
   def resolve
-    @incident = current_service.incidents.find_by_key_or_message(incident_params)
+    @incident = incidents.integration(params[:message], params[:key]).first
 
     respond_with @incident do |format|
-      # if @incident.persisted?
       if @incident
-        @incident.resolve unless @incident.resolved?
-        format.json { render json: @incident, status: :accepted }
+        if @incident.resolve
+          format.json { head :no_content }
+        else
+          format.json { head :not_modified }
+        end
       else
         format.json { head :not_found }
       end
@@ -54,7 +55,7 @@ class V1::IntegrationController < V1::ApplicationController
   private
 
     def incident_params
-      params.permit(:message, :description, :key)
+      params.permit(:message, :description, :key, :details)
     end
 
     def incidents
