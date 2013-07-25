@@ -2,18 +2,19 @@ class V1::IntegrationController < V1::ApplicationController
   #TODO(dryan): Fix integrations :)  
   before_action :authenticate_service!
   skip_before_action :verify_authenticity_token
-  skip_before_action :set_tenant
-  
+  # skip_before_action :set_tenant
+  before_action :incidents  
   respond_to :json
 
   def trigger
-    @incident = current_service.incidents.unresolved.first_or_initialize_by_key_or_message(incident_params)
-
-    http_status = @incident.new_record? ? :created : :accepted
+    # @incident = current_service.incidents.unresolved.first_or_initialize_by_key_or_message(incident_params)
+    @incident = incidents.unresolved.integration(params[:message], params[:key]).first_or_initialize(incident_params)
+    http_status = @incident.new_record? ? :created : :not_modified
+    # http_status = @incident.new_record? ? :created : :accepted
 
     respond_with @incident do |format|
       if @incident.save
-        format.json { render json: @incident, status: http_status }
+        format.json { render json: @incident, serializer: IntegrationSerializer, status: http_status }
       else
         format.json { render json: { errors: @incident.errors }, status: :unprocessable_entity }
       end
@@ -22,6 +23,7 @@ class V1::IntegrationController < V1::ApplicationController
 
   def acknowledge
     @incident = current_service.incidents.unresolved.where(key: params[:key])
+    @incident = current_service.incidents
 
     respond_with @incident do |format|
       if @incident
@@ -53,6 +55,10 @@ class V1::IntegrationController < V1::ApplicationController
 
     def incident_params
       params.permit(:message, :description, :key)
+    end
+
+    def incidents
+      @incidents ||= current_service.incidents
     end
 
 end

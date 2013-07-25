@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :incident do
-    service
+    service { association :service }
     # association :service, factory: :service
-    message { Forgery(:lorem_ipsum).words(rand(10)) }
+    message { Forgery(:lorem_ipsum).words(1 + rand(10)) }
     account { service && service.account }
     # after(:build) do |incident|
       # incident.account = incident.service.account# unless incident.account
