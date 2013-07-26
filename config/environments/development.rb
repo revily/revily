@@ -27,7 +27,7 @@ Reveille::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  config.action_mailer.default_url_options = { :host => 'example.local' }
+  config.action_mailer.default_url_options = { :host => ENV['MAILER_URL'] }
 
   config.action_controller.action_on_unpermitted_parameters = :log
 
