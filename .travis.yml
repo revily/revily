@@ -6,7 +6,7 @@ env:
   - RAILS_ENV="test"
 before_script: "script/bootstrap"
 script: "script/cibuild"
-bundler_args: --without local development staging production
+bundler_args: --binstubs .bin --path vendor/bundle --without local development staging production
 branches:
   only:
     - master

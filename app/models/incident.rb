@@ -25,7 +25,7 @@ class Incident < ActiveRecord::Base
   scope :acknowledged, -> { where(state: 'acknowledged') }
   scope :resolved, -> { where(state: 'resolved') }
 
-  scope :integration, -> (message, key) { key ? unresolved.where(key: key) : unresolved.where(message: message) }
+  scope :integration, ->(message, key) { key ? unresolved.where(key: key) : unresolved.where(message: message) }
 
   state_machine initial: :pending do
     state :triggered do
