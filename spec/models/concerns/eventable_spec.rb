@@ -13,13 +13,13 @@ describe Eventable do
   describe 'event callbacks' do
     let(:service) { build(:service) }
     it 'after create' do
-      expect { service.save }.to change { service.events.count }.from(0).to(1)
+      expect { service.save && service.reload }.to change { service.events.count }.from(0).to(1)
     end
     
     it 'after update' do
       service.save
       service.name = Forgery(:name).company_name
-      expect { service.save }.to change { service.events.count }.from(1).to(2)
+      expect { service.save && service.reload }.to change { service.events.count }.from(1).to(2)
     end
 
   end
