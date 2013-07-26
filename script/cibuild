@@ -1,2 +1,2 @@
 #!/bin/sh
-rspec --color
+.bin/rspec --color
