@@ -12,41 +12,44 @@ module Eventable
   end
 
   def created_event
-    return if Reveille::Event.paused?
-    Event.create options_for_event('created')
+    publish('created')
   end
 
   def updated_event
-    return if Reveille::Event.paused?
-    Event.create options_for_event('updated')
+    publish('updated')
   end
 
   def deleted_event
-    return if Reveille::Event.paused?
-    Event.create options_for_event('deleted')
+    publish('deleted')
   end
 
   def eventable?
     self.class.eventable?
   end
 
-  def options_for_event(action)
-    { source: self, actor: Reveille::Event.actor, action: action, account: self.account, data: changes_for_event }
+  def publish(action)
+    yield if block_given?
+
+    return if Reveille::Event.paused?
+    ::Event.create options_for_event(action)
   end
-  private :options_for_event
 
-  def changes_for_event
-    association_foreign_keys = self.class.reflect_on_all_associations.select{|a| a.macro == :belongs_to }.map(&:foreign_key)
-    changes_for_event = self.changes.dup
+  private
 
-    changes_for_event.delete('id')
-    association_foreign_keys.each do |key|
-      changes_for_event.delete(key)
+    def options_for_event(action)
+      { source: self, actor: Reveille::Event.actor, action: action, account: self.account, data: changes_for_event }
     end
-    changes_for_event
-  end
-  private :changes_for_event
 
+    def changes_for_event
+      association_foreign_keys = self.class.reflect_on_all_associations.select{|a| a.macro == :belongs_to }.map(&:foreign_key)
+      changes_for_event = self.changes.dup
+
+      changes_for_event.delete('id')
+      association_foreign_keys.each do |key|
+        changes_for_event.delete(key)
+      end
+      changes_for_event
+    end
 
   module ClassMethods
     def events

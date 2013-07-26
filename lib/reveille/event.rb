@@ -21,7 +21,6 @@ module Reveille
     autoload :Subscription,      'reveille/event/subscription'
 
     class << self
-
       attr_accessor :paused
 
       def actor
