@@ -1,9 +1,10 @@
 module Reveille
-  autoload :Config,  'reveille/config'
-  autoload :Event,   'reveille/event'
-  autoload :Log,     'reveille/log'
-  autoload :Model,   'reveille/model'
-  autoload :Sidekiq, 'reveille/sidekiq'
+  autoload :ApiConstraints, 'reveille/api_constraints'
+  autoload :Config,         'reveille/config'
+  autoload :Event,          'reveille/event'
+  autoload :Log,            'reveille/log'
+  autoload :Model,          'reveille/model'
+  autoload :Sidekiq,        'reveille/sidekiq'
 
   class << self
     def handlers

@@ -1,10 +1,9 @@
-require 'api_constraints'
 require 'sidekiq/web'
 
 Reveille::Application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
-  scope module: :v1, defaults: { format: :json }, constraints: ApiConstraints.new(version: 1, default: true) do
+  scope module: :v1, defaults: { format: :json }, constraints: Reveille::ApiConstraints.new(version: 1, default: true) do
     put 'trigger'     => 'integration#trigger'
     put 'acknowledge' => 'integration#acknowledge'
     put 'resolve'     => 'integration#resolve'
