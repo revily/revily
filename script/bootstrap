@@ -26,12 +26,12 @@ info "Creating database user"
 createuser -s reveille 2>&1 >> /dev/null || "psql user already created"
 
 info "Creating databases"
-rake db:create:all
+bundle exec rake db:create:all
 
 info "Running migrations"
-rake db:migrate
+bundle exec rake db:migrate
 
 info "Preparing test database"
-rake db:test:prepare
+bundle exec rake db:test:prepare
 
 info "Done!"

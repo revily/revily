@@ -1,2 +1,2 @@
 #!/bin/sh
-.bin/rspec --color
+bundle exec rspec --color
