@@ -9,8 +9,8 @@ describe Reveille::Event::Hook do
       end
       let(:hook) { klass.new }
       it 'enforces required attributes' do
-        expect { hook.name }.to raise_error(StandardError)
-        expect { hook.events }.to raise_error(StandardError)
+        expect { hook.name }.to raise_error()
+        expect { hook.events }.to raise_error()
       end
     end
 
@@ -24,8 +24,8 @@ describe Reveille::Event::Hook do
       let(:hook) { klass.new }
 
       it 'valid with valid attribute methods' do
-        expect { hook.name }.not_to raise_error(StandardError)
-        expect { hook.events }.not_to raise_error(StandardError)
+        expect { hook.name }.not_to raise_error()
+        expect { hook.events }.not_to raise_error()
         expect(hook.name).to eq "test_hook"
         expect(hook.events).to eq [ 'foo.bar' ]
       end
