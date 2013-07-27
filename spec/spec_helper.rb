@@ -1,5 +1,6 @@
-# require 'rubygems'
-require 'spork'
+unless ENV['CI']
+  require 'spork'
+end
 
 ENV["RAILS_ENV"] ||= 'test'
 
