@@ -43,7 +43,7 @@ group :development do
   gem 'perftools.rb',                      '2.0.1',   require: false
   gem 'pry-rails',                         '0.3.2'
   gem 'rblineprof',                        '0.3.2',   require: false
-  gem 'rbtrace',                           '0.4.1'
+  gem 'rbtrace',                           '0.4.1',   require: false
   gem 'rb-fsevent',                        '0.9.3',   require: false
   gem 'rb-inotify',                        '0.9.0',   require: false
   gem 'ruby-graphviz',                     '1.0.9',   require: false
