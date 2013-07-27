@@ -13,7 +13,11 @@ warn()    { echo ">>>>>> $*" >&2 ; }
 banner "Running bundler"
 export PATH=".bin:$PATH"
 rm -rf .bundle
-bundle install --binstubs .bin --path vendor/bundle "$@"
+if [ $CI ]; then
+  bundle install --binstubs .bin --path vendor/bundle --without local development staging production "$@"
+else
+  bundle install --binstubs .bin --path vendor/bundle "$@"
+fi
 
 banner "Setting up database"
 
