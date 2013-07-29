@@ -1,6 +1,16 @@
 require 'active_support/inflector'
 
-guard :rspec, cli: "--color --drb --tty -f doc --profile", bundler: false, all_after_pass: false, all_on_start: false, keep_failed: false do
+guard 'spork', rspec_env: { 'RAILS_ENV' => 'test' }, rspec_port: 19001, aggressive_kill: false do
+  watch('config/application.rb')
+  watch('config/environment.rb')
+  watch('config/environments/test.rb')
+  watch(%r{^config/initializers/.+\.rb$})
+  watch('Gemfile.lock')
+  watch('spec/spec_helper.rb') { :rspec }
+  watch(%r{config/.+\.yml})
+end
+
+guard :rspec, cli: "--color --drb --drb-port=19001 --tty -f doc --profile", bundler: false, all_after_pass: false, all_on_start: false, keep_failed: false do
   watch('spec/spec_helper.rb') { "spec" }
   # watch('app/controllers/application_controller.rb') { "spec/controllers" }
   watch('config/routes.rb') { "spec/routing" }
@@ -40,16 +50,6 @@ guard :rspec, cli: "--color --drb --tty -f doc --profile", bundler: false, all_a
 
 end
 
-guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
-  watch('config/application.rb')
-  watch('config/environment.rb')
-  watch('config/environments/test.rb')
-  watch(%r{^config/initializers/.+\.rb$})
-  watch('Gemfile.lock')
-  watch('spec/spec_helper.rb') { :rspec }
-  watch(%r{config/.+\.yml})
-end
-
 notification :tmux,
   display_message: true,
   timeout: 3, # in seconds
@@ -61,3 +61,4 @@ notification :tmux,
   # Alternately you can also configure *success_message_format*,
   # *pending_message_format*, *failed_message_format*
   line_separator: ' > ' # since we are single line we need a separator
+  
