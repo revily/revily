@@ -7,8 +7,8 @@ class V1::ServicesController < V1::ApplicationController
   before_action :services
   
   def index
-    @services = services
-    respond_with @services
+    @services = services.page(params[:page])
+    respond_with @services, serializer: PaginationSerializer
   end
 
   def show

@@ -15,10 +15,12 @@ describe Eventable do
     it 'after create' do
       expect { service.save && service.reload }.to change { service.events.count }.from(0).to(1)
     end
-    
+
     it 'after update' do
+      pending "after_update callbacks currently disabled"
       service.save
       service.name = Forgery(:name).company_name
+
       expect { service.save && service.reload }.to change { service.events.count }.from(1).to(2)
     end
 

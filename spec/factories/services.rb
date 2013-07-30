@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :service do
     account
     policy
-    name { Forgery(:name).company_name }
+    name { "#{Forgery(:name).company_name} #{rand(1000) + 1}" }
     auto_resolve_timeout 240
     acknowledge_timeout 30
 

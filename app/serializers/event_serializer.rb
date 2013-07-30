@@ -33,7 +33,7 @@ class EventSerializer < BaseSerializer
       self: { href: event_path(object) }
     }
     links[:source] = { href: source_path(source) } if source.present?
-    links[:actor] = { href: polymorphic_path(actor) } if actor.present?
+    links[:actor] = { href: actor_path(actor) } if actor.present?
 
     links
   end
@@ -53,29 +53,10 @@ class EventSerializer < BaseSerializer
     when "ScheduleLayer"
       polymorphic_path(source.schedule, source)
     end
-    #   "/policies/#{source.policy.uuid}/#{source.uuid}"
-    # when "ScheduleLayer"
-    #   schedule_layer_path(source.schedule, source)
-    # when "Schedule"
-    #   schedule_path(source)
-    # when "Service"
-    #   service_path(source)
-    # when "User"
-    #   user_path(source)
-    # else
-    #   nil
-    # end
   end
 
-  # def actor_path(actor)
-  #   case actor.class.name
-  #   when "User"
-  #     user_path(actor)
-  #   when "Service"
-  #     service_path(actor)
-  #   else
-  #     nil
-  #   end
-  # end
+  def actor_path(actor)
+    polymorphic_path(actor)
+  end
 
 end

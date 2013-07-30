@@ -5,12 +5,13 @@ class V1::IncidentsController < V1::ApplicationController
   before_action :service, :incidents
 
   def index
-    @incidents = incidents
-    respond_with @incidents
+    @incidents = incidents.includes(:current_policy_rule, :current_user, :service).page(params[:page])
+
+    respond_with @incidents, serializer: PaginationSerializer
   end
 
   def show
-    @incident = incidents.find_by!(uuid: params[:id])
+    @incident = incidents.includes(:current_user, :current_policy_rule, :service).find_by!(uuid: params[:id])
 
     respond_with @incident
   end

@@ -14,7 +14,7 @@ class V1::PolicyRulesController < V1::ApplicationController
 
   def index
     @policy_rules = policy_rules
-    respond_with @policy_rules
+    respond_with @policy_rules, serializer: PaginationSerializer
   end
 
   def show

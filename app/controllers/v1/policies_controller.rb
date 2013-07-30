@@ -5,9 +5,9 @@ class V1::PoliciesController < V1::ApplicationController
   before_action :policies
 
   def index
-    @policies = policies
+    @policies = policies.page(params[:page])
 
-    respond_with @policies
+    respond_with @policies, serializer: PaginationSerializer
   end
 
   def show

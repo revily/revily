@@ -58,6 +58,7 @@ class Incident < ActiveRecord::Base
 
     after_transition any => any do |incident, transition|
       incident.account.events.create(source: incident, action: transition.to, actor: Reveille::Event.actor) unless Reveille::Event.paused?
+      incident.service.touch
     end
 
     after_transition any => :triggered do |incident, transition|

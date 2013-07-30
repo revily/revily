@@ -1,6 +1,6 @@
 class ServiceSerializer < BaseSerializer
   attributes :id, :name, :auto_resolve_timeout, :acknowledge_timeout, :state, 
-             :current_status, :_links
+             :current_status, :incident_counts, :_links
 
   def _links
     {

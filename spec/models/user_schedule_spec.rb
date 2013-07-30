@@ -11,11 +11,13 @@ describe UserSchedule do
   before { Timecop.freeze(Time.zone.local(2013, 10, 26)) }
   after { Timecop.return }
 
+  puts 'initializing'
   describe '#initialize' do
     create_schedule(rule: 'daily', users_count: 2)
 
+    puts "Create"
     let(:user_schedule) { UserSchedule.new(user_1, schedule_layer) }
-
+    puts "builds schedule"
     it 'builds a user schedule' do
       user_schedule.user.should equal user_1
       user_schedule.schedule_layer.should equal schedule_layer

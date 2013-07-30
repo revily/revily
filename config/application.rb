@@ -35,6 +35,8 @@ module Reveille
     # config.i18n.default_locale = :de
 
     config.action_mailer.delivery_method = (ENV['MAILER_DELIVERY_METHOD'].to_sym || :smtp)
+
+    config.cache_store = :redis_store, ENV['REVILY_REDIS_CACHE_URL'] || 'redis://localhost:6379/0/cache'
   end
 end
 

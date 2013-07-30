@@ -4,9 +4,9 @@ class V1::UsersController < V1::ApplicationController
   before_action :users
   
   def index
-    @users = users
+    @users = users.page(params[:page])
 
-    respond_with @users
+    respond_with @users, serializer: PaginationSerializer
   end
 
   def show

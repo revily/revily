@@ -1,6 +1,7 @@
 class BaseSerializer < ActiveModel::Serializer
   embed :ids, include: true
-
+  delegate :cache_key, to: :object
+  
   attribute :errors
   
   def id

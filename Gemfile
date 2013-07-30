@@ -20,8 +20,10 @@ gem 'multi_mail',                          '0.1.0'
 gem 'pg',                                  '0.16.0'
 gem 'rack-timeout',                        '0.0.4'
 gem 'recipient_interceptor',               '0.1.1'
+gem 'redis-rails',                                    github: 'jodosha/redis-store'
+gem 'redis-store',                                    github: 'jodosha/redis-store'
 gem 'request_store',                       '1.0.5'
-gem 'sidekiq',                             '2.13.0'
+gem 'sidekiq',                             '2.13.0'#,  require: false
 gem 'sinatra',                             '1.4.3',   require: false
 gem 'slim',                                '2.0.0',   require: false
 gem 'state_machine',                       '1.2.0'
@@ -67,6 +69,7 @@ group :test do
   gem 'json_spec',                         '1.1.1'
   gem 'launchy',                           '2.3.0'
   gem 'rspec_api_test',                    '0.0.1'
+  gem 'rspec-instafail',                   '0.2.4'
   gem 'rspec-rails',                       '2.14.0'
   gem 'rspec-sidekiq',                     '0.4.0'
   gem 'shoulda-matchers',                  '2.2.0',   require: false

@@ -7,7 +7,8 @@ module Eventable
     has_many :events, as: :source
 
     after_create  :created_event
-    after_update  :updated_event
+    # TODO(dryan): specify what exactly we want to dispatch updated events
+    # after_update  :updated_event
     after_destroy :deleted_event
   end
 
