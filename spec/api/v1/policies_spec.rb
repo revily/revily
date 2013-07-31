@@ -10,7 +10,7 @@ describe 'policies' do
 
     it { should respond_with(:ok) }
     it { should have_content_type(:json) }
-    it { expect(body).to be_json_eql serializer([policy]) }
+    it { expect(body).to be_json_eql collection_serializer(account.policies) }
   end
 
   describe 'GET /policies/:id' do

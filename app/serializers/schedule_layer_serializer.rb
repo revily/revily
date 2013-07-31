@@ -17,7 +17,7 @@ class ScheduleLayerSerializer < BaseSerializer
 
   def _links
     links = {
-      self: { href: schedule_layer_path(object.schedule, object) },
+      self: { href: schedule_schedule_layer_path(object.schedule, object) },
       schedule: { href: schedule_path(object.schedule) },
     }
     links

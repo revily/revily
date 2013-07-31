@@ -11,7 +11,7 @@ describe "services" do
 
     it { should respond_with(:ok) }
     it { should have_content_type(:json) }
-    it { expect(body).to be_json_eql serializer([service]) }
+    it { expect(body).to be_json_eql collection_serializer(account.services) }
   end
 
   describe 'GET /services/:id' do

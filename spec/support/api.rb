@@ -33,6 +33,10 @@ module APIHelpers
     normalize_json(obj.active_model_serializer.new(obj).to_json)
   end
 
+  def collection_serializer(collection)
+    normalize_json(PaginationSerializer.new(collection).to_json)
+  end
+
 end
 
 RSpec.configure do |config|

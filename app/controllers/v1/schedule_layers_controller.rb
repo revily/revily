@@ -21,7 +21,7 @@ class V1::ScheduleLayersController < V1::ApplicationController
     @schedule_layer.account = current_account
     @schedule_layer.save
     
-    respond_with schedule, @schedule_layer, location: schedule_layer_url(schedule, @schedule_layer)
+    respond_with schedule, @schedule_layer, location: schedule_schedule_layer_url(schedule, @schedule_layer)
   end
 
   def update

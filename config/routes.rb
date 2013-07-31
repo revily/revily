@@ -54,7 +54,7 @@ Reveille::Application.routes.draw do
     end
 
     resources :schedules do
-      resources :schedule_layers, path: :layers, as: :layers #, shallow: true
+      resources :schedule_layers, path: :layers #, as: :layers #, shallow: true
       member do
         get 'on_call'
       end

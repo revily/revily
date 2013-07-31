@@ -14,10 +14,10 @@ class PaginationSerializer < ActiveModel::ArraySerializer
 
   def as_json(options={})
     hash = {}
-    hash[:_links] = _links if object.respond_to?(:total_pages)
-    hash[:_embedded] = { root => serializable_array }
+    hash[:_links] = _links if object.respond_to?(:total_pages) && object.any?
+    hash[:_embedded] = { root => serializable_array } if object.any?
 
-    hash
+    hash.any? ? hash : []
   end
 
   def root
