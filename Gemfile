@@ -33,13 +33,12 @@ gem 'validates_existence',                 '0.8.0'
 # gem 'incoming',                            '0.1.5'
 
 group :development do
-  gem 'annotate',                          '2.5.0'
-  gem 'bullet',                            '4.6.0'
+  gem 'annotate',                          '2.5.0',   require: false
+  gem 'bullet',                            '4.6.0',   require: false
   gem 'foreman',                           '0.63.0'
-  # gem 'forward',                           '0.3.2',   require: false
-  gem 'guard-rspec',                       '3.0.2'
+  gem 'guard-rspec',                       '3.0.2',   require: false
   gem 'guard-spork',                       '1.5.1',   require: false
-  gem 'guard-shell',                       '0.5.1'
+  gem 'guard-shell',                       '0.5.1',   require: false
   gem 'libnotify',                         '0.8.1',   require: false
   gem 'method_profiler',                   '2.0.1',   require: false
   gem 'perftools.rb',                      '2.0.1',   require: false
@@ -80,7 +79,7 @@ group :test do
   gem 'vcr',                               '2.5.0'
 end
 
-group :staging, :production do
+group :development, :staging, :production do
   gem 'airbrake',                          '3.1.12'
   gem 'newrelic_rpm',                      '3.6.6.147'
 end
