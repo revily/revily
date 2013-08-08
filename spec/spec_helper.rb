@@ -45,4 +45,5 @@ if defined?(Spork)
   Spork.each_run { load_all "spec/support/**/*.rb", "lib/**/*.rb", "config/routes.rb" }
 else
   configure
+  load_all "spec/support/**/*.rb", "lib/**/*.rb", "config/routes.rb"
 end
