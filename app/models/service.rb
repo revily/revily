@@ -38,24 +38,31 @@ class Service < ActiveRecord::Base
   end
 
   def incident_counts
-    Rails.cache.fetch("#{cache_key}:incident_counts") do
-      Service::IncidentCounts.new(incidents.group(:state).count)
-    end
+    Service::IncidentCounts.new(incidents.group(:state).count)
   end
 
   def current_status
-    if disabled?
-      'disabled'
-    elsif incident_counts.triggered > 0
-      'critical'
-    elsif incident_counts.acknowledged > 0
-      'warning'
-    elsif incident_counts.resolved >= 0
-      'okay'
-    else
+    begin
+      return 'disabled' if disabled?
+      return 'critical' if incident_counts.triggered > 0
+      return 'warning' if incident_counts.acknowledged > 0
+      return 'okay' if incident_counts.resolved >= 0
+    rescue => e
       'unknown'
     end
   end
+  #   if disabled?
+  #     'disabled'
+  #   elsif incident_counts.triggered > 0
+  #     'critical'
+  #   elsif incident_counts.acknowledged > 0
+  #     'warning'
+  #   elsif incident_counts.resolved >= 0
+  #     'okay'
+  #   else
+  #     'unknown'
+  #   end
+  # end
 
   class << self
     def incident_counts

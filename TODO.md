@@ -1,5 +1,14 @@
+# Controllers
+
+* add routes:
+  - users/:id/schedules
+  - users/:id/incidents
+  - users/:id/assignments
+  - users/:id/contacts
+
 # Models
 
+* test to make sure deleting a user won't delete a schedule and vice versa
 * add state machine to every eventful model
 
 # Events

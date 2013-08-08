@@ -13,7 +13,12 @@ module Identifiable
   def to_param
     self.uuid || self.id
   end
- 
+
+  # def cache_digest
+  def cache_key
+    Digest::MD5.hexdigest "#{self.updated_at.try(:to_i)}"
+  end
+
   def generate_uuid
     loop do
       uuid = SecureRandom.urlsafe_base64(6).tr('+/=_-', 'pqrsxyz')
@@ -34,6 +39,11 @@ module Identifiable
   end
 
   module ClassMethods
+    # def cache_digest
+    def cache_key
+      Digest::MD5.hexdigest "#{self.all.maximum(:updated_at).try(:to_i)}-#{self.count}"
+    end
+
     def find(*args)
       if !args[0].respond_to?(:match) || args[0].match(/^\d+$/) # assume we are an ID
         super(*args)

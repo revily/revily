@@ -7,7 +7,7 @@ class V1::SchedulesController < V1::ApplicationController
   def index
     @schedules = schedules.page(params[:page])
 
-    respond_with @schedules, serializer: PaginationSerializer
+    respond_with @schedules#, serializer: PaginationSerializer
   end
 
   def show

@@ -7,15 +7,15 @@ FactoryGirl.define do
     name 'test'
     config Hash.new
     events { %w[ * ] }
-    active true
+    state 'enabled'
     
     after(:stub) do |hook|
       hook.ensure_uuid
     end
   end
 
-  trait :inactive do
-    active false
+  trait :disabled do
+    state 'disabled'
   end
 
   trait :log do

@@ -52,12 +52,12 @@ describe Hook do
     describe '.active' do
       before do
         create(:hook, account: account)
-        create(:hook, account: account, active: false)
+        create(:hook, account: account, state: 'disabled')
       end
 
       it 'returns only active hooks' do
         account.hooks.should have(2).items
-        account.hooks.active.should have(1).item
+        account.hooks.enabled.should have(1).item
       end
     end
   end

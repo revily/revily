@@ -1,5 +1,5 @@
 class UserSerializer < BaseSerializer
-  attributes :id, :email #, :auth_token
+  attributes :id, :name, :email #, :auth_token
 
   def auth_token
     object.authentication_token
@@ -7,8 +7,9 @@ class UserSerializer < BaseSerializer
 
   def _links
     {
-      self: { href: service_path(object) },
+      self: { href: user_path(object) },
       incidents: { href: service_incidents_path(object) }
+
     }
   end
 

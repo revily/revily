@@ -22,6 +22,8 @@ gem 'rack-timeout',                        '0.0.4'
 gem 'recipient_interceptor',               '0.1.1'
 gem 'redis-rails',                                    github: 'jodosha/redis-store'
 gem 'redis-store',                                    github: 'jodosha/redis-store'
+gem 'redis-rails',                         '4.0.0',           github: 'jodosha/redis-store'
+# gem 'redis-store',                                    github: 'jodosha/redis-store'
 gem 'request_store',                       '1.0.5'
 gem 'sidekiq',                             '2.13.0'#,  require: false
 gem 'sinatra',                             '1.4.3',   require: false

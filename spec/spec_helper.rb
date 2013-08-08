@@ -36,13 +36,13 @@ def configure
   end
 
   # require_all 'spec/support/**/*.rb', relative_to: 'spec'
-  load_all 'spec/support/**/*.rb' #, relative_to: 'spec'
+  # load_all 'spec/support/**/*.rb' #, relative_to: 'spec'
 end
 
 
 if defined?(Spork)
   Spork.prefork { configure }
-  Spork.each_run { load_all "lib/**/*.rb", "config/routes.rb" }
+  Spork.each_run { load_all "spec/support/**/*.rb", "lib/**/*.rb", "config/routes.rb" }
 else
   configure
 end

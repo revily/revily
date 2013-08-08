@@ -7,9 +7,9 @@ class Incident < ActiveRecord::Base
 
   acts_as_tenant # belongs_to :account
 
-  belongs_to :service
-  belongs_to :current_user, class_name: 'User', foreign_key: :current_user_id
-  belongs_to :current_policy_rule, class_name: 'PolicyRule'
+  belongs_to :service, touch: true
+  belongs_to :current_user, class_name: 'User', foreign_key: :current_user_id, touch: true
+  belongs_to :current_policy_rule, class_name: 'PolicyRule', touch: true
   has_many :alerts
 
   validates :message, presence: true

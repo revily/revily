@@ -1,15 +1,15 @@
-# Reveille
+# Revily
 
 ## NAME
 
-Reveille - It wakes you up!
+Revily - It wakes you up!
 
-[![Build Status](https://secure.travis-ci.org/danryan/reveille.png?branch=master)](https://travis-ci.org/danryan/reveille)
-[![Code Climate](https://codeclimate.com/github/danryan/reveille.png)](https://codeclimate.com/github/danryan/reveille)
+[![Build Status](https://secure.travis-ci.org/revily/revily.png?branch=master)](https://travis-ci.org/revily/revily)
+[![Code Climate](https://codeclimate.com/github/revily/revily.png)](https://codeclimate.com/github/revily/revily)
 
 ## DESCRIPTION
 
-Reveille is (going to be) a clone of popular on-call management and incident response applications.
+Revily is (going to be) a clone of popular on-call management and incident response applications.
 
 ## DEPENDENCIES
 
@@ -48,7 +48,7 @@ heroku run rake db:schema:load
 
 ## COPYRIGHT
 
-Reveille is Copyright &copy; 2013 Dan Ryan <hi@iamdanryan.com>
+Revily is Copyright &copy; 2013 Dan Ryan <hi@iamdanryan.com>
 
 ## SEE ALSO
 

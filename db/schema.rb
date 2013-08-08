@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130721002151) do
+ActiveRecord::Schema.define(version: 20130803051644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,13 +58,13 @@ ActiveRecord::Schema.define(version: 20130721002151) do
 
   create_table "hooks", force: true do |t|
     t.string   "name"
-    t.string   "uuid",                       null: false
+    t.string   "uuid",                      null: false
     t.text     "config",     default: "{}"
     t.text     "events",     default: "[]"
-    t.boolean  "active",     default: false
-    t.integer  "account_id",                 null: false
+    t.integer  "account_id",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "state"
   end
 
   create_table "incidents", force: true do |t|

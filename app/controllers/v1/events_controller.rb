@@ -5,7 +5,7 @@ class V1::EventsController < V1::ApplicationController
   before_action :events
   
   def index
-    @events = events
+    @events = events.page(params[:page])
     respond_with @events
   end
 

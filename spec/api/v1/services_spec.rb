@@ -25,12 +25,12 @@ describe "services" do
 
   describe 'POST /services' do
     let(:policy) { create(:policy, account: account) }
-    let(:attributes) { attributes_for(:service, :policy_id => policy.uuid) }
+    let(:attributes) { attributes_for(:service, :policy => policy) }
     before { post '/services', attributes.to_json }
 
     it { should respond_with(:created) }
     it { should have_content_type(:json) }
-    it { expect(body).to be_json_eql serializer(Service.find_by_name(attributes[:name])) }
+    it { expect(body).to be_json_eql serializer(Service.find_by(name: attributes[:name])) }
   end
 
   describe 'PUT /services/:id' do

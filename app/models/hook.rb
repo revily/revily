@@ -8,7 +8,8 @@ class Hook < ActiveRecord::Base
 
   before_validation :expand_events
 
-  scope :active, -> { where(active: true) }
+  scope :enabled, -> { where(state: 'enabled') }
+  scope :disabled, -> { where(state: 'disabled') }
 
   # validates :events,
     # presence: true
@@ -17,7 +18,20 @@ class Hook < ActiveRecord::Base
   validate :events_present?
   validate :handler_exists?
   validate :handler_supports_events?
+  
+  state_machine initial: :enabled do
+    state :enabled
+    state :disabled
 
+    event :enable do
+      transition disabled: :enabled
+    end
+
+    event :disable do
+      transition enabled: :disabled
+    end
+  end
+  
   def handler
     Reveille::Event.handlers[name]
   end

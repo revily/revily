@@ -9,12 +9,13 @@ class User < ActiveRecord::Base
 
   acts_as_tenant # belongs_to :account
 
-  has_many :contacts, as: :contactable
+  has_many :contacts, as: :contactable, dependent: :destroy
   has_many :sms_contacts, as: :contactable, class_name: "SmsContact"
   has_many :phone_contacts, as: :contactable, class_name: "PhoneContact"
   has_many :email_contacts, as: :contactable, class_name: "EmailContact"
+  has_many :notification_rules, through: :contacts
   has_many :policy_rules, as: :assignment
-  has_many :user_schedule_layers, -> { order(:position) }
+  has_many :user_schedule_layers, -> { order(:position) }, dependent: :destroy
   has_many :schedule_layers,
     through: :user_schedule_layers,
     dependent: :destroy

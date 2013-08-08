@@ -7,7 +7,7 @@ class V1::ScheduleLayersController < V1::ApplicationController
   def index
     @schedule_layers = schedule_layers.page(params[:page])
 
-    respond_with @schedule_layers, serializer: PaginationSerializer
+    respond_with @schedule_layers#, serializer: PaginationSerializer
   end
 
   def show

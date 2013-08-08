@@ -15,7 +15,7 @@ guard(:spork,
 end
 
 guard(:rspec,
-  cli: "--color --drb --drb-port=19001 --tty -r rspec/instafail -f RSpec::Instafail",
+  cli: "--color --drb --drb-port=19001 --tty -r rspec/instafail -f RSpec::Instafail -f doc",
   bundler: false,
   all_after_pass: false,
   all_on_start: false,

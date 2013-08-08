@@ -8,30 +8,22 @@ class V1::ServicesController < V1::ApplicationController
   
   def index
     @services = services.page(params[:page])
-    respond_with @services, serializer: PaginationSerializer
+    if stale? @services
+      respond_with @services #, serializer: PaginationSerializer
+    end
   end
 
   def show
     @service = services.find_by!(uuid: params[:id])
 
-    respond_with @service
-  end
-
-  def new
-    @service = services.new
-
-    respond_with @service
+    if stale? @service
+      respond_with @service
+    end
   end
 
   def create
     @service = services.new(service_params)
     @service.save
-
-    respond_with @service
-  end
-
-  def edit
-    @service = services.find_by!(uuid: params[:id])
 
     respond_with @service
   end

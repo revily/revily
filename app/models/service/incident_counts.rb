@@ -12,4 +12,12 @@ class Service::IncidentCounts
     self.send(state)
   end
 
+  def to_hash
+    {
+      triggered: triggered,
+      acknowledged: acknowledged,
+      resolved: resolved
+    }
+  end
+
 end

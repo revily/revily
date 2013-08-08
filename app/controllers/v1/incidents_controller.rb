@@ -7,7 +7,7 @@ class V1::IncidentsController < V1::ApplicationController
   def index
     @incidents = incidents.includes(:current_policy_rule, :current_user, :service).page(params[:page])
 
-    respond_with @incidents, serializer: PaginationSerializer
+    respond_with @incidents#, serializer: PaginationSerializer
   end
 
   def show

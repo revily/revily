@@ -34,7 +34,8 @@ module APIHelpers
   end
 
   def collection_serializer(collection)
-    normalize_json(PaginationSerializer.new(collection).to_json)
+    # normalize_json(PaginationSerializer.new(collection).to_json)
+    normalize_json(collection.active_model_serializer.new(collection).to_json)
   end
 
 end
