@@ -1,13 +1,18 @@
+require 'new_relic/agent/method_tracer'
+
 class ScheduleLayer < ActiveRecord::Base
   include Identifiable
   include Eventable
 
+  include ::NewRelic::Agent::MethodTracer
+
   VALID_RULES = %w[ hourly daily weekly monthly yearly ]
 
   acts_as_tenant # belongs_to :account
-  
+
   belongs_to :schedule
-  has_many :user_schedule_layers, -> { order(:position) }, dependent: :destroy
+  has_many :user_schedule_layers,
+    -> { order(:position) }, dependent: :destroy
   has_many :users,
     -> { order('user_schedule_layers.position') },
     through: :user_schedule_layers,
@@ -29,7 +34,7 @@ class ScheduleLayer < ActiveRecord::Base
   end
 
   def interval
-    count * users.count
+    @interval ||= (count * users.count)
   end
 
   def user_schedules
@@ -38,17 +43,29 @@ class ScheduleLayer < ActiveRecord::Base
     end
   end
 
-  def user_position(user)
-    user_schedule_layers.where(user_id: user.id).first.position
+  add_method_tracer :user_schedules, 'ScheduleLayer#user_schedules'
+
+  def user_position(user_id)
+    user_positions[user_id]
   end
+
+  def user_positions
+    @user_positions ||= Hash[user_schedule_layers.joins(:user).pluck(:user_id, :position)]
+  end
+
+  add_method_tracer :user_position, 'ScheduleLayer#user_position'
 
   def user_schedule(user)
     UserSchedule.new(user, self)
   end
 
+  add_method_tracer :user_position, 'ScheduleLayer#user_schedule'
+
   def user_offset(user)
-    (user_position(user) - 1) * duration
+    (user_position(user.id) - 1) * duration
   end
+
+  add_method_tracer :user_offset, 'ScheduleLayer#user_offset'
 
   # useful?
   def unit_duration

@@ -124,7 +124,7 @@ describe V1::IntegrationController do
         put '/acknowledge', { message: message }.to_json
       end
 
-      include_context 'not_modified'
+      include_context 'no_content'
     end
 
     context 'acknowledged incident using key' do
@@ -135,7 +135,7 @@ describe V1::IntegrationController do
         put '/acknowledge', { key: key }.to_json
       end
 
-      include_context 'not_modified'
+      include_context 'no_content'
     end
 
     context 'resolved incident using message' do

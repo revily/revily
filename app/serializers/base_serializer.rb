@@ -11,10 +11,7 @@ class BaseSerializer < ActiveModel::Serializer
   end
 
   def errors
-    errors = Hash.new([])
-    object.errors.each do |k,v|
-      errors[k] << v
-    end
+    object.errors
   end
 
   def include_errors?
