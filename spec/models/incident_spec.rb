@@ -1,3 +1,4 @@
+
 require 'spec_helper'
 
 describe Incident do
@@ -111,10 +112,11 @@ describe Incident do
 
       before { incident.acknowledge }
 
-      it 'cannot transition to :acknowledged' do
+      it 'can transition to :acknowledged' do
         incident.acknowledge
 
-        incident.should have(1).error
+        expect(incident).to be_acknowledged
+        expect(incident).to have(0).error
       end
 
       it 'can transition to :triggered' do
