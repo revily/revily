@@ -29,12 +29,18 @@ Reveille::Application.routes.draw do
       post 'postmark'    => 'mail#postmark'
       post 'sendgrid'    => 'mail#sendgrid'
     end
-    
+
     resources :services do
-      resources :incidents, only: [ :index, :create ]
       member do
         put 'enable'
         put 'disable'
+      end
+      resources :incidents do
+        member do
+          put 'acknowledge'
+          put 'resolve'
+          put 'trigger'
+        end
       end
     end
     resources :incidents, only: [ :index, :show, :update, :destroy ] do
@@ -46,7 +52,7 @@ Reveille::Application.routes.draw do
     end
 
     resources :policies do
-      resources :policy_rules, path: :rules do
+      resources :policy_rules do
         collection do
           post :sort
         end
@@ -59,7 +65,7 @@ Reveille::Application.routes.draw do
         get 'on_call'
       end
     end
-    
+
     resources :users
     resources :hooks
     resources :events, only: [ :index, :show ]

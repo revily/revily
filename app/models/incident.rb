@@ -39,7 +39,7 @@ class Incident < ActiveRecord::Base
     end
 
     event :acknowledge do
-      transition [ :triggered ] => :acknowledged
+      transition [ :triggered, :acknowledged ] => :acknowledged
     end
 
     event :escalate do
@@ -47,7 +47,7 @@ class Incident < ActiveRecord::Base
     end
 
     event :resolve do
-      transition [ :triggered, :acknowledged ] => :resolved
+      transition [ :triggered, :acknowledged, :resolved ] => :resolved
     end
 
     before_transition pending: :triggered, :do => :update_triggered_at
