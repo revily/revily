@@ -7,7 +7,7 @@ class V1::ApplicationController < ActionController::Base
   before_action :set_tenant
 
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do |e|
-    render nothing: true, status: :not_found
+    render json: { error: 'not found' }, status: :not_found
   end
 
   # rescue_from StateMachine::Invalid
