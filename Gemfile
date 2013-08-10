@@ -79,7 +79,7 @@ group :test do
   gem 'vcr',                               '2.5.0'
 end
 
-group :development, :staging, :production do
+group :development, :test, :staging, :production do
   gem 'airbrake',                          '3.1.12'
   gem 'newrelic_rpm',                      '3.6.6.147'
 end
