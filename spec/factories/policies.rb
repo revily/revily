@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :policy do
     account
-    name { Forgery(:name).job_title.pluralize }
+    name { "#{Forgery(:name).job_title.pluralize} #{rand(1000) + 1}" }
     loop_limit 3
 
     trait :with_rules do
