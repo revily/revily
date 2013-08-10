@@ -1,22 +1,22 @@
 language: ruby
 rvm:
-- 1.9.3
-- 2.0.0
+  - 1.9.3
+  - 2.0.0
 env:
   global:
   - BUNDLE_ARCHIVE="revily-revily" AWS_S3_REGION="us-east-1" AWS_S3_BUCKET='revily-api-travis-bundle'
   - RAILS_ENV="test"
   - secure: EfPATim7RJafuvoi0odfieA+xjOCvO8SwQ5I81PlZqKSlK9piGk+3GYC2UbJDO/GjfjUd7WJF4DhFaSvixQPyAIWVtB63OXhvbaU09h1by/ET+LM/SALW7YF6ksOiDfTn6IqRtYg4MSiPWgpVW9yyyiHTXTUKc8HhJKHR0QmW5o=
 before_install:
-- 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
-- wget https://raw.github.com/collectiveidea/travis_bundle_cache/4753620b8f2bcfd0c5af85ccd68888c1f593a023/gem-public_cert.pem
-- gem cert --add gem-public_cert.pem
-- gem install aws-sdk
-- gem install travis_bundle_cache -P HighSecurity
+  - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
+  - wget https://raw.github.com/collectiveidea/travis_bundle_cache/4753620b8f2bcfd0c5af85ccd68888c1f593a023/gem-public_cert.pem
+  - gem cert --add gem-public_cert.pem
+  - gem install aws-sdk
+  - gem install travis_bundle_cache -P HighSecurity
 install: travis_bundle_install
 before_script:
-- travis_bundle_cache > ~/travis_bundle_cache.log &
-- script/bootstrap
+  - travis_bundle_cache > ~/travis_bundle_cache.log &
+  - script/bootstrap
 script: script/cibuild
 after_script:
 - wait && cat ~/travis_bundle_cache.log
