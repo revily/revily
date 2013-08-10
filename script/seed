@@ -1,0 +1,26 @@
+accounts = create_list(:account, 1)
+
+accounts.each do |account|
+  users = create_list(:user, 10, account: account)
+  schedules = create_list(:schedule, 10, account: account)
+  schedules.each do |schedule|
+    layer = create(:schedule_layer, :daily, schedule: schedule, account: account)
+    layer.users << users.sample(10)
+  end
+
+  policies = create_list(:policy, 10, account: account)
+
+  policies.each do |policy|
+    schedules.sample(10).each do |schedule|
+      create(:policy_rule, policy: policy, assignment: schedule)
+    end
+  end
+
+  services = policies.map do |policy|
+    create(:service, policy: policy, account: account)
+  end
+
+  services.each do |service|
+    create_list(:incident, 100, service: service, account: account, state: %w[ triggered acknowledged resolved].sample)
+  end
+end
