@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "-v" ]; then
+  exec 3>&1
+else
+  exec 3>/dev/null
+fi
+
+function banner() { echo "-----> $*" ; }
+function info()   { echo "       $*" ; }
+function warn()   { echo ">>>>>> $*" >&2 ; }
+function finalize() {
+  banner "Done!"
+  exit 0
+}

@@ -1,41 +1,55 @@
 #!/usr/bin/env bash
 # set -e
-if [ "$1" = "-v" ]; then
-  exec 3>&1
-else
-  exec 3>/dev/null
-fi
 
-banner()  { echo "-----> $*" ; }
-info()    { echo "       $*" ; }
-warn()    { echo ">>>>>> $*" >&2 ; }
+. `dirname $0`/_common
 
-banner "Running bundler"
-export PATH=".bin:$PATH"
-rm -rf .bundle
-if [ $CI ]; then
-  bundle install --binstubs .bin --path vendor/bundle --without local development staging production "$@"
-else
-  bundle install --binstubs .bin --path vendor/bundle "$@"
-fi
+function bundle_install() {
+  local bundler_args="--binstubs .bin --path vendor/bundle"
+  local ci_bundler_args="--without local development staging production"
 
-banner "Setting up database"
+  banner "Running bundler"
+  export PATH=".bin:$PATH"
+  rm -rf .bundle
 
-info "Installing hstore extension"
-{ psql -tAl -d template1 -c '\dx' | grep -E "^hstore\|" >/dev/null || \
-  psql -d template1 -c 'CREATE EXTENSION IF NOT EXISTS hstore'
-} >&3 2>&1
+  if [ $CI ]; then
+    bundle install $bundler_args $ci_bundler_args "$@" >&3 2>&1
+  else
+    bundle install $bundler_args "$@" >&3 2>&1
+  fi
+}
 
-info "Creating database user"
-createuser -s reveille 2>&1 >> /dev/null || "psql user already created"
+function install_hstore() {
+  banner "Installing hstore extension"
+  { psql -tAl -d template1 -c '\dx' | grep -E "^hstore\|" >/dev/null || \
+    psql -d template1 -c 'CREATE EXTENSION IF NOT EXISTS hstore'
+  } >&3 2>&1
+}
 
-info "Creating databases"
-bundle exec rake db:create:all
+function create_database_user() {
+  local user=$1
+  banner "Creating database user ${user}"
+  createuser -s $user >&3 2>&1 #|| return
+}
 
-info "Running migrations"
-bundle exec rake db:migrate
+function create_databases() {
+  banner "Creating databases"
+  bundle exec rake db:create:all >&3 2>&1
+}
 
-info "Preparing test database"
-bundle exec rake db:test:prepare
+function run_migrations() {
+  banner "Running migrations"
+  bundle exec rake db:migrate >&3 2>&1
+}
 
-info "Done!"
+function prepare_test_database() {
+  banner "Preparing test database"
+  bundle exec rake db:test:prepare >&3 2>&1
+}
+
+bundle_install
+install_hstore
+create_database_user 'revily'
+create_databases
+run_migrations
+prepare_test_database
+finalize

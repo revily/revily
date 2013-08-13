@@ -20,8 +20,7 @@ before_script:
 script: script/cibuild
 after_script:
 - wait && cat ~/travis_bundle_cache.log
-bundler_args: --binstubs .bin --path vendor/bundle --without local development staging
-  production
+bundler_args: --binstubs .bin --path vendor/bundle --without local development staging production
 branches:
   only:
   - master
