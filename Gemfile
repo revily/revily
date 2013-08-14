@@ -40,6 +40,7 @@ group :development do
   gem 'guard-spork',                       '1.5.1',   require: false
   gem 'guard-shell',                       '0.5.1',   require: false
   gem 'libnotify',                         '0.8.1',   require: false
+  gem 'lol_dba'
   gem 'method_profiler',                   '2.0.1',   require: false
   gem 'perftools.rb',                      '2.0.1',   require: false
   gem 'pry-rails',                         '0.3.2'
@@ -47,6 +48,7 @@ group :development do
   gem 'rbtrace',                           '0.4.1',   require: false
   gem 'rb-fsevent',                        '0.9.3',   require: false
   gem 'rb-inotify',                        '0.9.0',   require: false
+  gem 'rename'
   gem 'ruby-graphviz',                     '1.0.9',   require: false
   gem 'ruby-prof',                         '0.13.0',  require: false
   gem 'ruby_gntp',                         '0.3.4',   require: false

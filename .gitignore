@@ -62,3 +62,6 @@ pickle-email-*.html
 
 # vim artifacts
 **.swp
+
+.sublime-*
+.floo*

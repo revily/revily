@@ -1,20 +1,23 @@
 class PolicyRuleSerializer < BaseSerializer
   attributes :id, :position, :escalation_timeout, :policy_id, :_links
 
-  def _links
-    links = {
-      # self: { href: policy_policy_rules_path(object.policy, object.uuid) },
-      self: { href: "/policies/#{object.policy.uuid}/policy_rules/#{object.uuid}" },
-      policy: { href: "/policies/#{object.policy.uuid}" },
-    }
+  # has_one :policy, embed: :ids
 
+  def _links
+    link :self, "/policies/#{object.policy.uuid}/policy_rules/#{object.uuid}"
+    link :policy, "/policies/#{object.policy.uuid}"
     if assignment.respond_to?(:current_user_on_call)
-      links[:assignment] = { href: schedule_path(assignment) }
+      link :assignment, schedule_path(assignment)
     elsif assignment.is_a?(User)
-      links[:assignment] = { href: user_path(assignment) }
+      link :assignment, user_path(assignment)
     end
-    links[:current_user] = { href: user_path(current_user) } if current_user
-    links
+    link :current_user, user_path(current_user) if current_user
+
+    super
+  end
+
+  def policy
+    object.policy
   end
 
   def policy_id
@@ -30,4 +33,3 @@ class PolicyRuleSerializer < BaseSerializer
   end
 
 end
-

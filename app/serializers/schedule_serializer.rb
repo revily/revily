@@ -1,19 +1,16 @@
 class ScheduleSerializer < BaseSerializer
-  attributes :id, :name, :time_zone, :policy_rule_ids, :_links
+  attributes :id, :name, :time_zone, :_links
 
   def id
     object.uuid
   end
 
   def _links
-    links = {
-      self: { href: schedule_path(object) },
-      layers: { href: schedule_schedule_layers_path(object) },
-    }
-  end
-
-  def policy_rule_ids
-    object.policy_rules.pluck(:uuid)
+    link :self, schedule_path(object)
+    link :layers, schedule_schedule_layers_path(object)
+    link :policy_rules, policy_rules_schedule_path(object)
+    link :users, users_schedule_path(object)
+    super
   end
 
 end

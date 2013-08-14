@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   include Actable
 
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable,
+    :recoverable, :rememberable, :validatable, # :trackable,
     :token_authenticatable
 
   acts_as_tenant # belongs_to :account
@@ -24,13 +24,13 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :account
 
-  validates :account, 
+  validates :account,
     presence: true
-  validates :name, 
+  validates :name,
     presence: true,
     allow_blank: false
   validates :email,
     uniqueness: { scope: [ :account_id ] }
-  
+
   before_save :ensure_authentication_token
 end

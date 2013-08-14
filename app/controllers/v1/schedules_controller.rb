@@ -56,6 +56,22 @@ class V1::SchedulesController < V1::ApplicationController
     respond_with @schedule.current_user_on_call
   end
 
+  def policy_rules
+    # @schedule = schedules.includes(:policy_rules => :policy, :schedule_layers => :users).references(:policy_rules => :policy, :schedule_layers => :users).find_by!(uuid: params[:id])
+    @schedule = schedules.find_by!(uuid: params[:id])
+    # @policy_rules = @schedule.policy_rules.includes(:policy).select('policy.rules.*', 'policies.id').page(params[:page]) #.references(:policies)
+    @policy_rules = @schedule.policy_rules.includes(:policy).page(params[:page]) #.references(:policies)
+
+    respond_with @policy_rules, minimal: true
+  end
+
+  def users
+    @schedule = schedules.joins(:policy_rules).find_by!(uuid: params[:id])
+    @users = @schedule.users
+
+    respond_with @users
+  end
+
   private
 
   def schedule_params

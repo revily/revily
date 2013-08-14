@@ -13,7 +13,10 @@ class V1::PolicyRulesController < V1::ApplicationController
   end
 
   def index
-    @policy_rules = policy_rules.page(params[:page])
+    @policy_rules = policy_rules.
+      includes(:assignment).
+      # select('schedules.uuid').
+      page(params[:page])
     respond_with @policy_rules#, serializer: PaginationSerializer
   end
 

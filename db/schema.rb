@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130803051644) do
+ActiveRecord::Schema.define(version: 20130811200906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +68,8 @@ ActiveRecord::Schema.define(version: 20130803051644) do
     t.string   "state"
   end
 
+  add_index "hooks", ["account_id"], name: "index_hooks_on_account_id", using: :btree
+
   create_table "incidents", force: true do |t|
     t.text     "message"
     t.text     "description"
@@ -87,7 +90,11 @@ ActiveRecord::Schema.define(version: 20130803051644) do
   end
 
   add_index "incidents", ["account_id"], name: "index_incidents_on_account_id", using: :btree
+  add_index "incidents", ["current_policy_rule_id"], name: "index_incidents_on_current_policy_rule_id", using: :btree
   add_index "incidents", ["current_user_id"], name: "index_incidents_on_current_user_id", using: :btree
+  add_index "incidents", ["key"], name: "index_incidents_on_key", using: :btree
+  add_index "incidents", ["message"], name: "index_incidents_on_message", using: :btree
+  add_index "incidents", ["service_id"], name: "index_incidents_on_service_id", using: :btree
   add_index "incidents", ["uuid"], name: "index_incidents_on_uuid", unique: true, using: :btree
 
   create_table "notification_rules", force: true do |t|
@@ -193,6 +200,7 @@ ActiveRecord::Schema.define(version: 20130803051644) do
 
   add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
   add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+  add_index "taggings", ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type", using: :btree
 
   create_table "tags", force: true do |t|
     t.string "name"

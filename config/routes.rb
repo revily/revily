@@ -60,8 +60,11 @@ Reveille::Application.routes.draw do
     end
 
     resources :schedules do
-      resources :schedule_layers, path: :layers #, as: :layers #, shallow: true
+      resources :schedule_layers, path: :layers, as: :layers
+      resources :schedule_layers
       member do
+        get 'policy_rules'
+        get 'users'
         get 'on_call'
       end
     end
