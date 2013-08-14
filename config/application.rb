@@ -9,7 +9,7 @@ require 'action_mailer/railtie'
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
 
-module Reveille
+module Revily
   class Application < Rails::Application
     config.generators do |g|
       g.test_framework      :rspec, view_specs: false, helper_specs: false
@@ -40,4 +40,4 @@ module Reveille
   end
 end
 
-autoload :Reveille, 'reveille'
+autoload :Revily, 'revily'

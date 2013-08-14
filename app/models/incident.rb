@@ -57,7 +57,7 @@ class Incident < ActiveRecord::Base
     before_transition on: :escalate, :do => :escalate_to_next_policy_rule
 
     after_transition any => any do |incident, transition|
-      incident.account.events.create(source: incident, action: transition.to, actor: Reveille::Event.actor) unless Reveille::Event.paused?
+      incident.account.events.create(source: incident, action: transition.to, actor: Revily::Event.actor) unless Revily::Event.paused?
       incident.service.touch
     end
 

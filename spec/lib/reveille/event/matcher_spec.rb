@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Reveille
+module Revily
   module Event
     describe Matcher do
       describe '.initialize' do
@@ -8,7 +8,7 @@ module Reveille
 
         it 'default attributes' do
           expect(matcher.patterns).to eq(nil)
-          expect(matcher.list).to eq(Reveille::Event.events)
+          expect(matcher.list).to eq(Revily::Event.events)
         end
 
         it 'setting attributes' do
@@ -60,7 +60,7 @@ module Reveille
 
         it 'matches all events' do
           matcher.patterns = %w[ * ]
-          expect(matched).to eq(Reveille::Event.events)
+          expect(matched).to eq(Revily::Event.events)
         end
 
         it 'matches single namespace' do

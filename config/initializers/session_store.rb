@@ -1,3 +1,3 @@
 # Be sure to restart your server when you modify this file.
 
-Reveille::Application.config.session_store :cookie_store, key: '_reveille_session'
+Revily::Application.config.session_store :cookie_store, key: '_revily_session'

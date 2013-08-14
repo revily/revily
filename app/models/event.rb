@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
   # end
 
   def hooks
-    self.account.hooks + Reveille::Event.hooks
+    self.account.hooks + Revily::Event.hooks
   end
 
 
@@ -30,13 +30,13 @@ class Event < ActiveRecord::Base
         actor: self.actor,
         event: format_event(action, source)
       }
-      subscription = Reveille::Event::Subscription.new(options)
+      subscription = Revily::Event::Subscription.new(options)
       subscription if subscription.handler
     end.compact
   end
 
   def dispatch
-    return false if Reveille::Event.paused?
+    return false if Revily::Event.paused?
     subscriptions.each do |subscription|
       Metriks.timer('subscription.notify').time do
         subscription.notify

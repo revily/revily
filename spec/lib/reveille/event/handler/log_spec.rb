@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Reveille::Event::Handler::Log do
+describe Revily::Event::Handler::Log do
   let(:account) { create(:account) }
   let(:service) { create(:service, account: account) }
 

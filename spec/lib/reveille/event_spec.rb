@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Reveille::Event do
+describe Revily::Event do
 
   describe '.handlers' do
   end
@@ -9,12 +9,12 @@ describe Reveille::Event do
   end
 
   describe '.pause!' do
-    before { Reveille::Event.pause! }
+    before { Revily::Event.pause! }
     it { should be_paused }
   end
 
   describe '.unpause!' do
-    before { Reveille::Event.unpause! }
+    before { Revily::Event.unpause! }
     it { should_not be_paused }
   end
 end

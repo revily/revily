@@ -2,9 +2,9 @@ module EventMacros
 
   def pause_events!
     around(:each) do |example|
-      Reveille::Event.pause!
+      Revily::Event.pause!
       example.run
-      Reveille::Event.unpause!
+      Revily::Event.unpause!
     end
   end
 end

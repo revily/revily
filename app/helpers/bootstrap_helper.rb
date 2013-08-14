@@ -33,7 +33,7 @@ module BootstrapHelper
   end
 
   def brand_link
-    link_to "Reveille", root_path, class: 'brand'
+    link_to "Revily", root_path, class: 'brand'
   end
 
   def collapse_button(target)

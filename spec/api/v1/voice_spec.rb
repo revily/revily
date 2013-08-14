@@ -15,7 +15,7 @@ describe "voice" do
 
   let(:incident) { create(:incident, service: service, account: account) }
 
-  let(:call) { ttt_call('/voice', Reveille::Twilio.number, incident.current_user.contacts.first.address) }
+  let(:call) { ttt_call('/voice', Revily::Twilio.number, incident.current_user.contacts.first.address) }
 
   before do
     user_1.contacts << contact_1

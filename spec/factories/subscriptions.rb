@@ -1,7 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :subscription, class: Reveille::Event::Subscription do
+  factory :subscription, class: Revily::Event::Subscription do
     name 'test'
     event 'incident.triggered'
     config { {} }

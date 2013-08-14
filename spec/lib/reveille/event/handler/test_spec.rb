@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe Reveille::Event::Handler::Test do
+describe Revily::Event::Handler::Test do
 end

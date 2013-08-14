@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Reveille do
+describe Revily do
 
 end

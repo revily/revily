@@ -1,5 +1,5 @@
 class V1::ApplicationController < ActionController::Base
-  include Reveille::Event::Mixins::Controller
+  include Revily::Event::Mixins::Controller
 
   respond_to :json
 

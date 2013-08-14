@@ -8,7 +8,7 @@ describe V1::VoiceController do
     let(:user) { build_stubbed(:user, account: account) }
     let(:incident) { build_stubbed(:incident, state: 'triggered', account: account, current_user: user) }
 
-    let(:call) { ttt_call('/voice', Reveille::Twilio.number, "+15175551212") }
+    let(:call) { ttt_call('/voice', Revily::Twilio.number, "+15175551212") }
     it do
       # ap incident
       # ap call

@@ -30,7 +30,7 @@ describe Event do
     let(:event) { build(:event, source: source, actor: actor, action: 'triggered', account: account) }
 
     before do
-      Reveille::Event.actor = actor
+      Revily::Event.actor = actor
       event.stub(:subscriptions => [ subscription ])
     end
 
@@ -40,7 +40,7 @@ describe Event do
     end
 
     context 'not paused' do
-      before { Reveille::Event.stub(paused?: false) }
+      before { Revily::Event.stub(paused?: false) }
 
       it 'sends event notifications' do
         subscription.should_receive(:notify).at_least(:once)
@@ -50,7 +50,7 @@ describe Event do
     end
 
     context 'paused' do
-      before { Reveille::Event.stub(paused?: true) }
+      before { Revily::Event.stub(paused?: true) }
 
       it 'returns without sending notifications' do
         subscription.should_not_receive(:notify)

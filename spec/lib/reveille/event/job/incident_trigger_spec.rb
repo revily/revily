@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Reveille::Event::Job::IncidentTrigger do
+describe Revily::Event::Job::IncidentTrigger do
   let(:account) { build_stubbed(:account) }
   let(:user) { build_stubbed(:user, account: account) }
   

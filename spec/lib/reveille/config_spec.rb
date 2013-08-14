@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Reveille::Config do
+describe Revily::Config do
 
 end

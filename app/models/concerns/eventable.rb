@@ -2,7 +2,7 @@ module Eventable
   extend ActiveSupport::Concern
 
   included do
-    include Reveille::Event
+    include Revily::Event
 
     has_many :events, as: :source
 
@@ -31,14 +31,14 @@ module Eventable
   def publish(action)
     yield if block_given?
 
-    return if Reveille::Event.paused?
+    return if Revily::Event.paused?
     ::Event.create options_for_event(action)
   end
 
   private
 
     def options_for_event(action)
-      { source: self, actor: Reveille::Event.actor, action: action, account: self.account, data: changes_for_event }
+      { source: self, actor: Revily::Event.actor, action: action, account: self.account, data: changes_for_event }
     end
 
     def changes_for_event

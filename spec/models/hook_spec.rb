@@ -29,10 +29,10 @@ describe Hook do
       end
 
       it 'when handler does not support all events' do
-        class Reveille::Event::Handler::Bogus < Reveille::Event::Handler
+        class Revily::Event::Handler::Bogus < Revily::Event::Handler
           events 'services.*'
         end
-        hook.stub(:handler).and_return(Reveille::Event::Handler::Bogus)
+        hook.stub(:handler).and_return(Revily::Event::Handler::Bogus)
         hook.events = %w[ incidents ]
         hook.name = 'bogus'
         hook.should_not be_valid
@@ -67,7 +67,7 @@ describe Hook do
 
     it 'when handler exists' do
       hook.name = 'test'
-      hook.handler.should be Reveille::Event::Handler::Test
+      hook.handler.should be Revily::Event::Handler::Test
     end
 
     it 'when no handler exists' do

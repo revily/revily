@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Reveille::Event::EventList do
+describe Revily::Event::EventList do
   describe '.new' do
     let(:patterns) { %w[ user.* ] }
-    let(:list) { Reveille::Event::EventList.new(patterns) }
+    let(:list) { Revily::Event::EventList.new(patterns) }
     let(:events) { list.events }
     let(:expected) { %w[ user.created user.deleted user.updated ] }
 
@@ -12,7 +12,7 @@ describe Reveille::Event::EventList do
     end
 
     it 'defaults to all events' do
-      expect(Reveille::Event::EventList.new.events).to eq Reveille::Event.all
+      expect(Revily::Event::EventList.new.events).to eq Revily::Event.all
     end
 
     it 'lists single events' do
@@ -22,7 +22,7 @@ describe Reveille::Event::EventList do
 
     it 'lists all events' do
       list.patterns = %w[ * ]
-      expect(events).to eq(Reveille::Event.events)
+      expect(events).to eq(Revily::Event.events)
     end
 
     it 'strips duplicate events' do

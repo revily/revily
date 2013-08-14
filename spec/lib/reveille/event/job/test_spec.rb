@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe Reveille::Event::Job::Test do
+describe Revily::Event::Job::Test do
 end

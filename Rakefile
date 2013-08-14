@@ -4,7 +4,7 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Reveille::Application.load_tasks
+Revily::Application.load_tasks
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec)

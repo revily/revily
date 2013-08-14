@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Reveille::Sidekiq do
+describe Revily::Sidekiq do
 
 end

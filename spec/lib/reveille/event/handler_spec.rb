@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Reveille::Event::Handler do
-  class MockHandler < Reveille::Event::Handler; end
+describe Revily::Event::Handler do
+  class MockHandler < Revily::Event::Handler; end
   let(:handler) { MockHandler }
   before { MockHandler.events = []}
 
@@ -46,7 +46,7 @@ describe Reveille::Event::Handler do
   describe '.supports?' do
     # let(:events) {  }
     # let(:handler) do
-    #   Class.new(Reveille::Event::Handler) do
+    #   Class.new(Revily::Event::Handler) do
     #     events 'incident.trigger'
     #   end
     # end
@@ -112,7 +112,7 @@ describe Reveille::Event::Handler do
     let(:source) { build_stubbed(:incident) }
     let(:config) { { foo: 'bar', baz: 'quz' } }
     let(:options) { { event: event, source: source, config: config } }
-    let(:handler) { Reveille::Event::Handler::Test.notify(options) }
+    let(:handler) { Revily::Event::Handler::Test.notify(options) }
 
     # context 'handle? is true' do
     #   before do
@@ -120,7 +120,7 @@ describe Reveille::Event::Handler do
     #   end
 
     #   it 'handles the job' do
-    #     Reveille::Event::Handler::Test.should_receive(:notify)
+    #     Revily::Event::Handler::Test.should_receive(:notify)
     #     puts 
     #   end
     # end

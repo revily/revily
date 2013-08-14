@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Reveille::Log do
+describe Revily::Log do
 
 end

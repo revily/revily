@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Reveille::Event::Job do
+describe Revily::Event::Job do
   describe '.schedule'
   describe '.run'
 

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Reveille::Event::Hook do
+describe Revily::Event::Hook do
   describe 'initialize' do
     context 'invalid' do
       let(:klass) do
-        Class.new(Reveille::Event::Hook) do
+        Class.new(Revily::Event::Hook) do
         end
       end
       let(:hook) { klass.new }
@@ -16,7 +16,7 @@ describe Reveille::Event::Hook do
 
     context 'valid' do
       let(:klass) do
-        Class.new(Reveille::Event::Hook) do
+        Class.new(Revily::Event::Hook) do
           def name; 'test_hook'; end
           def events; [ 'foo.bar' ]; end
         end

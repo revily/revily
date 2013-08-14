@@ -33,22 +33,22 @@ class Hook < ActiveRecord::Base
   end
   
   def handler
-    Reveille::Event.handlers[name]
+    Revily::Event.handlers[name]
   end
 
   def events=(*events)
-    write_attribute(:events, Reveille::Event::EventList.new(*events).events)
+    write_attribute(:events, Revily::Event::EventList.new(*events).events)
   end
 
   def expand_events
-    write_attribute(:events, Reveille::Event::EventList.new([events]).events)
+    write_attribute(:events, Revily::Event::EventList.new([events]).events)
   end
 
   private
 
     def handler_supports_events?
       # expand_events
-      expanded_events = Reveille::Event::Matcher.new(events)
+      expanded_events = Revily::Event::Matcher.new(events)
       return unless handler
       events.each do |event|
         unless handler && handler.supports?(event)

@@ -39,7 +39,7 @@ FactoryGirl.define do
   end
 
   trait :all_events do
-    events { Reveille::Event.events }
+    events { Revily::Event.events }
   end
 
   trait :test do

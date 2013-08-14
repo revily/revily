@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Reveille::Event::Hook::IncidentTrigger do
+describe Revily::Event::Hook::IncidentTrigger do
 
   describe 'initialize' do
-    let(:hook) { Reveille::Event::Hook::IncidentTrigger.new }
+    let(:hook) { Revily::Event::Hook::IncidentTrigger.new }
 
     it 'initializes with correct attributes' do
       expect(hook.name).to eq 'incident_trigger'
