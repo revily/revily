@@ -14,6 +14,7 @@ end
 # end
 
 ActiveSupport.on_load(:active_model_serializers) do
+  self.perform_caching = true
   self.root = false
   ActiveModel::ArraySerializer.root = false
   ActiveModel::ArraySerializer.perform_caching = true

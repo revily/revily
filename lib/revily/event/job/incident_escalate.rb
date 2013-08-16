@@ -4,7 +4,7 @@ module Revily
       class IncidentEscalate < Job
 
         def targets
-          params[:targets]
+          params[:targets] || []
         end
 
         def process

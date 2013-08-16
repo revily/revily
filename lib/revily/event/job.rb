@@ -3,15 +3,15 @@ module Revily
     class Job
       include Revily::Model
 
-      autoload :Campfire,            'revily/event/job/campfire'
-      autoload :IncidentAcknowledge, 'revily/event/job/incident_acknowledge'
-      autoload :IncidentEscalate,    'revily/event/job/incident_escalate'
-      autoload :IncidentResolve,     'revily/event/job/incident_resolve'
-      autoload :IncidentRetrigger,   'revily/event/job/incident_retrigger'
-      autoload :IncidentTrigger,     'revily/event/job/incident_trigger'
-      autoload :Log,                 'revily/event/job/log'
-      autoload :Test,                'revily/event/job/test'
-      autoload :Web,                 'revily/event/job/web'
+      autoload :Campfire,            "revily/event/job/campfire"
+      autoload :IncidentAcknowledge, "revily/event/job/incident_acknowledge"
+      autoload :IncidentEscalate,    "revily/event/job/incident_escalate"
+      autoload :IncidentResolve,     "revily/event/job/incident_resolve"
+      autoload :IncidentRetrigger,   "revily/event/job/incident_retrigger"
+      autoload :IncidentTrigger,     "revily/event/job/incident_trigger"
+      autoload :Log,                 "revily/event/job/log"
+      autoload :Test,                "revily/event/job/test"
+      autoload :Web,                 "revily/event/job/web"
 
       attribute :payload, type: Object
       attribute :params, type: Object, default: {}
@@ -64,17 +64,17 @@ module Revily
       end
 
       def source
-        @source ||= payload[:source][:type].constantize.find_by(uuid: payload[:source][:id])
+        @source ||= payload["source"]["type"].constantize.find_by(uuid: payload["source"]["id"])
       end
 
       def actor
-        @actor ||= payload[:actor][:type].constantize.find_by(uuid: payload[:actor][:id])
+        @actor ||= payload["actor"]["type"].constantize.find_by(uuid: payload["actor"]["id"])
       end
 
       private
 
         def account
-          @account ||= payload['account']
+          @account ||= payload["account"]
         end
 
         def timeout(options = { after: 60 }, &block)

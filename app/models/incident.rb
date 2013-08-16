@@ -3,6 +3,8 @@ class Incident < ActiveRecord::Base
   include Trackable
   include Eventable
 
+  attr_accessor :transition_to, :transition_from
+
   serialize :details, JSON
 
   acts_as_tenant # belongs_to :account
@@ -19,6 +21,7 @@ class Incident < ActiveRecord::Base
   before_create :associate_current_policy_rule
   before_create :associate_current_user
   after_create :trigger
+  after_commit :fire_event
 
   scope :unresolved, -> { where.not(state: 'resolved') } #triggered', 'acknowledged']) }
   scope :triggered, -> { where(state: 'triggered') }
@@ -57,8 +60,8 @@ class Incident < ActiveRecord::Base
     before_transition on: :escalate, :do => :escalate_to_next_policy_rule
 
     after_transition any => any do |incident, transition|
-      incident.account.events.create(source: incident, action: transition.to, actor: Revily::Event.actor) unless Revily::Event.paused?
-      incident.service.touch
+      incident.transition_from = transition.from
+      incident.transition_to = transition.to
     end
 
     after_transition any => :triggered do |incident, transition|
@@ -96,44 +99,49 @@ class Incident < ActiveRecord::Base
 
   protected
 
-    # def loop_limit_reached?
-    def loop_limit_not_reached
-      if policy && policy.loop_limit <= self.escalation_loop_count
-        errors.add(:state, 'cannot escalate when the incident has has reached the escalation loop limit')
-      end
+  # def loop_limit_reached?
+  def loop_limit_not_reached
+    if policy && policy.loop_limit <= self.escalation_loop_count
+      errors.add(:state, 'cannot escalate when the incident has has reached the escalation loop limit')
     end
+  end
 
   private
 
-    def ensure_key
-      self[:key] ||= SecureRandom.hex
-    end
+  def fire_event
+    self.account.events.create(source: self, action: self.transition_to, actor: Revily::Event.actor) unless Revily::Event.paused?
+    self.service.touch
+  end
 
-    def update_triggered_at
-      write_attribute(:triggered_at, Time.zone.now)
-    end
+  def ensure_key
+    self[:key] ||= SecureRandom.hex
+  end
 
-    def update_resolved_at
-      write_attribute(:resolved_at, Time.zone.now)
-    end
+  def update_triggered_at
+    write_attribute(:triggered_at, Time.zone.now)
+  end
 
-    def update_acknowledged_at
-      write_attribute(:acknowledged_at, Time.zone.now)
-    end
+  def update_resolved_at
+    write_attribute(:resolved_at, Time.zone.now)
+  end
 
-    def associate_current_policy_rule
-      self.current_policy_rule = next_policy_rule
-    end
+  def update_acknowledged_at
+    write_attribute(:acknowledged_at, Time.zone.now)
+  end
 
-    def associate_current_user
-      self.current_user = self.current_policy_rule.try(:current_user)
-    end
+  def associate_current_policy_rule
+    self.current_policy_rule = next_policy_rule
+  end
 
-    def escalate_to_next_policy_rule
-      self[:escalation_loop_count] += 1 if next_policy_rule.first?
+  def associate_current_user
+    self.current_user = self.current_policy_rule.try(:current_user)
+  end
 
-      associate_current_policy_rule
-      associate_current_user
-    end
+  def escalate_to_next_policy_rule
+    self[:escalation_loop_count] += 1 if next_policy_rule.first?
+
+    associate_current_policy_rule
+    associate_current_user
+  end
 
 end
