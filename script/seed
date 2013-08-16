@@ -1,4 +1,8 @@
-accounts = create_list(:account, 1)
+#!/usr/bin/env ruby
+require 'factory_girl_rails'
+include FactoryGirl::Syntax::Methods
+
+accounts = create_list(:account, 1000)
 
 accounts.each do |account|
   users = create_list(:user, 10, account: account)
@@ -21,6 +25,6 @@ accounts.each do |account|
   end
 
   services.each do |service|
-    create_list(:incident, 100, service: service, account: account, state: %w[ triggered acknowledged resolved].sample)
+    create_list(:incident, 10, service: service, account: account, state: %w[ triggered acknowledged resolved].sample)
   end
 end
