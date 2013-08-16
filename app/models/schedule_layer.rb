@@ -33,8 +33,12 @@ class ScheduleLayer < ActiveRecord::Base
     rule == 'daily' ? 'day' : rule.sub('ly', '')
   end
 
+  def users_count
+    @users_count ||= read_attribute('users_count') || users.length
+  end
+
   def interval
-    @interval ||= (count * users.count)
+    @interval ||= (count * users_count)
   end
 
   def user_schedules
@@ -50,7 +54,8 @@ class ScheduleLayer < ActiveRecord::Base
   end
 
   def user_positions
-    @user_positions ||= Hash[user_schedule_layers.joins(:user).pluck(:user_id, :position)]
+    # @user_positions ||= Hash[user_schedule_layers.joins(:user).pluck(:user_id, :position)]
+    @user_positions ||= Hash[ user_schedule_layers.map {|usl| [ usl.user_id, usl.position ]} ]
   end
 
   add_method_tracer :user_position, 'ScheduleLayer#user_position'

@@ -20,7 +20,13 @@ class Schedule < ActiveRecord::Base
 
   def current_user_on_call
     user_schedules = self.class.trace_execution_scoped(['Schedule#current_user_on_call/get_user_schedules']) do
-      schedule_layers.first.user_schedules
+      schedule_layers.
+        includes(:users).
+        # references(:users).
+        # joins(user_schedule_layers: :user).
+        # select("schedule_layers.*, users.*, COUNT(users) as users_count").#, users.id").
+        # group("schedule_layers.id").
+        first.user_schedules
     end
 
     self.class.trace_execution_scoped(['Schedule#current_user_on_call/find_current_user']) do

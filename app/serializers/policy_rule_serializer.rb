@@ -11,7 +11,7 @@ class PolicyRuleSerializer < BaseSerializer
     elsif assignment.is_a?(User)
       link :assignment, user_path(assignment)
     end
-    link :current_user, user_path(current_user) if current_user
+    # link :current_user, user_path(current_user) if current_user
 
     super
   end
