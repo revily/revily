@@ -12,7 +12,7 @@ function bundle_install() {
   rm -rf .bundle
 
   if [ $CI ]; then
-    bundle install $bundler_args $ci_bundler_args "$@" >&3 2>&1
+    ./script/wad
   else
     bundle install $bundler_args "$@" >&3 2>&1
   fi
