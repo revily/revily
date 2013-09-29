@@ -6,7 +6,7 @@ module Actable
   end
 
   def actable?
-    self.class.true
+    self.class.actable?
   end
 
   module ClassMethods
