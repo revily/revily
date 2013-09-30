@@ -69,7 +69,10 @@ Revily::Application.routes.draw do
       end
     end
 
-    resources :users
+    resources :users do
+      resources :contacts
+    end
+    
     resources :hooks
     resources :events, only: [ :index, :show ]
   end

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Contact do
   context 'associations' do
-    it { should belong_to(:contactable) }
+    it { should belong_to(:user) }
     it { should belong_to(:account) }
   end
 

@@ -1,6 +1,10 @@
 class Contact < ActiveRecord::Base
   include Identifiable
 
+  def active_model_serializer
+    ContactSerializer
+  end
+  
   RESPONSE_MAP = {
     '4' => { action: 'acknowledge', message: 'All incidents were acknowledged.' },
     '6' => { action: 'resolve', message: 'All incidents were resolved.' },
@@ -12,13 +16,13 @@ class Contact < ActiveRecord::Base
   acts_as_tenant # belongs_to :account
 
   belongs_to :account
-
-  belongs_to :contactable, polymorphic: true
-  has_many :notification_rules
+  belongs_to :user
 
   validates :type, presence: true
   validates :label, presence: true
-  validates :address, presence: true
+  validates :address,
+    presence: true,
+    uniqueness: { scope: [ :user_id ] }
 
   def self.response_map
     response_map = {
@@ -31,8 +35,8 @@ class Contact < ActiveRecord::Base
     response_map
   end
 
-  def notify(event)
-    
+  def notify
+    logger.warn "override this method in a subclass"
   end
 
   def response_options

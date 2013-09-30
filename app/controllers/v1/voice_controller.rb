@@ -37,11 +37,7 @@ class V1::VoiceController < V1::ApplicationController
   #   "action" => "index"
   # }
   def index
-    # to = params['To']
-    # @contact = Contact.where("address LIKE ?", "%#{to}%").first
-    # @user = @contact.contactable if @contact.present?
-    contact = Contact.find_by(address: params['To'])
-    user = contact.contactable
+    user = Contact.includes(:user).find_by(address: params['To']).user
     incident = user.incidents.triggered.first
     service = incident.service
     # logger.info ap contact
@@ -100,8 +96,7 @@ class V1::VoiceController < V1::ApplicationController
   def receive
     # logger.info ap params
 
-    contact = Contact.find_by(address: params['To'])
-    user = contact.contactable
+    user = Contact.includes(:user).find_by(address: params['To']).user
 
     # logger.info ap contact
     # logger.info ap user

@@ -6,8 +6,8 @@ describe "voice" do
   let(:account) { create(:account) }
   let(:user_1) { create(:user, account: account) }
   let(:user_2) { create(:user, account: account) }
-  let(:contact_1) { create(:phone_contact, contactable: user_1, account: account) }
-  let(:contact_2) { create(:phone_contact, contactable: user_2, account: account) }
+  let(:contact_1) { create(:phone_contact, user: user_1, account: account) }
+  let(:contact_2) { create(:phone_contact, user: user_2, account: account) }
   let(:policy) { create(:policy, account: account) }
   let(:policy_rule_1) { create(:policy_rule, assignment: user_1, position: 1) }
   let(:policy_rule_2) { create(:policy_rule, assignment: user_2, position: 2) }

@@ -88,8 +88,6 @@ module Revily
 
       # Wrapper method around {#handle} to allow subclasses to override that method
       def notify
-        # logger.debug "handling #{name}: #{to_log}"
-        # logger.debug "processing payload: #{payload.to_hash.inspect}"
         Metriks.timer('handler.handle').time do
           handle
         end

@@ -10,8 +10,7 @@ class V1::SmsController < V1::ApplicationController
     body = params['Body'].to_i
     from = params['From']
 
-    contact = Contact.where("address LIKE ?", "%#{from}%").first
-    user = contact.contactable
+    user = Contact.includes(:user).where("address LIKE ?", "%#{from}%").user
 
     action = case body
     when 4
