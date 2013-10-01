@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :contact do
     user
-    account { user.account }
+    account { user && user.account }
     label "random label"
 
     factory :email_contact, class: EmailContact do

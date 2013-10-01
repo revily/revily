@@ -19,7 +19,7 @@ module Revily
         end
 
         def escalation_timeout
-          incident.try(:current_policy_rule).try(:escalation_timeout) || 30
+          current_policy_rule.try(:escalation_timeout) || 30
         end
 
         def service

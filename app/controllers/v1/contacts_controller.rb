@@ -28,7 +28,7 @@ class V1::ContactsController < V1::ApplicationController
     @contact.account = current_account
     @contact.save
 
-    respond_with user, @contact
+    respond_with @contact, location: contact_url(@contact)
   end
 
   def update
@@ -47,15 +47,25 @@ class V1::ContactsController < V1::ApplicationController
 
   private
 
-    def contact_params
-      params.permit(:label, :address)
+  def contact_params
+    contact_params = params.permit(:label, :address, :type)
+    case contact_params["type"]
+    when "email"
+      contact_params["type"] = "EmailContact"
+    when "phone"
+      contact_params["type"] = "PhoneContact"
+    when "sms"
+      contact_params["type"] = "SmsContact"
     end
 
-    def user
-      @user = User.find_by!(uuid: params[:user_id]) if params[:user_id]
-    end
+    contact_params
+  end
 
-    def contacts
-      @contacts = @user.contacts
-    end
+  def user
+    @user = User.find_by!(uuid: params[:user_id]) if params[:user_id]
+  end
+
+  def contacts
+    @contacts = @user.contacts
+  end
 end

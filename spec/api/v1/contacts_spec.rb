@@ -8,7 +8,7 @@ describe 'contacts' do
 
   describe 'GET /users/:user_id/contacts' do
     context 'valid' do
-      let(:rule) { create(:email_contact, user: user) }
+      let(:contact) { create(:email_contact, user: user) }
       before { user.reload; get "/users/#{user.uuid}/contacts" }
 
       it { should respond_with(:ok) }
@@ -34,7 +34,7 @@ describe 'contacts' do
 
       it { should respond_with(:ok) }
       it { should have_content_type(:json) }
-      it { expect(body).to be_json_eql serializer(rule) }
+      it { expect(body).to be_json_eql serializer(contact) }
     end
 
     context 'not found' do
@@ -45,8 +45,8 @@ describe 'contacts' do
     end
   end
 
-  describe 'POST /users:user_id/contacts' do
-    let(:attributes) { attributes_for(:email_contact, user: user) }
+  describe 'POST /users/:user_id/contacts' do
+    let(:attributes) { attributes_for(:email_contact).merge(:type => "email") }
     before { post "/users/#{user.uuid}/contacts", attributes.to_json }
 
     it { should respond_with(:created) }
@@ -56,12 +56,12 @@ describe 'contacts' do
   describe 'PATCH /users/:user_id/contacts/:id' do
     context 'valid' do
       let(:contact) { create(:email_contact, user: user) }
-      let(:attributes) { { escalation_timeout: 30 } }
+      let(:attributes) { { label: "foo" } }
       before { patch "/users/#{user.uuid}/contacts/#{contact.uuid}", attributes.to_json }
 
       it { should respond_with(:no_content) }
       it { should_not have_body }
-      it { expect(rule.reload.escalation_timeout).to eq 30 }
+      it { expect(contact.reload.label).to eq "foo" }
     end
 
     context 'not found' do
@@ -73,13 +73,13 @@ describe 'contacts' do
   end
 
   describe 'DELETE /users/:user_id/contacts/:id' do
+
     context 'valid' do
       let(:contact) { create(:email_contact, user: user) }
       before { delete "/users/#{user.uuid}/contacts/#{contact.uuid}" }
 
       it { should respond_with(:no_content) }
       it { should_not have_body }
-      it { expect(get "/users/#{user.uuid}/contacts/#{contact.uuid}").to respond_with(:not_found)  }
     end
 
     context 'not found' do
