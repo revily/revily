@@ -11,18 +11,18 @@ gem 'acts-as-taggable-on',                 '2.4.1'
 gem 'acts_as_tenant',                      '0.3.1'
 gem 'clockwork',                           '0.6.1',   require: false
 gem 'dalli',                               '2.6.4'
-gem 'devise',                              '3.1.1'
+gem 'devise',                              '3.0.2'
 gem 'dotenv-rails',                        '0.9.0'
 gem 'ice_cube',                            '0.11.0'
 gem 'kaminari',                            '0.14.1'
 gem 'metriks',                             '0.9.9.5'
 gem 'multi_mail',                          '0.1.0'
-gem 'pg',                                  '0.17.0'
+gem 'pg',                                  '0.16.0'
 gem 'rack-timeout',                        '0.0.4'
 gem 'recipient_interceptor',               '0.1.2'
 gem 'redis-rails',                         '4.0.0'
 gem 'request_store',                       '1.0.5'
-gem 'sidekiq',                             '2.15.0'
+gem 'sidekiq',                             '2.13.0'#,  require: false
 gem 'sinatra',                             '1.4.3',   require: false
 gem 'slim',                                '2.0.0',   require: false
 gem 'state_machine',                       '1.2.0'
@@ -38,7 +38,7 @@ group :development do
   gem 'guard-rspec',                       '3.0.2',   require: false
   gem 'guard-spork',                       '1.5.1',   require: false
   gem 'guard-shell',                       '0.5.1',   require: false
-  gem 'libnotify',                         '0.8.2',   require: false
+  gem 'libnotify',                         '0.8.1',   require: false
   gem 'method_profiler',                   '2.0.1',   require: false
   gem 'perftools.rb',                      '2.0.1',   require: false
   gem 'pry-rails',                         '0.3.2'
@@ -69,10 +69,10 @@ group :test do
   gem 'rspec_api_test',                    '0.0.1'
   gem 'rspec-instafail',                   '0.2.4'
   gem 'rspec-rails',                       '2.14.0'
-  gem 'rspec-sidekiq',                     '0.5.1'
+  gem 'rspec-sidekiq',                     '0.4.0'
   gem 'shoulda-matchers',                  '2.4.0',   require: false
   gem 'state_machine_rspec',               '0.1.2'
-  gem 'timecop',                           '0.6.3'
+  gem 'timecop',                           '0.6.1'
   gem 'twilio-test-toolkit',               '3.2.1'
   gem 'webmock',                           '1.13.0'
   gem 'vcr',                               '2.6.0'
