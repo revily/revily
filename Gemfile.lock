@@ -57,7 +57,7 @@ GEM
       tzinfo (~> 0.3.37)
     acts-as-taggable-on (2.4.1)
       rails (>= 3, < 5)
-    acts_as_list (0.2.0)
+    acts_as_list (0.3.0)
       activerecord (>= 3.0)
     acts_as_tenant (0.3.1)
       rails (>= 3.1)
@@ -355,7 +355,7 @@ DEPENDENCIES
   active_attr (= 0.8.2)
   active_model_serializers!
   acts-as-taggable-on (= 2.4.1)
-  acts_as_list (= 0.2.0)
+  acts_as_list (= 0.3.0)
   acts_as_tenant (= 0.3.1)
   airbrake (= 3.1.14)
   annotate (= 2.5.0)

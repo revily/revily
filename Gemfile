@@ -6,7 +6,7 @@ gem 'rails',                               '4.0.0'
 # gem 'active_model_serializers',            '0.8.1'
 gem 'active_attr',                         '0.8.2'
 gem 'active_model_serializers',                       github: 'rails-api/active_model_serializers'
-gem 'acts_as_list',                        '0.2.0'
+gem 'acts_as_list',                        '0.3.0'
 gem 'acts-as-taggable-on',                 '2.4.1'
 gem 'acts_as_tenant',                      '0.3.1'
 gem 'clockwork',                           '0.6.1',   require: false
