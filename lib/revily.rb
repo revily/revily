@@ -3,6 +3,7 @@ module Revily
   autoload :Config,         'revily/config'
   autoload :Event,          'revily/event'
   autoload :Log,            'revily/log'
+  autoload :Logger,         'revily/logger'
   autoload :Model,          'revily/model'
   autoload :Sidekiq,        'revily/sidekiq'
 
@@ -23,5 +24,6 @@ module Revily
       Event.events
     end
   end
-  
+
+  Revily::Logger.setup_syslog
 end

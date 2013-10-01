@@ -28,6 +28,8 @@ module Revily
     def self.setup_syslog
       Scrolls.facility = (ENV['SCROLLS_FACILITY'] || 'local7')
       Scrolls.stream = 'syslog'
+
+      setup
     end
 
     def self.setup
