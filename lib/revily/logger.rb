@@ -1,31 +1,36 @@
 module Revily
   module Logger
 
-    def log(data, &blk)
+    def self.log(data, &blk)
       Scrolls.log(data, &blk)
     end
 
-    def log_context(data, &blk)
+    def self.log_context(data, &blk)
       Scrolls.context(data, &blk)
     end
 
-    def log_exception(data, e)
+    def self.log_exception(data, e)
       Scrolls.log_exception(data, e)
     end
 
-    def setup_global_context
+    def self.add_global_context(data)
+      Scrolls.add_global_context(data)
+    end
+
+
+    def self.setup_global_context
       {
         :app => 'revily',
         :env => Rails.env,
       }
     end
 
-    def setup_syslog
+    def self.setup_syslog
       Scrolls.facility = (ENV['SCROLLS_FACILITY'] || 'local7')
       Scrolls.stream = 'syslog'
     end
 
-    def setup
+    def self.setup
       setup_global_context
       Scrolls.add_timestamp = true
     end
