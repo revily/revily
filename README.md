@@ -7,6 +7,7 @@ Revily - It wakes you up!
 [![Build Status](https://secure.travis-ci.org/revily/revily.png?branch=master)](https://travis-ci.org/revily/revily)
 [![Code Climate](https://codeclimate.com/github/revily/revily.png)](https://codeclimate.com/github/revily/revily)
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/revily/revily/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/df59799a89c2ecdad827f45ea3f19762 "githalytics.com")](http://githalytics.com/revily/revily)
 
 ## DESCRIPTION
 
