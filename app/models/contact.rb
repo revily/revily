@@ -20,6 +20,7 @@ class Contact < ActiveRecord::Base
 
   validates :type, presence: true
   validates :label, presence: true
+  validates :account_id, presence: true
   validates :address,
     presence: true,
     uniqueness: { scope: [ :user_id ] }
@@ -35,8 +36,30 @@ class Contact < ActiveRecord::Base
     response_map
   end
 
-  def notify
-    logger.warn "override this method in a subclass"
+  def notify(action, incident)
+    logger.warn "override Contact#notify in a subclass"
+  end
+
+  def header
+    logger.warn "override Contact#greeting in a subclass"
+  end
+
+  def footer
+    logger.warn "override Contact#greeting in a subclass"
+  end
+
+  def message(body)
+    message = <<-MESSAGE
+#{header} #{body} #{footer}
+    MESSAGE
+  end
+  
+  def incident
+    @incident
+  end
+
+  def service
+    incident.service
   end
 
   def response_options

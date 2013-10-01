@@ -3,33 +3,42 @@ class SmsContact < Contact
     read_attribute(:label) || 'SMS'
   end
   
-  def trigger_message
-    "#{@incident.message}\n#{response_options}"
+  def header
+    "ALERT #{incident.uuid}: #{service.name.truncate(16)}"
   end
 
-  def acknowledge_message
+  def footer
+    "4: ACK 6: RESOLVE 8: ESCALATE"
+  end
+
+  def triggered_message
+    "#{header} - #{@incident.message} - #{footer}"
+  end
+
+  def acknowledged_message
     "All incidents assigned to you were acknowledged."
   end
 
-  def resolve_message
+  def resolved_message
     "All incidents assigned to you were resolved."
   end
 
   def unknown_message
-    "I did not understand your response. ACKNOWLEDGE: 4, RESOLVE: 6, ESCALATE: 8"
+    "Unknown response. #{footer}"
   end
 
   def failure_message
-    "The incidents assigned to you could not be #{action}d."
+    "The incidents assigned to you could not be #{state}d."
   end
 
   def notify(action, incident)
     @incident = incident
+    body = self.send("#{action}_message")
 
-    $twilio.account.sms.messages.create(
-      from: ENV['TWILIO_NUMBER'],
-      to: address,
-      body: self.send("#{action}_message")
-    )
+    Revily::Twilio.message(address, body)
+  end
+
+  def message
+    incident.message.truncate()
   end
 end

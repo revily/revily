@@ -3,14 +3,16 @@ module Revily
     class Job
       class IncidentResolve < Job
 
-        def targets
-          params[:targets]
+        def process
+          incident.current_user.contacts.each do |contact|
+            contact.notify(:resolved, incident)
+          end
         end
 
-        def process
-          targets.each do |target|
-            # do something with each target
-          end
+        private
+
+        def incident
+          source
         end
 
       end

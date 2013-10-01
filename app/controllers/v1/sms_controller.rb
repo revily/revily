@@ -1,7 +1,7 @@
 class V1::SmsController < V1::ApplicationController
   skip_before_action :verify_authenticity_token
   skip_before_action :set_tenant
-  
+
   respond_to :json
 
   def receive
@@ -10,7 +10,7 @@ class V1::SmsController < V1::ApplicationController
     body = params['Body'].to_i
     from = params['From']
 
-    user = Contact.includes(:user).where("address LIKE ?", "%#{from}%").user
+    user = Contact.includes(:user).where("address LIKE ?", "%#{from}%").first.user
 
     action = case body
     when 4
@@ -27,15 +27,15 @@ class V1::SmsController < V1::ApplicationController
       user.incidents.each do |incident|
         incident.send(action)
       end
-      Incident::NotifyContact.perform_async(action, contact.id)
-    else
-      Incident::NotifyContact.perform_async('unknown', contact.id)
+      # Incident::NotifyContact.perform_async(action, contact.id)
+      # else
+      # Incident::NotifyContact.perform_async('unknown', contact.id)
     end
 
     render :json => @user
   end
-  
-  # TODO(dryan): do something with sms#callback
+
+  # TODO(dryan): do something with sms#callbackend
   def callback
     logger.info ap params
     head :ok
@@ -46,7 +46,4 @@ class V1::SmsController < V1::ApplicationController
     logger.info ap params
     head :ok
   end
-
-
-
 end

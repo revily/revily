@@ -5,9 +5,11 @@ module Revily
 
         def process
           incident.current_user.contacts.each do |contact|
-            contact.notify(incident.state)
+            contact.notify(:triggered, incident)
           end
         end
+
+        private
 
         def incident
           source
