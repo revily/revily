@@ -2,43 +2,46 @@ class SmsContact < Contact
   def label
     read_attribute(:label) || 'SMS'
   end
+
+  def notify(action, incidents)
+    @incidents = incidents
+    body = self.send("#{action}_message")
+
+    Revily::Twilio.message(address, body)
+  end
   
-  def header
-    "ALERT #{incident.uuid}: #{service.name.truncate(16)}"
+  private
+
+  def message
+    if incidents.length > 1
+      "#{incidents.count} ALERTS"
+    else
+      "ALERT [#{service.name}] #{incidents.first.message}".truncate(128)
+    end 
   end
 
-  def footer
-    "4: ACK 6: RESOLVE 8: ESCALATE"
-  end
-
-  def triggered_message
-    "#{header} - #{@incident.message} - #{footer}"
+  def controls
+    "4:ACK 6:RESOLVE 8:ESCALATE"
   end
 
   def acknowledged_message
-    "All incidents assigned to you were acknowledged."
+    "All assigned incidents acknowledged."
   end
 
   def resolved_message
-    "All incidents assigned to you were resolved."
+    "All assigned incidents resolved."
   end
 
   def unknown_message
-    "Unknown response. #{footer}"
+    "Unknown response. #{controls}"
   end
 
   def failure_message
     "The incidents assigned to you could not be #{state}d."
   end
 
-  def notify(action, incident)
-    @incident = incident
-    body = self.send("#{action}_message")
-
-    Revily::Twilio.message(address, body)
+  def triggered_message
+    "#{message} - #{controls}"
   end
 
-  def message
-    incident.message.truncate()
-  end
 end

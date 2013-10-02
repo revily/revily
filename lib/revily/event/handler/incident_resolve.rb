@@ -3,7 +3,7 @@ module Revily
     class Handler
       class IncidentResolve < Handler
 
-        events %w[ incident.resolved ]
+        events %w[ incident.resolve ]
 
         def handle?
           true

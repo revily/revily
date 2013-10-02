@@ -4,7 +4,7 @@ class V1::SmsController < V1::ApplicationController
 
   respond_to :json
 
-  def receive
+  def index
     logger.info ap params
 
     body = params['Body'].to_i
@@ -24,12 +24,10 @@ class V1::SmsController < V1::ApplicationController
     end
 
     if action
+
       user.incidents.each do |incident|
         incident.send(action)
       end
-      # Incident::NotifyContact.perform_async(action, contact.id)
-      # else
-      # Incident::NotifyContact.perform_async('unknown', contact.id)
     end
 
     render :json => @user
@@ -45,5 +43,11 @@ class V1::SmsController < V1::ApplicationController
   def fallback
     logger.info ap params
     head :ok
+  end
+
+  protected
+  
+  def current_actor
+    @user
   end
 end

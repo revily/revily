@@ -6,7 +6,7 @@ describe Eventable do
 
   describe '.events' do
     it 'returns a list of default events' do
-      expect(MockModel.events).to eq([:created, :updated, :deleted])
+      expect(MockModel.events).to eq([:create, :update, :delete])
     end
   end
 

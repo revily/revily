@@ -9,7 +9,7 @@ Revily::Application.routes.draw do
     put 'resolve'     => 'integration#resolve'
 
     scope 'sms', as: 'sms' do
-      post 'receive'  => 'sms#receive'
+      post ''  => 'sms#index'
       post 'callback' => 'sms#callback'
       post 'fallback' => 'sms#fallback'
     end

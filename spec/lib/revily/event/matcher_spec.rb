@@ -12,9 +12,9 @@ module Revily
         end
 
         it 'setting attributes' do
-          matcher = Matcher.new(%w[ incident.triggered ], %w[ incident.triggered incident.acknowledged ])
-          expect(matcher.list).to match_array %w[ incident.triggered incident.acknowledged ]
-          expect(matcher.patterns).to eq(%w[ incident.triggered ])
+          matcher = Matcher.new(%w[ incident.trigger ], %w[ incident.trigger incident.acknowledge ])
+          expect(matcher.list).to match_array %w[ incident.trigger incident.acknowledge ]
+          expect(matcher.patterns).to eq(%w[ incident.trigger ])
         end
       end
 
@@ -22,8 +22,8 @@ module Revily
       #   let(:matcher) { Matcher.new }
 
       #   it 'specific event' do
-      #     matcher.patterns = %w[ incident.triggered ]
-      #     expect(matcher.regexp).to eq(/^(incident.triggered)$/)
+      #     matcher.patterns = %w[ incident.trigger ]
+      #     expect(matcher.regexp).to eq(/^(incident.trigger)$/)
       #   end
 
       #   context 'wildcards' do
@@ -43,8 +43,8 @@ module Revily
       #     end
 
       #     it 'mixed exact and namespaces' do
-      #       matcher.patterns = %w[ incident.triggered service.* policy.updated ]
-      #       expect(matcher.regexp).to eq(/^(incident.triggered|service.*|policy.updated)$/)
+      #       matcher.patterns = %w[ incident.trigger service.* policy.update ]
+      #       expect(matcher.regexp).to eq(/^(incident.trigger|service.*|policy.update)$/)
       #     end
       #   end
       # end
@@ -54,8 +54,8 @@ module Revily
         let(:matched) { matcher.matched }
 
         it 'matches single events' do
-          matcher.patterns = %w[ incident.triggered ]
-          expect(matched).to eq(%w[ incident.triggered ])
+          matcher.patterns = %w[ incident.trigger ]
+          expect(matched).to eq(%w[ incident.trigger ])
         end
 
         it 'matches all events' do
@@ -65,10 +65,10 @@ module Revily
 
         it 'matches single namespace' do
           matcher.patterns = %w[ incident.* ]
-          expect(matched).to include('incident.triggered')
-          expect(matched).to include('incident.acknowledged')
-          expect(matched).not_to include('service.created')
-          expect(matched).not_to include('policy.updated')
+          expect(matched).to include('incident.trigger')
+          expect(matched).to include('incident.acknowledge')
+          expect(matched).not_to include('service.create')
+          expect(matched).not_to include('policy.update')
         end
 
         it 'does not match nonexistent events' do
@@ -79,20 +79,20 @@ module Revily
 
         it 'matches multiple namespaces' do
           matcher.patterns = %w[ incident.* service.* ]
-          expect(matched).to include('incident.triggered')
-          expect(matched).to include('incident.acknowledged')
-          expect(matched).to include('service.created')
-          expect(matched).to include('service.updated')
-          expect(matched).not_to include('policy.updated')
+          expect(matched).to include('incident.trigger')
+          expect(matched).to include('incident.acknowledge')
+          expect(matched).to include('service.create')
+          expect(matched).to include('service.update')
+          expect(matched).not_to include('policy.update')
         end
 
         it 'matches mix of specific and namespace events' do
-          matcher.patterns = %w[ incident.* service.created ]
-          expect(matched).to include('incident.triggered')
-          expect(matched).to include('incident.acknowledged')
-          expect(matched).to include('service.created')
-          expect(matched).not_to include('service.updated')
-          expect(matched).not_to include('policy.updated')
+          matcher.patterns = %w[ incident.* service.create ]
+          expect(matched).to include('incident.trigger')
+          expect(matched).to include('incident.acknowledge')
+          expect(matched).to include('service.create')
+          expect(matched).not_to include('service.update')
+          expect(matched).not_to include('policy.update')
         end
       end
 
@@ -100,21 +100,21 @@ module Revily
         let(:matcher) { Matcher.new }
 
         it 'matches supported event' do
-          matcher.patterns = %w[ incident.triggered incident.resolved ]
-          expect(matcher).to match_event('incident.triggered')
+          matcher.patterns = %w[ incident.trigger incident.resolve ]
+          expect(matcher).to match_event('incident.trigger')
         end
 
         it 'does not match unsupported event' do
-          matcher.patterns = %w[ incident.triggered incident.resolved ]
+          matcher.patterns = %w[ incident.trigger incident.resolve ]
           matcher.list = %w[ incident.* ]
-          expect(matcher).not_to match_event('service.created')
+          expect(matcher).not_to match_event('service.create')
         end
 
         it 'matches all (*)' do
           matcher.patterns = %w[ * ]
-          expect(matcher).to match_event('incident.triggered')
-          expect(matcher).to match_event('service.created')
-          expect(matcher).to match_event('policy.updated')
+          expect(matcher).to match_event('incident.trigger')
+          expect(matcher).to match_event('service.create')
+          expect(matcher).to match_event('policy.update')
           expect(matcher).to match_event('incident.*')
           expect(matcher).to match_event('service.*')
           expect(matcher).to match_event('*')
@@ -125,10 +125,10 @@ module Revily
           matcher.patterns = %w[ incident.* ]
           matcher.list = %w[ incident.* ]
           expect(matcher).to match_event('incident.*')
-          expect(matcher).to match_event('incident.triggered')
-          expect(matcher).to match_event('incident.acknowledged')
-          expect(matcher).not_to match_event('service.created')
-          expect(matcher).not_to match_event('policy.updated')
+          expect(matcher).to match_event('incident.trigger')
+          expect(matcher).to match_event('incident.acknowledge')
+          expect(matcher).not_to match_event('service.create')
+          expect(matcher).not_to match_event('policy.update')
         end
 
         it 'does not match nonexistent events' do
@@ -140,20 +140,20 @@ module Revily
           matcher.patterns = %w[ incident.* service.* ]
           matcher.list = %w[ incident.* service.* ]
           expect(matcher).to match_event('incident.*')
-          expect(matcher).to match_event('incident.triggered')
+          expect(matcher).to match_event('incident.trigger')
           expect(matcher).to match_event('service.*')
-          expect(matcher).to match_event('service.created')
-          expect(matcher).not_to match_event('policy.updated')
+          expect(matcher).to match_event('service.create')
+          expect(matcher).not_to match_event('policy.update')
         end
 
         it 'matches mix of specific and namespace events' do
-          matcher.patterns = %w[ incident.* service.created ]
+          matcher.patterns = %w[ incident.* service.create ]
           matcher.list = %w[ incident.* service.* ]
           expect(matcher).to match_event('incident.*')
-          expect(matcher).to match_event('incident.triggered')
-          expect(matcher).to match_event('service.created')
-          expect(matcher).to match_event('service.updated')
-          expect(matcher).not_to match_event('policy.updated')
+          expect(matcher).to match_event('incident.trigger')
+          expect(matcher).to match_event('service.create')
+          expect(matcher).to match_event('service.update')
+          expect(matcher).not_to match_event('policy.update')
         end
       end
     end

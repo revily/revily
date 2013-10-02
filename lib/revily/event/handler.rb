@@ -5,6 +5,7 @@ module Revily
       include HandlerMixin
 
       autoload :Campfire,            'revily/event/handler/campfire'
+      autoload :Incidents,           'revily/event/handler/incidents'
       autoload :IncidentAcknowledge, 'revily/event/handler/incident_acknowledge'
       autoload :IncidentResolve,     'revily/event/handler/incident_resolve'
       autoload :IncidentTrigger,     'revily/event/handler/incident_trigger'

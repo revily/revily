@@ -4,7 +4,7 @@ module Revily
       class IncidentAcknowledge < Hook
         
         hook_name 'incident_acknowledge'
-        events %w[ incident.acknowledged ]
+        events %w[ incident.acknowledge ]
 
       end
     end

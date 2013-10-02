@@ -5,7 +5,7 @@ describe Revily::Event::EventList do
     let(:patterns) { %w[ user.* ] }
     let(:list) { Revily::Event::EventList.new(patterns) }
     let(:events) { list.events }
-    let(:expected) { %w[ user.created user.deleted user.updated ] }
+    let(:expected) { %w[ user.create user.delete user.update ] }
 
     it 'creates a list of events from a series of patterns' do
       expect(events).to eq(expected)
@@ -16,8 +16,8 @@ describe Revily::Event::EventList do
     end
 
     it 'lists single events' do
-      list.patterns = %w[ incident.triggered ]
-      expect(events).to eq(%w[ incident.triggered ])
+      list.patterns = %w[ incident.trigger ]
+      expect(events).to eq(%w[ incident.trigger ])
     end
 
     it 'lists all events' do
@@ -26,41 +26,41 @@ describe Revily::Event::EventList do
     end
 
     it 'strips duplicate events' do
-      list.patterns = %w[ incident.triggered incident.triggered ]
-      expect(events).to match_array ['incident.triggered']
-      expect(events).not_to match_array ['incident.triggered', 'incident.triggered']
+      list.patterns = %w[ incident.trigger incident.trigger ]
+      expect(events).to match_array ['incident.trigger']
+      expect(events).not_to match_array ['incident.trigger', 'incident.trigger']
     end
 
     it 'lists single namespace' do
       list.patterns = %w[ incident.* ]
-      expect(events).to include('incident.triggered')
-      expect(events).to include('incident.acknowledged')
-      expect(events).not_to include('service.created')
-      expect(events).not_to include('policy.updated')
+      expect(events).to include('incident.trigger')
+      expect(events).to include('incident.acknowledge')
+      expect(events).not_to include('service.create')
+      expect(events).not_to include('policy.update')
     end
 
     it 'strips nonexistent events' do
-      list.patterns = %w[ incident.triggered bogus.event ]
+      list.patterns = %w[ incident.trigger bogus.event ]
       expect(events).not_to include('bogus.event')
-      expect(events).to include('incident.triggered')
+      expect(events).to include('incident.trigger')
     end
 
     it 'lists multiple namespaces' do
       list.patterns = %w[ incident.* service.* ]
-      expect(events).to include('incident.triggered')
-      expect(events).to include('incident.acknowledged')
-      expect(events).to include('service.created')
-      expect(events).to include('service.updated')
-      expect(events).not_to include('policy.updated')
+      expect(events).to include('incident.trigger')
+      expect(events).to include('incident.acknowledge')
+      expect(events).to include('service.create')
+      expect(events).to include('service.update')
+      expect(events).not_to include('policy.update')
     end
 
     it 'lists mix of specific and namespace events' do
-      list.patterns = %w[ incident.* service.created ]
-      expect(events).to include('incident.triggered')
-      expect(events).to include('incident.acknowledged')
-      expect(events).to include('service.created')
-      expect(events).not_to include('service.updated')
-      expect(events).not_to include('policy.updated')
+      list.patterns = %w[ incident.* service.create ]
+      expect(events).to include('incident.trigger')
+      expect(events).to include('incident.acknowledge')
+      expect(events).to include('service.create')
+      expect(events).not_to include('service.update')
+      expect(events).not_to include('policy.update')
     end
 
   end

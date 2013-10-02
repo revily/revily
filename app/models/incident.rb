@@ -3,7 +3,7 @@ class Incident < ActiveRecord::Base
   include Trackable
   include Eventable
 
-  attr_accessor :transition_to, :transition_from
+  attr_accessor :transition_to, :transition_from, :event_action
 
   serialize :details, JSON
 
@@ -11,7 +11,7 @@ class Incident < ActiveRecord::Base
 
   belongs_to :service, touch: true
   belongs_to :current_user, class_name: 'User', foreign_key: :current_user_id, touch: true
-  belongs_to :current_policy_rule, class_name: 'PolicyRule', touch: true
+  belongs_to :current_policy_rule, class_name: 'PolicyRule', foreign_key: :current_policy_rule_id, touch: true
   has_many :alerts
 
   validates :message, presence: true
@@ -62,22 +62,19 @@ class Incident < ActiveRecord::Base
     after_transition any => any do |incident, transition|
       incident.transition_from = transition.from
       incident.transition_to = transition.to
+      incident.event_action = transition.event
     end
 
     after_transition any => :triggered do |incident, transition|
-      # ::Incident::DispatchNotifications.perform_async(incident.id)
-      # ::Incident::Escalate.perform_in((incident.try(:current_policy_rule).try(:escalation_timeout) || 1).minutes, incident.id)
     end
 
     after_transition :pending => :triggered do |incident, transition|
-      # ::Incident::AutoResolve.perform_in(incident.service.try(:auto_resolve_timeout).minutes, incident.id)
     end
 
     after_transition any => :acknowledged do |incident, transition|
-      # ::Incident::Retrigger.perform_in(incident.service.try(:acknowledge_timeout).minutes, incident.id)
     end
 
-    after_transition on: :resolve do |incident, transition|
+    after_transition :on => :resolve do |incident, transition|
     end
   end
 
@@ -109,8 +106,17 @@ class Incident < ActiveRecord::Base
   private
 
   def fire_event
-    self.account.events.create(source: self, action: self.transition_to, actor: Revily::Event.actor) unless Revily::Event.paused?
+    self.account.events.create(source: self, action: self.event_action, actor: Revily::Event.actor) unless Revily::Event.paused?
     self.service.touch
+  end
+
+  def triggered_event
+  end
+
+  def acknowledged_event
+  end
+
+  def resolved_event
   end
 
   def ensure_key

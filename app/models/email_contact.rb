@@ -2,34 +2,46 @@ class EmailContact < Contact
   def label
     read_attribute(:label) || 'Email'
   end
-  
-  def triggered_message
-    "#{@incident.message}\n#{response_options}"
-  end
 
-  def acknowledged_message
-    "All incidents assigned to you were acknowledged."
-  end
-
-  def resolved_message
-    "All incidents assigned to you were resolved."
-  end
-
-  def unknown_message
-    "I did not understand your response. ACKNOWLEDGE: 4, RESOLVE: 6, ESCALATE: 8"
-  end
-
-  def failure_message
-    "The incidents assigned to you could not be #{action}d."
-  end
-
-  def notify(action, incident)
-    @incident = incident
+  def notify(action, incidents)
+    @incidents = incidents
     body = self.send("#{action}_message")
 
     # FIXME: lol
     return true
-    # Revily::Twilio.message(address, body)
   end
 
+  private
+
+  def message
+    if incidents.length > 1
+      "#{incidents.count} ALERTS"
+    else
+      "ALERT [#{service.name}] #{incidents.first.message}".truncate(128)
+    end
+  end
+
+  def controls
+    "4:ACK 6:RESOLVE 8:ESCALATE"
+  end
+
+  def acknowledged_message
+    "All assigned incidents acknowledged."
+  end
+
+  def resolved_message
+    "All assigned incidents resolved."
+  end
+
+  def unknown_message
+    "Unknown response. #{controls}"
+  end
+
+  def failure_message
+    "The incidents assigned to you could not be #{state}d."
+  end
+
+  def triggered_message
+    "#{message} - #{controls}"
+  end
 end

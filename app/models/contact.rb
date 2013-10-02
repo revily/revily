@@ -1,6 +1,8 @@
 class Contact < ActiveRecord::Base
   include Identifiable
 
+  attr_accessor :incidents
+  
   def active_model_serializer
     ContactSerializer
   end
@@ -36,7 +38,7 @@ class Contact < ActiveRecord::Base
     response_map
   end
 
-  def notify(action, incident)
+  def notify(action, incidents)
     logger.warn "override Contact#notify in a subclass"
   end
 
@@ -54,12 +56,8 @@ class Contact < ActiveRecord::Base
     MESSAGE
   end
   
-  def incident
-    @incident
-  end
-
   def service
-    incident.service
+    incidents.first.service
   end
 
   def response_options

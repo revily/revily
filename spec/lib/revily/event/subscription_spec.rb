@@ -3,12 +3,12 @@ require 'spec_helper'
 describe Revily::Event::Subscription do
   describe 'triggering a notification' do
     # class MockHandler < Revily::Event::Handler
-    # events 'incident.created'
+    # events 'incident.create'
     # end
     let(:account) { build_stubbed(:account) }
     let(:source)  { build_stubbed(:incident, account: account) }
     let(:hook) { build_stubbed(:hook, :test, :with_config, :for_incidents, account: account) }
-    let(:options) { { name: hook.name, config: hook.config, source: source, event: 'incident.triggered' } }
+    let(:options) { { name: hook.name, config: hook.config, source: source, event: 'incident.trigger' } }
     let(:subscription) { Revily::Event::Subscription.new(options) }
 
     before do
@@ -37,13 +37,13 @@ describe Revily::Event::Subscription do
       let(:account) { build_stubbed(:account) }
       let(:source)  { build_stubbed(:incident, account: account) }
       let(:hook) { build_stubbed(:hook, :test, :with_config, :for_incidents, account: account) }
-      let(:options) { { name: hook.name, config: hook.config, source: source, event: 'incident.triggered' } }
+      let(:options) { { name: hook.name, config: hook.config, source: source, event: 'incident.trigger' } }
       let(:subscription) { Revily::Event::Subscription.new(options) }
 
       it 'with the correct attributes' do
         expect(subscription.name).to eq 'test'
         expect(subscription.event).to be_a String
-        expect(subscription.event).to eq 'incident.triggered'
+        expect(subscription.event).to eq 'incident.trigger'
         expect(subscription.config).to be_a Hash
         expect(subscription.config).to eq({ 'foo' => 'bar', 'baz' => 'qux' })
       end

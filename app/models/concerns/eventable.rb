@@ -13,15 +13,15 @@ module Eventable
   end
 
   def created_event
-    publish('created')
+    publish('create')
   end
 
   def updated_event
-    publish('updated')
+    publish('update')
   end
 
   def deleted_event
-    publish('deleted')
+    publish('delete')
   end
 
   def eventable?
@@ -56,8 +56,8 @@ module Eventable
     def events
       @events ||= begin
         events = []
-        events.concat self.state_machine.states.keys.compact if self.attribute_method?(:state)
-        events.concat [:created, :updated, :deleted]
+        events.concat self.state_machine.events.keys.compact if self.attribute_method?(:state)
+        events.concat [:create, :update, :delete]
         events
       end
     end
