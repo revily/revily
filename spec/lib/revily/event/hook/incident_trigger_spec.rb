@@ -7,7 +7,7 @@ describe Revily::Event::Hook::IncidentTrigger do
 
     it 'initializes with correct attributes' do
       expect(hook.name).to eq 'incident_trigger'
-      expect(hook.events).to eq [ 'incident.trigger' ]
+      expect(hook.events).to eq [ 'incident.trigger', 'incident.escalate' ]
       expect(hook.config).to eq({})
     end
   end
