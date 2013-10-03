@@ -25,7 +25,7 @@ class Contact < ActiveRecord::Base
   validates :account_id, presence: true
   validates :address,
     presence: true,
-    uniqueness: { scope: [ :user_id ] }
+    uniqueness: { scope: [ :user_id, :type ] }
 
   def self.response_map
     response_map = {

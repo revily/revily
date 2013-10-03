@@ -9,3 +9,7 @@ development: &default
 test:
   <<: *default
   database: revily_test
+
+production:
+  <<: *default
+  database: revily_production

@@ -1,10 +1,10 @@
 module Revily
   module Event
     class Job
-      class IncidentAcknowledgeTimeout < Job
+      class IncidentAutoResolveTimeout < Job
 
         def process
-          incident.trigger unless (incident.triggered? || incident.resolved?)
+          incident.resolve unless incident.resolved?
         end
 
         private
@@ -16,7 +16,7 @@ module Revily
         def source
           @source ||= Incident.find_by(uuid: payload["source"]["id"])
         end
-
+        
       end
     end
   end

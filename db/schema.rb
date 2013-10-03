@@ -19,37 +19,37 @@ ActiveRecord::Schema.define(version: 20130929200342) do
 
   create_table "accounts", force: true do |t|
     t.string   "subdomain"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "uuid",       default: ""
   end
+
+  add_index "accounts", ["uuid"], name: "index_accounts_on_uuid", unique: true, using: :btree
 
   create_table "contacts", force: true do |t|
     t.string   "label"
     t.string   "type"
-    t.integer  "contactable_id"
-    t.string   "contactable_type"
     t.string   "address"
-    t.string   "uuid",             null: false
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.integer  "account_id",       null: false
+    t.string   "uuid",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "account_id", null: false
     t.integer  "user_id"
   end
 
   add_index "contacts", ["account_id"], name: "index_contacts_on_account_id", using: :btree
-  add_index "contacts", ["user_id"], name: "index_contacts_on_user_id", unique: true, using: :btree
+  add_index "contacts", ["user_id"], name: "index_contacts_on_user_id", using: :btree
 
   create_table "events", force: true do |t|
     t.integer  "source_id"
     t.string   "source_type"
+    t.text     "data",        default: "{}"
     t.integer  "account_id",                 null: false
     t.integer  "actor_id"
     t.string   "actor_type"
     t.string   "action"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "data",        default: "{}"
     t.string   "uuid",        default: "",   null: false
   end
 
@@ -85,8 +85,8 @@ ActiveRecord::Schema.define(version: 20130929200342) do
     t.datetime "triggered_at"
     t.datetime "acknowledged_at"
     t.datetime "resolved_at"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "account_id",                         null: false
   end
 
@@ -102,8 +102,8 @@ ActiveRecord::Schema.define(version: 20130929200342) do
     t.integer  "start_delay", default: 0
     t.string   "uuid"
     t.integer  "contact_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "account_id",              null: false
   end
 
@@ -115,8 +115,8 @@ ActiveRecord::Schema.define(version: 20130929200342) do
     t.string   "uuid",       null: false
     t.integer  "loop_limit"
     t.integer  "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "policies", ["account_id"], name: "index_policies_on_account_id", using: :btree
@@ -128,8 +128,8 @@ ActiveRecord::Schema.define(version: 20130929200342) do
     t.integer  "assignment_id"
     t.string   "assignment_type"
     t.integer  "policy_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "account_id",                      null: false
   end
 
@@ -145,8 +145,8 @@ ActiveRecord::Schema.define(version: 20130929200342) do
     t.string   "uuid"
     t.integer  "schedule_id"
     t.datetime "start_at"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "account_id",                    null: false
   end
 
@@ -158,8 +158,8 @@ ActiveRecord::Schema.define(version: 20130929200342) do
     t.string   "time_zone",  default: "UTC"
     t.string   "uuid"
     t.integer  "account_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "schedules", ["account_id"], name: "index_schedules_on_account_id", using: :btree
@@ -168,8 +168,8 @@ ActiveRecord::Schema.define(version: 20130929200342) do
     t.string   "uuid",       null: false
     t.integer  "service_id"
     t.integer  "policy_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "service_policies", ["policy_id"], name: "index_service_policies_on_policy_id", using: :btree
@@ -183,8 +183,8 @@ ActiveRecord::Schema.define(version: 20130929200342) do
     t.string   "uuid"
     t.string   "authentication_token"
     t.integer  "account_id",           null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "services", ["account_id"], name: "index_services_on_account_id", using: :btree
@@ -212,8 +212,8 @@ ActiveRecord::Schema.define(version: 20130929200342) do
     t.integer  "position",          null: false
     t.integer  "schedule_layer_id"
     t.integer  "user_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "user_schedule_layers", ["schedule_layer_id"], name: "index_user_schedule_layers_on_schedule_layer_id", using: :btree
@@ -234,8 +234,8 @@ ActiveRecord::Schema.define(version: 20130929200342) do
     t.string   "last_sign_in_ip"
     t.string   "authentication_token"
     t.integer  "account_id",                          null: false
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "users", ["account_id"], name: "index_users_on_account_id", using: :btree

@@ -2,6 +2,7 @@ module Revily
   module Event
     class Handler
       module Incidents
+        
         def handle?
           service && service.enabled? && service.policy && current_policy_rule?
         end
@@ -32,6 +33,14 @@ module Revily
 
         def acknowledge_timeout?
           !!acknowledge_timeout
+        end
+
+        def auto_resolve_timeout
+          service.try(:auto_resolve_timeout)
+        end
+
+        def auto_resolve_timeout?
+          !!auto_resolve_timeout
         end
 
       end

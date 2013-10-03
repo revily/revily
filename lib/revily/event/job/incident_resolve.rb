@@ -4,15 +4,17 @@ module Revily
       class IncidentResolve < Job
 
         def process
-          incident.current_user.contacts.each do |contact|
-            contact.notify(:resolved, incident)
-          end
+          incident.resolve unless incident.resolved?
         end
 
         private
 
         def incident
           source
+        end
+
+        def source
+          @source ||= Incident.find_by(uuid: payload["source"]["id"])
         end
 
       end

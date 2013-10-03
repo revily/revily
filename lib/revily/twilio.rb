@@ -10,7 +10,7 @@ module Revily
       end
 
       def call(to)
-        ::Twilio::Call.create(from: number, to: to, url: "https://revily.fwd.wf/voice")
+        ::Twilio::Call.create(from: number, to: to, application_sid: ENV['TWILIO_APPLICATION_SID'])
       end
 
       def message(to, body)

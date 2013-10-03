@@ -1,10 +1,10 @@
 module Revily
   module Event
     class Job
-      class IncidentAcknowledgeTimeout < Job
+      class IncidentEscalationTimeout < Job
 
         def process
-          incident.trigger unless (incident.triggered? || incident.resolved?)
+          incident.escalate unless (incident.acknowledged? || incident.resolved?)
         end
 
         private

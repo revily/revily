@@ -24,11 +24,11 @@ class SmsContact < Contact
     "4:ACK 6:RESOLVE 8:ESCALATE"
   end
 
-  def acknowledged_message
+  def acknowledge_message
     "All assigned incidents acknowledged."
   end
 
-  def resolved_message
+  def resolve_message
     "All assigned incidents resolved."
   end
 
@@ -40,7 +40,7 @@ class SmsContact < Contact
     "The incidents assigned to you could not be #{state}d."
   end
 
-  def triggered_message
+  def trigger_message
     "#{message} - #{controls}"
   end
 

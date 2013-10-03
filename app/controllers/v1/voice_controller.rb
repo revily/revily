@@ -2,6 +2,8 @@ class V1::VoiceController < V1::ApplicationController
   skip_before_action :verify_authenticity_token
   skip_before_action :set_tenant
 
+  before_action :user
+
   respond_to :json
 
   # Example POST:
@@ -37,17 +39,20 @@ class V1::VoiceController < V1::ApplicationController
   #   "action" => "index"
   # }
   def index
-    user = Contact.includes(:user).find_by(address: params['To']).user
-    incident = user.incidents.triggered.first
-    service = incident.service
-    # logger.info ap contact
-    # logger.info ap params
+    # user = Contact.includes(:user).find_by(address: params['To']).user
+    incident = user.incidents.unresolved.first
+    service = incident.try(:service)
 
     twiml = Twilio::TwiML.build do |res|
-      res.say "Revily alert on #{service.name}:", voice: 'man'
-      res.say "#{incident.message}"
-      res.gather action: voice_receive_path, method: 'post', num_digits: 1 do |g|
-        g.say "Press 4 to acknowledge, press 6 to resolve, or press 8 to escalate."
+      if incident && service
+        res.say "Revily alert on #{service.name}:", voice: 'man'
+        res.say "#{incident.message}"
+        res.gather action: voice_receive_path, method: 'post', num_digits: 1 do |g|
+          g.say "Press 4 to acknowledge, press 6 to resolve, or press 8 to escalate."
+        end
+      else
+        res.say "You have no incidents. Goodbye!"
+        res.hangup
       end
     end
 
@@ -94,24 +99,16 @@ class V1::VoiceController < V1::ApplicationController
   #   "controller" => "v1/voice"
   # }
   def receive
-    # logger.info ap params
-
-    user = Contact.includes(:user).find_by(address: params['To']).user
-
-    # logger.info ap contact
-    # logger.info ap user
-    # logger.info ap user.incidents.count
-
-    response = params['Digits']
+    response = voice_params['Digits'].to_i.to_s
     action = Contact::RESPONSE_MAP[response][:action]
     message = Contact::RESPONSE_MAP[response][:message]
 
     if action
-      user.incidents.triggered.each do |incident|
+      user.incidents.unresolved.each do |incident|
         incident.send(action)
       end
     end
-    
+
     twiml = Twilio::TwiML.build do |res|
       res.say message
       if action
@@ -138,4 +135,18 @@ class V1::VoiceController < V1::ApplicationController
   end
 
   protected
+
+  def user
+    # @user ||= PhoneContact.includes(:user).where("address LIKE ?", "%#{voice_params['To']}%").first.user
+    @user ||= User.joins(:phone_contacts).where("contacts.address LIKE ?", "%#{voice_params['To']}%").first
+  end
+
+  def current_actor
+    user
+  end
+
+  def voice_params
+    params.permit(:Digits, :To)
+  end
+
 end

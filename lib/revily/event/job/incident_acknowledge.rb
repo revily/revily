@@ -1,12 +1,13 @@
 module Revily
   module Event
     class Job
-      class IncidentAcknowledge< Job
+      class IncidentAcknowledge < Job
 
         def process
-          current_user.contacts.each do |contact|
-            contact.notify(:acknowledged, incidents)
-          end
+          # sms/voice controllers now handle this.
+          # current_user.contacts.each do |contact|
+          #   contact.notify(:acknowledged, incidents)
+          # end
         end
 
         private

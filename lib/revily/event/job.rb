@@ -5,9 +5,10 @@ module Revily
 
       autoload :Campfire,            "revily/event/job/campfire"
       autoload :IncidentAcknowledge, "revily/event/job/incident_acknowledge"
-      autoload :IncidentEscalate,    "revily/event/job/incident_escalate"
+      autoload :IncidentAcknowledgeTimeout, "revily/event/job/incident_acknowledge_timeout"
+      autoload :IncidentAutoResolveTimeout, "revily/event/job/incident_auto_resolve_timeout"
+      autoload :IncidentEscalationTimeout,    "revily/event/job/incident_escalation_timeout"
       autoload :IncidentResolve,     "revily/event/job/incident_resolve"
-      autoload :IncidentRetrigger,   "revily/event/job/incident_retrigger"
       autoload :IncidentTrigger,     "revily/event/job/incident_trigger"
       autoload :Log,                 "revily/event/job/log"
       autoload :Test,                "revily/event/job/test"

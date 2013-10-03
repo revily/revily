@@ -5,7 +5,7 @@ module Revily
 
         def process
           current_user.contacts.each do |contact|
-            contact.notify(:triggered, incidents)
+            contact.notify(:trigger, incidents)
           end
         end
 

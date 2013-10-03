@@ -8,10 +8,7 @@ module Revily
 
         def handle
           run Event::Job::IncidentAcknowledge, :incidents
-
-          if acknowledge_timeout?
-            schedule Event::Job::IncidentAcknowledgeTimeout, acknowledge_timeout.minutes, :incidents
-          end
+          schedule Event::Job::IncidentAcknowledgeTimeout, acknowledge_timeout.minutes, :incidents if acknowledge_timeout?
         end
 
       end
