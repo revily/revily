@@ -58,7 +58,6 @@ group :development, :test do
   gem 'factory_girl_rails',                '4.2.1'
   gem 'forgery',                           '0.5.0'
   gem 'sham_rack',                         '1.3.6'
-  gem 'rspec_api_blueprint',                require: false
 end
 
 group :test do
