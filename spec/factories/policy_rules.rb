@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :policy_rule do
     policy
-    account { policy.account }
+    account { policy && policy.account }
     escalation_timeout 1
     
     after(:build) do |rule|

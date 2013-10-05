@@ -49,15 +49,9 @@ class V1::ContactsController < V1::ApplicationController
 
   def contact_params
     contact_params = params.permit(:label, :address, :type)
-    case contact_params["type"]
-    when "email"
-      contact_params["type"] = "EmailContact"
-    when "phone"
-      contact_params["type"] = "PhoneContact"
-    when "sms"
-      contact_params["type"] = "SmsContact"
-    end
+    contact_params[:type] = "#{contact_params[:type].capitalize}Contact" if contact_params[:type]
 
+    logger.info contact_params
     contact_params
   end
 

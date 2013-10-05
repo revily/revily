@@ -1,8 +1,12 @@
 FactoryGirl.define do
   factory :contact do
     user
-    account { user && user.account }
+
     label "random label"
+
+    after(:build) do |contact|
+      contact.account = contact.user.account
+    end
 
     factory :email_contact, class: EmailContact do
       address { Forgery(:internet).email_address }
