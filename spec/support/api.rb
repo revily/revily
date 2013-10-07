@@ -5,8 +5,7 @@ module APIHelpers
   extend ActiveSupport::Concern
   include ::Rack::Test::Methods
   include ::JsonSpec::Helpers
-  include Rails.application.routes.url_helpers
-  
+
   included do
     metadata[:api] = true
 
@@ -20,39 +19,6 @@ module APIHelpers
 
   def body
     last_response.body
-  end
-
-  def response
-    last_response
-  end
-
-  def request
-    RequestProxy.new(last_request.env)
-  end
-
-  class RequestProxy
-    # require 'forwardable'
-    # extend Forwardable
-
-    attr_accessor :request, :headers
-    # def_delegators :@request, :content_type, :body, 
-
-    def initialize(request)
-      @request = ActionDispatch::Request.new(request)
-      @headers = ActionDispatch::Http::Headers.new(request)
-    end
-
-    def method_missing(meth, *args, &block)
-      if @request.respond_to?(meth)
-        @request.send(meth, *args, &block)
-      else
-        super
-      end
-    end
-
-    def respond_to?(meth)
-      @request.respond_to?(meth)
-    end
   end
 
   def json
