@@ -1,8 +1,10 @@
 require 'active_support/inflector'
 
+PORT = 19001
+
 guard(:spork, 
   rspec_env: { 'RAILS_ENV' => 'test' },
-  rspec_port: 19001,
+  rspec_port: PORT,
   aggressive_kill: false
 ) do
   watch('config/application.rb')
@@ -15,7 +17,7 @@ guard(:spork,
 end
 
 guard(:rspec,
-  cli: "--color --drb --drb-port=19001 --tty -r rspec/instafail -f RSpec::Instafail -f doc",
+  cli: "--color --drb --drb-port=PORT --tty -r rspec/instafail -f RSpec::Instafail -f doc",
   bundler: false,
   all_after_pass: false,
   all_on_start: false,
