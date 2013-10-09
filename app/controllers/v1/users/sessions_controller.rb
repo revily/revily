@@ -1,7 +1,8 @@
 class V1::Users::SessionsController < Devise::SessionsController
+  respond_to :json
+
   before_filter :authenticate_user!, except: [ :create ]
   before_filter :ensure_params_exist, except: [ :destroy ]
-  respond_to :json
 
   def create
     resource = User.find_for_database_authentication(email: session_params[:email])
@@ -43,50 +44,6 @@ class V1::Users::SessionsController < Devise::SessionsController
       $~[1]
     end
   end
-
-
-  # def create
-  #   return missing_params unless params[:email] && params[:password]
-
-  #   build_resource
-  #   resource = resource_from_credentials
-  #   return invalid_credentials unless resource
-
-  #   resource.ensure_authentication_token!
-  #   data = {
-  #     # user: {
-  #       user_id: resource.id,
-  #       auth_token: resource.authentication_token
-  #     # }
-  #   }
-
-  #   render json: data, status: 201
-  # end
-
-  # def destroy
-  #   return missing_params unless params[:auth_token]
-
-  #   resource = resource_class.find_by_authentication_token(params[:auth_token])
-  #   return invalid_credentials unless resource
-
-  #   sign_out(resource_name)
-  #   # resource.reset_authentication_token!
-
-  #   render json: { user_id: resource.id }, status: 200
-  # end
-
-  # protected
-
-
-
-  # def resource_from_credentials
-  #   data = { email: params[:email] }
-  #   if res = resource_class.find_for_database_authentication(data)
-  #     if res.valid_password?(params[:password])
-  #       res
-  #     end
-  #   end
-  # end
 
   def missing_params
     warden.custom_failure!

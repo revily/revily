@@ -18,7 +18,7 @@ class Contact < ActiveRecord::Base
   acts_as_tenant # belongs_to :account
 
   belongs_to :account
-  belongs_to :user
+  belongs_to :user, touch: true
 
   validates :type, presence: true
   validates :label, presence: true
