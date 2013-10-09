@@ -6,6 +6,10 @@ class ServiceSerializer < BaseSerializer
     object.incident_counts
   end
 
+  def include_incident_counts?
+    object.persisted?
+  end
+
   def _links
     {
       self: { href: service_path(object) },

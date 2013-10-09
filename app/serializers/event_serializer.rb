@@ -1,11 +1,15 @@
 class EventSerializer < BaseSerializer
-  attributes :id, :action, :data
+  attributes :id, :action, :data, :actor_id, :source_id
   attribute :serialized_source, key: :source
   attribute :serialized_actor, key: :actor
   attribute :_links
 
   def source
     object.source
+  end
+
+  def source_id
+    source.try(:uuid)
   end
 
   def serialized_source
@@ -26,6 +30,10 @@ class EventSerializer < BaseSerializer
 
   def include_serialized_actor?
     actor.present?
+  end
+
+  def actor_id
+    actor.try(:uuid)
   end
 
   def _links

@@ -6,8 +6,16 @@ class IncidentSerializer < BaseSerializer
     object.key_or_uuid
   end
 
+  def service
+    object.service
+  end
+
   def service_id
-    object.service.uuid
+    service.try(:uuid)
+  end
+
+  def include_service_id?
+    object.persisted?
   end
 
   def _links

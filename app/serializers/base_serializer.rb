@@ -32,7 +32,7 @@ class BaseSerializer < ActiveModel::Serializer
   end
   
   def include__links?
-    !@options[:minimal]
+    !@options[:minimal] && object.persisted?
   end
 
 end

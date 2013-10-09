@@ -2,8 +2,16 @@ class ScheduleLayerSerializer < BaseSerializer
   attributes :id, :schedule_id, :rule, :position, :duration, :start_at, :_links
   attribute :users
 
+  def schedule
+    object.schedule
+  end
+
   def schedule_id
-    object.schedule.uuid
+    schedule.try(:uuid)
+  end
+
+  def include_schedule_id?
+    object.persisted?
   end
 
   def users

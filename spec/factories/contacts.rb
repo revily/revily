@@ -8,15 +8,15 @@ FactoryGirl.define do
       contact.account = contact.user.account
     end
 
-    factory :email_contact, class: EmailContact do
+    factory :email_contact, class: Contact::Email do
       address { Forgery(:internet).email_address }
     end
 
-    factory :phone_contact, class: PhoneContact do
+    factory :phone_contact, class: Contact::Phone do
       address { Forgery(:address).phone }
     end
 
-    factory :sms_contact, class: SmsContact do
+    factory :sms_contact, class: Contact::Sms do
       address { Forgery(:address).phone }
     end
   end
