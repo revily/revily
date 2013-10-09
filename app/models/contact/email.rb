@@ -1,8 +1,8 @@
-class EmailContact < Contact
+class Contact::Email < Contact
   def label
     read_attribute(:label) || 'Email'
   end
-
+  
   def notify(action, incidents)
     @incidents = incidents
     body = self.send("#{action}_message")

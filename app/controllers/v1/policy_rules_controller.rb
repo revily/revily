@@ -23,6 +23,12 @@ class V1::PolicyRulesController < V1::ApplicationController
     respond_with @policy_rule
   end
 
+  def new
+    @policy_rule = policy_rules.new
+
+    respond_with @policy_rule
+  end
+
   def create
     @policy_rule = policy_rules.new(policy_rule_params)
     @policy_rule.account = current_account

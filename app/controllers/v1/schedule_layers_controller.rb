@@ -16,6 +16,12 @@ class V1::ScheduleLayersController < V1::ApplicationController
     respond_with schedule, @schedule_layer
   end
 
+  def new
+    @schedule_layer = schedule_layers.new
+
+    respond_with @schedule_layer
+  end
+
   def create
     @schedule_layer = schedule_layers.new(schedule_layer_params)
     @schedule_layer.account = current_account

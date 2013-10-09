@@ -1,4 +1,4 @@
-class SmsContact < Contact
+class Contact::Sms < Contact
   def label
     read_attribute(:label) || 'SMS'
   end

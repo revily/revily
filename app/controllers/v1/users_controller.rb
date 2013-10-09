@@ -1,6 +1,7 @@
 class V1::UsersController < V1::ApplicationController
   respond_to :json
 
+  before_action :authenticate_user!
   before_action :users
   
   def index
@@ -11,6 +12,12 @@ class V1::UsersController < V1::ApplicationController
 
   def show
     @user = users.find_by!(uuid: params[:id])
+
+    respond_with @user
+  end
+
+  def new
+    @user = users.new
 
     respond_with @user
   end

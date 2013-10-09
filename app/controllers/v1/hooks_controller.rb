@@ -22,6 +22,12 @@ class V1::HooksController < V1::ApplicationController
     respond_with @hook
   end
 
+  def new
+    @hook = hooks.new
+
+    respond_with @hook
+  end
+
   def create
     logger.info params
     @hook = hooks.new(hook_params)

@@ -20,7 +20,6 @@ class Event < ActiveRecord::Base
     self.account.hooks + Revily::Event.hooks
   end
 
-
   def subscriptions
     @subscriptions ||= hooks.map do |hook|
       options = {

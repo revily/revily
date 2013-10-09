@@ -21,6 +21,12 @@ class V1::ServicesController < V1::ApplicationController
     end
   end
 
+  def new
+    @service = services.new
+
+    respond_with @service
+  end
+
   def create
     @service = services.new(service_params)
     @service.save
