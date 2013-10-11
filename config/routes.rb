@@ -77,6 +77,8 @@ Revily::Application.routes.draw do
     
     resources :hooks
     resources :events, only: [ :index, :show ]
+    resources :tokens
+
   end
 
   devise_for :users, controllers: { registrations: 'v1/users/registrations', sessions: 'v1/users/sessions' }
