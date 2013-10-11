@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
     dependent: :destroy
   has_many :schedules, through: :schedule_layers
   has_many :incidents, -> { order('created_at DESC') }, foreign_key: :current_user_id
+  has_many :oauth_applications, class_name: "Doorkeeper::Application", as: :owner
+  has_many :oauth_access_tokens, class_name: "Doorkeeper::AccessToken", foreign_key: :resource_owner_id
 
   accepts_nested_attributes_for :account
 
@@ -32,4 +34,5 @@ class User < ActiveRecord::Base
     uniqueness: { scope: [ :account_id ] }
 
   before_save :ensure_authentication_token
+  
 end

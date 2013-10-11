@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Revily::Application.routes.draw do
+  use_doorkeeper
   mount Sidekiq::Web => '/sidekiq'
 
   scope module: :v1, defaults: { format: :json }, constraints: Revily::ApiConstraints.new(version: 1, default: true) do
@@ -82,4 +83,6 @@ Revily::Application.routes.draw do
   devise_for :services, skip: [ :sessions ]
 
   root to: 'v1/root#index'
+  get 'me', to: 'v1/root#me'
+
 end

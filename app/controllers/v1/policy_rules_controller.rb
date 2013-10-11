@@ -1,7 +1,8 @@
 class V1::PolicyRulesController < V1::ApplicationController
   respond_to :json
 
-  before_action :authenticate_user!
+  doorkeeper_for :all, scopes: [ :read, :write ]
+  
   before_action :policy
   before_action :policy_rules
 

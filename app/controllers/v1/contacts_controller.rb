@@ -1,7 +1,8 @@
 class V1::ContactsController < V1::ApplicationController
   respond_to :json
 
-  before_action :authenticate_user!
+  doorkeeper_for :all, scopes: [ :read, :write ]
+
   before_action :user
   before_action :contacts
 
@@ -57,7 +58,6 @@ class V1::ContactsController < V1::ApplicationController
     contact_params = params.permit(:label, :address, :type)
     contact_params[:type] = "Contact::#{contact_params[:type].classify}" if contact_params[:type]
 
-    logger.info contact_params
     contact_params
   end
 

@@ -15,7 +15,6 @@ class Service < ActiveRecord::Base
   scope :enabled, -> { where(state: 'enabled') }
   scope :disabled, -> { where(state: 'disabled') }
 
-
   validates :name, :acknowledge_timeout, :auto_resolve_timeout, :state,
     presence: true
   validates :name, uniqueness: { scope: [ :account_id ] }
@@ -51,18 +50,6 @@ class Service < ActiveRecord::Base
       'unknown'
     end
   end
-  #   if disabled?
-  #     'disabled'
-  #   elsif incident_counts.triggered > 0
-  #     'critical'
-  #   elsif incident_counts.acknowledged > 0
-  #     'warning'
-  #   elsif incident_counts.resolved >= 0
-  #     'okay'
-  #   else
-  #     'unknown'
-  #   end
-  # end
 
   class << self
     def incident_counts

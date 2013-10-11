@@ -1,10 +1,10 @@
 class V1::VoiceController < V1::ApplicationController
+  respond_to :json
+
   skip_before_action :verify_authenticity_token
   skip_before_action :set_tenant
 
   before_action :user
-
-  respond_to :json
 
   # Example POST:
   #
@@ -39,7 +39,6 @@ class V1::VoiceController < V1::ApplicationController
   #   "action" => "index"
   # }
   def index
-    # user = Contact.includes(:user).find_by(address: params['To']).user
     incident = user.incidents.unresolved.first
     service = incident.try(:service)
 
@@ -124,20 +123,17 @@ class V1::VoiceController < V1::ApplicationController
 
   # TODO(dryan): do something with voice#callback
   def callback
-    # logger.info ap params
     head :ok
   end
 
   # TODO(dryan): do something with voice#fallback
   def fallback
-    # logger.info ap params
     head :ok
   end
 
   protected
 
   def user
-    # @user ||= PhoneContact.includes(:user).where("address LIKE ?", "%#{voice_params['To']}%").first.user
     @user ||= User.joins(:phone_contacts).where("contacts.address LIKE ?", "%#{voice_params['To']}%").first
   end
 

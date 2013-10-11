@@ -1,9 +1,8 @@
 class V1::ServicesController < V1::ApplicationController
-  include Revily::Event::Mixins::Controller
-  
   respond_to :json
 
-  before_action :authenticate_user!
+  doorkeeper_for :all, scopes: [ :read, :write ]
+
   before_action :services
   
   def index
