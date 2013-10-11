@@ -1,15 +1,15 @@
 class V1::IncidentsController < V1::ApplicationController
   include ::NewRelic::Agent::MethodTracer
-
   respond_to :json
 
-  before_action :authenticate_user!
-  before_action :service, :incidents
+  doorkeeper_for :all, scopes: [ :read, :write ]
+  
+  before_action :service
+  before_action :incidents
 
   def index
-    # @incidents = incidents.includes(:current_policy_rule, :current_user, service: :policy).page(params[:page])
     @incidents = incidents.includes(:current_user, :current_policy_rule, service: :policy).references(:current_user, :current_policy_rule, service: :policy).page(params[:page])
-    logger.info params
+
     respond_with @incidents#, serializer: PaginationSerializer
   end
 

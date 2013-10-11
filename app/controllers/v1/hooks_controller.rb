@@ -1,9 +1,8 @@
 class V1::HooksController < V1::ApplicationController
-  include Revily::Event::Mixins::Controller
-  
   respond_to :json
 
-  before_action :authenticate_user!
+  doorkeeper_for :all, scopes: [ :read, :write ]
+  
   before_action :hooks
 
   def list
@@ -29,7 +28,6 @@ class V1::HooksController < V1::ApplicationController
   end
 
   def create
-    logger.info params
     @hook = hooks.new(hook_params)
     @hook.save
 
@@ -70,7 +68,6 @@ class V1::HooksController < V1::ApplicationController
   end
 
   def hook_params
-    logger.info params.inspect
     params.permit(:name, events: [], config: [{}])
   end
 

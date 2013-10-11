@@ -1,10 +1,11 @@
 class V1::IntegrationController < V1::ApplicationController
+  respond_to :json
+
   #TODO(dryan): Fix integrations :)  
   before_action :authenticate_service!
   skip_before_action :verify_authenticity_token
   # skip_before_action :set_tenant
   before_action :incidents  
-  respond_to :json
 
   def trigger
     @incident = incidents.integration(params[:message], params[:key]).first_or_initialize(incident_params)

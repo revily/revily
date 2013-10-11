@@ -32,8 +32,6 @@ class V1::SmsController < V1::ApplicationController
   # }
 
   def index
-    logger.info ap params
-
     response = sms_params['Body'].to_i.to_s
     action = Contact::RESPONSE_MAP[response][:action]
     message = Contact::RESPONSE_MAP[response][:message]
@@ -70,20 +68,17 @@ class V1::SmsController < V1::ApplicationController
   # }
   # TODO(dryan): do something with sms#callbackend
   def callback
-    logger.info ap params
     head :ok
   end
 
   # TODO(dryan): do something with sms#fallback
   def fallback
-    logger.info ap params
     head :ok
   end
 
   protected
 
   def user
-    # @user ||= SmsContact.includes(:user).where("address LIKE ?", "%#{sms_params['From']}%").first.user
     @user ||= User.joins(:sms_contacts).where("contacts.address LIKE ?", "%#{sms_params['From']}%").first
   end
 

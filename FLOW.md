@@ -1,0 +1,7 @@
+- service triggers an incident.
+- the incident is saved, initiating a series of events
+  - incident_triggered
+  - incident_created
+- envent handler pushes IncidentTrigger job into event queue
+- IncidentTrigger job then fires new event, 'incident_notify'
+  -  grabs the current assignment, 

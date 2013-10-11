@@ -16,12 +16,19 @@ module API
   module User
     
     def sign_in_user
+      let!(:oauth) { create(:application) }
       let!(:account) { create(:account) }
       let!(:user) { create(:user, account: account) }
-      let!(:token) { user.authentication_token }
+      let!(:client) do
+        OAuth2::Client.new(oauth.uid, oauth.secret) do |b|
+          b.request :url_encoded
+          b.adapter :rack, Rails.application
+        end
+      end
+      let!(:token) { client.password.get_token(user.email, user.password).token }
 
       before do
-        header 'Authorization', %[token #{token}]
+        header 'Authorization', %[Bearer #{token}]
       end
     end
 
