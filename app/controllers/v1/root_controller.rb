@@ -1,7 +1,8 @@
 class V1::RootController < V1::ApplicationController
   respond_to :json
 
-  doorkeeper_for :me
+  # doorkeeper_for :me
+  before_action :authenticate_user!,  only: [ :me ]
 
   def index
     render json: {
@@ -20,9 +21,7 @@ class V1::RootController < V1::ApplicationController
   end
 
   def me
-    access_token = request.headers["Authorization"].match(/^Bearer (.+)$/)[1]
-    @user = User.joins(:oauth_access_tokens).where("oauth_access_tokens.token = ?", access_token).first
-    render json: @user
+    respond_with current_user
   end
 
 end

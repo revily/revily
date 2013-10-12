@@ -1,8 +1,8 @@
 class V1::ScheduleLayersController < V1::ApplicationController
   respond_to :json
 
-  doorkeeper_for :all, scopes: [ :read, :write ]
-  
+  # doorkeeper_for :all, scopes: [ :read, :write ]
+  before_action :authenticate_user!
   before_action :schedule
   before_action :schedule_layers
 

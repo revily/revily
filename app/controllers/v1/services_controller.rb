@@ -1,8 +1,8 @@
 class V1::ServicesController < V1::ApplicationController
   respond_to :json
 
-  doorkeeper_for :all, scopes: [ :read, :write ]
-
+  # doorkeeper_for :all, scopes: [ :read, :write ]
+  before_action :authenticate_user!
   before_action :services
   
   def index

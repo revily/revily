@@ -2,8 +2,8 @@ class V1::IncidentsController < V1::ApplicationController
   include ::NewRelic::Agent::MethodTracer
   respond_to :json
 
-  doorkeeper_for :all, scopes: [ :read, :write ]
-  
+  # doorkeeper_for :all, scopes: [ :read, :write ]
+  before_action :authenticate_user!
   before_action :service
   before_action :incidents
 

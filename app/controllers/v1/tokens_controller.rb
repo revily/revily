@@ -1,4 +1,6 @@
 class V1::TokensController < ApplicationController
+  respond_to :json
+  
   def index
   end
 
