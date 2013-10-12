@@ -5,7 +5,7 @@ class V1::ApplicationController < ActionController::Base
   set_current_tenant_through_filter
   before_action :set_tenant
 
-  rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do |e|
+  rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do |exception|
     render json: { error: 'not found' }, status: :not_found
   end
 
@@ -41,5 +41,5 @@ class V1::ApplicationController < ActionController::Base
     current_actor.try(:account)
   end
   helper_method :current_account
-  
+
 end

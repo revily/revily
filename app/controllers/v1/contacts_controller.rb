@@ -29,7 +29,7 @@ class V1::ContactsController < V1::ApplicationController
 
     respond_with @contact
   end
-  
+
   def create
     @contact = contacts.new(contact_params)
     @contact.account = current_account
@@ -56,7 +56,9 @@ class V1::ContactsController < V1::ApplicationController
 
   def contact_params
     contact_params = params.permit(:label, :address, :type)
-    contact_params[:type] = "Contact::#{contact_params[:type].classify}" if contact_params[:type]
+    if contact_params[:type]
+      contact_params[:type] = "Contact::#{contact_params[:type].classify}"
+    end
 
     contact_params
   end

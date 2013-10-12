@@ -2,15 +2,16 @@ class RemoveEventAndRenameDataFromEvents < ActiveRecord::Migration
   def up
     remove_column :events, :event, :string
     change_column :events, :data, :text, default: {}.to_json
-    # change_column :events, :account_id, :integer, null: true, default: 0
     add_column :events, :uuid, :string, default: "" #, null: false
 
     # hackety-hack
-    def Event.readonly_attributes; Set.new; end
+    say_with_time "Set uuid on all existing events" do
+      def Event.readonly_attributes; Set.new; end
 
-    Event.all.each do |event|
-      event.ensure_uuid
-      event.save!
+      Event.all.each do |event|
+        event.ensure_uuid
+        event.save!
+      end
     end
 
     change_column :events, :uuid, :string, null: false

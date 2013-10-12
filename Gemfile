@@ -42,6 +42,7 @@ group :development do
   gem "guard-shell",                        "0.5.1",  require: false
   gem "libnotify",                          "0.8.1",  require: false
   gem "method_profiler",                    "2.0.1",  require: false
+  gem "metric_fu"
   gem "perftools.rb",                       "2.0.1",  require: false
   gem "pry-rails",                          "0.3.2"
   gem "rblineprof",                         "0.3.2",  require: false
@@ -52,6 +53,7 @@ group :development do
   gem "ruby-prof",                          "0.13.0", require: false
   gem "ruby_gntp",                          "0.3.4",  require: false
   gem "spork-rails",                                  github: "sporkrb/spork-rails", require: false
+  gem "tailor"
 end
 
 # Gems useful in both test and development environments

@@ -27,6 +27,5 @@ class V1::MailController < V1::ApplicationController
   private
 
   def get_service_from_email(address)
-    
   end
 end

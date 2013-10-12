@@ -4,7 +4,7 @@ class V1::EventsController < V1::ApplicationController
   # doorkeeper_for :all, scopes: [ :read, :write ]
   before_action :authenticate_user!
   before_action :events
-  
+
   def index
     @events = events.page(params[:page])
     respond_with @events

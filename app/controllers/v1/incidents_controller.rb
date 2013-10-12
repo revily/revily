@@ -90,7 +90,6 @@ class V1::IncidentsController < V1::ApplicationController
     end
 
     def service
-      # @service = Service.joins(:policy => :policy_rules).find_by!(uuid: params[:service_id]) if params[:service_id]
       @service = Service.find_by!(uuid: params[:service_id]) if params[:service_id]
     end
 

@@ -27,17 +27,6 @@ class Contact < ActiveRecord::Base
     presence: true,
     uniqueness: { scope: [ :user_id, :type ] }
 
-  def self.response_map
-    response_map = {
-      '4' => { action: 'acknowledge', message: 'All incidents were acknowledged.' },
-      '6' => { action: 'resolve', message: 'All incidents were resolved.' },
-      '8' => { action: 'escalate', message: 'All incidents were escalated.'}
-    }
-    response_map.default = { action: nil, message: 'Your response was invalid.' }
-
-    response_map
-  end
-
   def notify(action, incidents)
     logger.warn "override Contact#notify in a subclass"
   end
@@ -60,7 +49,4 @@ class Contact < ActiveRecord::Base
     incidents.first.service
   end
 
-  def response_options
-    RESPONSE_MAP.map{|k,v| "#{k}: #{v}"}.join(', ')
-  end
 end

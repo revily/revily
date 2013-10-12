@@ -41,16 +41,16 @@ class V1::VoiceController < V1::ApplicationController
     incident = user.incidents.unresolved.first
     service = incident.try(:service)
 
-    twiml = Twilio::TwiML.build do |res|
+    twiml = Twilio::TwiML.build do |response|
       if incident && service
-        res.say "Revily alert on #{service.name}:", voice: 'man'
-        res.say "#{incident.message}"
-        res.gather action: voice_receive_path, method: 'post', num_digits: 1 do |g|
-          g.say "Press 4 to acknowledge, press 6 to resolve, or press 8 to escalate."
+        response.say "Revily alert on #{service.name}:", voice: 'man'
+        response.say "#{incident.message}"
+        response.gather action: voice_receive_path, method: 'post', num_digits: 1 do |gather|
+          gather.say "Press 4 to acknowledge, press 6 to resolve, or press 8 to escalate."
         end
       else
-        res.say "You have no incidents. Goodbye!"
-        res.hangup
+        response.say "You have no incidents. Goodbye!"
+        response.hangup
       end
     end
 
@@ -98,22 +98,17 @@ class V1::VoiceController < V1::ApplicationController
   # }
   def receive
     response = voice_params['Digits'].to_i.to_s
-    action = Contact::RESPONSE_MAP[response][:action]
-    message = Contact::RESPONSE_MAP[response][:message]
+    action, message = Contact::RESPONSE_MAP[response].values_at(:action, :message)
 
-    if action
-      user.incidents.unresolved.each do |incident|
-        incident.send(action)
-      end
-    end
+    user.incidents.unresolved.each { |incident| incident.send(action) } if action
 
-    twiml = Twilio::TwiML.build do |res|
-      res.say message
+    twiml = Twilio::TwiML.build do |response|
+      response.say message
       if action
-        res.say "Goodbye!"
-        res.hangup
+        response.say "Goodbye!"
+        response.hangup
       else
-        res.redirect voice_path
+        response.redirect voice_path
       end
     end
 
