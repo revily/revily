@@ -4,7 +4,9 @@ class V1::UsersController < V1::ApplicationController
   # doorkeeper_for :all, scopes: [ :read, :write ]
   before_action :authenticate_user!
   before_action :users
-  
+
+  after_action only: [ :index ] { paginate(:users) }
+
   def index
     @users = users.page(params[:page])
 

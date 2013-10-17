@@ -6,6 +6,8 @@ class V1::ScheduleLayersController < V1::ApplicationController
   before_action :schedule
   before_action :schedule_layers
 
+  after_action only: [ :index ] { paginate(:schedule_layers) }
+
   def index
     @schedule_layers = schedule_layers.page(params[:page])
 

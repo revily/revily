@@ -5,6 +5,8 @@ class V1::SchedulesController < V1::ApplicationController
   before_action :authenticate_user!
   before_action :schedules
 
+  after_action only: [ :index ] { paginate(:schedules) }
+
   def index
     @schedules = schedules.page(params[:page])
 

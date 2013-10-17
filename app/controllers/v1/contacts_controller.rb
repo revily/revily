@@ -6,6 +6,8 @@ class V1::ContactsController < V1::ApplicationController
   before_action :user
   before_action :contacts
 
+  after_action only: [ :index ] { paginate(:contacts) }
+
   def sort
     params[:contacts].each_with_index do |id, index|
       Contact.update_all({ position: index + 1}, { id: id })

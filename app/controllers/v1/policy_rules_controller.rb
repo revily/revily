@@ -6,6 +6,8 @@ class V1::PolicyRulesController < V1::ApplicationController
   before_action :policy
   before_action :policy_rules
 
+  after_action only: [ :index ] { paginate(:policy_rules) }
+
   def sort
     params[:policy_rules].each_with_index do |id, index|
       PolicyRule.update_all({ position: index + 1}, { id: id })

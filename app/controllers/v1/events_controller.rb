@@ -5,6 +5,8 @@ class V1::EventsController < V1::ApplicationController
   before_action :authenticate_user!
   before_action :events
 
+  after_action only: [ :index ] { paginate(:events) }
+
   def index
     @events = events.page(params[:page])
     respond_with @events

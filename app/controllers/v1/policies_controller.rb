@@ -5,6 +5,8 @@ class V1::PoliciesController < V1::ApplicationController
   before_action :authenticate_user!
   before_action :policies
 
+  after_action only: [ :index ] { paginate(:policies) }
+
   def index
     @policies = policies.page(params[:page])
 

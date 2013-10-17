@@ -4,7 +4,9 @@ class V1::ServicesController < V1::ApplicationController
   # doorkeeper_for :all, scopes: [ :read, :write ]
   before_action :authenticate_user!
   before_action :services
-  
+
+  after_action only: [ :index ] { paginate(:services) }
+
   def index
     @services = services.page(params[:page])
     if stale? @services

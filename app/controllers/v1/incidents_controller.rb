@@ -7,8 +7,13 @@ class V1::IncidentsController < V1::ApplicationController
   before_action :service
   before_action :incidents
 
+  after_action only: [ :index ] { paginate(:incidents) }
+
   def index
-    @incidents = incidents.includes(:current_user, :current_policy_rule, service: :policy).references(:current_user, :current_policy_rule, service: :policy).page(params[:page])
+    @incidents = incidents.periscope(query_params).
+                   includes(:current_user, :current_policy_rule, service: :policy).
+                   # references(:current_user, :current_policy_rule, service: :policy).
+                   page(params[:page])
 
     respond_with @incidents#, serializer: PaginationSerializer
   end

@@ -5,8 +5,9 @@ class V1::HooksController < V1::ApplicationController
   before_action :authenticate_user!
   before_action :hooks
 
+  after_action only: [ :index ] { paginate(:hooks) }
+
   def list
-    
   end
 
   def index

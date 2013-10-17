@@ -42,4 +42,11 @@ class V1::ApplicationController < ActionController::Base
   end
   helper_method :current_account
 
+  def query_params
+    @query_params ||= request.query_parameters.inject({}) do |res, (key, value)|
+      res[key] = value.is_a?(String) ? value.strip.split(",") : value
+      res
+    end
+  end
+
 end
