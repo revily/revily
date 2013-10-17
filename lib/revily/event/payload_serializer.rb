@@ -15,6 +15,7 @@ module Revily
 
       def serialize_payload_object(obj)
         serializer = obj.try(:active_model_serializer)
+
         return Hash.new if obj.nil?
         return obj.attributes if serializer.nil?
 
@@ -22,8 +23,8 @@ module Revily
         # don't need _links here (or do we? :D)
         result.delete(:_links)
         result[:type] = obj.class.name
-        result
 
+        result
       end
 
     end
