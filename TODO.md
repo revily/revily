@@ -1,9 +1,23 @@
+## Features
+
 * add periscope for awesome custom filtering: https://github.com/laserlemon/periscope
 * add mail notifications
 * add email parsing
-* add rollout for setting features
+* add flipper for setting features (https://github.com/jnunemaker/flipper)
+* replace active_attr with virtus now that 1.0.0 has been released
+
 
 * add oauth
   - rate limiting - https://github.com/applicake/doorkeeper/wiki/Rate-limit-with-Redis
   - admin superuser
     - customize acts_as_tenant to allow admin to get to any account
+
+## Refactor
+
+* move voice and sms controllers to separate, mountable apps (grape? vanilla sinatra?)
+
+## Chores
+
+* add missing specs:
+  - event changeset
+  - 
