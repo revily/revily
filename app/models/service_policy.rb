@@ -1,5 +1,5 @@
 class ServicePolicy < ActiveRecord::Base
-  include Identifiable
+  include Revily::Concerns::Identifiable
   
   belongs_to :service
   belongs_to :policy

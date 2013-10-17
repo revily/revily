@@ -1,8 +1,8 @@
 require 'new_relic/agent/method_tracer'
 
 class ScheduleLayer < ActiveRecord::Base
-  include Identifiable
-  include Eventable
+  include Revily::Concerns::Identifiable
+  include Revily::Concerns::Eventable
 
   include ::NewRelic::Agent::MethodTracer
 

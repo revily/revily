@@ -1,7 +1,7 @@
 class Incident < ActiveRecord::Base
-  include Identifiable
-  include Trackable
-  include Eventable
+  include Revily::Concerns::Identifiable
+  include Revily::Concerns::Trackable
+  include Revily::Concerns::Eventable
 
   attr_accessor :transition_to, :transition_from, :event_action
 
@@ -12,7 +12,6 @@ class Incident < ActiveRecord::Base
   belongs_to :service, touch: true
   belongs_to :current_user, class_name: 'User', foreign_key: :current_user_id, touch: true
   belongs_to :current_policy_rule, class_name: 'PolicyRule', foreign_key: :current_policy_rule_id, touch: true
-  has_many :alerts
 
   validates :message, presence: true
   validates :service, existence: true

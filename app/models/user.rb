@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
-  include Identifiable
-  include Eventable
-  include Actable
+  include Revily::Concerns::Identifiable
+  include Revily::Concerns::Eventable
+  include Revily::Concerns::Actable
 
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable, # :trackable,

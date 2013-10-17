@@ -1,14 +1,13 @@
 class Service < ActiveRecord::Base
-  include Identifiable
-  include Eventable
-  include Actable
+  include Revily::Concerns::Identifiable
+  include Revily::Concerns::Eventable
+  include Revily::Concerns::Actable
 
   devise :token_authenticatable
 
   acts_as_tenant # belongs_to :account
 
   has_many :incidents, dependent: :destroy
-  has_many :alerts, through: :incidents
   has_one :service_policy
   has_one :policy, through: :service_policy
 

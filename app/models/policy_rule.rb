@@ -1,6 +1,6 @@
 class PolicyRule < ActiveRecord::Base
-  include Identifiable
-  include Eventable
+  include Revily::Concerns::Identifiable
+  include Revily::Concerns::Eventable
 
   attr_accessor :assignment_attributes
 
