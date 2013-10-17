@@ -37,20 +37,15 @@ module Eventable
 
   private
 
-    def options_for_event(action)
-      { source: self, actor: Revily::Event.actor, action: action, account: self.account, data: changes_for_event }
-    end
-
-    def changes_for_event
-      association_foreign_keys = self.class.reflect_on_all_associations.select{|a| a.macro == :belongs_to }.map(&:foreign_key)
-      changes_for_event = self.changes.dup
-
-      changes_for_event.delete('id')
-      association_foreign_keys.each do |key|
-        changes_for_event.delete(key)
-      end
-      changes_for_event
-    end
+  def options_for_event(action)
+    {
+      source: self,
+      actor: Revily::Event.actor,
+      action: action,
+      account: self.account,
+      changeset: Revily::Event::Changeset.new(self)
+    }
+  end
 
   module ClassMethods
     def events

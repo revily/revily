@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   belongs_to :source, polymorphic: true
   belongs_to :actor, polymorphic: true
 
-  serialize :data, JSON
+  serialize :changeset, JSON
 
   scope :recent, -> { limit(50).order(arel_table[:id].desc) }
 

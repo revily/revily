@@ -23,12 +23,16 @@ class Incident < ActiveRecord::Base
   after_create :trigger
   after_commit :fire_event
 
-  scope :unresolved, -> { where.not(state: 'resolved') } #triggered', 'acknowledged']) }
+  scope :unresolved, -> { where.not(state: 'resolved') }
   scope :triggered, -> { where(state: 'triggered') }
   scope :acknowledged, -> { where(state: 'acknowledged') }
   scope :resolved, -> { where(state: 'resolved') }
+  scope :states, ->(s) { where(state: [s].flatten) }
 
   scope :integration, ->(message, key) { key ? unresolved.where(key: key) : unresolved.where(message: message) }
+
+  scope_accessible :unresolved, :triggered, :acknowledged, :resolved, boolean: true
+  scope_accessible :states
 
   state_machine initial: :pending do
     state :triggered do
@@ -53,11 +57,16 @@ class Incident < ActiveRecord::Base
       transition [ :triggered, :acknowledged, :resolved ] => :resolved
     end
 
-    before_transition pending: :triggered, :do => :update_triggered_at
-    before_transition triggered: :acknowledged, :do => :update_acknowledged_at
-    before_transition triggered: :resolved, :do => [ :update_acknowledged_at, :update_resolved_at ]
-    before_transition acknowledged: :resolved, :do => :update_resolved_at
-    before_transition on: :escalate, :do => :escalate_to_next_policy_rule
+    before_transition :pending => :triggered, 
+                      :do => :update_triggered_at
+    before_transition :triggered => :acknowledged,
+                      :do => :update_acknowledged_at
+    before_transition :triggered => :resolved,
+                      :do => [ :update_acknowledged_at, :update_resolved_at ]
+    before_transition :acknowledged => :resolved,
+                      :do => :update_resolved_at
+    before_transition :on => :escalate,
+                      :do => :escalate_to_next_policy_rule
 
     after_transition any => any do |incident, transition|
       incident.transition_from = transition.from
@@ -90,10 +99,6 @@ class Incident < ActiveRecord::Base
     service.try(:policy)
   end
 
-  # def account
-  #   service.try(:account)
-  # end
-
   protected
 
   # def loop_limit_reached?
@@ -106,8 +111,15 @@ class Incident < ActiveRecord::Base
   private
 
   def fire_event
-    self.account.events.create(source: self, action: self.event_action, actor: Revily::Event.actor) unless Revily::Event.paused?
-    self.service.touch
+    unless Revily::Event.paused?
+      self.account.events.create(
+        source: self,
+        action: self.event_action,
+        actor: Revily::Event.actor,
+        changeset: { :state => [ self.transition_from, self.transition_to ] }
+      )
+      self.service.touch
+    end
   end
 
   def triggered_event

@@ -5,9 +5,9 @@ class ContactSerializer < BaseSerializer
     object.user.try(:uuid)
   end
 
-  def include_type?
-    object.new_record?
-  end
+  # def include_type?
+    # object.new_record?
+  # end
   
   def include_user_id?
     object.persisted?

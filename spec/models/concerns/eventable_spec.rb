@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe Eventable do
   class MockModel < ActiveRecord::Base
     self.abstract_class = true

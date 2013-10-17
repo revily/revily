@@ -6,7 +6,7 @@ FactoryGirl.define do
     association :source, factory: :service
     association :actor, factory: :user
 
-    data { {} }
+    changeset { {} }
     action "created"
   end
 end

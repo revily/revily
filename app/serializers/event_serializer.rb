@@ -1,5 +1,5 @@
 class EventSerializer < BaseSerializer
-  attributes :id, :action, :data, :actor_id, :source_id
+  attributes :id, :action, :changeset, :actor_id, :source_id
   attribute :serialized_source, key: :source
   attribute :serialized_actor, key: :actor
   attribute :_links
