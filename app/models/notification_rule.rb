@@ -1,5 +1,5 @@
 class NotificationRule < ActiveRecord::Base
-  include Identifiable
+  include Revily::Concerns::Identifiable
 
   acts_as_tenant # belongs_to :account
 

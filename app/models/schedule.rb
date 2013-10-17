@@ -1,6 +1,6 @@
 class Schedule < ActiveRecord::Base
-  include Identifiable
-  include Eventable
+  include Revily::Concerns::Identifiable
+  include Revily::Concerns::Eventable
 
   include ::NewRelic::Agent::MethodTracer
 

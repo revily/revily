@@ -1,5 +1,5 @@
 class Contact < ActiveRecord::Base
-  include Identifiable
+  include Revily::Concerns::Identifiable
 
   attr_accessor :incidents
   

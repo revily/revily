@@ -1,6 +1,6 @@
 class Policy < ActiveRecord::Base
-  include Identifiable
-  include Eventable
+  include Revily::Concerns::Identifiable
+  include Revily::Concerns::Eventable
 
   acts_as_tenant # belongs_to :account
 

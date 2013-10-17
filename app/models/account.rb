@@ -1,5 +1,5 @@
 class Account < ActiveRecord::Base
-  include Identifiable
+  include Revily::Concerns::Identifiable
   
   attr_accessor :terms_of_service
 

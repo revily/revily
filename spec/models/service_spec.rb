@@ -4,7 +4,6 @@ describe Service do
   context 'associations' do
     it { should belong_to(:account) }
     it { should have_many(:incidents) }
-    it { should have_many(:alerts).through(:incidents) }
     it { should have_one(:service_policy) }
     it { should have_one(:policy).through(:service_policy) }
   end
