@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Revily::Concerns::Eventable do
   class MockModel < ActiveRecord::Base
     self.abstract_class = true
-    include Eventable
+    include Revily::Concerns::Eventable
   end
 
   describe '.events' do
