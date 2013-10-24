@@ -16,12 +16,12 @@ class V1::ContactsController < V1::ApplicationController
   end
 
   def index
-    @contacts = contacts.page(params[:page])
+    @contacts = contacts.includes(:user).page(params[:page])
     respond_with @contacts
   end
 
   def show
-    @contact = contacts.find_by!(uuid: params[:id])
+    @contact = contacts.includes(:user).find_by!(uuid: params[:id])
 
     respond_with @contact
   end
@@ -70,6 +70,6 @@ class V1::ContactsController < V1::ApplicationController
   end
 
   def contacts
-    @contacts = @user.contacts
+    @contacts = (@user) ? @user.contacts : Contact.all
   end
 end

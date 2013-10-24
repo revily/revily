@@ -11,17 +11,16 @@ class V1::IncidentsController < V1::ApplicationController
 
   def index
     @incidents = incidents.periscope(query_params).
-                   includes(:current_user, :current_policy_rule, service: :policy).
-                   # references(:current_user, :current_policy_rule, service: :policy).
-                   page(params[:page])
+      includes(:current_user, :current_policy_rule, service: :policy).
+      page(params[:page])
 
-    respond_with @incidents#, serializer: PaginationSerializer
+    respond_with @incidents, expand: expand_params
   end
 
   def show
     @incident = incidents.includes(:current_user, :current_policy_rule, :service).find_by!(uuid: params[:id])
 
-    respond_with @incident
+    respond_with @incident, expand: expand_params
   end
 
   def new
@@ -86,19 +85,19 @@ class V1::IncidentsController < V1::ApplicationController
 
   private
 
-    def incident_params
-      params.permit(:message, :details, :key)
-    end
+  def incident_params
+    params.permit(:message, :details, :key)
+  end
 
-    def search_params
-      params.permit(:state)
-    end
+  def search_params
+    params.permit(:state)
+  end
 
-    def service
-      @service = Service.find_by!(uuid: params[:service_id]) if params[:service_id]
-    end
+  def service
+    @service = Service.find_by!(uuid: params[:service_id]) if params[:service_id]
+  end
 
-    def incidents
-      @incidents = (@service) ? @service.incidents : Incident.all
-    end
+  def incidents
+    @incidents = (@service) ? @service.incidents : Incident.all
+  end
 end

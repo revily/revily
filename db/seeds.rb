@@ -2,7 +2,7 @@ include FactoryGirl::Syntax::Methods
 
 puts "create account"
 account = Account.first_or_create(
-  subdomain: "acme"
+  name: "Acme, Inc."
 )
 
 ActsAsTenant.current_tenant = account

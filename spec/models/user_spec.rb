@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe User do
+  pause_events!
+
   context 'associations' do
     it { should belong_to(:account) }
     it { should have_many(:contacts) }

@@ -3,10 +3,14 @@ class PolicyRuleSerializer < BaseSerializer
 
   # has_one :policy, embed: :ids
 
+  delegate :policy, :current_user, :assignment, to: :object
+
   def _links
-    link :self, "/policies/#{object.policy.uuid}/policy_rules/#{object.uuid}"
-    link :policy, "/policies/#{object.policy.uuid}"
+    link :self, policy_policy_rule_path(policy, object)
+    link :policy, policy_path(policy)
     link :assignment, polymorphic_path(assignment)
+    link :events, policy_rule_events_path(object)
+
     # if assignment.respond_to?(:current_user_on_call)
     #   link :assignment, schedule_path(assignment)
     # elsif assignment.is_a?(User)
@@ -17,24 +21,12 @@ class PolicyRuleSerializer < BaseSerializer
     super
   end
 
-  def policy
-    object.policy
-  end
-
   def policy_id
     policy.try(:uuid)
   end
 
   def include_policy_id?
     object.persisted?
-  end
-
-  def current_user
-    object.current_user
-  end
-
-  def assignment
-    object.assignment
   end
 
 end

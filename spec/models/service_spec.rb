@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Service do
+  pause_events!
+
   context 'associations' do
     it { should belong_to(:account) }
     it { should have_many(:incidents) }
@@ -46,7 +48,7 @@ describe Service do
     end
   end
 
-  describe '#current_status' do
+  describe '#health' do
     let(:service) { create(:service) }
 
     before do
@@ -54,22 +56,23 @@ describe Service do
       service.reload
     end
 
-    it 'current_status is "okay" with no open incidents' do
-      expect(service.current_status).to eq "okay"
+    it 'health is "ok" with no open incidents' do
+      expect(service.health).to eq "ok"
     end
 
-    it 'current_status is "critical" with triggered incidents' do
+    it 'health is "critical" with triggered incidents' do
       service.incidents << create(:incident, service: service)
       
-      expect(service.current_status).to eq "critical"
+      expect(service.health).to eq "critical"
     end
 
 
-    it 'current_status is "warning" with acknowledged incidents and no triggered incidents' do
+    it 'health is "warning" with acknowledged incidents and no triggered incidents' do
       service.incidents << create(:incident, service: service)
       service.incidents.first.acknowledge
+      service.reload
 
-      expect(service.current_status).to eq "warning"
+      expect(service.health).to eq "warning"
     end
 
   end

@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe UserSchedule do
+  pause_events!
+
   extend ScheduleMixins::Macros
   include ScheduleMixins::Helpers
 

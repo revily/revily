@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Hook do
+  pause_events!
+
   let!(:account) { create(:account) }
 
   context 'validations' do

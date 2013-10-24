@@ -1,7 +1,8 @@
-
 require 'spec_helper'
 
 describe Incident do
+  pause_events!
+
   context 'associations' do
     it { should belong_to(:service) }
     it { should belong_to(:account) }

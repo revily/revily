@@ -13,7 +13,7 @@ class Account < ActiveRecord::Base
   has_many :events, dependent: :destroy
   has_many :hooks, dependent: :destroy
   
-  validates :subdomain, 
+  validates :name, 
     # uniqueness: true,
     presence: true,
     allow_blank: false

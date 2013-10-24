@@ -8,6 +8,7 @@ class UserSerializer < BaseSerializer
   def _links
     link :self, user_path(object)
     link :contacts, user_contacts_path(object)
+    link :events, user_events_path(object)
 
     super
   end

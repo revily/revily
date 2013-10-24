@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe ServicePolicy do
+  pause_events!
+
   context 'associations' do
     it { should belong_to(:service) }
     it { should belong_to(:policy) }

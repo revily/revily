@@ -33,7 +33,6 @@ class V1::ApplicationController < ActionController::Base
 
   def current_actor
     current_user || current_service || nil
-    # current_resource_owner || current_user || current_service
   end
   helper_method :current_actor
 
@@ -47,6 +46,10 @@ class V1::ApplicationController < ActionController::Base
       res[key] = value.is_a?(String) ? value.strip.split(",") : value
       res
     end
+  end
+
+  def expand_params
+    @expand_params ||= (params[:expand]) ? params[:expand].split(",") : []
   end
 
 end

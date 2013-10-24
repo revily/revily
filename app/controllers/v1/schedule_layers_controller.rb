@@ -11,13 +11,13 @@ class V1::ScheduleLayersController < V1::ApplicationController
   def index
     @schedule_layers = schedule_layers.page(params[:page])
 
-    respond_with @schedule_layers#, serializer: PaginationSerializer
+    respond_with @schedule_layers, expand: expand_params
   end
 
   def show
     @schedule_layer = schedule_layers.find_by!(uuid: params[:id])
 
-    respond_with schedule, @schedule_layer
+    respond_with schedule, @schedule_layer, expand: expand_params
   end
 
   def new

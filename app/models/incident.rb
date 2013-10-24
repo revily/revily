@@ -71,6 +71,8 @@ class Incident < ActiveRecord::Base
       incident.transition_from = transition.from
       incident.transition_to = transition.to
       incident.event_action = transition.event
+
+      incident.service.recalculate_health
     end
 
     after_transition any => :triggered do |incident, transition|

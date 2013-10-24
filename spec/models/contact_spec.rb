@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Contact do
+  pause_events!
+
   context 'associations' do
     it { should belong_to(:user) }
     it { should belong_to(:account) }

@@ -1,55 +1,48 @@
 class EventSerializer < BaseSerializer
-  attributes :id, :action, :changeset, :actor_id, :source_id
-  attribute :serialized_source, key: :source
-  attribute :serialized_actor, key: :actor
+  attributes :id, :action, :changeset, :created_at
   attribute :_links
 
-  def source
-    object.source
+  delegate :changeset, :source, :actor, to: :object
+
+  def attributes
+    hash = super
+
+    hash.merge!(source_attributes) if source.present?
+    hash.merge!(actor_attributes) if actor.present?
+
+    hash
   end
 
-  def source_id
-    source.try(:uuid)
+  def source_attributes
+    source_attributes = source.active_model_serializer.new(source, minimal: true).serialize
+    source_attributes.merge!(type: source_type)
+
+    { source: source_attributes }
   end
 
-  def serialized_source
-    serialized_object(source)
-  end
+  def actor_attributes
+    actor_attributes = actor.active_model_serializer.new(actor, minimal: true).serialize
+    actor_attributes.merge!(type: actor_type)
 
-  def actor
-    object.actor
-  end
-
-  def include_serialized_source?
-    source.present?
-  end
-
-  def serialized_actor
-    serialized_object(actor)
-  end
-
-  def include_serialized_actor?
-    actor.present?
-  end
-
-  def actor_id
-    actor.try(:uuid)
+    { actor: actor_attributes }
   end
 
   def _links
-    links = {
-      self: { href: event_path(object) }
-    }
-    links[:source] = { href: source_path(source) } if source.present?
-    links[:actor] = { href: actor_path(actor) } if actor.present?
+    link :self, event_path(object)
+    link :source, source_path(source) if source.present?
+    link :actor, actor_path(actor) if actor.present?
 
-    links
+    super
   end
 
   private
 
-  def serialized_object(obj)
-    obj.active_model_serializer.new(obj).serialize_object if obj
+  def source_type
+    object.source_type.try(:downcase)
+  end
+
+  def actor_type
+    object.actor_type.try(:downcase)
   end
 
   def source_path(source)
@@ -57,9 +50,9 @@ class EventSerializer < BaseSerializer
     when "Service", "Incident", "Policy", "Schedule", "Service", "User"
       polymorphic_path(source)
     when "PolicyRule"
-      polymorphic_path(source.policy, source)
+      polymorphic_path([source.policy, source])
     when "ScheduleLayer"
-      polymorphic_path(source.schedule, source)
+      polymorphic_path([source.schedule, source])
     end
   end
 

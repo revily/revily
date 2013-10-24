@@ -4,6 +4,10 @@ Revily::Application.routes.draw do
   use_doorkeeper
   mount Sidekiq::Web => '/sidekiq'
 
+  concern :eventable do
+    resources :events, only: [ :index ]
+  end
+
   scope module: :v1, defaults: { format: :json }, constraints: Revily::ApiConstraints.new(version: 1, default: true) do
     put 'trigger'     => 'integration#trigger'
     put 'acknowledge' => 'integration#acknowledge'
@@ -32,6 +36,7 @@ Revily::Application.routes.draw do
     end
 
     resources :services do
+      concerns :eventable
       member do
         put 'enable'
         put 'disable'
@@ -44,15 +49,19 @@ Revily::Application.routes.draw do
         end
       end
     end
+
     resources :incidents, only: [ :index, :show, :update, :destroy ] do
+      concerns :eventable
       member do
         put 'acknowledge'
         put 'resolve'
         put 'trigger'
+        put 'escalate'
       end
     end
 
     resources :policies do
+      concerns :eventable
       resources :policy_rules do
         collection do
           post :sort
@@ -60,7 +69,12 @@ Revily::Application.routes.draw do
       end
     end
 
+    resources :policy_rules, except: [ :new, :create ] do
+      concerns :eventable
+    end
+
     resources :schedules do
+      concerns :eventable
       resources :schedule_layers, path: :layers, as: :layers
       resources :schedule_layers
       member do
@@ -70,11 +84,19 @@ Revily::Application.routes.draw do
       end
     end
 
+    resources :schedule_layers, except: [ :new, :create ] do
+      resources :events, only: [ :index, :show ]
+    end
+
     resources :users do
+      concerns :eventable
       resources :contacts
     end
-    resources :contacts, only: [ :index, :show, :update, :destroy]
-    
+
+    resources :contacts, except: [ :new, :create] do
+      concerns :eventable
+    end
+
     resources :hooks
     resources :events, only: [ :index, :show ]
     resources :tokens

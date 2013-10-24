@@ -1,6 +1,6 @@
 class ServiceSerializer < BaseSerializer
   attributes :id, :name, :auto_resolve_timeout, :acknowledge_timeout, :state, 
-             :current_status, :incident_counts, :_links
+             :health, :incident_counts, :_links
 
   def incident_counts
     object.incident_counts
@@ -11,9 +11,10 @@ class ServiceSerializer < BaseSerializer
   end
 
   def _links
-    {
-      self: { href: service_path(object) },
-      incidents: { href: service_incidents_path(object) }
-    }
+    link :self, service_path(object)
+    link :incidents, service_incidents_path(object)
+    link :events, service_events_path(object)
+
+    super
   end
 end

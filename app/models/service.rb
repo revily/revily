@@ -3,6 +3,8 @@ class Service < ActiveRecord::Base
   include Revily::Concerns::Eventable
   include Revily::Concerns::Actable
 
+  attr_accessor :transition_to, :transition_from, :event_action
+
   devise :token_authenticatable
 
   acts_as_tenant # belongs_to :account
@@ -11,8 +13,11 @@ class Service < ActiveRecord::Base
   has_one :service_policy
   has_one :policy, through: :service_policy
 
-  scope :enabled, -> { where(state: 'enabled') }
-  scope :disabled, -> { where(state: 'disabled') }
+  scope :enabled, -> { where(state: "enabled") }
+  scope :disabled, -> { where(state: "disabled") }
+  scope :critical, -> { where(health: "critical") }
+  scope :warning, -> { where(health: "warning") }
+  scope :ok, -> { where(health: "ok") }
 
   validates :name, :acknowledge_timeout, :auto_resolve_timeout, :state,
     presence: true
@@ -21,6 +26,7 @@ class Service < ActiveRecord::Base
     numericality: { only_integer: true }
 
   before_save :ensure_authentication_token
+  after_commit :fire_event
 
   state_machine initial: :enabled do
     state :enabled
@@ -33,20 +39,45 @@ class Service < ActiveRecord::Base
     event :disable do
       transition :enabled => :disabled
     end
+
+    after_transition any => any do |service, transition|
+      service.transition_from = transition.from
+      service.transition_to = transition.to
+      service.event_action = transition.event
+
+      service.recalculate_health
+    end
   end
 
   def incident_counts
     Service::IncidentCounts.new(incidents.group(:state).count)
   end
 
-  def current_status
-    begin
-      return 'disabled' if disabled?
-      return 'critical' if incident_counts.triggered > 0
-      return 'warning' if incident_counts.acknowledged > 0
-      return 'okay' if incident_counts.resolved >= 0
-    rescue => e
+  def recalculate_health
+    current = case
+    when disabled?
+      'disabled'
+    when incident_counts.triggered > 0
+      'critical'
+    when incident_counts.acknowledged > 0
+      'warning'
+    when incident_counts.resolved >= 0
+      'ok'
+    else
       'unknown'
+    end
+
+    update_attribute(:health, current)
+  end
+
+  def fire_event
+    unless Revily::Event.paused?
+      self.account.events.create(
+        source: self,
+        action: self.event_action,
+        actor: Revily::Event.actor,
+        changeset: { :state => [ self.transition_from, self.transition_to ] }
+      )
     end
   end
 

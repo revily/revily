@@ -1,8 +1,8 @@
 class BaseSerializer < ActiveModel::Serializer
-  cached
+  # cached
 
   embed :ids, include: true
-  delegate :cache_key, to: :object
+  # delegate :cache_key, to: :object
 
   attribute :errors
 
@@ -20,7 +20,7 @@ class BaseSerializer < ActiveModel::Serializer
   end
 
   def id
-    object.uuid
+    object.to_param
   end
 
   def errors
@@ -33,6 +33,16 @@ class BaseSerializer < ActiveModel::Serializer
   
   def include__links?
     !@options[:minimal] && object.persisted?
+  end
+
+  protected
+
+  def expand_options
+    @options[:expand] || []
+  end
+  
+  def serialized_object(obj)
+    obj ? obj.active_model_serializer.new(obj).serialize_object : {}
   end
 
 end

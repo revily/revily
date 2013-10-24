@@ -1,75 +1,56 @@
 class IncidentSerializer < BaseSerializer
-  attributes :id, :state, :triggered_at, :acknowledged_at, :resolved_at, :message, 
-             :description, :key, :details, :escalation_loop_count
-             # :service_id, :current_user_id, :current_policy_rule_id
-
-  attribute :service_attributes, key: :service
-  attribute :current_user_attributes, key: :current_user
-  attribute :current_policy_rule_attributes, key: :current_policy_rule
-  attribute :_links
-
   delegate :service, :current_user, :current_policy_rule, to: :object
+  
+  attributes :id, :state, :created_at, :triggered_at, :acknowledged_at, :resolved_at, :message,
+    :description, :key, :details, :escalation_loop_count
+  attribute :_links
 
   def key
     object.key_or_uuid
   end
 
+  def attributes
+    hash = super
+
+    hash.merge!(service_attributes) if service
+    hash.merge!(current_user_attributes) if current_user
+    hash.merge!(current_policy_rule_attributes) if current_policy_rule
+
+    hash
+  end
+
   def service_attributes
-    { id: service.uuid, name: service.name }
+    if expand_options.include?("service") || expand_options.include?("all")
+      { service: ServiceSerializer.new(service, minimal: true).serialize }
+    else
+      { service_id: object.service.to_param }
+    end
   end
 
   def current_user_attributes
-    current_user ? { id: current_user.uuid, name: current_user.name } : {}
+    if expand_options.include?("current_user") || expand_options.include?("all")
+      { current_user: UserSerializer.new(current_user, minimal: true).serialize }
+    else
+      { current_user_id: object.current_user.to_param }
+    end
   end
 
   def current_policy_rule_attributes
-    current_policy_rule ? { id: current_policy_rule.uuid, position: current_policy_rule.position } : {}
-  end
-
-  def service_id
-    service.uuid
-  end
-
-  def current_user_id
-    current_user.uuid
-  end
-
-  def current_policy_rule_id
-    current_policy_rule.uuid
-  end
-
-  def include_service_id?
-    object.persisted?
-  end
-
-  def include_current_user_attributes?
-    !!current_user
-  end
-
-  def include_policy_rule_attributes?
-    !!current_policy_rule
+    if expand_options.include?("current_policy_rule") || expand_options.include?("all")
+      { current_policy_rule: PolicyRuleSerializer.new(current_policy_rule, minimal: true).serialize }
+    else
+      { current_policy_rule_id: object.current_policy_rule.to_param }
+    end
   end
 
   def _links
-    links = {
-      self: { href: incident_path(object) },
-      service: { href: service_path(object.service) },
-    }
-    links[:current_user] = { href: user_path(current_user.uuid) } if current_user.try(:uuid)
-    links[:current_policy_rule] = { href: policy_policy_rule_path(policy, current_policy_rule.uuid) } if current_policy_rule.try(:uuid)
-    links
-  end
+    link :self, incident_path(object)
+    link :service, service_path(object.service)
+    link :current_user, user_path(current_user.uuid) if current_user.try(:uuid)
+    link :current_policy_rule, policy_policy_rule_path(current_policy_rule.policy, current_policy_rule.uuid) if current_policy_rule.try(:uuid)
+    link :events, incident_events_path(object)
 
-  def current_user
-    object.current_user
-  end
-
-  def current_policy_rule
-    object.current_policy_rule
-  end
-
-  def policy
-    object.service.policy
+    super
   end
 
 end

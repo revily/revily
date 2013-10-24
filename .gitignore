@@ -65,3 +65,4 @@ pickle-email-*.html
 
 .sublime-*
 .floo*
+/.bin
