@@ -1,0 +1,122 @@
+#!/usr/bin/env ruby
+
+Signal.trap("INT") { exit 1 }
+
+# require "bundler"
+# Bundler.setup
+
+require "thor"
+require "logger"
+require "highline"
+
+module Revily
+  module CLI
+    class << self
+      attr_accessor :logger
+
+      def logger
+        @logger ||= Logger.new(STDOUT)
+      end
+    end
+
+    class Setup < Thor
+      include Thor::Actions
+
+      def self.source_root
+        File.expand_path("../", File.dirname(__FILE__))
+      end
+
+      namespace "revily"
+      default_task :setup
+
+      class_option :environment,
+        aliases: "-e",
+        desc: "The Rails environment",
+        default: "production"
+      class_option :force,
+        aliases: "-f",
+        type: :boolean,
+        desc: "Force setup (assume yes for all questions)",
+        default: false
+
+      desc "setup", "Setup a new Revily install"
+      def setup
+        if options[:force] || yes?("Continue? [y/N]", :yellow)
+          # configure_environment
+          # create_database
+          # migrate_database
+          load_application
+          pause_events
+          create_first_account
+        else
+          error "You said no :'(. Exiting..."
+          exit 1
+        end
+      end
+
+      no_commands do
+        def configure_environment
+          say "Setting up Revily in '#{options[:environment]}' environment"
+          ENV["RAILS_ENV"] ||= options[:environment]
+        end
+
+        def create_database
+          run "rake db:create", capture: false, verbose: false
+        end
+
+        def migrate_database
+          run "rake db:migrate", capture: false, verbose: false
+        end
+
+        def load_application
+          say "Loading the application"
+          require File.expand_path('../../config/environment', __FILE__)
+        end
+
+        def pause_events
+          Revily::Event.pause!
+        end
+
+        def create_first_account
+          say "Next, we'll create your first account and user."
+          account_name = ask("Account short name (Ex. \"acme\"):")
+          user_name = ask("Your name:")
+          email = ask("Your email address:")
+          password = h.ask("Your password:") { |q| q.echo = false }
+          password_confirmation = h.ask("Password confirmation:" ) { |q| q.echo = false }
+
+          account = Account.create(name: account_name)
+          user = account.users.create(
+            name: user_name,
+            email: email,
+            password: password,
+            password_confirmation: password_confirmation
+          )
+          say user.inspect
+        end
+      end
+
+      private
+
+      def h
+        @h ||= ::HighLine.new
+      end
+
+    end
+  end
+end
+
+# Output message to $stderr, prefixed with the program name
+def pute(*args)
+  first = args.shift.dup
+  first.insert(0, "#{$0}: ")
+  args.unshift(first)
+  $stderr.puts(*args)
+end
+
+begin
+  Revily::CLI::Setup.start(ARGV)
+rescue Interrupt
+  pute "Quitting..."
+  exit 1
+end

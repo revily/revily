@@ -15,6 +15,7 @@ gem "dalli",                                "2.6.4"
 gem "devise",                               "3.0.2"
 gem "doorkeeper",                           "0.7.3"
 gem "dotenv-rails",                         "0.9.0"
+gem "highline",                             "1.6.20", require: false
 gem "ice_cube",                             "0.11.0"
 gem "kaminari",                             "0.14.1"
 gem "metriks",                              "0.9.9.5"
