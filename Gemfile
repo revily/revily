@@ -32,6 +32,7 @@ gem "sidekiq",                              "2.13.0"
 gem "sinatra",                              "1.4.3",  require: false
 gem "slim",                                 "2.0.0",  require: false
 gem "state_machine",                        "1.2.0"
+gem "thor",                                           github: "erikhuda/thor"
 gem "twilio-rb",                            "2.3.0",  github: "stevegraham/twilio-rb" # Keep until new gem is released
 gem "unicorn",                              "4.6.3"
 gem "validates_existence",                  "0.8.0"

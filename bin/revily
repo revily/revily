@@ -8,6 +8,7 @@ Signal.trap("INT") { exit 1 }
 require "thor"
 require "logger"
 require "highline"
+require "securerandom"
 
 module Revily
   module CLI
@@ -38,16 +39,20 @@ module Revily
         type: :boolean,
         desc: "Force setup (assume yes for all questions)",
         default: false
+      class_option :bundler,
+        type: :boolean,
+        desc: "Prepend all commands with `bundle exec`",
+        default: true
 
       desc "setup", "Setup a new Revily install"
       def setup
-        if options[:force] || yes?("Continue? [y/N]", :yellow)
-          # configure_environment
+        if options[:force] || h.agree("Continue?")
+          load_environment
           # create_database
-          # migrate_database
           load_application
           pause_events
-          create_first_account
+          # create_first_account
+          configure_application
         else
           error "You said no :'(. Exiting..."
           exit 1
@@ -55,22 +60,21 @@ module Revily
       end
 
       no_commands do
-        def configure_environment
-          say "Setting up Revily in '#{options[:environment]}' environment"
+        def load_environment
+          h.say h.color("Setting up Revily in '#{options[:environment]}' environment...", :green)
           ENV["RAILS_ENV"] ||= options[:environment]
         end
 
         def create_database
-          run "rake db:create", capture: false, verbose: false
-        end
-
-        def migrate_database
-          run "rake db:migrate", capture: false, verbose: false
+          h.say h.color("Creating the database...", :green)
+          bundle "rake db:create 2>&1 > /dev/null"
+          bundle "rake db:schema:load 2>&1 > /dev/null"
         end
 
         def load_application
-          say "Loading the application"
+          h.say h.color("Loading the application...", :green)
           require File.expand_path('../../config/environment', __FILE__)
+          puts
         end
 
         def pause_events
@@ -78,21 +82,99 @@ module Revily
         end
 
         def create_first_account
-          say "Next, we'll create your first account and user."
-          account_name = ask("Account short name (Ex. \"acme\"):")
-          user_name = ask("Your name:")
-          email = ask("Your email address:")
-          password = h.ask("Your password:") { |q| q.echo = false }
-          password_confirmation = h.ask("Password confirmation:" ) { |q| q.echo = false }
+          h.say green "Next, we'll create your first account and user."
 
-          account = Account.create(name: account_name)
-          user = account.users.create(
+          account_name = h.ask "Enter your account name " do |q|
+            q.default = "Acme, Inc."
+          end
+          user_name = h.ask "Enter your name " do |q|
+            q.default = "Bill Williamson"
+          end
+          email = h.ask "Enter your email address " do |q|
+            q.default = "bill.williamson@example.com"
+          end
+          password = h.ask("Enter your password ") { |q| q.echo = false }
+          password_confirmation = h.ask("Confirm your password ") { |q| q.echo = false }
+
+          say "Creating your account...", :green
+          account = Account.first_or_create(name: account_name)
+          ActsAsTenant.current_tenant = account
+
+          say "Creating your user...", :green
+          user = account.users.where(
             name: user_name,
-            email: email,
-            password: password,
+            email: email
+          ).first_or_create(
+            password: password, 
             password_confirmation: password_confirmation
           )
-          say user.inspect
+          puts
+        end
+
+        def configure_application
+          say "Revily uses environment variables extensively for configuring the application.", :green
+          say "Now, we'll go through the available options and generate a .env file for you.", :green
+          puts
+
+          env = {}
+
+          # Rails
+          env["SECRET_TOKEN"] = SecureRandom.hex(64)
+          env["REVILY_REDIS_CACHE_URL"] = h.ask "Enter the Redis URI to use for caching " do |q|
+            q.default = "redis://localhost:6379/0/cache"
+          end
+
+          # Mail
+          env["MAILER_URL"] = h.ask "Enter the default domain from where emails will be sent " do |q|
+            q.default = "example.com"
+          end
+          env["MAILER_DELIVERY_METHOD"] = h.choose do |menu|
+            menu.prompt = "Select a mailer delivery method "
+            menu.choice("mailgun")
+            menu.choice("smtp")
+          end
+          if env["MAILER_DELIVERY_METHOD"] == "mailgun"
+            env[:mailgun_domain] = h.ask "Enter your Mailgun domain " do |q|
+              q.default = "example.com"
+            end
+            env["MAILGUN_API_KEY"] = h.ask "Enter your Mailgun API key " do |q|
+              q.default = "key-d7c6623902767a258dcabb7bde795288"
+            end
+          end
+          env["MAILER_SENDER"] = h.ask "Enter the address used to send emails " do |q|
+            q.default = "revily@example.com"
+          end
+
+          # Twilio
+          env["TWILIO_ACCOUNT_SID"] = h.ask "Enter your Twilio Account SID " do |q|
+            q.default = "AC6d1876a59a704b238042d1d6a61db"
+          end
+          env["TWILIO_APPLICATION_SID"] = h.ask "Enter your Twilio Application SID " do |q|
+            q.default = "APd1876a59a704b238042d1d6a61db"
+          end
+          env["TWILIO_AUTH_TOKEN"] = h.ask "Enter your Twilio auth token " do |q|
+            q.default = "c93b7006914f515b0b26ea5168bd875f"
+          end
+          env["TWILIO_NUMBER"] = h.ask "Enter your Twilio number " do |q|
+            q.default = "+15175551212"
+          end
+
+          # New Relic
+          env["NEWRELIC_ENABLE"] = h.agree "Should we enable New Relic? " do |q|
+            q.default = "yes"
+          end
+          if env["NEWRELIC_ENABLE"]
+            env["NEWRELIC_LICENSE_KEY"] = h.ask "Enter your New Relic license key " do |q|
+              q.default = "da7bcd4e6c9b0fa344104e6643f1494123259beb"
+            end
+          end
+
+          env_file_contents = env.map { |key, value| %Q[#{key}="#{value}"\n] }.join
+          create_file ".env.generated", env_file_contents
+
+          puts
+          h.say green "Ok! We generated a file at .env.generated. Check it out and, if it looks good, " +
+            "remember to move it to .env before starting the application."
         end
       end
 
@@ -102,21 +184,31 @@ module Revily
         @h ||= ::HighLine.new
       end
 
+      def quiet_run(command, config = {})
+        run command, config.merge(capture: false, verbose: false)
+      end
+
+      def bundle(command, config = {})
+        bundler_command = options[:bundler] ? "bundle exec" : ""
+        command = [ bundler_command, command ].join(" ")
+
+        quiet_run(command, config)
+      end
+
+      def green(text)
+        h.color(text, :green)
+      end
+
+      def yellow(text)
+        h.color(text, :yellow)
+      end
+
     end
   end
 end
-
-# Output message to $stderr, prefixed with the program name
-def pute(*args)
-  first = args.shift.dup
-  first.insert(0, "#{$0}: ")
-  args.unshift(first)
-  $stderr.puts(*args)
-end
-
 begin
   Revily::CLI::Setup.start(ARGV)
 rescue Interrupt
-  pute "Quitting..."
+  puts "Quitting..."
   exit 1
 end
