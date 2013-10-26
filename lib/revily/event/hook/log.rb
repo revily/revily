@@ -4,7 +4,8 @@ module Revily
       class Log < Hook
 
         hook_name 'log'
-        events Event.all
+        handler   'log'
+        events    Event.all
 
       end
     end

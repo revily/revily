@@ -12,12 +12,14 @@ module Revily
       validates :name, :event, :source, presence: true
 
       def handler
-        Handler.const_get(name.to_s.camelize, false)
-      rescue NameError => e
+        @handler ||= Revily::Event.handlers.fetch(name.to_sym)
+      rescue KeyError => e
         Rails.logger.debug "No event handler #{name.inspect} found."
+        return nil
       end
 
       def notify
+        # return false unless handler && handler.supports?(event)
         return false unless handler.supports?(event)
         
         options = { event: event, source: source, actor: actor, config: config }

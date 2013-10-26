@@ -4,7 +4,8 @@ module Revily
       class IncidentResolve < Hook
         
         hook_name 'incident_resolve'
-        events %w[ incident.resolve ]
+        handler   'incident_resolve'
+        events    %w[ incident.resolve ]
 
       end
     end

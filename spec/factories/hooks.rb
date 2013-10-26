@@ -4,7 +4,8 @@ FactoryGirl.define do
   factory :hook do
     account
     
-    name 'test'
+    name 'Test Hook'
+    handler 'test'
     config Hash.new
     events { %w[ * ] }
     state 'enabled'
@@ -19,7 +20,11 @@ FactoryGirl.define do
   end
 
   trait :log do
-    name 'log'
+    handler 'log'
+  end
+
+  trait :test do
+    handler 'test'
   end
 
   trait :with_config do
@@ -42,7 +47,4 @@ FactoryGirl.define do
     events { Revily::Event.events }
   end
 
-  trait :test do
-    name 'test'
-  end
 end

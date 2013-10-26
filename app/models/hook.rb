@@ -11,14 +11,15 @@ class Hook < ActiveRecord::Base
   scope :enabled, -> { where(state: 'enabled') }
   scope :disabled, -> { where(state: 'disabled') }
 
-  # validates :events,
-    # presence: true
-  validates :name,
+  # @!group Validations
+  validates :name, :handler,
     presence: true
   validate :events_present?
   validate :handler_exists?
   validate :handler_supports_events?
-  
+  # @!endgroup
+
+  # @!group State
   state_machine initial: :enabled do
     state :enabled
     state :disabled
@@ -31,9 +32,10 @@ class Hook < ActiveRecord::Base
       transition enabled: :disabled
     end
   end
+  # !@endgroup
   
-  def handler
-    Revily::Event.handlers[name]
+  def handler_class
+    Revily::Event.handlers[self.handler]
   end
 
   def events=(*events)
@@ -51,14 +53,14 @@ class Hook < ActiveRecord::Base
       expanded_events = Revily::Event::Matcher.new(events)
       return unless handler
       events.each do |event|
-        unless handler && handler.supports?(event)
+        unless handler && handler_class && handler_class.supports?(event)
           errors.add(:events, "handler does not support event '#{event}'")
         end
       end
     end
 
     def handler_exists?
-      unless handler
+      unless handler && handler_class
         errors.add(:name, 'handler does not exist')
       end
     end

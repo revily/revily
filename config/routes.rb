@@ -2,7 +2,7 @@ require 'sidekiq/web'
 
 Revily::Application.routes.draw do
   use_doorkeeper
-  mount Sidekiq::Web => '/sidekiq'
+  mount ::Sidekiq::Web => '/sidekiq'
 
   concern :eventable do
     resources :events, only: [ :index ]

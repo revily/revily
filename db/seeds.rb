@@ -14,13 +14,11 @@ user = account.users.where(
   authentication_token: "dGpYyvbApYxXGAvPkQjt"
 ).first_or_create(password: "asdfasdf", password_confirmation: "asdfasdf")
 
-services = []
-%w[ Application Nagios Pingdom ].each do |name|
-  puts "create service #{name}"
-  services << Service.where(
-    name: name,
-    auto_resolve_timeout: 240,
-    acknowledge_timeout: 30
+puts "create user contacts"
+%w[ SMS Phone ].each do |type|
+  user.contacts.where(
+    type: "Contact::#{type}",
+    address: "+15172145853"
   ).first_or_create
 end
 
@@ -31,10 +29,23 @@ policy = Policy.first_or_create(
 )
 
 puts "create rule"
-policy.policy_rules.first_or_create(
-  assignment: user,
+policy.policy_rules.where(
   escalation_timeout: 1
-)
+).first_or_create(account: account, assignment: user)
+
+services = []
+%w[ Application Nagios Pingdom ].each do |name|
+  puts "create service #{name}"
+  services << account.services.where(
+    name: name,
+    auto_resolve_timeout: 240,
+    acknowledge_timeout: 30
+  ).first_or_create
+end
+services.each do |service|
+  service.policy = policy
+  service.save
+end
 
 puts "create incidents"
 services.each do |service|

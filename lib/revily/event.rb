@@ -65,16 +65,23 @@ module Revily
       # because I have no idea what I'm doing.
       def sources
         @sources ||= Hash[{
-                            incident: ::Incident,
-                            policy: ::Policy,
-                            policy_rule: ::PolicyRule,
-                            schedule: ::Schedule,
-                            schedule_layer: ::ScheduleLayer,
-                            service: ::Service,
-                            user: ::User
+          incident: ::Incident,
+          policy: ::Policy,
+          policy_rule: ::PolicyRule,
+          schedule: ::Schedule,
+          schedule_layer: ::ScheduleLayer,
+          service: ::Service,
+          user: ::User
         }.sort].with_indifferent_access
       end
 
+      def actors
+        @actors ||= Hash[{
+          service: ::Service,
+          user: ::User
+        }.sort].with_indifferent_access
+      end
+      
       def events
         @events ||= sources.map do |name, klass|
           klass.events.map do |event|
@@ -85,7 +92,9 @@ module Revily
       alias_method :all, :events
 
       def hash_from_constant(constant)
-        Hash[constant.constants(false).map { |c| [c.to_s.underscore, constant.const_get(c)] }.sort]
+        Hash[constant.constants(false).map do |c|
+          [c.to_s.underscore, constant.const_get(c)]
+        end.sort].with_indifferent_access
       end
       private :hash_from_constant
     end

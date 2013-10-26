@@ -7,18 +7,20 @@ describe Hook do
 
   context 'validations' do
     it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:handler) }
     it { should belong_to(:account) }
 
     describe 'handler_exists?' do
       let(:hook) { build_stubbed(:hook, :for_incidents) }
       it 'when handler exists' do
-        hook.name = 'test'
-        hook.should be_valid
+        hook.handler = 'test'
+        expect(hook).to be_valid
       end
 
       it 'when no handler exists' do
-        hook.name = 'bogus_handler'
-        hook.should_not be_valid
+        hook.name = 'bogus'
+        hook.handler = 'bogus_handler'
+        expect(hook).to_not be_valid
         expect(hook).to have(1).error_on(:name)
       end
     end
@@ -68,13 +70,14 @@ describe Hook do
     let(:hook) { build_stubbed(:hook) }
 
     it 'when handler exists' do
-      hook.name = 'test'
-      hook.handler.should be Revily::Event::Handler::Test
+      hook.handler = 'test'
+      hook.handler.should eq "test"
+      hook.handler_class.should be Revily::Event::Handler::Test
     end
 
     it 'when no handler exists' do
-      hook.name = 'bogus_handler'
-      hook.handler.should be_nil
+      hook.handler = 'bogus_handler'
+      hook.handler_class.should be_nil
     end
   end
 end

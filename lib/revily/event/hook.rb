@@ -10,6 +10,11 @@ module Revily
       autoload :Test,                'revily/event/hook/test'
 
       class << self
+        def handler(handler=nil)
+          return @handler if handler.nil?
+          @handler = handler
+        end
+
         def hook_name(name=nil)
           return @hook_name if name.blank?
           @hook_name = name
@@ -33,7 +38,15 @@ module Revily
       end
 
       def handler
-        Revily::Event.handlers[name]
+        @handler ||= self.class.handler
+      end
+
+      def handler_class
+        @handler_class ||= Revily::Event.handlers[handler]
+      end
+
+      def handler=(handler)
+        @handler = Revily::Event.handlers[handler]
       end
 
       def initialize(attrs={})

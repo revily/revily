@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :subscription, class: Revily::Event::Subscription do
-    name 'test'
+    name 'test' # handler name
     event 'incident.triggered'
     config { {} }
 
