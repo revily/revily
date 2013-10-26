@@ -34,6 +34,9 @@ module Revily
       validates :payload, presence: true
       # @!endgroup
       class << self
+        def key
+          self.name.demodulize.underscore
+        end
         # def queue(queue=nil)
         #   @queue = queue
         #   attribute :queue, type: String, default: queue
@@ -89,6 +92,7 @@ module Revily
 
       # Wrapper method around {#handle} to allow subclasses to override that method
       def notify
+        logger.info self.to_log
         Metriks.timer('handler.handle').time do
           handle
         end

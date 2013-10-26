@@ -4,6 +4,7 @@ module Revily
   autoload :Event,          'revily/event'
   autoload :Log,            'revily/log'
   autoload :Model,          'revily/model'
+  autoload :ServiceObject,  'revily/service_object'
   autoload :Sidekiq,        'revily/sidekiq'
 
   module Concerns

@@ -12,10 +12,6 @@ class Event < ActiveRecord::Base
 
   after_create :dispatch
 
-  # def dispatch_event
-  # dispatch(self.action)
-  # end
-
   def hooks
     self.account.hooks + Revily::Event.hooks
   end
@@ -23,7 +19,7 @@ class Event < ActiveRecord::Base
   def subscriptions
     @subscriptions ||= hooks.map do |hook|
       options = {
-        name: hook.name,
+        name: hook.handler,
         config: hook.config,
         source: self.source,
         actor: self.actor,

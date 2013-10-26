@@ -37,7 +37,7 @@ describe Revily::Event::Subscription do
       let(:account) { build_stubbed(:account) }
       let(:source)  { build_stubbed(:incident, account: account) }
       let(:hook) { build_stubbed(:hook, :test, :with_config, :for_incidents, account: account) }
-      let(:options) { { name: hook.name, config: hook.config, source: source, event: 'incident.trigger' } }
+      let(:options) { { name: hook.handler, config: hook.config, source: source, event: 'incident.trigger' } }
       let(:subscription) { Revily::Event::Subscription.new(options) }
 
       it 'with the correct attributes' do

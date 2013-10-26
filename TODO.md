@@ -15,6 +15,11 @@
 ## Refactor
 
 * move voice and sms controllers to separate, mountable apps (grape? vanilla sinatra?)
+* redo hooks (both global and account-specific)
+  - name attribute is confusingly used to set the handler
+* redo handlers
+  - event list and matchers are very slow
+* rewrite UserSchedule. look into caching values
 
 ## Chores
 
