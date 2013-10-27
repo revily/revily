@@ -51,10 +51,12 @@ For manual instructions, consult the [INSTALL.md](INSTALL.md) documentation.
 
 ### TL;DR
 
+```bash
 RAILS_ENV=production TWILIO_ACCOUNT_SID=... TWILIO_AUTH_TOKEN=... rake \
   revily:setup \
   revily:bootstrap \
   revily:twilio:bootstrap
+```
 
 ### Bootstrapping Revily
 
