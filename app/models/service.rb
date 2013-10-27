@@ -71,14 +71,7 @@ class Service < ActiveRecord::Base
   end
 
   def fire_event
-    unless Revily::Event.paused?
-      self.account.events.create(
-        source: self,
-        action: self.event_action,
-        actor: Revily::Event.actor,
-        changeset: { :state => [ self.transition_from, self.transition_to ] }
-      )
-    end
+    Event::CreationService.new(self).create
   end
 
   class << self

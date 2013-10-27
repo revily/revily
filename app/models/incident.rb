@@ -112,15 +112,8 @@ class Incident < ActiveRecord::Base
   private
 
   def fire_event
-    unless Revily::Event.paused?
-      self.account.events.create(
-        source: self,
-        action: self.event_action,
-        actor: Revily::Event.actor,
-        changeset: { :state => [ self.transition_from, self.transition_to ] }
-      )
-      self.service.touch
-    end
+    Event::CreationService.new(self).create
+    self.service.touch
   end
 
   def triggered_event
