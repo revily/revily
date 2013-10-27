@@ -12,6 +12,13 @@
   - admin superuser
     - customize acts_as_tenant to allow admin to get to any account
 
+* add admin account
+  - adding rails_admin support
+  - routing constraints for /admin and /sidekiq
+
+
+* add LDAP auth
+
 ## Refactor
 
 * move voice and sms controllers to separate, mountable apps (grape? vanilla sinatra?)
@@ -20,6 +27,9 @@
 * redo handlers
   - event list and matchers are very slow
 * rewrite UserSchedule. look into caching values
+* improme state machine code.
+  - look into using simple_states (https://github.com/svenfuchs/simple_states)
+  - and using service objects over large code blocks
 
 ## Chores
 

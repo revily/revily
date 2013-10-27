@@ -1,7 +1,7 @@
 # Dependencies
 
-* [PostgreSQL](http://www.postgresql.org/) 9.x (application data)
-* [Redis](http://redis.io/) (background processing; caching; session store)
+* [PostgreSQL](http://www.postgresql.org/) >= 9.2 (application data)
+* [Redis](http://redis.io/) >= 2.6 (background processing; caching; session store)
 
 Configuring these services is left as an exercise for the reader. You'll want at least one Postgres database, and up to three Redis databases (though, a single namespaced Redis instance will suffice).
 
@@ -18,11 +18,11 @@ You'll need a Twilio account to get started. Once you've got one, you can config
 
 ### Account credentials
 
-We need the Twilio Account SID and the Auth Token from your Twilio account. [Get these from your dashboard](https://www.twilio.com/user/account.
+We need the Twilio Account SID and the Auth Token from your Twilio account. [Get these from your dashboard](https://www.twilio.com/user/account).
 
 ### Creating a TwiML application
 
-Go to the [Create App](https://www.twilio.com/user/account/apps/add) page. Give it a name, choose the optional settings to view extra configuration parameters, and for each option add the following (replacing $REVILY_URL with a publicly-accessible URL to your Revily service):
+Go to the [Create App](https://www.twilio.com/user/account/apps/add) page. Give it a name, choose the optional settings to view extra configuration parameters, and for each option add the following (substituting $REVILY_URL for the publicly-accessible URL to your Revily service):
 
 #### Voice
 
