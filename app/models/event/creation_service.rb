@@ -17,8 +17,6 @@ class Event::CreationService
     end
   end
 
-  # private
-
   def account
     object.account
   end
@@ -26,7 +24,7 @@ class Event::CreationService
   def action
     source.event_action
   end
-  
+
   def source
     object
   end
