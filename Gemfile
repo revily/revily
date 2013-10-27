@@ -34,6 +34,7 @@ gem "slim",                                 "2.0.0",  require: false
 gem "state_machine",                        "1.2.0"
 gem "thor",                                           github: "erikhuda/thor"
 gem "twilio-rb",                            "2.3.0",  github: "stevegraham/twilio-rb" # Keep until new gem is released
+gem "twilio-ruby",                               "3.11.4", require: false
 gem "unicorn",                              "4.6.3"
 gem "validates_existence",                  "0.8.0"
 # gem "incoming",                            "0.1.5"

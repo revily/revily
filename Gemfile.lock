@@ -443,6 +443,10 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     trollop (2.0)
+    twilio-ruby (3.11.4)
+      builder (>= 2.1.2)
+      jwt (>= 0.1.2)
+      multi_json (>= 1.3.0)
     twilio-test-toolkit (3.2.1)
       capybara
       uuidtools
@@ -541,6 +545,7 @@ DEPENDENCIES
   thor!
   timecop (= 0.6.1)
   twilio-rb (= 2.3.0)!
+  twilio-ruby (= 3.11.4)
   twilio-test-toolkit (= 3.2.1)
   unicorn (= 4.6.3)
   validates_existence (= 0.8.0)

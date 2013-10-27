@@ -1,6 +1,5 @@
-require "highline"
+require_relative "common"
 require "securerandom"
-require "awesome_print"
 
 Signal.trap("INT") { exit 1 }
 
@@ -15,22 +14,22 @@ namespace :revily do
   desc "Bootstrap the Revily application"
   task :bootstrap => [ :create_account, :create_application ] do
     success "Bootstrapping your Revily application...done!"
-    success "Use the Revily web UI or the CLI to setup your service."
+    success "Use the Revily web UI or the CLI to setup the rest."
   end
 
   desc "Create an initial account and user"
   task :create_account => :pause_events do
-    account_name = cli.ask "--> Enter an account name (company, team, etc.) " do |q|
+    account_name = ask "--> Enter an account name (company, team, etc.) " do |q|
       q.default = "Acme, Inc."
     end
-    user_name = cli.ask "--> Enter your name " do |q|
+    user_name = ask "--> Enter your name " do |q|
       q.default = "Bill Williamson"
     end
-    email = cli.ask "--> Enter your email address " do |q|
+    email = ask "--> Enter your email address " do |q|
       q.default = "bill.williamson@example.com"
     end
-    password = cli.ask("--> Enter your password ") { |q| q.echo = false }
-    password_confirmation = cli.ask("--> Confirm your password ") { |q| q.echo = false }
+    password = ask("--> Enter your password ") { |q| q.echo = false }
+    password_confirmation = ask("--> Confirm your password ") { |q| q.echo = false }
 
     begin
       info "Creating your account..."
@@ -46,7 +45,7 @@ namespace :revily do
         password_confirmation: password_confirmation
       )
 
-      cli.say <<-CLI
+      say <<-CLI
 
 Account:   #{account.name}
 User:      #{user.name}
@@ -71,7 +70,7 @@ CLI
     app = Doorkeeper::Application.create!(name: "Revily Web", redirect_uri: "urn:ietf:wg:oauth:2.0:oob")
 
     info "Add these environment variables to Revily Web"
-    cli.say <<-CLI
+    say <<-CLI
 
 REVILY_API_CLIENT_ID="#{app.uid}"
 REVILY_API_CLIENT_SECRET="#{app.secret}"
@@ -83,24 +82,4 @@ CLI
     info "Pausing Revily's event system"
     Revily::Event.pause!
   end
-end
-
-def cli
-  @cli ||= HighLine.new
-end
-
-def info(message)
-  cli.say cli.color(message, :green)
-end
-
-def warn(message)
-  cli.say cli.color(message, :yellow)
-end
-
-def error(message)
-  cli.say cli.color(message, :red)
-end
-
-def success(message)
-  cli.say cli.color(message, :blue)
 end
