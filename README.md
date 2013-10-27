@@ -52,10 +52,8 @@ For manual instructions, consult the [INSTALL.md](INSTALL.md) documentation.
 ### TL;DR
 
 ```bash
-RAILS_ENV=production TWILIO_ACCOUNT_SID=... TWILIO_AUTH_TOKEN=... rake \
-  revily:setup \
-  revily:bootstrap \
-  revily:twilio:bootstrap
+export RAILS_ENV=production TWILIO_ACCOUNT_SID=... TWILIO_AUTH_TOKEN=...
+rake revily:setup revily:bootstrap revily:twilio:bootstrap
 ```
 
 ### Bootstrapping Revily
@@ -64,8 +62,9 @@ Two rake tasks are used to setup the initial configuration. The `revily:setup` t
 will create your first account, user and print out environment variables which can be used to configure the application further.
 
 ```bash
-RAILS_ENV=production rake revily:setup
-RAILS_ENV=production rake revily:bootstrap
+export RAILS_ENV=production
+rake revily:setup
+rake revily:bootstrap
 ```
 
 ### Creating a Twilio account
@@ -73,6 +72,8 @@ RAILS_ENV=production rake revily:bootstrap
 A rake task is provided for automating the creation of a Twilio application, a phone number for voice and SMS messages, and configuring the number to use the Twilio application. You will need to know your account SID and your auth token, both of which you can find on the [Twilio dashboard](https://www.twilio.com/user/account).
 
 ```bash
+export RAILS_ENV=production TWILIO_ACCOUNT_SID=... TWILIO_AUTH_TOKEN=...
+rake revily:twilio:bootstrap
 ```
 
 ## Deployment
