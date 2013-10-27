@@ -1,7 +1,10 @@
 class Policy < ActiveRecord::Base
   include Revily::Concerns::Identifiable
   include Revily::Concerns::Eventable
+  include Revily::Concerns::RecordChange
 
+  events :create, :update, :delete
+  
   acts_as_tenant # belongs_to :account
 
   has_many :policy_rules, -> { order(:position) }, dependent: :destroy

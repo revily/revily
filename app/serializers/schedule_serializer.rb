@@ -1,4 +1,4 @@
-class ScheduleSerializer < BaseSerializer
+class ScheduleSerializer < ApplicationSerializer
   attributes :id, :name, :time_zone, :_links
 
   def id

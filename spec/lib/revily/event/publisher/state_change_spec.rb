@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Event::CreationService do
+describe Revily::Event::Publisher::StateChange do
   let(:object) { mock_model("Incident")}
   let(:account) { mock_model("Account") }
   let(:source) { object }
@@ -19,14 +19,14 @@ describe Event::CreationService do
   end
 
   it "creates an event" do
-    service = Event::CreationService.new(object)
-    service.create
+    publisher = Revily::Event::Publisher::StateChange.new(object)
+    publisher.publish
 
-    expect(service.account).to eq(account)
-    expect(service.action).to eq(object.event_action)
-    expect(service.source).to eq(source)
-    expect(service.actor).to eq(actor)
-    expect(service.changeset).to eq({ state: [ object.transition_from, object.transition_to ] })
+    expect(publisher.account).to eq(account)
+    expect(publisher.action).to eq(object.event_action)
+    expect(publisher.source).to eq(source)
+    expect(publisher.actor).to eq(actor)
+    expect(publisher.changeset).to eq({ state: [ object.transition_from, object.transition_to ] })
     expect(Event).to have_received(:create)
   end
 end

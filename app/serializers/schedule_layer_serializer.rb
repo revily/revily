@@ -1,4 +1,4 @@
-class ScheduleLayerSerializer < BaseSerializer
+class ScheduleLayerSerializer < ApplicationSerializer
   delegate :schedule, to: :object
 
   attributes :id, :rule, :position, :duration, :start_at, :_links

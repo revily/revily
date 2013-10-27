@@ -1,4 +1,4 @@
-class HookSerializer < BaseSerializer
+class HookSerializer < ApplicationSerializer
   attributes :id, :name, :events, :config, :state, :_links
 
   # def config

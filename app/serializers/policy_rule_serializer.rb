@@ -1,4 +1,4 @@
-class PolicyRuleSerializer < BaseSerializer
+class PolicyRuleSerializer < ApplicationSerializer
   attributes :id, :policy_id, :position, :escalation_timeout, :_links
 
   # has_one :policy, embed: :ids

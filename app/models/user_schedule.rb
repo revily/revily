@@ -1,8 +1,5 @@
-require 'new_relic/agent/method_tracer'
-
 class UserSchedule < IceCube::Schedule
   include ActiveModel::SerializerSupport
-  include ::NewRelic::Agent::MethodTracer
   
   attr_accessor :user, :schedule_layer, :position, :interval, :offset
 
@@ -19,8 +16,6 @@ class UserSchedule < IceCube::Schedule
 
     self.add_recurrence_rule IceCube::Rule.send(schedule_layer.rule, schedule_layer.interval)
   end
-
-  add_method_tracer :initialize, 'UserSchedule#initialize'
 
   def to_s
     %Q[#<UserSchedule start_time: "#{start_time}", user: #{user.id}, schedule_layer: #{schedule_layer.id}, position: #{position}>]

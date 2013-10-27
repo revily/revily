@@ -8,7 +8,7 @@ class V1::VoiceController < V1::ApplicationController
   # Example POST:
   #
   # {
-  #   "AccountSid" => "ACa2b4e3abff33bdb254d43086255d84e1",
+  #   "AccountSid" => "$TWILIO_ACCOUNT_SID",
   #   "ToZip" => "48864",
   #   "FromState" => "CA",
   #   "Called" => "+15172145853",
@@ -65,7 +65,7 @@ class V1::VoiceController < V1::ApplicationController
   # Example POST:
   #
   # {
-  #   "AccountSid" => "ACa2b4e3abff33bdb254d43086255d84e1",
+  #   "AccountSid" => "$TWILIO_ACCOUNT_SID",
   #   "ToZip" => "48864",
   #   "FromState" => "CA",
   #   "Called" => "+15172145853",

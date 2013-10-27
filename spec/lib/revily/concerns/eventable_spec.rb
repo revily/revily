@@ -4,6 +4,7 @@ describe Revily::Concerns::Eventable do
   class MockModel < ActiveRecord::Base
     self.abstract_class = true
     include Revily::Concerns::Eventable
+    events :create, :update, :delete
   end
 
   describe '.events' do

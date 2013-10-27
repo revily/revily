@@ -10,7 +10,7 @@ class Event < ActiveRecord::Base
 
   scope :recent, -> { limit(50).order(arel_table[:id].desc) }
 
-  after_create :dispatch
+  after_create :publish
 
   def hooks
     self.account.hooks + Revily::Event.hooks
@@ -30,7 +30,7 @@ class Event < ActiveRecord::Base
     end.compact
   end
 
-  def dispatch
+  def publish
     return false if Revily::Event.paused?
     subscriptions.each do |subscription|
       Metriks.timer('subscription.notify').time do

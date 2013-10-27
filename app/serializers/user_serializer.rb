@@ -1,4 +1,4 @@
-class UserSerializer < BaseSerializer
+class UserSerializer < ApplicationSerializer
   attributes :id, :name, :email, :_links
 
   def auth_token

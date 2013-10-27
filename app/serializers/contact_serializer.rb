@@ -1,4 +1,4 @@
-class ContactSerializer < BaseSerializer
+class ContactSerializer < ApplicationSerializer
   attributes :id, :user_id, :label, :address, :type, :_links
 
   def user_id

@@ -1,4 +1,4 @@
-class UserScheduleSerializer < BaseSerializer
+class UserScheduleSerializer < ApplicationSerializer
   attributes :user, :schedule_layer
 
   def user

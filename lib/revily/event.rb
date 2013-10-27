@@ -1,24 +1,25 @@
-require 'active_support/core_ext/string/inflections'
-require 'active_support/hash_with_indifferent_access'
+require "active_support/core_ext/string/inflections"
+require "active_support/hash_with_indifferent_access"
 
 module Revily
   module Event
     # include Celluloid
     # include Celluloid::Notifications
 
-    autoload :EventList,         'revily/event/event_list'
-    autoload :Handler,           'revily/event/handler'
-    autoload :HandlerSerializer, 'revily/event/handler_serializer'
-    autoload :HandlerMixin,      'revily/event/handler_mixin'
-    autoload :Hook,              'revily/event/hook'
-    autoload :HookSerializer,    'revily/event/hook_serializer'
-    autoload :Job,               'revily/event/job'
-    autoload :JobSerializer,     'revily/event/job_serializer'
-    autoload :Matcher,           'revily/event/matcher'
-    autoload :Mixins,            'revily/event/mixins'
-    autoload :Payload,           'revily/event/payload'
-    autoload :PayloadSerializer, 'revily/event/payload_serializer'
-    autoload :Subscription,      'revily/event/subscription'
+    autoload :EventList,         "revily/event/event_list"
+    autoload :Handler,           "revily/event/handler"
+    autoload :HandlerSerializer, "revily/event/handler_serializer"
+    autoload :HandlerMixin,      "revily/event/handler_mixin"
+    autoload :Hook,              "revily/event/hook"
+    autoload :HookSerializer,    "revily/event/hook_serializer"
+    autoload :Job,               "revily/event/job"
+    autoload :JobSerializer,     "revily/event/job_serializer"
+    autoload :Matcher,           "revily/event/matcher"
+    autoload :Mixins,            "revily/event/mixins"
+    autoload :Payload,           "revily/event/payload"
+    autoload :PayloadSerializer, "revily/event/payload_serializer"
+    autoload :Publisher,         "revily/event/publisher"
+    autoload :Subscription,      "revily/event/subscription"
 
     class << self
       attr_accessor :paused
@@ -61,8 +62,8 @@ module Revily
         @hooks ||= hash_from_constant(Event::Hook).values.uniq.map(&:new)
       end
 
-      # Due to Rails' preference for autoloading, we call every source here
-      # because I have no idea what I'm doing.
+      # Due to Rails" preference for autoloading, we call every source here
+      # because I have no idea what I"m doing.
       def sources
         @sources ||= Hash[{
           incident: ::Incident,

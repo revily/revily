@@ -10,13 +10,13 @@ class V1::EventsController < V1::ApplicationController
 
   def index
     @events = events.page(params[:page])
-    respond_with @events
+    respond_with @events, expand: expand_params
   end
 
   def show
     @event = events.find_by!(uuid: params[:id])
-
-    respond_with @event
+    logger.info expand_params
+    respond_with @event, expand: expand_params
   end
 
   private

@@ -1,4 +1,4 @@
-class PolicySerializer < BaseSerializer
+class PolicySerializer < ApplicationSerializer
   attributes :id, :name, :loop_limit, :_links
 
   def _links

@@ -21,7 +21,7 @@ describe Event do
     end
   end
 
-  describe '#dispatch' do
+  describe '#publish' do
     let(:account) { build_stubbed(:account) }
     let(:actor) { build_stubbed(:user, account: account) }
     let(:source) { build_stubbed(:incident, account: account) }
@@ -34,7 +34,7 @@ describe Event do
       event.stub(:subscriptions => [ subscription ])
     end
 
-    it 'dispatches events' do
+    it 'publishes events' do
       subscription.should_receive(:notify).at_least(:once)
       event.save
     end
@@ -45,7 +45,7 @@ describe Event do
       it 'sends event notifications' do
         subscription.should_receive(:notify).at_least(:once)
         event.save
-        expect(event.dispatch).to_not be_false
+        expect(event.publish).to_not be_false
       end
     end
 
@@ -55,7 +55,7 @@ describe Event do
       it 'returns without sending notifications' do
         subscription.should_not_receive(:notify)
         event.save
-        expect(event.dispatch).to be_false
+        expect(event.publish).to be_false
       end
     end
 

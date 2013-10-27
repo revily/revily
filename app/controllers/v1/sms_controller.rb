@@ -8,7 +8,7 @@ class V1::SmsController < V1::ApplicationController
 
   # Example POST
   # {
-  #   "AccountSid" => "ACa2b4e3abff33bdb254d43086255d84e1",
+  #   "AccountSid" => "$TWILIO_ACCOUNT_SID",
   #   "MessageSid" => "SMe8f5b77a33ad4b70e7865bce8a3bdc9a",
   #   "Body" => "3",
   #   "ToZip" => "94108",
@@ -55,7 +55,7 @@ class V1::SmsController < V1::ApplicationController
 
   # Example POST callback
   # {
-  #   "AccountSid" => "ACa2b4e3abff33bdb254d43086255d84e1",
+  #   "AccountSid" => "$TWILIO_ACCOUNT_SID",
   #   "SmsStatus" => "sent",
   #   "Body" => "wat",
   #   "SmsSid" => "SM10922d7c152567151b11cef5c3f82922",

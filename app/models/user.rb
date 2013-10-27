@@ -2,11 +2,13 @@ class User < ActiveRecord::Base
   include Revily::Concerns::Identifiable
   include Revily::Concerns::Eventable
   include Revily::Concerns::Actable
+  include Revily::Concerns::RecordChange
 
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable, # :trackable,
     :token_authenticatable
 
+  events :create, :update, :delete
   acts_as_tenant # belongs_to :account
 
   has_many :contacts, dependent: :destroy

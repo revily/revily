@@ -22,8 +22,4 @@ class Account < ActiveRecord::Base
 
   accepts_nested_attributes_for :users
 
-  def notifications
-    @notifications ||= []
-  end
-  
 end

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://56d1876a59a704b238042d1d6a61dbfe:c93b7006914f515b0b26ea5168bd875f@api.twilio.com/2010-04-01/Accounts/56d1876a59a704b238042d1d6a61dbfe/SMS/Messages.json
+    uri: https://$TWILIO_ACCOUNT_SID:$TWILIO_AUTH_TOKEN@api.twilio.com/2010-04-01/Accounts/$TWILIO_ACCOUNT_SID/SMS/Messages.json
     body:
       encoding: UTF-8
       string: From=%2B14157671567&To=%2B15172145853&Body=this%20is%20a%20test
@@ -29,8 +29,8 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"sid":"SM1d11b211651f54e8eaff4ea5bd0af82d","date_created":"Tue, 23
-        Jul 2013 20:58:15 +0000","date_updated":"Tue, 23 Jul 2013 20:58:15 +0000","date_sent":null,"account_sid":"ACa2b4e3abff33bdb254d43086255d84e1","to":"+15172145853","from":"+14157671567","body":"this
-        is a test","status":"queued","direction":"outbound-api","api_version":"2010-04-01","price":null,"price_unit":"USD","uri":"\/2010-04-01\/Accounts\/ACa2b4e3abff33bdb254d43086255d84e1\/SMS\/Messages\/SM1d11b211651f54e8eaff4ea5bd0af82d.json"}'
+        Jul 2013 20:58:15 +0000","date_updated":"Tue, 23 Jul 2013 20:58:15 +0000","date_sent":null,"account_sid":"$TWILIO_ACCOUNT_SID","to":"+15172145853","from":"+14157671567","body":"this
+        is a test","status":"queued","direction":"outbound-api","api_version":"2010-04-01","price":null,"price_unit":"USD","uri":"\/2010-04-01\/Accounts\/$TWILIO_ACCOUNT_SID\/SMS\/Messages\/SM1d11b211651f54e8eaff4ea5bd0af82d.json"}'
     http_version: 
   recorded_at: Tue, 23 Jul 2013 20:58:15 GMT
 recorded_with: VCR 2.5.0

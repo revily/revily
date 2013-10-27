@@ -1,11 +1,9 @@
-require 'new_relic/agent/method_tracer'
-
 class ScheduleLayer < ActiveRecord::Base
   include Revily::Concerns::Identifiable
   include Revily::Concerns::Eventable
+  include Revily::Concerns::RecordChange
 
-  include ::NewRelic::Agent::MethodTracer
-
+  events :create, :update, :delete
   VALID_RULES = %w[ hourly daily weekly monthly yearly ]
 
   acts_as_tenant # belongs_to :account
@@ -47,8 +45,6 @@ class ScheduleLayer < ActiveRecord::Base
     end
   end
 
-  add_method_tracer :user_schedules, 'ScheduleLayer#user_schedules'
-
   def user_position(user_id)
     user_positions[user_id]
   end
@@ -58,19 +54,13 @@ class ScheduleLayer < ActiveRecord::Base
     @user_positions ||= Hash[ user_schedule_layers.map {|usl| [ usl.user_id, usl.position ]} ]
   end
 
-  add_method_tracer :user_position, 'ScheduleLayer#user_position'
-
   def user_schedule(user)
     UserSchedule.new(user, self)
   end
 
-  add_method_tracer :user_position, 'ScheduleLayer#user_schedule'
-
   def user_offset(user)
     (user_position(user.id) - 1) * duration
   end
-
-  add_method_tracer :user_offset, 'ScheduleLayer#user_offset'
 
   # useful?
   def unit_duration

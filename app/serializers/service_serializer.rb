@@ -1,4 +1,4 @@
-class ServiceSerializer < BaseSerializer
+class ServiceSerializer < ApplicationSerializer
   attributes :id, :name, :auto_resolve_timeout, :acknowledge_timeout, :state, 
              :health, :incident_counts, :_links
 

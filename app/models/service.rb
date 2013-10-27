@@ -2,9 +2,11 @@ class Service < ActiveRecord::Base
   include Revily::Concerns::Identifiable
   include Revily::Concerns::Eventable
   include Revily::Concerns::Actable
+  include Revily::Concerns::RecordChange
+  include Revily::Concerns::StateChange
 
-  attr_accessor :transition_to, :transition_from, :event_action
-
+  events :create, :update, :delete, :enable, :disable
+  
   devise :token_authenticatable
 
   acts_as_tenant # belongs_to :account
@@ -26,7 +28,6 @@ class Service < ActiveRecord::Base
     numericality: { only_integer: true }
 
   before_save :ensure_authentication_token
-  after_commit :fire_event
 
   state_machine initial: :enabled do
     state :enabled
@@ -68,10 +69,6 @@ class Service < ActiveRecord::Base
     end
 
     update_attribute(:health, current)
-  end
-
-  def fire_event
-    Event::CreationService.new(self).create
   end
 
   class << self

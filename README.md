@@ -25,6 +25,10 @@ Configuring these services is left as an exercise for the reader. You'll want at
 
 ## Options
 
+## Deployment
+
+* [Heroku](https://github.com/revily/revily/wiki/Heroku)
+
 ## Configuration
 
 Revily makes extensive use of environment variables for configuring various parts of the system. The following variables are required:
@@ -37,13 +41,11 @@ Revily makes extensive use of environment variables for configuring various part
 * `MAILER_URL` - default URL for mailing.
 * `MAILER_DELIVERY_METHOD` - options: mailgun, smtp
 * `MAILER_SENDER` - the email address from which Revily will send emails
-* `NEWRELIC_ENABLE` - whether to enable New Relic. Set to "false" if it's not needed.
 * `REVILY_REDIS_CACHE_URL ` - URI to redis instance (ex: `redis://localhost:6379/0/cache`)
 
 The following variables are optional
 * `MAILGUN_API_KEY` - Mailgun API key
 * `MAILGUN_DOMAIN` - Mailgun domain
-* `NEWRELIC_LICENSE_KEY` - New Relic license key. Only used if NEWRELIC_ENABLE is true.
 
 ## Installation
 

@@ -2,8 +2,11 @@ class Incident < ActiveRecord::Base
   include Revily::Concerns::Identifiable
   include Revily::Concerns::Trackable
   include Revily::Concerns::Eventable
+  include Revily::Concerns::RecordChange
+  include Revily::Concerns::StateChange
 
-  attr_accessor :transition_to, :transition_from, :event_action
+  events :create, :update, :delete
+  events :trigger, :escalate, :acknowledge, :resolve
 
   serialize :details, JSON
 
@@ -20,7 +23,6 @@ class Incident < ActiveRecord::Base
   before_create :associate_current_policy_rule
   before_create :associate_current_user
   after_create :trigger
-  after_commit :fire_event
 
   scope :unresolved, -> { where.not(state: 'resolved') }
   scope :triggered, -> { where(state: 'triggered') }
@@ -56,16 +58,16 @@ class Incident < ActiveRecord::Base
       transition [ :triggered, :acknowledged, :resolved ] => :resolved
     end
 
-    before_transition :pending => :triggered, 
-                      :do => :update_triggered_at
+    before_transition :pending => :triggered,
+      :do => :update_triggered_at
     before_transition :triggered => :acknowledged,
-                      :do => :update_acknowledged_at
+      :do => :update_acknowledged_at
     before_transition :triggered => :resolved,
-                      :do => [ :update_acknowledged_at, :update_resolved_at ]
+      :do => [ :update_acknowledged_at, :update_resolved_at ]
     before_transition :acknowledged => :resolved,
-                      :do => :update_resolved_at
+      :do => :update_resolved_at
     before_transition :on => :escalate,
-                      :do => :escalate_to_next_policy_rule
+      :do => :escalate_to_next_policy_rule
 
     after_transition any => any do |incident, transition|
       incident.transition_from = transition.from
@@ -73,18 +75,6 @@ class Incident < ActiveRecord::Base
       incident.event_action = transition.event
 
       incident.service.recalculate_health
-    end
-
-    after_transition any => :triggered do |incident, transition|
-    end
-
-    after_transition :pending => :triggered do |incident, transition|
-    end
-
-    after_transition any => :acknowledged do |incident, transition|
-    end
-
-    after_transition :on => :resolve do |incident, transition|
     end
   end
 
@@ -110,20 +100,6 @@ class Incident < ActiveRecord::Base
   end
 
   private
-
-  def fire_event
-    Event::CreationService.new(self).create
-    self.service.touch
-  end
-
-  def triggered_event
-  end
-
-  def acknowledged_event
-  end
-
-  def resolved_event
-  end
 
   def ensure_key
     self[:key] ||= SecureRandom.hex

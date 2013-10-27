@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://56d1876a59a704b238042d1d6a61dbfe:c93b7006914f515b0b26ea5168bd875f@api.twilio.com/2010-04-01/Accounts/56d1876a59a704b238042d1d6a61dbfe/Calls.json
+    uri: https://$TWILIO_ACCOUNT_SID:$TWILIO_AUTH_TOKEN@api.twilio.com/2010-04-01/Accounts/$TWILIO_ACCOUNT_SID/Calls.json
     body:
       encoding: UTF-8
       string: To=%2B1517214585&From=%2B14157671567&Url=https%3A%2F%2Frevily.fwd.wf%2Fvoice%2Frespond

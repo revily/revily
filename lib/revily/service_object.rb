@@ -18,7 +18,7 @@ module Revily
     def initialize(attributes={})
       self.class.attr_reader *attributes.keys
       @attributes = attributes.with_indifferent_access
-    end
+    end # def initialize
 
     # Fetches an attribute of an object using hash notation
     #
@@ -50,8 +50,7 @@ module Revily
 
           end
         end
-
-      end
+      end # def self.attributes
 
     end
   end

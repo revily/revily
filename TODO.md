@@ -22,14 +22,14 @@
 ## Refactor
 
 * move voice and sms controllers to separate, mountable apps (grape? vanilla sinatra?)
-* redo hooks (both global and account-specific)
-  - name attribute is confusingly used to set the handler
 * redo handlers
   - event list and matchers are very slow
 * rewrite UserSchedule. look into caching values
 * improme state machine code.
   - look into using simple_states (https://github.com/svenfuchs/simple_states)
   - and using service objects over large code blocks
+* moar service objects! Look at travis-ci/travis-core for inspiration
+* move notification logic out of contact classes
 
 ## Chores
 

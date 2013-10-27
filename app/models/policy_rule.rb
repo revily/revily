@@ -1,7 +1,9 @@
 class PolicyRule < ActiveRecord::Base
   include Revily::Concerns::Identifiable
   include Revily::Concerns::Eventable
+  include Revily::Concerns::RecordChange
 
+  events :create, :update, :delete
   attr_accessor :assignment_attributes
 
   acts_as_tenant # belongs_to :account

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131025192031) do
+ActiveRecord::Schema.define(version: 20131028233051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,18 +98,6 @@ ActiveRecord::Schema.define(version: 20131025192031) do
   add_index "incidents", ["message"], name: "index_incidents_on_message", using: :btree
   add_index "incidents", ["service_id"], name: "index_incidents_on_service_id", using: :btree
   add_index "incidents", ["uuid"], name: "index_incidents_on_uuid", unique: true, using: :btree
-
-  create_table "notification_rules", force: true do |t|
-    t.integer  "start_delay", default: 0
-    t.string   "uuid"
-    t.integer  "contact_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "account_id",              null: false
-  end
-
-  add_index "notification_rules", ["account_id"], name: "index_notification_rules_on_account_id", using: :btree
-  add_index "notification_rules", ["contact_id"], name: "index_notification_rules_on_contact_id", using: :btree
 
   create_table "oauth_access_grants", force: true do |t|
     t.integer  "resource_owner_id",              null: false

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://56d1876a59a704b238042d1d6a61dbfe:c93b7006914f515b0b26ea5168bd875f@api.twilio.com/2010-04-01/Accounts/56d1876a59a704b238042d1d6a61dbfe/SMS/Messages.json
+    uri: https://$TWILIO_ACCOUNT_SID:$TWILIO_AUTH_TOKEN@api.twilio.com/2010-04-01/Accounts/$TWILIO_ACCOUNT_SID/SMS/Messages.json
     body:
       encoding: UTF-8
       string: From=%2B14157671567&To=%2B15175551&Body=
