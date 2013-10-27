@@ -51,12 +51,12 @@ For manual instructions, consult the [INSTALL.md](INSTALL.md) documentation.
 
 ### TL;DR
 
-
-### Bootstrapping Revily
 RAILS_ENV=production TWILIO_ACCOUNT_SID=... TWILIO_AUTH_TOKEN=... rake \
   revily:setup \
   revily:bootstrap \
   revily:twilio:bootstrap
+
+### Bootstrapping Revily
 
 Two rake tasks are used to setup the initial configuration. The `revily:setup` task will create a database user, create a production database, and run all migrations. The `revily:bootstrap` task
 will create your first account, user and print out environment variables which can be used to configure the application further.

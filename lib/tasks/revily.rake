@@ -7,6 +7,9 @@ namespace :revily do
 
   desc "Setup Revily database and run migrations"
   task :setup do
+    info "Creating a Postgres user..."
+    user = ask "Enter a postgres username: "
+    system "createuser -s #{user} >&3 2>&1"
     Rake::Task["db:create"].invoke
     Rake::Task["db:migrate"].invoke
   end
