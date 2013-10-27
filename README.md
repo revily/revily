@@ -45,6 +45,16 @@ The following variables are optional
 * `MAILGUN_DOMAIN` - Mailgun domain
 * `NEWRELIC_LICENSE_KEY` - New Relic license key. Only used if NEWRELIC_ENABLE is true.
 
+### Creating a Twilio account
+
+For manual instructions, consult the [INSTALL.md](INSTALL.md) documentation.
+
+A rake task is provided for automating the creation of a Twilio application, a phone number for voice and SMS messages, and configuring the number to use the Twilio application. You will need to know your account SID and your auth token, both of which you can find on the [Twilio dashboard](https://www.twilio.com/user/account).
+
+```bash
+TWILIO_ACCOUNT_SID=... TWILIO_AUTH_TOKEN=... rake revily:twilio:bootstrap
+```
+
 ## Deployment
 
 ## HISTORY
