@@ -7,7 +7,7 @@ class Contact < ActiveRecord::Base
   def active_model_serializer
     ContactSerializer
   end
-  
+
   RESPONSE_MAP = {
     '4' => { action: 'acknowledge', message: 'All incidents were acknowledged.' },
     '6' => { action: 'resolve', message: 'All incidents were resolved.' },
@@ -28,22 +28,12 @@ class Contact < ActiveRecord::Base
     presence: true,
     uniqueness: { scope: [ :user_id, :type ] }
 
-  def notify(action, incidents)
-    logger.warn "override Contact#notify in a subclass"
+  def notifier
+    logger.warn "override Contact#notification_class in a subclass"
   end
 
-  def header
-    logger.warn "override Contact#greeting in a subclass"
-  end
-
-  def footer
-    logger.warn "override Contact#greeting in a subclass"
-  end
-
-  def message(body)
-    message = <<-MESSAGE
-#{header} #{body} #{footer}
-    MESSAGE
+  def notify(incidents=[])
+    notifier.notify(self, incidents)
   end
   
   def service

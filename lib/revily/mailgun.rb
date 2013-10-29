@@ -12,6 +12,12 @@ module Revily
         receiver.process(data)
       end
 
+      def deliverer
+      end
+
+      def deliver
+      end
+
     end
   end
 end

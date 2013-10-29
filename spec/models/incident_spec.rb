@@ -9,9 +9,6 @@ describe Incident do
   end
 
   context 'validations' do
-    # it { should validate_presence_of(:message) }
-    # it { should validate_uniqueness_of(:message).scoped_to([:service_id]).on(:save) }
-    # it { should validate_uniqueness_of(:key).scoped_to([:service_id]) }
   end
 
   context 'attributes' do
@@ -30,18 +27,8 @@ describe Incident do
   end
 
   context 'states' do
-    # it { should have_states :triggered, :acknowledged, :resolved }
-    # it { should handle_incident :trigger, when: :pending }
-    # it { should handle_incident :trigger, when: :acknowledged }
-
-    # it { should handle_incident :escalate, when: :triggered }
-    # it { should handle_incident :escalate, when: :acknowledged }
-
-    # it { should handle_incident :acknowledge, when: :triggered }
-    # it { should handle_incident :resolve, when: :triggered }
-    # it { should handle_incident :resolve, when: :acknowledged }
-
     let(:service) { create(:service, :with_policy) }
+
     describe 'initial state' do
       it { build(:incident, service: service).should be_pending }
     end
@@ -50,9 +37,6 @@ describe Incident do
       let(:incident) { build(:incident, service: service) }
 
       before { incident.save }
-
-      # it { expect(Incident::DispatchNotifications).to have_enqueued_jobs(1) }
-      # it { expect(Incident::Escalate).to have_enqueued_jobs(1) }
 
       it 'cannot transition to :triggered' do
         incident.trigger

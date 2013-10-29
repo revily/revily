@@ -4,15 +4,6 @@ module Revily
       include Revily::Model
       include HandlerMixin
 
-      autoload :Campfire,            'revily/event/handler/campfire'
-      autoload :Incidents,           'revily/event/handler/incidents'
-      autoload :IncidentAcknowledge, 'revily/event/handler/incident_acknowledge'
-      autoload :IncidentResolve,     'revily/event/handler/incident_resolve'
-      autoload :IncidentTrigger,     'revily/event/handler/incident_trigger'
-      autoload :Log,                 'revily/event/handler/log'
-      autoload :Test,                'revily/event/handler/test'
-      autoload :Web,                 'revily/event/handler/web'
-
       # @!attribute [rw] event
       #   @return [String] formatted event string
       attribute :event,   type: String

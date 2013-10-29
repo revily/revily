@@ -3,9 +3,7 @@ class Contact::Phone < Contact
     read_attribute(:label) || 'Phone'
   end
 
-  def notify(action, incidents)
-    @incidents = incidents
-
-    Revily::Twilio.call(address)
+  def notifier
+    Revily::Event::Notifier::Phone
   end
 end

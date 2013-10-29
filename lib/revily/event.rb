@@ -4,7 +4,7 @@ require "active_support/hash_with_indifferent_access"
 module Revily
   module Event
     # include Celluloid
-    # include Celluloid::Notifications
+    # include Celluloid::Notifiers
 
     autoload :EventList,         "revily/event/event_list"
     autoload :Handler,           "revily/event/handler"
@@ -16,6 +16,7 @@ module Revily
     autoload :JobSerializer,     "revily/event/job_serializer"
     autoload :Matcher,           "revily/event/matcher"
     autoload :Mixins,            "revily/event/mixins"
+    autoload :Notifier,          "revily/event/notifier"
     autoload :Payload,           "revily/event/payload"
     autoload :PayloadSerializer, "revily/event/payload_serializer"
     autoload :Publisher,         "revily/event/publisher"
