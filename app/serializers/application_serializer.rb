@@ -36,13 +36,13 @@ class ApplicationSerializer < ActiveModel::Serializer
   end
 
   def association_attributes(association_name)
-    association_name = association_name.to_s
+    association_name = association_name.to_sym
     association = object.send(association_name)
     association_type = association.class.name.downcase
     association_attributes = {}
 
-    if expand_options.include?(association_name) || expand_options.include?("all")
-      association_attributes = association.active_model_serializer.new(association, minimal: true).serialize
+    if expand_options.include?(association_name) || expand_options.include?(:all)
+      association_attributes = association.serialize(minimal: true)
       
       { association_name => association_attributes }
     else
@@ -57,7 +57,11 @@ class ApplicationSerializer < ActiveModel::Serializer
   protected
 
   def expand_options
-    @options[:expand] || []
+    @expand_options ||= if expand_options = @options[:expand]
+      expand_options.is_a?(Array) ? expand_options.map(&:to_sym) : Array[expand_options]
+    else
+      []
+    end
   end
   
   def serialized_object(obj)

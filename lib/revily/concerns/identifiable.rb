@@ -15,6 +15,12 @@ module Revily::Concerns
       self.uuid || self.id
     end
 
+    def serialize(options={})
+      serializer = self.active_model_serializer || ActiveModel::DefaultSerializer
+
+      serializer.new(self, options).serializable_hash
+    end
+
     def generate_uuid
       loop do
         uuid = SecureRandom.urlsafe_base64(6).tr('+/=_-', 'pqrsxyz')
@@ -43,7 +49,7 @@ module Revily::Concerns
         if !args[0].respond_to?(:match) || args[0].match(/^\d+$/) # assume we are an ID
           super(*args)
         else
-          find_by_uuid(args[0])
+          find_by(uuid: args[0])
         end
       end
 
