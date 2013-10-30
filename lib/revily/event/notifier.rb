@@ -1,5 +1,9 @@
 module Revily::Event
   class Notifier
+    autoload :Email,               "revily/event/notifier/sms"
+    autoload :Phone,               "revily/event/notifier/sms"
+    autoload :Sms,                 "revily/event/notifier/sms"
+
     attr_accessor :contact, :incidents
 
     class << self
@@ -12,7 +16,7 @@ module Revily::Event
       @contact = contact
       @incidents = incidents
     end
-    
+
     def notify
       logger.warn "override Contact#notify in a subclass"
     end

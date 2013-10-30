@@ -1,6 +1,15 @@
 module Revily
   module Event
     class Handler
+      autoload :Campfire,            "revily/event/handler/campfire"
+      autoload :Incidents,           "revily/event/handler/incidents"
+      autoload :IncidentAcknowledge, "revily/event/handler/incident_acknowledge"
+      autoload :IncidentResolve,     "revily/event/handler/incident_resolve"
+      autoload :IncidentTrigger,     "revily/event/handler/incident_trigger"
+      autoload :Log,                 "revily/event/handler/log"
+      autoload :Test,                "revily/event/handler/test"
+      autoload :Web,                 "revily/event/handler/web"
+
       include Revily::Model
       include HandlerMixin
 
@@ -48,7 +57,6 @@ module Revily
         end
 
         # Set or return the list of supported event types
-
         def events=(*events)
           @events = events.flatten.uniq
         end
