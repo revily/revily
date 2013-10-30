@@ -1,8 +1,7 @@
 module Revily
   module Event
     class Job
-      class IncidentAcknowledge < Job
-        include Job::Incidents
+      class IncidentAcknowledge < Incident
 
         def process
           # sms/voice controllers now handle this.

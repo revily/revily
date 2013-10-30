@@ -30,4 +30,3 @@ module Revily
     end
   end
 end
-

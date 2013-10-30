@@ -20,22 +20,28 @@ describe ScheduleLayer do
 
   context 'callbacks' do
     let(:schedule_layer) { build(:schedule_layer) }
+    before do
+      schedule_layer.stub(
+        reset_start_at_to_beginning_of_day: true, 
+        calculate_duration_in_seconds: true
+      )
+    end
 
     it 'resets start_at to beginning of day' do
-      schedule_layer.should_receive(:reset_start_at_to_beginning_of_day)
       schedule_layer.save
+      expect(schedule_layer).to have_received(:reset_start_at_to_beginning_of_day)
     end
 
     it 'calculates the duration in seconds' do
-      schedule_layer.should_receive(:calculate_duration_in_seconds)
       schedule_layer.save
+      expect(schedule_layer).to have_received(:calculate_duration_in_seconds)
     end
   end
 
   context 'attributes' do
     it 'uses uuid for #to_param' do
       obj = create(subject.class)
-      obj.to_param.should == obj.uuid
+      expect(obj.to_param).to eq obj.uuid
     end
   end
 
@@ -47,19 +53,19 @@ describe ScheduleLayer do
     let(:yearly) { create(:schedule_layer, :yearly) }
 
     it 'calculates the correct rotation length in seconds' do
-      hourly.duration.should be 28800
-      daily.duration.should be 86400
-      weekly.duration.should be 604800
-      monthly.duration.should be 2592000
-      yearly.duration.should be 31557600
+      expect(hourly.duration).to be 28800
+      expect(daily.duration).to be 86400
+      expect(weekly.duration).to be 604800
+      expect(monthly.duration).to be 2592000
+      expect(yearly.duration).to be 31557600
     end
 
     it 'can determine the appropriate per-unit duration' do
-      hourly.unit_duration.should == 3600
-      daily.unit_duration.should == 86400
-      weekly.unit_duration.should == 604800
-      monthly.unit_duration.should == 2592000
-      yearly.unit_duration.should == 31557600
+      expect(hourly.unit_duration).to eq 3600
+      expect(daily.unit_duration).to eq 86400
+      expect(weekly.unit_duration).to eq 604800
+      expect(monthly.unit_duration).to eq 2592000
+      expect(yearly.unit_duration).to eq 31557600
     end
   end
 
@@ -72,8 +78,8 @@ describe ScheduleLayer do
     it { should have(2).user_schedules }
 
     it 'should be an Array of UserSchedule objects' do
-      subject.user_schedules.should be_an Array
-      subject.user_schedules.first.should be_a UserSchedule
+      expect(subject.user_schedules).to be_an Array
+      expect(subject.user_schedules.first).to be_a UserSchedule
     end
   end
 
@@ -82,16 +88,16 @@ describe ScheduleLayer do
       create_schedule(rule: 'hourly', users_count: 2, count: 8)
 
       it do #'returns how long in seconds to offset based on the number of users' do
-        schedule_layer.user_offset(user_1).should == 0
-        schedule_layer.user_offset(user_2).should == 28800
+        expect(schedule_layer.user_offset(user_1)).to eq 0
+        expect(schedule_layer.user_offset(user_2)).to eq 28800
       end
     end
     context 'daily' do
       create_schedule(rule: 'daily', users_count: 2)
 
       it do #'returns how long in seconds to offset based on the number of users' do
-        schedule_layer.user_offset(user_1).should == 0
-        schedule_layer.user_offset(user_2).should == 86400
+        expect(schedule_layer.user_offset(user_1)).to eq 0
+        expect(schedule_layer.user_offset(user_2)).to eq 86400
       end
 
     end
@@ -100,8 +106,8 @@ describe ScheduleLayer do
         create_schedule(rule: 'weekly', users_count: 2)
 
       it do #'returns how long in seconds to offset based on the number of users' do
-        schedule_layer.user_offset(user_1).should == 0
-        schedule_layer.user_offset(user_2).should == 604800
+        expect(schedule_layer.user_offset(user_1)).to eq 0
+        expect(schedule_layer.user_offset(user_2)).to eq 604800
       end
     end
   end

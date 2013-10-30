@@ -6,9 +6,9 @@ describe Hook do
   let!(:account) { create(:account) }
 
   context 'validations' do
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:handler) }
-    it { should belong_to(:account) }
+    it { expect(subject).to validate_presence_of(:name) }
+    it { expect(subject).to validate_presence_of(:handler) }
+    it { expect(subject).to belong_to(:account) }
 
     describe 'handler_exists?' do
       let(:hook) { build_stubbed(:hook, :for_incidents) }
@@ -29,7 +29,7 @@ describe Hook do
       let(:hook) { build_stubbed(:hook, :for_incidents) }
 
       it 'when handler supports all events' do
-        hook.should be_valid
+        expect(hook).to be_valid
       end
 
       it 'when handler does not support all events' do
@@ -39,15 +39,15 @@ describe Hook do
         hook.stub(:handler).and_return(Revily::Event::Handler::Bogus)
         hook.events = %w[ incidents ]
         hook.name = 'bogus'
-        hook.should_not be_valid
-        hook.should have(1).error_on(:events)
+        expect(hook).to_not be_valid
+        expect(hook).to have(1).error_on(:events)
       end
 
       it 'when handler does not support any events' do
         hook.events = %w[ bogus.event fake.event ]
-        hook.should_not be_valid
-        hook.should have(1).error_on(:events)
-        hook.events.should be_empty
+        expect(hook).to_not be_valid
+        expect(hook).to have(1).error_on(:events)
+        expect(hook.events).to be_empty
       end
     end
   end
@@ -60,8 +60,8 @@ describe Hook do
       end
 
       it 'returns only active hooks' do
-        account.hooks.should have(2).items
-        account.hooks.enabled.should have(1).item
+        expect(account.hooks).to have(2).items
+        expect(account.hooks.enabled).to have(1).item
       end
     end
   end
@@ -71,13 +71,13 @@ describe Hook do
 
     it 'when handler exists' do
       hook.handler = 'test'
-      hook.handler.should eq "test"
-      hook.handler_class.should be Revily::Event::Handler::Test
+      expect(hook.handler).to eq "test"
+      expect(hook.handler_class).to be Revily::Event::Handler::Test
     end
 
     it 'when no handler exists' do
       hook.handler = 'bogus_handler'
-      hook.handler_class.should be_nil
+      expect(hook.handler_class).to be_nil
     end
   end
 end

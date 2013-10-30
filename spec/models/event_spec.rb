@@ -13,38 +13,37 @@ describe Event do
 
     pending do
       it 'orders events descending by id' do
-        Event.recent.each do |e|
-          puts e.inspect
-        end
-        Event.recent.map(&:id).should == events.map(&:id).reverse
+        expect(Event.recent.map(&:id)).to eq events.map(&:id).reverse
       end
     end
   end
 
   describe '#publish' do
-    let(:account) { build_stubbed(:account) }
-    let(:actor) { build_stubbed(:user, account: account) }
-    let(:source) { build_stubbed(:incident, account: account) }
-    let(:subscription) { build_stubbed(:subscription, name: 'test', source: source, actor: actor, event: 'incident.triggered') }
+    let(:account) { mock_model("Account") }
+    let(:actor) { mock_model("User") }
+    let(:source) { mock_model("Incident") }
+    let(:subscription) { double("Subscription").as_null_object }
 
     let(:event) { build(:event, source: source, actor: actor, action: 'triggered', account: account) }
 
     before do
-      Revily::Event.actor = actor
-      event.stub(:subscriptions => [ subscription ])
+      allow(Revily::Event).to receive(:actor) { actor }
+      allow(event).to receive(:subscriptions) { [subscription ] }
     end
 
     it 'publishes events' do
-      subscription.should_receive(:notify).at_least(:once)
       event.save
+
+      expect(subscription).to have_received(:notify).at_least(:once)
     end
 
     context 'not paused' do
       before { Revily::Event.stub(paused?: false) }
 
       it 'sends event notifications' do
-        subscription.should_receive(:notify).at_least(:once)
         event.save
+        
+        expect(subscription).to have_received(:notify).at_least(:once)
         expect(event.publish).to_not be_false
       end
     end
@@ -53,8 +52,9 @@ describe Event do
       before { Revily::Event.stub(paused?: true) }
 
       it 'returns without sending notifications' do
-        subscription.should_not_receive(:notify)
         event.save
+
+        expect(subscription).not_to have_received(:notify)
         expect(event.publish).to be_false
       end
     end

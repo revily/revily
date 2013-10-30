@@ -7,7 +7,7 @@ module Revily
 
     # TODO(dryan): proper logger config
     def logger
-      @logger ||= Rails.logger
+      @logger ||= Rails.logger.dup
     end
 
     def to_log

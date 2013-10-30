@@ -1,8 +1,7 @@
 module Revily
   module Event
     class Job
-      class IncidentEscalationTimeout < Job
-        include Job::Incidents
+      class IncidentEscalationTimeout < Incident
 
         def process
           incident.escalate unless (incident.acknowledged? || incident.resolved?)

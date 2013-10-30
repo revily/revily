@@ -36,3 +36,5 @@
 * add missing specs:
   - event changeset
   - 
+* sidekiq:
+  - log job class

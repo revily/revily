@@ -1,8 +1,7 @@
 module Revily
   module Event
     class Handler
-      class IncidentAcknowledge < Handler
-        include Handler::Incidents
+      class IncidentAcknowledge < Incident
 
         events %w[ incident.acknowledge ]
 

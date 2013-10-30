@@ -1,12 +1,11 @@
 module Revily
   module Event
     class Job
-      class IncidentTrigger < Job
-        include Job::Incidents
+      class IncidentTrigger < Incident
 
         def process
           current_user.contacts.each do |contact|
-            contact.notify(incidents)
+            contact.notify(incidents.triggered)
           end
         end
 

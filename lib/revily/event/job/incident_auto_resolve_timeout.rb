@@ -1,8 +1,7 @@
 module Revily
   module Event
     class Job
-      class IncidentAutoResolveTimeout < Job
-        include Job::Incidents
+      class IncidentAutoResolveTimeout < Incident
 
         def process
           incident.resolve unless incident.resolved?

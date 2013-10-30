@@ -4,7 +4,7 @@ module Revily
       include Revily::Model
 
       autoload :Campfire,                   "revily/event/job/campfire"
-      autoload :Incidents,                  "revily/event/job/incidents"
+      autoload :Incident,                   "revily/event/job/incident"
       autoload :IncidentAcknowledge,        "revily/event/job/incident_acknowledge"
       autoload :IncidentAcknowledgeTimeout, "revily/event/job/incident_acknowledge_timeout"
       autoload :IncidentAutoResolveTimeout, "revily/event/job/incident_auto_resolve_timeout"
@@ -48,13 +48,19 @@ module Revily
       end
 
       def run
-        timeout after: params[:timeout] || 60 do
-          process
+        if valid?
+          timeout after: (params[:timeout] || 60) do
+            process
+          end
+        else
+          logger.error "#{self.class.name} had errors: #{self.errors.full_messages.join(', ')}"
+
+          return false
         end
       end
 
       def process
-        raise StandardError, "override #process in subclass #{self.class.name}"
+        logger.warn "Override #process in a subclass"
       end
 
       def active_model_serializer
@@ -75,19 +81,19 @@ module Revily
 
       def find_association(association_name)
         association_name = association_name.to_s
-        
+
         payload[association_name]["type"].constantize.find_by(uuid: payload[association_name]["id"])
       end
 
       private
 
-        def account
-          @account ||= payload["account"]
-        end
+      def account
+        @account ||= payload["account"]
+      end
 
-        def timeout(options = { after: 60 }, &block)
-          Timeout::timeout(options[:after], &block)
-        end
+      def timeout(options = { after: 60 }, &block)
+        Timeout::timeout(options[:after], &block)
+      end
 
     end
   end

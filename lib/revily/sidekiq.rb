@@ -12,17 +12,14 @@ module Revily
     class << self
 
       def run(target, method, options, *args)
-        queue = options[:queue]
-        retries = options[:retries]
+        queue, retries = options.values_at(:queue, :retries)
         target = target.name if target.is_a?(Module)
         args = [target, method, *args]
         ::Sidekiq::Client.push('queue' => queue, 'retry' => retries, 'class' => Worker, 'args' => args)
       end
 
       def schedule(target, method, options, *args)
-        queue = options[:queue]
-        retries = options[:retries]
-        at = options[:at]
+        queue, retries, at = options.values_at(:queue, :retries, :at)
         target = target.name if target.is_a?(Module)
         args = [target, method, *args]
         ::Sidekiq::Client.push('queue' => queue, 'retry' => retries, 'class' => Worker, 'at' => at, 'args' => args)

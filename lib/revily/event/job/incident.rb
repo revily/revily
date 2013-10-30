@@ -1,7 +1,12 @@
 module Revily
   module Event
     class Job
-      module Incidents
+      class Incident < Job
+        abstract true
+
+        def process
+          logger.warn "Override #process in a subclass"
+        end
         
         private
 
@@ -10,7 +15,7 @@ module Revily
         end
 
         def incident
-          source.incident
+          source
         end
 
         def incidents
@@ -19,7 +24,7 @@ module Revily
 
         # override #source for eager loading of associated records
         def source
-          @source ||= Incident.includes(current_user: :contacts).find_by(uuid: payload["source"]["id"])
+          @source ||= ::Incident.includes(current_user: :contacts).find_by(uuid: payload["source"]["id"])
         end
 
       end

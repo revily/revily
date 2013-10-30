@@ -27,64 +27,64 @@ describe "voice" do
 
   describe 'POST /voice' do
     it 'plays the right message' do
-      incident.current_user.should == user_1
+      expect(incident.current_user).to eq user_1
 
-      call.should have_say "Revily alert on #{service.name}"
-      call.should have_say "#{incident.message}"
+      expect(call).to have_say "Revily alert on #{service.name}"
+      expect(call).to have_say "#{incident.message}"
       call.within_gather do |gather|
-        gather.should have_say "Press 4 to acknowledge, press 6 to resolve, or press 8 to escalate."
+        expect(gather).to have_say "Press 4 to acknowledge, press 6 to resolve, or press 8 to escalate."
         gather.press "anything"
       end
-      call.current_path.should == "/voice/receive"
+      expect(call.current_path).to eq "/voice/receive"
     end
 
     it 'acknowledge events' do
       call.within_gather do |gather|
         gather.press "4"
       end
-      # call.current_path.should == "/voice/receive"
-      call.should have_say "All incidents were acknowledged."
-      call.should have_say "Goodbye!"
-      call.should have_hangup
+      # expect(call.current_path).to eq "/voice/receive"
+      expect(call).to have_say "All incidents were acknowledged."
+      expect(call).to have_say "Goodbye!"
+      expect(call).to have_hangup
 
-      incident.reload.should be_acknowledged
+      expect(incident.reload).to be_acknowledged
     end
 
     it 'resolve events' do
       call.within_gather do |gather|
         gather.press "6"
       end
-      call.should have_say "All incidents were resolved."
-      call.should have_say "Goodbye!"
-      call.should have_hangup
+      expect(call).to have_say "All incidents were resolved."
+      expect(call).to have_say "Goodbye!"
+      expect(call).to have_hangup
 
-      incident.reload.should be_resolved
+      expect(incident.reload).to be_resolved
     end
 
     it 'escalate events' do
-      incident.current_user.should == user_1
+      expect(incident.current_user).to eq user_1
 
       call.within_gather do |gather|
         gather.press "8"
       end
-      call.should have_say "All incidents were escalated."
-      call.should have_say "Goodbye!"
-      call.should have_hangup
+      expect(call).to have_say "All incidents were escalated."
+      expect(call).to have_say "Goodbye!"
+      expect(call).to have_hangup
 
       incident.reload
-      incident.should be_triggered
-      incident.current_user.should == user_2
+      expect(incident).to be_triggered
+      expect(incident.current_user).to eq user_2
     end
 
     it 'handle unknown event' do
       call.within_gather do |gather|
         gather.press "0"
       end
-      call.should have_say "Your response was invalid."
-      call.should have_redirect_to(voice_path)
+      expect(call).to have_say "Your response was invalid."
+      expect(call).to have_redirect_to(voice_path)
       call.follow_redirect!
-      call.should have_say "Revily alert on #{service.name}"
-      call.should have_say "#{incident.message}"
+      expect(call).to have_say "Revily alert on #{service.name}"
+      expect(call).to have_say "#{incident.message}"
     end
   end
 

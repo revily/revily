@@ -35,12 +35,13 @@ describe Revily::Concerns::Eventable do
       let(:policy) { build_stubbed(:policy) }
 
       before do
-        policy.stub(:save).and_return(true)
+        allow(policy).to receive(:save) { true }
       end
 
       it 'receives callbacks' do
-        policy.should_receive(:dispatch)
         policy.save
+
+        expect(policy).to have_received(:dispatch)
       end
     end
   end

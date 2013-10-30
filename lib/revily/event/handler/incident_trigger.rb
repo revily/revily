@@ -1,8 +1,7 @@
 module Revily
   module Event
     class Handler
-      class IncidentTrigger < Handler
-        include Handler::Incidents
+      class IncidentTrigger < Incident
 
         events %w[ incident.trigger incident.escalate ]
 

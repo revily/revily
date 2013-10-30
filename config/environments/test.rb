@@ -36,4 +36,12 @@ Revily::Application.configure do
 
   config.action_mailer.default_url_options = { host: 'www.example.com' }
   config.cache_store = :memory_store
+
+  config.after_initialize do
+    require 'bullet'
+    
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.console = true
+  end
 end

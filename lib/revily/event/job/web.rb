@@ -4,7 +4,7 @@ module Revily
       class Web < Job
 
         def process
-          Rails.logger.debug "processing web handler"
+          logger.debug "processing web handler"
         end
 
       end

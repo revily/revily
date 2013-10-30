@@ -4,8 +4,8 @@ describe Incident do
   pause_events!
 
   context 'associations' do
-    it { should belong_to(:service) }
-    it { should belong_to(:account) }
+    it { expect(subject).to belong_to(:service) }
+    it { expect(subject).to belong_to(:account) }
   end
 
   context 'validations' do
@@ -15,11 +15,11 @@ describe Incident do
     let(:account) { create(:account) }
     let(:service) { create(:service, :with_policy, account: account) }
 
-    it { should serialize(:details) }
-    it { should have_readonly_attribute(:uuid) }
+    it { expect(subject).to serialize(:details) }
+    it { expect(subject).to have_readonly_attribute(:uuid) }
     it 'uses uuid for #to_param' do
       incident = create(:incident, service: service)
-      incident.to_param.should == incident.uuid
+      expect(incident.to_param).to eq incident.uuid
     end
   end
 
@@ -30,7 +30,8 @@ describe Incident do
     let(:service) { create(:service, :with_policy) }
 
     describe 'initial state' do
-      it { build(:incident, service: service).should be_pending }
+      let(:incident) { build(:incident, service: service) }
+      it { expect(incident).to be_pending }
     end
 
     describe 'trigger' do
@@ -41,24 +42,24 @@ describe Incident do
       it 'cannot transition to :triggered' do
         incident.trigger
 
-        incident.should have(1).error
+        expect(incident).to have(1).error
       end
 
       it 'can transition to :acknowledged' do
         incident.acknowledge
 
-        incident.should be_acknowledged
-        incident.acknowledged_at.should_not be_nil
-        incident.resolved_at.should be_nil
+        expect(incident).to be_acknowledged
+        expect(incident.acknowledged_at).to_not be_nil
+        expect(incident.resolved_at).to be_nil
       end
 
       it 'can transition to :resolved' do
         incident.resolve
 
-        incident.should be_resolved
-        incident.should have(0).errors
-        incident.resolved_at.should_not be_nil
-        incident.acknowledged_at.should_not be_nil
+        expect(incident).to be_resolved
+        expect(incident).to have(0).errors
+        expect(incident.resolved_at).to_not be_nil
+        expect(incident.acknowledged_at).to_not be_nil
       end
     end
 
@@ -69,25 +70,25 @@ describe Incident do
         incident.trigger
         incident.escalate
 
-        incident.should be_triggered
-        incident.should have(0).errors
+        expect(incident).to be_triggered
+        expect(incident).to have(0).errors
       end
 
       it 'can transition from :acknowledged' do
         incident.acknowledge
         incident.escalate
 
-        incident.should be_triggered
-        incident.should have(0).errors
+        expect(incident).to be_triggered
+        expect(incident).to have(0).errors
       end
 
       it 'cannot transition from :resolved' do
         incident.resolve
         incident.escalate
 
-        incident.should_not be_triggered
-        incident.should be_resolved
-        incident.should have(1).error
+        expect(incident).to_not be_triggered
+        expect(incident).to be_resolved
+        expect(incident).to have(1).error
       end
 
     end
@@ -107,15 +108,15 @@ describe Incident do
       it 'can transition to :triggered' do
         incident.trigger
 
-        incident.should be_triggered
-        incident.should have(0).errors
+        expect(incident).to be_triggered
+        expect(incident).to have(0).errors
       end
 
       it 'can transition to :resolved' do
         incident.resolve
 
-        incident.should be_resolved
-        incident.should have(0).errors
+        expect(incident).to be_resolved
+        expect(incident).to have(0).errors
       end
     end
 
@@ -128,16 +129,16 @@ describe Incident do
         incident.resolve
         incident.trigger
 
-        incident.should have(1).error
-        incident.should be_resolved
+        expect(incident).to have(1).error
+        expect(incident).to be_resolved
       end
 
       it 'cannot transition to :acknowledged' do
         incident.resolve
         incident.acknowledge
 
-        incident.should have(1).error
-        incident.should be_resolved
+        expect(incident).to have(1).error
+        expect(incident).to be_resolved
       end
     end
 

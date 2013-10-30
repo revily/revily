@@ -1,8 +1,7 @@
 module Revily
   module Event
     class Handler
-      class IncidentResolve < Handler
-        include Handler::Incidents
+      class IncidentResolve < Incident
 
         events %w[ incident.resolve ]
 

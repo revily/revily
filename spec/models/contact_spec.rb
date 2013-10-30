@@ -4,21 +4,21 @@ describe Contact do
   pause_events!
 
   context 'associations' do
-    it { should belong_to(:user) }
-    it { should belong_to(:account) }
+    it { expect(subject).to belong_to(:user) }
+    it { expect(subject).to belong_to(:account) }
   end
 
   context 'validations' do
-    it { should validate_presence_of(:type) }
-    it { should validate_presence_of(:address) }
-    it { should validate_presence_of(:label) }
+    it { expect(subject).to validate_presence_of(:type) }
+    it { expect(subject).to validate_presence_of(:address) }
+    it { expect(subject).to validate_presence_of(:label) }
   end
 
   context 'attributes' do
-    it { should have_readonly_attribute(:uuid) }
+    it { expect(subject).to have_readonly_attribute(:uuid) }
     it 'uses uuid for #to_param' do
       contact = create(:sms_contact)
-      contact.to_param.should == contact.uuid
+      expect(contact.to_param).to eq contact.uuid
     end
   end
 end

@@ -34,14 +34,14 @@ gem "slim",                                 "2.0.0",  require: false
 gem "state_machine",                        "1.2.0"
 gem "thor",                                           github: "erikhuda/thor"
 gem "twilio-rb",                            "2.3.0",  github: "stevegraham/twilio-rb" # Keep until new gem is released
-gem "twilio-ruby",                               "3.11.4", require: false
+gem "twilio-ruby",                          "3.11.4", require: false
 gem "unicorn",                              "4.6.3"
 gem "validates_existence",                  "0.8.0"
+gem "virtus",                               "1.0.0"
 # gem "incoming",                            "0.1.5"
 
 group :development do
   gem "annotate",                           "2.5.0",  require: false
-  gem "bullet",                             "4.6.0",  require: false
   gem "foreman",                            "0.63.0"
   gem "guard-rspec",                        "3.0.2",  require: false
   gem "guard-spork",                        "1.5.1",  require: false
@@ -66,7 +66,8 @@ end
 group :development, :test do
   gem "awesome_print",                      "1.2.0"
   gem "better_errors",                      "1.0.1"
-  gem "binding_of_caller",                  "0.7.2"   
+  gem "binding_of_caller",                  "0.7.2"
+  gem "bullet",                             "4.6.0",  require: false
   gem "factory_girl_rails",                 "4.2.1"
   gem "forgery",                            "0.5.0"
   gem "sham_rack",                          "1.3.6"

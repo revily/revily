@@ -9,8 +9,8 @@ describe "services" do
     let!(:service) { create(:service, account: account) }
     before { get '/services' }
 
-    it { should respond_with(:ok) }
-    it { should have_content_type(:json) }
+    it { expect(subject).to respond_with(:ok) }
+    it { expect(subject).to have_content_type(:json) }
     it { expect(body).to be_json_eql collection_serializer(account.services) }
   end
 
@@ -49,9 +49,11 @@ describe "services" do
       service.reload
     end
 
-    it { should respond_with(:no_content) }
-    it { Service.find(service.id).should be_enabled }
-    it { expect(body).to be_json_eql "" }
+    it "enables a service" do
+      expect(subject).to respond_with(:no_content)
+      expect(Service.find(service.id)).to be_enabled
+      expect(body).to be_json_eql ""
+    end
   end
 
   describe 'PUT /services/:id/disable' do
@@ -61,9 +63,11 @@ describe "services" do
       service.reload
     end
 
-    it { should respond_with(:no_content) }
-    it { Service.find(service.id).should be_disabled }
-    it { should_not have_body }
+    it "disables a service" do
+      expect(subject).to respond_with(:no_content)
+      expect(Service.find(service.id)).to be_disabled
+      expect(subject).to_not have_body
+    end
   end
 
   describe 'DELETE /services/:id' do

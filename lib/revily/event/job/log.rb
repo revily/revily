@@ -4,7 +4,7 @@ module Revily
       class Log < Job
 
         def process
-          Rails.logger.info self.attributes
+          logger.info self.attributes
         end
 
       end

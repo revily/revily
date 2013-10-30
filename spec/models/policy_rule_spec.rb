@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 def stub_rule
-  subject.stub(:assignment_attributes).and_return({ id: user.uuid, type: "User" })
-  subject.stub(:policy).and_return(policy)
+  allow(subject).to receive(:assignment_attributes) { { id: user.uuid, type: "User" } }
+  allow(subject).to receive(:policy) { policy }
 end
 
 describe PolicyRule do
@@ -16,25 +16,25 @@ describe PolicyRule do
   context 'associations' do
     before { stub_rule }
 
-    it { should belong_to(:policy) }
-    it { should belong_to(:assignment) }
+    it { expect(subject).to belong_to(:policy) }
+    it { expect(subject).to belong_to(:assignment) }
   end
 
   context 'validations' do
     before { stub_rule }
 
-    it { should validate_presence_of(:escalation_timeout) }
+    it { expect(subject).to validate_presence_of(:escalation_timeout) }
   end
 
   context 'attributes' do
     before { stub_rule }
 
-    it { should have_readonly_attribute(:uuid) }
+    it { expect(subject).to have_readonly_attribute(:uuid) }
 
     it 'sets to_param to uuid' do
       obj = build(:policy_rule, policy: policy)
       obj.save(:validate => false)
-      obj.to_param.should == obj.uuid
+      expect(obj.to_param).to eq obj.uuid
     end
   end
 

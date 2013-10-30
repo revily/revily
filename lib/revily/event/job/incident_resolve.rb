@@ -1,8 +1,7 @@
 module Revily
   module Event
     class Job
-      class IncidentResolve < Job
-        include Job::Incidents
+      class IncidentResolve < Incident
 
         def process
           incident.resolve unless incident.resolved?

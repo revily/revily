@@ -10,6 +10,6 @@ describe ServicePolicy do
 
   it 'uses uuid for #to_param' do
     obj = create(subject.class)
-    obj.to_param.should == obj.uuid
+    expect(obj.to_param).to eq obj.uuid
   end
 end

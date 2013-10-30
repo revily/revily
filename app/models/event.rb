@@ -26,7 +26,7 @@ class Event < ActiveRecord::Base
         event: format_event(action, source)
       }
       subscription = Revily::Event::Subscription.new(options)
-      subscription if subscription.handler
+      subscription if subscription.handler?
     end.compact
   end
 

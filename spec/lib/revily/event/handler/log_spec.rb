@@ -1,3 +1,4 @@
+
 require 'spec_helper'
 
 describe Revily::Event::Handler::Log do
@@ -5,7 +6,8 @@ describe Revily::Event::Handler::Log do
   let(:service) { create(:service, account: account) }
 
   it 'logs events to the Rails logger' do
-    # Rails.logger.should_receive(:debug).
+    pending
+    #expect(Rails.logger).to have_received(:debug).
     #   with("account=#{account.id} event=incident:triggered").
     #   at_least(:once)
     # incident = create(:incident, service: service)

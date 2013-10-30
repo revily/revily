@@ -37,4 +37,3 @@ class RenameEscalationPoliciesToPolicies < ActiveRecord::Migration
     add_index :escalation_rules, [:escalation_policy_id]
   end
 end
-

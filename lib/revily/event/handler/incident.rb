@@ -1,10 +1,20 @@
 module Revily
   module Event
     class Handler
-      module Incidents
-        
+      class Incident < Handler
+        abstract true
+        events []
+
+        def handle
+          logger.warn "Override #handle in a subclass"
+        end
+
         def handle?
-          service && service.enabled? && service.policy && current_policy_rule?
+          valid? && 
+          service && 
+          service.enabled? && 
+          service.policy && 
+          current_policy_rule?
         end
 
         def incident

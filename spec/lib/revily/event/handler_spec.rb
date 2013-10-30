@@ -8,14 +8,12 @@ describe Revily::Event::Handler do
   describe '.events' do
     let(:events) { handler.events }
     it 'defaults to empty array' do
-      handler.should_receive(:events).and_return([])
-      handler.events
+      expect(handler.events).to eq []
     end
 
     it 'with no args' do
       handler.events = %w[ incident.trigger ]
-      handler.should_receive(:events).and_return(['foo.event'])
-      handler.events
+      expect(handler.events).to match_array %w[ incident.trigger ]
     end
 
     it 'with args' do
@@ -44,12 +42,6 @@ describe Revily::Event::Handler do
   end
 
   describe '.supports?' do
-    # let(:events) {  }
-    # let(:handler) do
-    #   Class.new(Revily::Event::Handler) do
-    #     events 'incident.trigger'
-    #   end
-    # end
     it 'matches supported event' do
       handler.events 'incident.trigger', 'incident.resolve'
       expect(handler).to match_event('incident.trigger')
@@ -109,30 +101,31 @@ describe Revily::Event::Handler do
 
   describe 'notify' do
     let(:event) { 'incident.trigger' }
-    let(:source) { build_stubbed(:incident) }
+    let(:source) { double(:incident) }
     let(:config) { { foo: 'bar', baz: 'quz' } }
     let(:options) { { event: event, source: source, config: config } }
     let(:handler) { Revily::Event::Handler::Test.notify(options) }
 
-    # context 'handle? is true' do
-    #   before do
-    #     handler.stub(:handle? => true)
-    #   end
+    pending do
+      context 'handle? is true' do
+        before do
+          handler.stub(:handle? => true)
+        end
 
-    #   it 'handles the job' do
-    #     Revily::Event::Handler::Test.should_receive(:notify)
-    #     puts 
-    #   end
-    # end
+        it 'handles the job' do
+          expect(Revily::Event::Handler::Test).to have_received(:notify)
+        end
+      end
 
-    # context 'handle? is false' do
-    #   before do
-    #     handler.stub(:handle? => false)
-    #   end
+      context 'handle? is false' do
+        before do
+          handler.stub(:handle? => false)
+        end
 
-    #   it 'does not handle the job' do
-    #     handler.should_not_receive(:notify)
-    #   end
-    # end
+        it 'does not handle the job' do
+          expect(handler).to_not_receive(:notify)
+        end
+      end
+    end
   end
 end

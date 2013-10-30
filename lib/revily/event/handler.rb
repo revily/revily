@@ -2,7 +2,7 @@ module Revily
   module Event
     class Handler
       autoload :Campfire,            "revily/event/handler/campfire"
-      autoload :Incidents,           "revily/event/handler/incidents"
+      autoload :Incident,            "revily/event/handler/incident"
       autoload :IncidentAcknowledge, "revily/event/handler/incident_acknowledge"
       autoload :IncidentResolve,     "revily/event/handler/incident_resolve"
       autoload :IncidentTrigger,     "revily/event/handler/incident_trigger"
@@ -34,15 +34,6 @@ module Revily
       validates :payload, presence: true
       # @!endgroup
       class << self
-        def key
-          self.name.demodulize.underscore
-        end
-        # def queue(queue=nil)
-        #   @queue = queue
-        #   attribute :queue, type: String, default: queue
-        #   return @queue
-        # end
-
         # Initializes and notify a handler
         # @param [Hash] options The attributes used to initialize the handler
         # @option options [String] :event The formatted event string of the event
@@ -91,7 +82,6 @@ module Revily
 
       # Wrapper method around {#handle} to allow subclasses to override that method
       def notify
-        logger.info self.to_log
         Metriks.timer('handler.handle').time do
           handle
         end
@@ -124,16 +114,16 @@ module Revily
 
       # @abstract Subclass and override {#handle} to implement
       def handle
-        raise StandardError, "override #handle in subclass #{self.class.name}"
+        logger.warn "Override #handle in a subclass"
       end
 
       # @abstract Subclass and override {#handle?} to implement
       def handle?
-        raise StandardError, "override #handle in subclass #{self.class.name}"
+        logger.warn "Override #handle? in a subclass"
       end
 
       def name
-        self.class.name.demodulize.underscore
+        key
       end
 
       def account

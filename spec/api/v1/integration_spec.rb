@@ -5,28 +5,36 @@ describe V1::IntegrationController do
   pause_events!
 
   shared_context 'created' do
-    it { should respond_with(:created) }
-    it { should have_content_type(:json) }
+    it { expect(subject).to respond_with(:created) }
+    it { expect(subject).to have_content_type(:json) }
   end
 
   shared_context 'no_content' do
-    it { should respond_with(:no_content) }
-    it { should_not have_body }
+    it "responds with 204 No Content" do
+      expect(subject).to respond_with(:no_content)
+      expect(subject).to_not have_body
+    end
   end
 
   shared_context 'not_modified' do
-    it { should respond_with(:not_modified) }
-    it { should_not have_body }
+    it "responds with 304 Not Modified" do
+      expect(subject).to respond_with(:not_modified)
+      expect(subject).to_not have_body
+    end
   end
 
   shared_context 'not_found' do
-    it { should respond_with(:not_found) }
-    it { should_not have_body }
+    it "responds with 404 Not Found" do
+      expect(subject).to respond_with(:not_found)
+      expect(subject).to_not have_body
+    end
   end
 
   shared_context 'conflict' do
-    it { should respond_with(:conflict) }
-    it { should have_body }
+    it "responds with 409 Conflict" do
+      expect(subject).to respond_with(:conflict)
+      expect(subject).to have_body
+    end
   end
 
   let(:message) { "foo bar" }
@@ -92,7 +100,7 @@ describe V1::IntegrationController do
 
       it { should respond_with(:unprocessable_entity) }
       it {
-        json['errors']['message'][0].should eq "can't be blank"
+        expect(json['errors']['message'][0]).to eq "can't be blank"
       }
     end
   end

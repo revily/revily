@@ -10,6 +10,7 @@ describe V1::VoiceController do
 
     let(:call) { ttt_call('/voice', Revily::Twilio.number, "+15175551212") }
     it do
+      pending
       # ap incident
       # ap call
     end

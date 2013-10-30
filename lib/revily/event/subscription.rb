@@ -26,6 +26,10 @@ module Revily
         handler.notify(options)
       end
 
+      def handler?
+        !!handler
+      end
+
     end
   end
 end

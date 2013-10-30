@@ -15,7 +15,6 @@ module Revily
     autoload :Job,               "revily/event/job"
     autoload :JobSerializer,     "revily/event/job_serializer"
     autoload :Matcher,           "revily/event/matcher"
-    autoload :Mixins,            "revily/event/mixins"
     autoload :Notifier,          "revily/event/notifier"
     autoload :Payload,           "revily/event/payload"
     autoload :PayloadSerializer, "revily/event/payload_serializer"
@@ -95,8 +94,10 @@ module Revily
 
       def hash_from_constant(constant)
         Hash[constant.constants(false).map do |c|
-          [c.to_s.underscore, constant.const_get(c)]
-        end.sort].with_indifferent_access
+          const = constant.const_get(c)
+          next if const.abstract?
+          [const.key, const]
+        end.compact.sort].with_indifferent_access
       end
       private :hash_from_constant
     end

@@ -5,7 +5,7 @@ http_interactions:
     uri: https://$TWILIO_ACCOUNT_SID:$TWILIO_AUTH_TOKEN@api.twilio.com/2010-04-01/Accounts/$TWILIO_ACCOUNT_SID/Calls.json
     body:
       encoding: UTF-8
-      string: To=%2B15172145853&From=%2B14157671567&Url=https%3A%2F%2Frevily.fwd.wf%2Fvoice%2Frespond
+      string: To=%2B15175551212&From=%2B15175551212&Url=https%3A%2F%2Frevily.fwd.wf%2Fvoice%2Frespond
     headers:
       User-Agent:
       - twilio-rb/2.1.1
