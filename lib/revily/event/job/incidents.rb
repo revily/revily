@@ -9,6 +9,10 @@ module Revily
           source.current_user
         end
 
+        def incident
+          source.incident
+        end
+
         def incidents
           current_user.incidents
         end
