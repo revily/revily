@@ -20,8 +20,9 @@ class Incident < ActiveRecord::Base
   validates :service, existence: true
 
   before_save :ensure_key
-  before_create :associate_current_policy_rule
-  before_create :associate_current_user
+  # before_create :associate_current_policy_rule
+  # before_create :associate_current_user
+  before_create :assign
   after_create :trigger
 
   scope :unresolved, -> { where.not(state: 'resolved') }
@@ -37,7 +38,7 @@ class Incident < ActiveRecord::Base
 
   state_machine initial: :pending do
     state :triggered do
-      validate :loop_limit_not_reached
+      # validate :loop_limit_not_reached
     end
     state :acknowledged
     state :resolved
@@ -67,7 +68,7 @@ class Incident < ActiveRecord::Base
     before_transition :acknowledged => :resolved,
       :do => :update_resolved_at
     before_transition :on => :escalate,
-      :do => :escalate_to_next_policy_rule
+      :do => :assign
 
     after_transition any => any do |incident, transition|
       incident.transition_from = transition.from
@@ -78,25 +79,20 @@ class Incident < ActiveRecord::Base
     end
   end
 
+  def assign
+    assignment = Incident::Assignment.new(incident: self)
+    if assignment.valid?
+      assignment.assign
+    else
+      assignment.errors[:incident].each do |error|
+        errors[:base] << error
+      end
+      return false
+    end
+  end
+
   def key_or_uuid
     self.key || self.uuid
-  end
-
-  def next_policy_rule
-    self.current_policy_rule.try(:lower_item) || policy.try(:policy_rules).try(:first)
-  end
-
-  def policy
-    service.try(:policy)
-  end
-
-  protected
-
-  # def loop_limit_reached?
-  def loop_limit_not_reached
-    if policy && policy.loop_limit <= self.escalation_loop_count
-      errors.add(:state, 'cannot escalate when the incident has has reached the escalation loop limit')
-    end
   end
 
   private
@@ -116,20 +112,4 @@ class Incident < ActiveRecord::Base
   def update_acknowledged_at
     write_attribute(:acknowledged_at, Time.zone.now)
   end
-
-  def associate_current_policy_rule
-    self.current_policy_rule = next_policy_rule
-  end
-
-  def associate_current_user
-    self.current_user = self.current_policy_rule.try(:current_user)
-  end
-
-  def escalate_to_next_policy_rule
-    self[:escalation_loop_count] += 1 if next_policy_rule.first?
-
-    associate_current_policy_rule
-    associate_current_user
-  end
-
 end

@@ -5,6 +5,9 @@ describe "incidents" do
   sign_in_user
 
   let(:service) { create(:service, :with_policy, account: account) }
+  before do
+    Incident.any_instance.stub(assign: true)
+  end
 
   describe 'GET /services/:service_id/incidents' do
     let(:incident) { create(:incident, service: service) }

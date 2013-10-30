@@ -31,6 +31,7 @@ describe Service do
       let(:incidents) { create_list(:incident, 5, service: service) }
 
       before do
+        Incident.any_instance.stub(assign: true)
         incidents.first.acknowledge
         incidents.last.resolve
       end
@@ -52,6 +53,7 @@ describe Service do
     let(:service) { create(:service) }
 
     before do
+      Incident.any_instance.stub(assign: true)
       service.incidents.destroy_all
       service.reload
     end
