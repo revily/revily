@@ -65,11 +65,17 @@ module Revily
       end
 
       def source
-        @source ||= payload["source"]["type"].constantize.find_by(uuid: payload["source"]["id"])
+        @source ||= find_association(:source)
       end
 
       def actor
-        @actor ||= payload["actor"]["type"].constantize.find_by(uuid: payload["actor"]["id"])
+        @actor ||= find_association(:actor)
+      end
+
+      def find_association(association_name)
+        association_name = association_name.to_s
+        
+        payload[association_name]["type"].constantize.find_by(uuid: payload[association_name]["id"])
       end
 
       private
