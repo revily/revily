@@ -44,7 +44,7 @@ class Incident::Assignment
   # If the current policy rule is the last of the policy rule array, loop
   # back to the beginning and select the policy rule in the first position.
   def next_policy_rule
-    incident.current_policy_rule.try(:lower_item) || policy.try(:policy_rules).try(:first)
+    incident.current_policy_rule.try(:lower_item) || policy_rules.try(:first)
   end
 
   private
