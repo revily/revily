@@ -2,6 +2,7 @@ module Revily
   module Event
     class Job
       class IncidentAcknowledge < Job
+        include Job::Incidents
 
         def process
           # sms/voice controllers now handle this.
@@ -10,20 +11,6 @@ module Revily
           # end
         end
 
-        private
-
-        def current_user
-          source.current_user
-        end
-
-        def incidents
-          current_user.incidents
-        end
-
-        # override #source for eager loading of associated records
-        def source
-          @source ||= Incident.includes(current_user: :contacts).find_by(uuid: payload["source"]["id"])
-        end
       end
     end
   end
