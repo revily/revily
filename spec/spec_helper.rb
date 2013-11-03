@@ -33,6 +33,8 @@ def configure
     config.run_all_when_everything_filtered = true
     config.filter_run focus: true
     config.filter_run_excluding external: true
+    config.backtrace_exclusion_patterns << /vendor\//
+    config.backtrace_exclusion_patterns << /lib\/rspec\/rails/
   end
 
   # require_all 'spec/support/**/*.rb', relative_to: 'spec'

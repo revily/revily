@@ -6,6 +6,8 @@ module Revily
         :created_at, :updated_at
       ]
 
+      attr_accessor :resource, :changes
+
       def initialize(resource)
         @resource = resource
         @changes = @resource.changes.dup.with_indifferent_access

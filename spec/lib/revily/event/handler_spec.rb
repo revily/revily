@@ -1,7 +1,8 @@
 require 'spec_helper'
 
+MockHandler = Class.new(Revily::Event::Handler)
+
 describe Revily::Event::Handler do
-  class MockHandler < Revily::Event::Handler; end
   let(:handler) { MockHandler }
   before { MockHandler.events = []}
 
