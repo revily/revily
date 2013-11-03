@@ -42,6 +42,7 @@ gem "virtus",                               "1.0.0"
 
 group :development do
   gem "annotate",                           "2.5.0",  require: false
+  gem "cane",                               "2.6.1",  require: false
   gem "foreman",                            "0.63.0"
   gem "guard",                              "2.2.2",  require: false
   gem "guard-rspec",                        "4.0.3",  require: false

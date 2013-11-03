@@ -500,6 +500,7 @@ DEPENDENCIES
   better_errors (= 1.0.1)
   binding_of_caller (= 0.7.2)
   bullet (= 4.7.1)
+  cane (= 2.6.1)
   capybara (= 2.1.0)
   clockwork (= 0.7.0)
   dalli (= 2.6.4)
