@@ -17,11 +17,8 @@ guard(:spork,
 end
 
 guard(:rspec,
-      cli: "--profile --color --drb --drb-port=#{PORT} --tty -r rspec/instafail -f RSpec::Instafail",
-      bundler: false,
-      all_after_pass: false,
-      all_on_start: false,
-      keep_failed: false
+      cmd: "bundle exec rspec --color --drb --drb-port=#{PORT} --tty",
+      run_all: { cmd: "bundle exec rspec --profile --color --drb --drb-port=#{PORT} --tty --fail-fast"}
 ) do
   watch('spec/spec_helper.rb') { "spec" }
   # watch('app/controllers/application_controller.rb') { "spec/controllers" }
