@@ -17,7 +17,7 @@ class Incident < ActiveRecord::Base
   belongs_to :current_policy_rule, class_name: 'PolicyRule', foreign_key: :current_policy_rule_id, touch: true
 
   validates :message, presence: true
-  validates :service, existence: true
+  validates :service, presence: true
 
   before_save :ensure_key
   # before_create :associate_current_policy_rule
