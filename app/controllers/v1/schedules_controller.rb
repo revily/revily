@@ -60,10 +60,8 @@ class V1::SchedulesController < V1::ApplicationController
   end
 
   def policy_rules
-    # @schedule = schedules.includes(:policy_rules => :policy, :schedule_layers => :users).references(:policy_rules => :policy, :schedule_layers => :users).find_by!(uuid: params[:id])
     @schedule = schedules.find_by!(uuid: params[:id])
-    # @policy_rules = @schedule.policy_rules.includes(:policy).select('policy.rules.*', 'policies.id').page(params[:page]) #.references(:policies)
-    @policy_rules = @schedule.policy_rules.includes(:policy).page(params[:page]) #.references(:policies)
+    @policy_rules = @schedule.policy_rules.includes(:policy).page(params[:page])
 
     respond_with @policy_rules, minimal: true
   end

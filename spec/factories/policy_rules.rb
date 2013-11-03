@@ -5,12 +5,12 @@ FactoryGirl.define do
     policy
     account { policy && policy.account }
     escalation_timeout 1
-    
+
     after(:build) do |rule|
       rule.set_assignment
       # rule.account = rule.policy.account
     end
-    
+
     trait :for_user do
       association :assignment, factory: :user
     end
@@ -22,6 +22,6 @@ FactoryGirl.define do
     trait :for_dan_ryan do
       association :assignment, factory: [ :user, :dan_ryan ]
     end
-    
+
   end
 end
