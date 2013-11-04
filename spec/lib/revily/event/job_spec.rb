@@ -16,10 +16,11 @@ describe Revily::Event::Job do
     it "schedules a job to run in the future" do
       described_class.schedule(:default, 30.minutes, {}, {})
 
+      puts Time.now.to_i.to_f
       expect(Revily::Sidekiq).to have_received(:schedule).with(
         described_class,
         :perform,
-        { queue: :default, retries: 8, backtrace: true, at: 1351264740.0 },
+        { queue: :default, retries: 8, backtrace: true, at: (Time.now.to_i.to_f + 1800) },
         { payload: {}, params: {} }
       )
     end
