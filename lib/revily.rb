@@ -1,3 +1,5 @@
+require "metriks"
+
 module Revily
   autoload :ApiConstraints,          "revily/api_constraints"
   autoload :Config,                  "revily/config"

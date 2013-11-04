@@ -1,3 +1,7 @@
+require "active_support/concern"
+require "active_attr"
+require "active_model_serializers"
+
 module Revily
   module Model
     extend ActiveSupport::Concern
