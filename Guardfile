@@ -2,19 +2,19 @@ require 'active_support/inflector'
 
 PORT = 19001
 
-# guard(:spork,
-#       rspec_env: { 'RAILS_ENV' => 'test' },
-#       rspec_port: PORT,
-#       aggressive_kill: false
-# ) do
-#   watch('config/application.rb')
-#   watch('config/environment.rb')
-#   watch('config/environments/test.rb')
-#   watch(%r{^config/initializers/.+\.rb$})
-#   watch('Gemfile.lock')
-#   watch('spec/spec_helper.rb') { :rspec }
-#   watch(%r{config/.+\.yml})
-# end
+guard(:spork,
+      rspec_env: { 'RAILS_ENV' => 'test' },
+      rspec_port: PORT,
+      aggressive_kill: false
+) do
+  watch('config/application.rb')
+  watch('config/environment.rb')
+  watch('config/environments/test.rb')
+  watch(%r{^config/initializers/.+\.rb$})
+  watch('Gemfile.lock')
+  watch('spec/spec_helper.rb') { :rspec }
+  watch(%r{config/.+\.yml})
+end
 
 # group :unit do
 #   guard(:rspec, 
@@ -27,8 +27,8 @@ PORT = 19001
 # end
 
 guard(:rspec,
-      # cmd: "bundle exec rspec --color --drb --drb-port=#{PORT} --tty",
-      cmd: "bundle exec rspec --color --tty",
+      cmd: "bundle exec rspec --color --drb --drb-port=#{PORT} --tty",
+      # cmd: "bundle exec rspec --color --tty",
       run_all: { cmd: "bundle exec rspec --profile -f progress --color --drb --drb-port=#{PORT} --tty --fail-fast"}
 ) do
   watch('spec/spec_helper.rb') { "spec" }
