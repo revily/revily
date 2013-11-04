@@ -1,14 +1,14 @@
-RSpec::Matchers.define :support do |expected|
+RSpec::Matchers.define :support_event do |expected|
   match do |actual|
-    matcher.matches?(event)
+    matcher.supports?(event)
   end
 
   failure_message_for_should do |actual|
-    "expected #{matcher.class.name} to support #{event}"
+    "expected #{matcher.name} to support \"#{event}\" event"
   end
 
   failure_message_for_should_not do |actual|
-    "expected #{matcher.class.name} to not support #{event}"
+    "expected #{matcher.name} to not support \"#{event}\" event"
   end
 
   description do

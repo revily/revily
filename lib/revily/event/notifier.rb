@@ -1,5 +1,7 @@
 module Revily::Event
   class Notifier
+    include Revily::Log
+    
     autoload :Email,               "revily/event/notifier/sms"
     autoload :Phone,               "revily/event/notifier/sms"
     autoload :Sms,                 "revily/event/notifier/sms"

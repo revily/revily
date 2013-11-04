@@ -9,7 +9,6 @@ module Revily
     included do
       include ActiveAttr::Model
       include ActiveModel::SerializerSupport
-      include Revily::Log
 
       # Reset @abstract in subclasses
       def self.inherited(klass)
@@ -39,6 +38,10 @@ module Revily
       nil
     end
 
+    def logger
+      self.class.logger
+    end
+
     def serialize(options={})
       serializer = self.active_model_serializer || ActiveModel::DefaultSerializer
 
@@ -54,6 +57,10 @@ module Revily
     end
 
     module ClassMethods
+      def logger
+        Revily.logger
+      end
+
       def abstract(value=nil)
         return @abstract if value.nil?
         @abstract = value

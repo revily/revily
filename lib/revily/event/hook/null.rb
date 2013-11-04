@@ -5,7 +5,7 @@ module Revily
 
         hook_name 'null'
         handler   'null'
-        events     Event.all
+        events     Revily::Event.all
 
       end
     end

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "unit_helper"
 
 describe Revily::Log do
 

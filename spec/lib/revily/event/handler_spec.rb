@@ -1,24 +1,24 @@
 require "unit_helper"
 
-MockHandler = Class.new(Revily::Event::Handler)
+class MockHandler < Revily::Event::Handler
+  def handle
+    run Revily::Event::Job::Null
+  end
+end
 
 describe Revily::Event::Handler do
+  stub_events
+
   let(:handler) { MockHandler }
   let(:event_list) { double("Revily::Event::EventList") }
+  let(:matcher) { double("Revily::Event::Matcher") }
+  let(:job) { double("Revily::Event::Job::Null") }
 
   before do
-    allow(Revily::Event).to receive(:all) { %w[ 
-      incident.trigger incident.acknowledge incident.resolve
-      service.create service.update service.delete
-      policy.create policy.update policy.delete
-    ] }
-    # allow(Revily::Event::EventList).to receive(:new) { event_list }
-    # allow(event_list).to receive(:events).and_return([])# { %w[ foo.create foo.update foo.delete ] }
-    MockHandler.events = []
+    handler.events = []
   end
 
   describe ".events" do
-    let(:events) { handler.events }
     it "defaults to empty array" do
       expect(handler.events).to eq []
     end
@@ -37,95 +37,100 @@ describe Revily::Event::Handler do
       handler.events "incident.trigger"
       handler.events "incident.acknowledge"
       handler.events "incident.resolve"
-      expect(events).to eq(%w[ incident.trigger incident.acknowledge incident.resolve ])
+      expect(handler.events).to eq(%w[ incident.trigger incident.acknowledge incident.resolve ])
     end
 
     it "removes duplicate events" do
       handler.events "incident.trigger"
       handler.events "incident.trigger"
-      expect(events).to eq(%w[ incident.trigger ])
+      expect(handler.events).to eq(%w[ incident.trigger ])
     end
 
     it "removes unknown events" do
       handler.events "bogus.event"
       handler.events "fake.event"
-      expect(events).to eq(%w[])
+      expect(handler.events).to eq(%w[])
     end
   end
 
   describe ".supports?" do
-    it "matches supported event" do
+    it "supports supported event" do
       handler.events "incident.trigger", "incident.resolve"
-      expect(handler).to match_event("incident.trigger")
+      expect(handler).to support_event("incident.trigger")
     end
 
-    it "does not match unsupported event" do
+    it "does not support unsupported event" do
       handler.events "incident.trigger", "incident.resolve"
-      expect(handler).not_to match_event("service.create")
+      expect(handler).to_not support_event("service.create")
     end
 
     context "wildcards" do
-      it "matches all (*)" do
+      it "supports all (*)" do
         handler.events %w[ * ]
-        expect(handler).to match_event("incident.trigger")
-        expect(handler).to match_event("service.create")
-        expect(handler).to match_event("policy.update")
-        expect(handler).to match_event("incident.*")
-        expect(handler).to match_event("service.*")
-        expect(handler).to match_event("*")
-        expect(handler).not_to match_event("bogus.event")
+        expect(handler).to support_event("incident.trigger")
+        expect(handler).to support_event("service.create")
+        expect(handler).to support_event("policy.update")
+        expect(handler).to support_event("incident.*")
+        expect(handler).to support_event("service.*")
+        expect(handler).to support_event("*")
+        expect(handler).to_not support_event("bogus.event")
       end
 
-      it "matches single namespace" do
+      it "supports single namespace" do
         handler.events %w[ incident.* ]
-        expect(handler).to match_event("incident.*")
-        expect(handler).to match_event("incident.trigger")
-        expect(handler).to match_event("incident.acknowledge")
-        expect(handler).not_to match_event("service.create")
-        expect(handler).not_to match_event("policy.update")
+        expect(handler).to support_event("incident.*")
+        expect(handler).to support_event("incident.trigger")
+        expect(handler).to support_event("incident.acknowledge")
+        expect(handler).to_not support_event("service.create")
+        expect(handler).to_not support_event("policy.update")
       end
 
-      it "does not match nonexistent events" do
+      it "does not support nonexistent events" do
         handler.events "incident.*"
-        expect(handler).not_to match_event("incident.foobar")
+        expect(handler).to_not support_event("incident.foobar")
       end
 
-      it "matches multiple namespaces" do
+      it "supports multiple namespaces" do
         handler.events %w[ incident.* service.* ]
-        expect(handler).to match_event("incident.*")
-        expect(handler).to match_event("incident.trigger")
-        expect(handler).to match_event("service.*")
-        expect(handler).to match_event("service.create")
-        expect(handler).not_to match_event("policy.update")
+        expect(handler).to support_event("incident.*")
+        expect(handler).to support_event("incident.trigger")
+        expect(handler).to support_event("service.*")
+        expect(handler).to support_event("service.create")
+        expect(handler).to_not support_event("policy.update")
       end
 
-      it "matches mix of specific and namespace events" do
+      it "supports mix of specific and namespace events" do
         handler.events %w[ incident.* service.create ]
-        expect(handler).to match_event("incident.*")
-        expect(handler).to match_event("incident.trigger")
-        expect(handler).to match_event("service.create")
-        expect(handler).not_to match_event("service.update")
-        expect(handler).not_to match_event("policy.update")
+        expect(handler).to support_event("incident.*")
+        expect(handler).to support_event("incident.trigger")
+        expect(handler).to support_event("service.create")
+        expect(handler).to_not support_event("service.update")
+        expect(handler).to_not support_event("policy.update")
       end
     end
 
   end
 
-  describe "notify" do
+  describe ".notify" do
     let(:event) { "incident.trigger" }
-    let(:source) { double(:incident) }
+    let(:source) { double("Incident") }
     let(:config) { { foo: "bar", baz: "quz" } }
     let(:options) { { event: event, source: source, config: config } }
-    let(:handler) { Revily::Event::Handler::Null.notify(options) }
+    let(:handler) { MockHandler.new(options) }
+    let(:job) { Revily::Event::Job::Null }
+
+    before do
+      allow(job).to receive(:run)
+    end
 
     pending do
       context "handle? is true" do
         before do
-          handler.stub(:handle? => true)
+          allow(handler).to receive(:handle?).and_return(true)
         end
 
         it "handles the job" do
-          expect(Revily::Event::Handler::Null).to have_received(:notify)
+          expect(job).to have_received(:run)
         end
       end
 

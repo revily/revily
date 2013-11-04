@@ -11,6 +11,8 @@ module Revily
       autoload :Web,                 "revily/event/handler/web"
 
       include Revily::Model
+      include Revily::Log
+      
       include HandlerMixin
 
       # @!attribute [rw] event
@@ -56,22 +58,23 @@ module Revily
           return @events unless events.present?
           matched_events ||= Event::EventList.new(events).events
           @events ||= []
-          @events.concat(matched_events).uniq! unless events.blank?
+          @events.concat(matched_events).uniq! unless matched_events.blank?
 
           return @events
         end
 
-        def supports?(pattern)
-          timer = Metriks.timer('handler.supports?')
-          t = timer.time
-          matcher = Event::Matcher.new(pattern, events)
-          supports = matcher.matches?(pattern)
-          t.stop
+        def supports?(*patterns)
+          matches = Event::EventList.new(patterns).events
 
-          supports
+          return false if matches.empty?
+          matches.all? {|match| events.include?(match) }
         end
         alias_method :matches?, :supports?
         alias_method :support?, :supports?
+      end
+
+      def supports?(pattern)
+        self.class.supports?(pattern)
       end
 
       def active_model_serializer

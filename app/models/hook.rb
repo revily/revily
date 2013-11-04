@@ -49,8 +49,6 @@ class Hook < ActiveRecord::Base
   private
 
     def handler_supports_events?
-      # expand_events
-      expanded_events = Revily::Event::Matcher.new(events)
       return unless handler
       events.each do |event|
         unless handler && handler_class && handler_class.supports?(event)

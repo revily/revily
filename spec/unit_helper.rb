@@ -18,7 +18,13 @@ def configure
   $LOAD_PATH.unshift(File.dirname(__FILE__))
   require "revily"
 
+  Revily::Log.logger = nil
+  
+  require "dotenv"
+  Dotenv.load ".env.#{ENV["RAILS_ENV"]}", ".env"
+
   require "rspec"
+  require "support/fire"
 
   RSpec.configure do |config|
     config.mock_with :rspec
@@ -33,7 +39,9 @@ def configure
 end
 
 def run
-  load_all "spec/support/fire", "spec/support/matchers/**/*.rb"
+  load_all "spec/support/fire",
+           "spec/support/matchers/**/*.rb",
+           "spec/support/mixins/**/*.rb"
 end
 
 if defined?(Spork)
@@ -41,5 +49,5 @@ if defined?(Spork)
   Spork.each_run { run }
 else
   configure
-  load_all "spec/support/**/*.rb", "lib/**/*.rb", "config/routes.rb"
+  run
 end

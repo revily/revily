@@ -2,6 +2,7 @@ module Revily
   module Event
     class Job
       include Revily::Model
+      include Revily::Log
 
       autoload :Campfire,                   "revily/event/job/campfire"
       autoload :Incident,                   "revily/event/job/incident"
@@ -83,6 +84,12 @@ module Revily
         association_name = association_name.to_s
 
         payload[association_name]["type"].constantize.find_by(uuid: payload[association_name]["id"])
+      end
+
+      protected
+
+      def logger
+        Revily::Log.logger
       end
 
       private
