@@ -19,6 +19,7 @@ gem "dotenv-rails",                         "0.9.0"
 gem "highline",                             "1.6.20", require: false
 gem "ice_cube",                             "0.11.1"
 gem "kaminari",                             "0.14.1"
+gem "naught"
 gem "metriks",                              "0.9.9.5"
 gem "multi_mail",                           "0.1.0"
 gem "periscope",                            "2.1.0"

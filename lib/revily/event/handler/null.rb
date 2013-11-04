@@ -1,24 +1,48 @@
+require "naught"
+
 module Revily
   module Event
     class Handler
-      class Null < Handler
+      # The Null handler is an object that acts like a real handler and
+      # returns stubbed results. It is used as a base handler so exceptions
+      # are not thrown.
+      class Null
         class << self
-          attr_accessor :event_list
+          def events(*events)
+            @events ||= []
+          end
+
+          def events=(*events)
+            @events ||= []
+          end
+
+          def abstract?
+            false
+          end
+
+          def key
+            "null"
+          end
         end
-        self.event_list = []
 
-        events Event.events
-
+        def key
+          self.class.key
+        end
+        
         def handle?
           true
         end
 
         def handle
-          run Event::Job::Null, :test
+          true
         end
 
-        def targets
-          @targets
+        def abstract?
+          self.class.abstract?
+        end
+
+        def serialize(options={})
+          {}
         end
 
       end
