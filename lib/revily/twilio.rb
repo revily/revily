@@ -1,3 +1,5 @@
+require "twilio-rb"
+
 module Revily
   module Twilio
     class Worker

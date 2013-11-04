@@ -1,10 +1,13 @@
-require 'spec_helper'
+require "unit_helper"
+
+class Event
+end
 
 describe Revily::Event::Publisher::RecordChange do
-  let(:object) { mock_model("Service")}
-  let(:account) { mock_model("Account") }
+  let(:object) { double("Service")}
+  let(:account) { double("Account") }
   let(:source) { object }
-  let(:actor) { mock_model("User") }
+  let(:actor) { double("User") }
 
   before do
     Revily::Event.stub(:actor).and_return(actor)

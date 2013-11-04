@@ -1,11 +1,12 @@
 require "active_support/core_ext/string/inflections"
-require "active_support/hash_with_indifferent_access"
+require "active_support/core_ext/hash/indifferent_access"
 
 module Revily
   module Event
     # include Celluloid
     # include Celluloid::Notifiers
 
+    autoload :Changeset,         "revily/event/changeset"
     autoload :EventList,         "revily/event/event_list"
     autoload :Handler,           "revily/event/handler"
     autoload :HandlerSerializer, "revily/event/handler_serializer"
@@ -14,7 +15,7 @@ module Revily
     autoload :HookSerializer,    "revily/event/hook_serializer"
     autoload :Job,               "revily/event/job"
     autoload :JobSerializer,     "revily/event/job_serializer"
-    autoload :Matcher,           "revily/event/matcher"
+    # autoload :Matcher,           "revily/event/matcher"
     autoload :Notifier,          "revily/event/notifier"
     autoload :Payload,           "revily/event/payload"
     autoload :PayloadSerializer, "revily/event/payload_serializer"

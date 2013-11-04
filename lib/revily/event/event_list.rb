@@ -6,7 +6,7 @@ module Revily
       attr_accessor :patterns, :events
 
       def initialize(*patterns)
-        patterns = patterns.compact.present? ? patterns : %w[ * ]
+        patterns = patterns.compact.any? ? patterns : %w[ * ]
         @patterns = clean_patterns(patterns)
         @events = expand(@patterns)
       end

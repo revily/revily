@@ -1,7 +1,13 @@
-require "spec_helper"
+require "unit_helper"
+require "timecop"
+
+module Sidekiq
+  module Worker
+  end
+end
 
 describe Revily::Event::Job do
-  before { Timecop.freeze Time.zone.local(2012, 10, 26, 10, 49) }
+  before { Timecop.freeze Time.local(2012, 10, 26, 10, 49) }
   after { Timecop.return }
 
   describe ".schedule" do
@@ -13,7 +19,7 @@ describe Revily::Event::Job do
       expect(Revily::Sidekiq).to have_received(:schedule).with(
         described_class,
         :perform,
-        { queue: :default, retries: 8, backtrace: true, at: 1351250340.0 },
+        { queue: :default, retries: 8, backtrace: true, at: 1351264740.0 },
         { payload: {}, params: {} }
       )
     end

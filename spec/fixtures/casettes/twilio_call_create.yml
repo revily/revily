@@ -29,8 +29,8 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"sid":"CA5f14ba3e8feaf203ff55420819324c72","date_created":"Tue, 23
-        Jul 2013 20:55:31 +0000","date_updated":"Tue, 23 Jul 2013 20:55:31 +0000","parent_call_sid":null,"account_sid":"$TWILIO_ACCOUNT_SID","to":"+15172145853","to_formatted":"(517)
-        214-5853","from":"+14157671567","from_formatted":"(415) 767-1567","phone_number_sid":"PN88fff1e4b91c4e25eecd464802578080","status":"queued","start_time":null,"end_time":null,"duration":null,"price":null,"price_unit":"USD","direction":"outbound-api","answered_by":null,"api_version":"2010-04-01","annotation":null,"forwarded_from":null,"group_sid":null,"caller_name":null,"uri":"\/2010-04-01\/Accounts\/$TWILIO_ACCOUNT_SID\/Calls\/CA5f14ba3e8feaf203ff55420819324c72.json","subresource_uris":{"notifications":"\/2010-04-01\/Accounts\/$TWILIO_ACCOUNT_SID\/Calls\/CA5f14ba3e8feaf203ff55420819324c72\/Notifications.json","recordings":"\/2010-04-01\/Accounts\/$TWILIO_ACCOUNT_SID\/Calls\/CA5f14ba3e8feaf203ff55420819324c72\/Recordings.json"}}'
+        Jul 2013 20:55:31 +0000","date_updated":"Tue, 23 Jul 2013 20:55:31 +0000","parent_call_sid":null,"account_sid":"$TWILIO_ACCOUNT_SID","to":"+15175551212","to_formatted":"(517)
+        555-1212","from":"+15175551212","from_formatted":"(517) 555-1212","phone_number_sid":"PN88fff1e4b91c4e25eecd464802578080","status":"queued","start_time":null,"end_time":null,"duration":null,"price":null,"price_unit":"USD","direction":"outbound-api","answered_by":null,"api_version":"2010-04-01","annotation":null,"forwarded_from":null,"group_sid":null,"caller_name":null,"uri":"\/2010-04-01\/Accounts\/$TWILIO_ACCOUNT_SID\/Calls\/CA5f14ba3e8feaf203ff55420819324c72.json","subresource_uris":{"notifications":"\/2010-04-01\/Accounts\/$TWILIO_ACCOUNT_SID\/Calls\/CA5f14ba3e8feaf203ff55420819324c72\/Notifications.json","recordings":"\/2010-04-01\/Accounts\/$TWILIO_ACCOUNT_SID\/Calls\/CA5f14ba3e8feaf203ff55420819324c72\/Recordings.json"}}'
     http_version: 
   recorded_at: Tue, 23 Jul 2013 20:55:31 GMT
 recorded_with: VCR 2.5.0
