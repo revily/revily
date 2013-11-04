@@ -1,4 +1,4 @@
-require 'unit_helper'
+require 'spec_helper'
 
 MockHandler = Class.new(Revily::Event::Handler)
 
