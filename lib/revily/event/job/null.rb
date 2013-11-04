@@ -1,10 +1,10 @@
 module Revily
   module Event
     class Job
-      class Test < Job
+      class Null < Job
 
         def process
-          Revily::Event::Handler::Test.event_list << "event"
+          Revily::Event::Handler::Null.event_list << "event"
         end
 
       end

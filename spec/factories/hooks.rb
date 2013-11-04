@@ -4,8 +4,8 @@ FactoryGirl.define do
   factory :hook do
     account
     
-    name 'Test Hook'
-    handler 'test'
+    name 'Null Hook'
+    handler 'null'
     config Hash.new
     events { %w[ * ] }
     state 'enabled'
@@ -23,8 +23,8 @@ FactoryGirl.define do
     handler 'log'
   end
 
-  trait :test do
-    handler 'test'
+  trait :null do
+    handler 'null'
   end
 
   trait :with_config do

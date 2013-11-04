@@ -1,5 +1,5 @@
 module Revily
-  module Object
+  module ServiceObject
     extend ActiveSupport::Concern
 
     included do

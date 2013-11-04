@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'unit_helper'
 
 MockHandler = Class.new(Revily::Event::Handler)
 
@@ -105,7 +105,7 @@ describe Revily::Event::Handler do
     let(:source) { double(:incident) }
     let(:config) { { foo: 'bar', baz: 'quz' } }
     let(:options) { { event: event, source: source, config: config } }
-    let(:handler) { Revily::Event::Handler::Test.notify(options) }
+    let(:handler) { Revily::Event::Handler::Null.notify(options) }
 
     pending do
       context 'handle? is true' do
@@ -114,7 +114,7 @@ describe Revily::Event::Handler do
         end
 
         it 'handles the job' do
-          expect(Revily::Event::Handler::Test).to have_received(:notify)
+          expect(Revily::Event::Handler::Null).to have_received(:notify)
         end
       end
 

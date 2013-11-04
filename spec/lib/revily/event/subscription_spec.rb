@@ -7,11 +7,11 @@ describe Revily::Event::Subscription do
     let(:hook) { double("Hook") }
     let(:options) { { name: hook.name, config: hook.config, source: source, event: 'incident.trigger' } }
     let(:subscription) { Revily::Event::Subscription.new(options) }
-    let(:handler) { double("Revily::Event::Handler::Test") }
+    let(:handler) { double("Revily::Event::Handler::Null") }
 
     before do
       hook.stub(
-        name: "test",
+        name: "null",
         config: { "foo" => "bar", "baz" => "qux" }
       )
       subscription.stub(:handler => handler)
@@ -40,19 +40,17 @@ describe Revily::Event::Subscription do
     let(:hook) { double("Hook") }
     let(:options) { { name: hook.name, config: hook.config, source: source, event: 'incident.trigger' } }
     let(:subscription) { Revily::Event::Subscription.new(options) }
-    let(:handler) { double("Revily::Event::Handler::Test") }
+    let(:handler) { double("Revily::Event::Handler::Null") }
 
     before do
-      hook.stub(
-        name: "test",
-        config: { "foo" => "bar", "baz" => "qux" }
-      )
-      subscription.stub(:handler => handler)
+      allow(hook).to receive(:name).and_return("null")
+      allow(hook).to receive(:config).and_return({ "foo" => "bar", "baz" => "qux" })
+      allow(subscription).to receive(:handler) { handler }
     end
 
     context 'initialize' do
       it 'with the correct attributes' do
-        expect(subscription.name).to eq 'test'
+        expect(subscription.name).to eq 'null'
         expect(subscription.event).to be_a String
         expect(subscription.event).to eq 'incident.trigger'
         expect(subscription.config).to be_a Hash
@@ -65,7 +63,7 @@ describe Revily::Event::Subscription do
       let(:subscription) { Revily::Event::Subscription.new(options) }
 
       before do
-        hook.stub(name: "invalid_handler_name")
+        allow(hook).to receive(:name).and_return("invalid_handler_name")
       end
 
       it 'raises no exception' do

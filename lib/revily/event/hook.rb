@@ -7,7 +7,7 @@ module Revily
       autoload :IncidentResolve,     'revily/event/hook/incident_resolve'
       autoload :IncidentTrigger,     'revily/event/hook/incident_trigger'
       autoload :Log,                 'revily/event/hook/log'
-      autoload :Test,                'revily/event/hook/test'
+      autoload :Null,                'revily/event/hook/null'
 
       class << self
         def handler(handler=nil)

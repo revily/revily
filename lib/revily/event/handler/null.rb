@@ -1,7 +1,7 @@
 module Revily
   module Event
     class Handler
-      class Test < Handler
+      class Null < Handler
         class << self
           attr_accessor :event_list
         end
@@ -14,7 +14,7 @@ module Revily
         end
 
         def handle
-          run Event::Job::Test, :test
+          run Event::Job::Null, :test
         end
 
         def targets

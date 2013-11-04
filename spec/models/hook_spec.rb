@@ -13,7 +13,7 @@ describe Hook do
     describe 'handler_exists?' do
       let(:hook) { build_stubbed(:hook, :for_incidents) }
       it 'when handler exists' do
-        hook.handler = 'test'
+        hook.handler = 'null'
         expect(hook).to be_valid
       end
 
@@ -70,9 +70,9 @@ describe Hook do
     let(:hook) { build_stubbed(:hook) }
 
     it 'when handler exists' do
-      hook.handler = 'test'
-      expect(hook.handler).to eq "test"
-      expect(hook.handler_class).to be Revily::Event::Handler::Test
+      hook.handler = 'null'
+      expect(hook.handler).to eq "null"
+      expect(hook.handler_class).to be Revily::Event::Handler::Null
     end
 
     it 'when no handler exists' do

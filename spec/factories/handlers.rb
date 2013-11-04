@@ -27,7 +27,7 @@ FactoryGirl.define do
       event 'incident.trigger'
     end
 
-    factory :handler_test, class: Revily::Event::Handler::Test do
+    factory :handler_null, class: Revily::Event::Handler::Null do
       event 'incident.trigger'
     end
 

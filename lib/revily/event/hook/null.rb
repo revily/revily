@@ -1,10 +1,10 @@
 module Revily
   module Event
     class Hook
-      class Test < Hook
+      class Null < Hook
 
-        hook_name 'test'
-        handler   'test'
+        hook_name 'null'
+        handler   'null'
         events     Event.all
 
       end

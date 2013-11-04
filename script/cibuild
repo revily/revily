@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-bundle exec rspec --color
+bundle exec rspec --color --fail-fast --order random --profile

@@ -12,7 +12,7 @@ module Revily
       autoload :IncidentResolve,            "revily/event/job/incident_resolve"
       autoload :IncidentTrigger,            "revily/event/job/incident_trigger"
       autoload :Log,                        "revily/event/job/log"
-      autoload :Test,                       "revily/event/job/test"
+      autoload :Null,                       "revily/event/job/null"
       autoload :Web,                        "revily/event/job/web"
 
       attribute :payload, type: Object

@@ -7,7 +7,7 @@ module Revily
       autoload :IncidentResolve,     "revily/event/handler/incident_resolve"
       autoload :IncidentTrigger,     "revily/event/handler/incident_trigger"
       autoload :Log,                 "revily/event/handler/log"
-      autoload :Test,                "revily/event/handler/test"
+      autoload :Null,                "revily/event/handler/null"
       autoload :Web,                 "revily/event/handler/web"
 
       include Revily::Model
