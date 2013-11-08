@@ -1,15 +1,29 @@
 class Hook < ActiveRecord::Base
-  include Revily::Concerns::Identifiable
+  include Identity
+  include SimpleStates
+  include Tenancy::ResourceScope
+  include Publication
 
-  acts_as_tenant # belongs_to :account
+  actions :create, :update, :delete, :enable, :disable
+
+  # @!group State
+  states :enabled, :disabled
+  self.initial_state = :enabled
+  event :enable, to: :enabled, after: :enabled_event, unless: :disabled?
+  event :disable, to: :disabled, after: :disabled_event, unless: :enabled?
+  # @!endgroup
+
+  # @!group Associations
+  scope_to :account
+  # @!endgroup
 
   serialize :config, JSON
   serialize :events, JSON
 
   before_validation :expand_events
 
-  scope :enabled, -> { where(state: 'enabled') }
-  scope :disabled, -> { where(state: 'disabled') }
+  scope :enabled, -> { where(state: "enabled") }
+  scope :disabled, -> { where(state: "disabled") }
 
   # @!group Validations
   validates :name, :handler,
@@ -19,21 +33,21 @@ class Hook < ActiveRecord::Base
   validate :handler_supports_events?
   # @!endgroup
 
-  # @!group State
-  state_machine initial: :enabled do
-    state :enabled
-    state :disabled
+  # # @!group State
+  # state_machine initial: :enabled do
+  #   state :enabled
+  #   state :disabled
 
-    event :enable do
-      transition disabled: :enabled
-    end
+  #   event :enable do
+  #     transition disabled: :enabled
+  #   end
 
-    event :disable do
-      transition enabled: :disabled
-    end
-  end
-  # !@endgroup
-  
+  #   event :disable do
+  #     transition enabled: :disabled
+  #   end
+  # end
+  # # !@endgroup
+
   def handler_class
     Revily::Event.handlers[self.handler]
   end
@@ -48,25 +62,25 @@ class Hook < ActiveRecord::Base
 
   private
 
-    def handler_supports_events?
-      return unless handler
-      events.each do |event|
-        unless handler && handler_class && handler_class.supports?(event)
-          errors.add(:events, "handler does not support event '#{event}'")
-        end
+  def handler_supports_events?
+    return unless handler
+    events.each do |event|
+      unless handler && handler_class && handler_class.supports?(event)
+        errors.add(:events, "handler does not support event #{event}")
       end
     end
+  end
 
-    def handler_exists?
-      unless handler && handler_class
-        errors.add(:name, 'handler does not exist')
-      end
+  def handler_exists?
+    unless handler && handler_class
+      errors.add(:name, "handler does not exist")
     end
+  end
 
-    def events_present?
-      unless events.present?
-        errors.add(:events, 'cannot be empty')
-      end
+  def events_present?
+    unless events.present?
+      errors.add(:events, "cannot be empty")
     end
+  end
 
 end

@@ -1,5 +1,5 @@
-require 'rack/test'
-require 'json_spec'
+require "rack/test"
+require "json_spec"
 
 module APIHelpers
   extend ActiveSupport::Concern
@@ -10,8 +10,8 @@ module APIHelpers
     metadata[:api] = true
 
     before do
-      header 'Content-Type', 'application/json'
-      header 'Accept', 'application/json'
+      header "Content-Type", "application/json"
+      header "Accept", "application/json"
     end
 
     subject { last_response }
@@ -42,7 +42,7 @@ end
 
 RSpec.configure do |config|
   def config.escaped_path(*parts)
-    Regexp.compile(parts.join('[\\\/]') + '[\\\/]')
+    Regexp.compile(parts.join("[\\\/]") + "[\\\/]")
   end
 
   config.include APIHelpers,

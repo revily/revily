@@ -1,41 +1,41 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe 'schedules' do
+describe "schedules" do
   pause_events!
   sign_in_user
 
-  describe 'GET /schedules' do
+  describe "GET /schedules" do
     let(:schedule) { create(:schedule, account: account) }
-    before { get "/schedules" }
+    before { get "/api/schedules" }
 
     it { should respond_with(:ok) }
     # it { expect(body).to be_json_eql serializer([schedule]) }
   end
 
-  describe 'GET /schedules/:id' do
+  describe "GET /schedules/:id" do
     let(:schedule) { create(:schedule, account: account) }
-    before { get "/schedules/#{schedule.uuid}" }
+    before { get "/api/schedules/#{schedule.uuid}" }
 
     it { should respond_with(:ok) }
 
   end
 
-  describe 'POST /schedules' do
-    before { post "/schedules", attributes_for(:schedule, account: account).to_json }
+  describe "POST /schedules" do
+    before { post "/api/schedules", attributes_for(:schedule, account: account).to_json }
 
     it { should respond_with(:created) }
   end
 
-  describe 'PUT /schedules/:id' do
+  describe "PUT /schedules/:id" do
     let(:schedule) { create(:schedule, account: account) }
-    before { put "/schedules/#{schedule.uuid}", attributes_for(:schedule).to_json }
+    before { put "/api/schedules/#{schedule.uuid}", attributes_for(:schedule).to_json }
 
     it { should respond_with(:no_content) }
   end
 
-  describe 'DELETE /schedules/:id' do
+  describe "DELETE /schedules/:id" do
     let(:schedule) { create(:schedule, account: account) }
-    before { delete "/schedules/#{schedule.uuid}" }
+    before { delete "/api/schedules/#{schedule.uuid}" }
 
     it { should respond_with(:no_content) }
   end

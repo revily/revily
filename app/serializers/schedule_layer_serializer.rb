@@ -40,9 +40,9 @@ class ScheduleLayerSerializer < ApplicationSerializer
   end
 
   def _links
-    link :self, schedule_schedule_layer_path(object.schedule, object)
-    link :schedule, schedule_path(object.schedule)
-    link :events, schedule_layer_events_path(object)
+    link :self, api_schedule_schedule_layer_path(object.schedule, object)
+    link :schedule, api_schedule_path(object.schedule)
+    link :events, api_schedule_layer_events_path(object)
 
     super
   end

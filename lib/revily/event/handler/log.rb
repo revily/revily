@@ -2,7 +2,7 @@ module Revily
   module Event
     class Handler
       class Log < Handler
-        events '*'
+        events "*"
 
         def handle?
           true

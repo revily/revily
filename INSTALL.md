@@ -32,9 +32,9 @@ Go to the [Create App](https://www.twilio.com/user/account/apps/add) page. Give 
 
 #### Messaging
 
-* Request URL `$REVILY_URL/sms - POST`
-* Fallback URL: `$REVILY_URL/sms/fallback - POST`
-* Status Callback URL: `$REVILY_URL/sms/callback - POST`
+* Request URL `$REVILY_URL/api/sms - POST`
+* Fallback URL: `$REVILY_URL/api/sms/fallback - POST`
+* Status Callback URL: `$REVILY_URL/api/sms/callback - POST`
 
 Save your changes, and [go back to the TwiML Apps index](https://www.twilio.com/user/account/apps). The long string underneath your application name is the Application SID. Write that down, we'll need it later.
 

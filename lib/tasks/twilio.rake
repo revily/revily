@@ -25,14 +25,14 @@ EOF
     app = client.account.applications.create(
       friendly_name: "Revily",
       voice_url: "#{revily_url}/voice",
-      voice_fallback_url: "#{revily_url}/voice/fallback",
+      voice_fallback_url: "#{revily_url}//apivoice/fallback",
       status_callback: "#{revily_url}/voice/callback",
-      sms_url: "#{revily_url}/sms",
-      sms_fallback_url: "#{revily_url}/sms/fallback",
-      sms_status_callback: "#{revily_url}/sms/callback"
+      sms_url: "#{revily_url}/api/sms",
+      sms_fallback_url: "#{revily_url}/api/sms/fallback",
+      sms_status_callback: "#{revily_url}/api/sms/callback"
     )
 
-    ENV['TWILIO_APPLICATION_SID'] = app.sid
+    ENV["TWILIO_APPLICATION_SID"] = app.sid
   end
 
   # desc "Create a local Twilio number for a specific country"
@@ -63,10 +63,10 @@ EOF
     info "Creating number #{phone_number}..."
     client.account.incoming_phone_numbers.create(
       phone_number: phone_number,
-      voice_application_sid: ENV['TWILIO_APPLICATION_SID'],
-      sms_application_sid: ENV['TWILIO_APPLICATION_SID']
+      voice_application_sid: ENV["TWILIO_APPLICATION_SID"],
+      sms_application_sid: ENV["TWILIO_APPLICATION_SID"]
     )
-    ENV['TWILIO_NUMBER'] = phone_number
+    ENV["TWILIO_NUMBER"] = phone_number
   end
 
   task :validate => :environment do
@@ -81,17 +81,17 @@ EOF
 end
 
 def client
-  @client ||= Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
+  @client ||= Twilio::REST::Client.new(ENV["WILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"])
 end
 
 def area_code
-  ENV['AREA_CODE'] ||= ask "Enter your desired area code: " do |q|
+  ENV["AREA_CODE"] ||= ask "Enter your desired area code: " do |q|
     q.validate = /\d+/
   end
 end
 
 def country_code
-  ENV['COUNTRY'] ||= choose do |menu|
+  ENV["COUNTRY"] ||= choose do |menu|
     menu.prompt = "Select your country (default: US): "
     menu.default = "US"
     menu.choices "US", "CA"

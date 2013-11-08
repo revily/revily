@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Incident::Assignment do
   pause_events!

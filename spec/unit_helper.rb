@@ -14,17 +14,19 @@ def require_all(*patterns)
 end
 
 def configure
-  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
+  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "app"))
   $LOAD_PATH.unshift(File.dirname(__FILE__))
   require "revily"
 
   Revily::Log.logger = nil
   
   require "dotenv"
-  Dotenv.load ".env.#{ENV["RAILS_ENV"]}", ".env"
+  Dotenv.load ".env.#{ENV['RAILS_ENV']}", ".env"
 
   require "rspec"
   require "support/fire"
+  require "timecop"
 
   RSpec.configure do |config|
     config.mock_with :rspec

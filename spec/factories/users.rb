@@ -6,8 +6,10 @@ FactoryGirl.define do
     password "asdfasdf"
     password_confirmation "asdfasdf"
 
+    # authentication_token "asdfasdfasdfasdfasdfasdf"
     after(:stub) do |user|
-      user.ensure_authentication_token
+      user.ensure_uuid
+      user.send(:ensure_authentication_token)
     end
     
     factory :user_with_contacts do

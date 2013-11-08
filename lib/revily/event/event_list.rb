@@ -26,7 +26,7 @@ module Revily
         end
 
         def make_regexp(*patterns)
-          /^(#{patterns.join('|')})$/
+          /^(#{patterns.join("|")})$/
         end
 
         def expand(*patterns)

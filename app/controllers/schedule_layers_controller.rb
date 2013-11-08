@@ -1,0 +1,2 @@
+class ScheduleLayersController < ApplicationController
+end

@@ -3,8 +3,8 @@ module Revily
     class Hook
       class Log < Hook
 
-        hook_name 'log'
-        handler   'log'
+        hook_name "log"
+        handler   "log"
         events    Event.all
 
       end

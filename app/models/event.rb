@@ -1,8 +1,8 @@
 class Event < ActiveRecord::Base
-  include Revily::Concerns::Identifiable
+  include Identity
+  include Tenancy::ResourceScope
 
-  acts_as_tenant # belongs_to :account
-
+  scope_to :account
   belongs_to :source, polymorphic: true
   belongs_to :actor, polymorphic: true
 
@@ -10,7 +10,7 @@ class Event < ActiveRecord::Base
 
   scope :recent, -> { limit(50).order(arel_table[:id].desc) }
 
-  after_create :publish
+  after_commit :publish, on: :create
 
   def hooks
     self.account.hooks + Revily::Event.hooks
@@ -33,7 +33,7 @@ class Event < ActiveRecord::Base
   def publish
     return false if Revily::Event.paused?
     subscriptions.each do |subscription|
-      Metriks.timer('subscription.notify').time do
+      Metriks.timer("subscription.notify").time do
         subscription.notify
       end
     end
@@ -41,9 +41,9 @@ class Event < ActiveRecord::Base
 
   protected
 
-    def format_event(action, source)
-      namespace = source.class.name.underscore.gsub('/', '.')
-      [namespace, action].join('.')
-    end
+  def format_event(action, source)
+    namespace = source.class.name.underscore.gsub("/", ".")
+    [namespace, action].join(".")
+  end
 
 end

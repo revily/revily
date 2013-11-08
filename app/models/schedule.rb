@@ -1,12 +1,12 @@
 class Schedule < ActiveRecord::Base
-  include Revily::Concerns::Identifiable
+  include Identity
   include Revily::Concerns::Eventable
-  include Revily::Concerns::RecordChange
+  include Publication
+  include Tenancy::ResourceScope
 
-  events :create, :update, :delete
+  actions :create, :update, :delete
 
-  acts_as_tenant # belongs_to :account
-
+  scope_to :account
   has_many :policy_rules, as: :assignment
   has_many :policies, through: :policy_rules
   has_many :schedule_layers, -> { order(:position) }, dependent: :destroy

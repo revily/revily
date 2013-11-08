@@ -1,6 +1,6 @@
 class UserScheduleLayer < ActiveRecord::Base
   include Revily::Concerns::Identifiable
-  
+
   belongs_to :schedule_layer
   belongs_to :user
 

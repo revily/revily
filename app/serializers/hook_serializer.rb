@@ -7,7 +7,7 @@ class HookSerializer < ApplicationSerializer
 
   def _links
     {
-      self: { href: hook_path(object) },
+      self: { href: api_hook_path(object) },
     }
   end
 end

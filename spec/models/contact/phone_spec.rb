@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Contact::Phone do
   # pending "add some examples to (or delete) #{__FILE__}"

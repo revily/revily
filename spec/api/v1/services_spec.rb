@@ -1,51 +1,59 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe "services" do
   pause_events!
   sign_in_user
 
-  describe 'GET /services' do
+  describe "GET /api/services" do
 
     let!(:service) { create(:service, account: account) }
-    before { get '/services' }
+    before { get "/api/services" }
 
-    it { expect(subject).to respond_with(:ok) }
-    it { expect(subject).to have_content_type(:json) }
-    it { expect(body).to be_json_eql collection_serializer(account.services) }
+    it "returns a list of services" do
+      expect(subject).to respond_with(:ok)
+      expect(subject).to have_content_type(:json)
+      expect(body).to be_json_eql collection_serializer(account.services)
+    end
   end
 
-  describe 'GET /services/:id' do
+  describe "GET /services/:id" do
     let!(:service) { create(:service, account: account) }
-    before { get "/services/#{service.to_param}" }
+    before { get "/api/services/#{service.to_param}" }
 
-    it { should respond_with(:ok) }
-    it { should have_content_type(:json) }
-    it { expect(body).to be_json_eql serializer(service) }
+    it "returns a service" do
+      expect(subject).to respond_with(:ok)
+      expect(subject).to have_content_type(:json)
+      expect(body).to be_json_eql serializer(service)
+    end
   end
 
-  describe 'POST /services' do
+  describe "POST /api/services" do
     let(:policy) { create(:policy, account: account) }
     let(:attributes) { attributes_for(:service, :policy => policy) }
-    before { post '/services', attributes.to_json }
+    before { post "/api/services", attributes.to_json }
 
-    it { should respond_with(:created) }
-    it { should have_content_type(:json) }
-    it { expect(body).to be_json_eql serializer(Service.find_by(name: attributes[:name])) }
+    it "creates a service" do
+      expect(subject).to respond_with(:created)
+      expect(subject).to have_content_type(:json)
+      expect(body).to be_json_eql serializer(Service.find_by(name: attributes[:name]))
+    end
   end
 
-  describe 'PUT /services/:id' do
+  describe "PUT /api/services/:id" do
     let!(:service) { create(:service, account: account) }
     let(:attributes) { { name: "AWESOME APPLICATION" } }
-    before { put "/services/#{service.to_param}", attributes.to_json }
+    before { put "/api/services/#{service.to_param}", attributes.to_json }
 
-    it { should respond_with(:no_content) }
-    it { should_not have_body }
+    it "updates a service" do
+      expect(subject).to respond_with(:no_content)
+      expect(subject).to_not have_body
+    end
   end
 
-  describe 'PUT /services/:id/enable' do
-    let!(:service) { create(:service, account: account, state: 'disabled') }
+  describe "PUT /api/services/:id/enable" do
+    let!(:service) { create(:service, account: account, state: "disabled") }
     before do
-      put "/services/#{service.to_param}/enable"
+      put "/api/services/#{service.to_param}/enable"
       service.reload
     end
 
@@ -56,10 +64,10 @@ describe "services" do
     end
   end
 
-  describe 'PUT /services/:id/disable' do
+  describe "PUT /api/services/:id/disable" do
     let!(:service) { create(:service, account: account) }
     before do
-      put "/services/#{service.to_param}/disable"
+      put "/api/services/#{service.to_param}/disable"
       service.reload
     end
 
@@ -70,12 +78,12 @@ describe "services" do
     end
   end
 
-  describe 'DELETE /services/:id' do
+  describe "DELETE /api/services/:id" do
     let!(:service) { create(:service, account: account) }
-    before { delete "/services/#{service.to_param}" }
+    before { delete "/api/services/#{service.to_param}" }
 
-    it { should respond_with(:no_content) }
-    it 'should have zero services' do
+    it "deletes a service" do
+      expect(subject).to respond_with(:no_content)
       expect(Service.count).to be_zero
     end
   end

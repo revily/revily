@@ -17,7 +17,7 @@ module Revily
     autoload :Hookable,              "revily/concerns/hookable"
     autoload :Identifiable,          "revily/concerns/identifiable"
     autoload :Trackable,             "revily/concerns/trackable"
-    autoload :StateChange,           "revily/concerns/state_change"
+    autoload :Publication,           "revily/concerns/publication"
   end
 
   class << self

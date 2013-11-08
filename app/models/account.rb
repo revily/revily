@@ -1,5 +1,6 @@
 class Account < ActiveRecord::Base
-  include Revily::Concerns::Identifiable
+  include Identity
+  include Tenancy::Resource
   
   attr_accessor :terms_of_service
 

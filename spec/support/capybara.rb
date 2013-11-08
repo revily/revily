@@ -1,1 +1,1 @@
-require 'capybara/rspec'
+require "capybara/rspec"

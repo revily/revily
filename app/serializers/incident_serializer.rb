@@ -20,11 +20,11 @@ class IncidentSerializer < ApplicationSerializer
   end
 
   def _links
-    link :self, incident_path(object)
-    link :service, service_path(object.service)
-    link :current_user, user_path(current_user) if current_user.present?
-    link :current_policy_rule, policy_policy_rule_path(current_policy_rule.policy, current_policy_rule) if current_policy_rule.present?
-    link :events, incident_events_path(object)
+    link :self, api_incident_path(object)
+    link :service, api_service_path(object.service)
+    link :current_user, api_user_path(current_user) if current_user.present?
+    link :current_policy_rule, api_policy_policy_rule_path(current_policy_rule.policy, current_policy_rule) if current_policy_rule.present?
+    link :events, api_incident_events_path(object)
 
     super
   end

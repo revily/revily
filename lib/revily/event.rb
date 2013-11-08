@@ -86,8 +86,8 @@ module Revily
       
       def events
         @events ||= sources.map do |name, klass|
-          klass.events.map do |event|
-            "#{name}.#{event}"
+          klass.actions.map do |action|
+            "#{name}.#{action}"
           end
         end.flatten.sort.uniq
       end

@@ -6,9 +6,9 @@ class UserSerializer < ApplicationSerializer
   end
 
   def _links
-    link :self, user_path(object)
-    link :contacts, user_contacts_path(object)
-    link :events, user_events_path(object)
+    link :self, api_user_path(object)
+    link :contacts, api_user_contacts_path(object)
+    link :events, api_user_events_path(object)
 
     super
   end

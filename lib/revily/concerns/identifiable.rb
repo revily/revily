@@ -23,7 +23,7 @@ module Revily::Concerns
 
     def generate_uuid
       loop do
-        uuid = SecureRandom.urlsafe_base64(6).tr('+/=_-', 'pqrsxyz')
+        uuid = SecureRandom.urlsafe_base64(6).tr("+/=_-", "pqrsxyz")
         break uuid unless self.class.find_by_uuid(uuid)
       end
     end
@@ -38,6 +38,10 @@ module Revily::Concerns
 
     def identifiable?
       self.class.identifiable?
+    end
+
+    def publishable?
+      self.class.publishable?
     end
 
     module ClassMethods
@@ -64,10 +68,14 @@ module Revily::Concerns
       def eventable?
         false
       end
+
+      def publishable?
+        false
+      end
     end
 
     def self.generate_uuid
-      SecureRandom.urlsafe_base64(6).tr('+/=_-', 'pqrsxyz')
+      SecureRandom.urlsafe_base64(6).tr("+/=_-", "pqrsxyz")
     end
   end
 

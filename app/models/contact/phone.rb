@@ -1,6 +1,6 @@
 class Contact::Phone < Contact
   def label
-    read_attribute(:label) || 'Phone'
+    read_attribute(:label) || "Phone"
   end
 
   def notifier

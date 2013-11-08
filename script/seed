@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'factory_girl_rails'
+require "factory_girl_rails"
 include FactoryGirl::Syntax::Methods
 
 accounts = create_list(:account, 1000)

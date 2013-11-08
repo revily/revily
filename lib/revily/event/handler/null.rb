@@ -23,17 +23,29 @@ module Revily
           def key
             "null"
           end
+
+          def supports?(*)
+            true
+          end
+
+          def notify(*)
+            true
+          end
         end
 
         def key
           self.class.key
         end
-        
+
         def handle?
           true
         end
 
         def handle
+          true
+        end
+
+        def supports?(*)
           true
         end
 
@@ -43,6 +55,10 @@ module Revily
 
         def serialize(options={})
           {}
+        end
+
+        def notify(*)
+          true
         end
 
       end

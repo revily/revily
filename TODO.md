@@ -38,3 +38,6 @@
   - 
 * sidekiq:
   - log job class
+
+* move concerns back to models/controllers
+* move eventable?, publishable?, etc out of Identifiable

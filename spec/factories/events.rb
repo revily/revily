@@ -5,8 +5,9 @@ FactoryGirl.define do
     account
     association :source, factory: :service
     association :actor, factory: :user
-
     changeset { {} }
     action "created"
+
+    after(:stub) { |model| model.ensure_uuid }
   end
 end

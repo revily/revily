@@ -1,13 +1,14 @@
 class PolicyRule < ActiveRecord::Base
-  include Revily::Concerns::Identifiable
+  include Identity
   include Revily::Concerns::Eventable
-  include Revily::Concerns::RecordChange
+  include Publication
+  include Tenancy::ResourceScope
 
-  events :create, :update, :delete
+  actions :create, :update, :delete
+
   attr_accessor :assignment_attributes
 
-  acts_as_tenant # belongs_to :account
-
+  scope_to :account
   belongs_to :assignment, polymorphic: true
   belongs_to :policy
   
@@ -20,7 +21,7 @@ class PolicyRule < ActiveRecord::Base
     # presence: true
   # validates :assignment_type,
     # presence: true
-  #   inclusion: { in: %w[ User Schedule ], message: "must be either 'User' or 'Schedule'" }
+  #   inclusion: { in: %w[ User Schedule ], message: "must be either "User" or "Schedule"" }
 
 
   validate :validate_assignment_uniqueness_on_create, on: :create
@@ -56,7 +57,7 @@ class PolicyRule < ActiveRecord::Base
 
   def validate_assignment_uniqueness_on_create
     existing_rule = policy.policy_rules.find_by(assignment_id: assignment_id, assignment_type: assignment_type)
-    errors.add(:assignment, 'has already been taken for this policy') if existing_rule
+    errors.add(:assignment, "has already been taken for this policy") if existing_rule
   end
 
   def validate_assignment_uniqueness_on_update
@@ -64,13 +65,13 @@ class PolicyRule < ActiveRecord::Base
 
    if existing_rule
       return if existing_rule.id == self.id
-      errors.add(:assignment, 'has already been taken for this policy')
+      errors.add(:assignment, "has already been taken for this policy")
     end
   end
 
   def validate_assignment_attributes
-    errors.add(:assignment_attributes, ":id can't be blank") if assignment_attributes[:id].nil? && assignment_id.nil?
-    errors.add(:assignment_attributes, ":type can't be blank") if assignment_attributes[:type].nil? && assignment_type.nil?
+    errors.add(:assignment_attributes, ":id cannot be blank") if assignment_attributes[:id].nil? && assignment_id.nil?
+    errors.add(:assignment_attributes, ":type cannot be blank") if assignment_attributes[:type].nil? && assignment_type.nil?
   end
 
   def validate_assignment_exists
@@ -82,7 +83,7 @@ class PolicyRule < ActiveRecord::Base
     # return false if assignment_attributes[:type].nil?
     # return false if assignment_attributes[:id].nil?
 
-    return unless assignment_attributes[:type] && assignment_attributes[:id]
+    return unless assignment_attributes && assignment_attributes[:type] && assignment_attributes[:id]
 
     klass = self.assignment_attributes[:type].downcase.pluralize
     assign = account.send(klass).find_by_uuid(assignment_attributes[:id])

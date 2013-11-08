@@ -6,17 +6,10 @@ class PolicyRuleSerializer < ApplicationSerializer
   delegate :policy, :current_user, :assignment, to: :object
 
   def _links
-    link :self, policy_policy_rule_path(policy, object)
-    link :policy, policy_path(policy)
-    link :assignment, polymorphic_path(assignment)
-    link :events, policy_rule_events_path(object)
-
-    # if assignment.respond_to?(:current_user_on_call)
-    #   link :assignment, schedule_path(assignment)
-    # elsif assignment.is_a?(User)
-    #   link :assignment, user_path(assignment)
-    # end
-    # link :current_user, user_path(current_user) if current_user
+    link :self, api_policy_policy_rule_path(policy, object)
+    link :policy, api_policy_path(policy)
+    link :assignment, polymorphic_path([:api, assignment])
+    link :events, api_policy_rule_events_path(object)
 
     super
   end

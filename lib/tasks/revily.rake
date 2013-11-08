@@ -37,7 +37,7 @@ namespace :revily do
     begin
       info "Creating your account..."
       account = Account.where(name: account_name).first_or_create!
-      ActsAsTenant.current_tenant = account
+      Account.current = account
 
       info "Creating your user..."
       user = account.users.where(
@@ -61,7 +61,7 @@ CLI
       exit 1
     end
 
-    if ENV['DEBUG']
+    if ENV["DEBUG"]
       ap account
       ap user
     end
@@ -82,7 +82,7 @@ CLI
   end
 
   task :pause_events => :environment do
-    info "Pausing Revily's event system"
+    info "Pausing Revily"s event system"
     Revily::Event.pause!
   end
 end

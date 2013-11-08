@@ -31,11 +31,9 @@ class V1::IncidentsController < V1::ApplicationController
   def create
     @incident = incidents.new(incident_params)
     @incident.account = current_account
-    self.class.trace_execution_scoped(['IncidentsController#create/incident_save']) do
-      @incident.save
-    end
+    @incident.save
 
-    respond_with @incident
+    respond_with :api, @incident
   end
 
   def update

@@ -1,18 +1,18 @@
 class ScheduleLayer < ActiveRecord::Base
-  include Revily::Concerns::Identifiable
+  include Identity
   include Revily::Concerns::Eventable
-  include Revily::Concerns::RecordChange
+  include Publication
+  include Tenancy::ResourceScope
 
-  events :create, :update, :delete
+  actions :create, :update, :delete
   VALID_RULES = %w[ hourly daily weekly monthly yearly ]
 
-  acts_as_tenant # belongs_to :account
-
+  scope_to :account
   belongs_to :schedule
   has_many :user_schedule_layers,
     -> { order(:position) }, dependent: :destroy
   has_many :users,
-    -> { order('user_schedule_layers.position') },
+    -> { order("user_schedule_layers.position") },
     through: :user_schedule_layers,
     dependent: :destroy
 
@@ -28,11 +28,11 @@ class ScheduleLayer < ActiveRecord::Base
     inclusion: { in: VALID_RULES }
 
   def unit
-    rule == 'daily' ? 'day' : rule.sub('ly', '')
+    rule == "daily" ? "day" : rule.sub("ly", "")
   end
 
   def users_count
-    @users_count ||= read_attribute('users_count') || users.length
+    @users_count ||= read_attribute("users_count") || users.length
   end
 
   def interval
@@ -41,7 +41,7 @@ class ScheduleLayer < ActiveRecord::Base
 
   def user_schedules
     @user_schedules ||= users.map do |user|
-      user_schedule(user)
+      UserSchedule.new(user, self)
     end
   end
 
@@ -50,12 +50,7 @@ class ScheduleLayer < ActiveRecord::Base
   end
 
   def user_positions
-    # @user_positions ||= Hash[user_schedule_layers.joins(:user).pluck(:user_id, :position)]
     @user_positions ||= Hash[ user_schedule_layers.map {|usl| [ usl.user_id, usl.position ]} ]
-  end
-
-  def user_schedule(user)
-    UserSchedule.new(user, self)
   end
 
   def user_offset(user)
@@ -73,7 +68,7 @@ class ScheduleLayer < ActiveRecord::Base
   end
 
   def reset_start_at_to_beginning_of_day
-    self[:start_at] = (start_at || Time.zone.now).beginning_of_day
+    self[:start_at] = (start_at || Time.now).in_time_zone.at_beginning_of_day
   end
 
 end

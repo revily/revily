@@ -3,7 +3,7 @@ module Revily::Concerns
     extend ActiveSupport::Concern
 
     included do
-      has_many :actions, as: :actor, class_name: 'Event'
+      has_many :actions, as: :actor, class_name: "Event"
     end
 
     def actable?

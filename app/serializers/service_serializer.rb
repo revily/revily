@@ -11,9 +11,9 @@ class ServiceSerializer < ApplicationSerializer
   end
 
   def _links
-    link :self, service_path(object)
-    link :incidents, service_incidents_path(object)
-    link :events, service_events_path(object)
+    link :self, api_service_path(object)
+    link :incidents, api_service_incidents_path(object)
+    link :events, api_service_events_path(object)
 
     super
   end

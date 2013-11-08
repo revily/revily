@@ -1,4 +1,4 @@
-require 'active_support/concern'
+require "active_support/concern"
 
 module Revily
   module Event
@@ -73,7 +73,7 @@ module Revily
           else
             @title ||= begin
               hook = name.dup
-              hook.sub! /.*:/, ''
+              hook.sub! /.*:/, ""
               hook
             end
           end

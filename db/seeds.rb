@@ -5,7 +5,7 @@ account = Account.first_or_create(
   name: "Acme, Inc."
 )
 
-ActsAsTenant.current_tenant = account
+Account.current = account
 
 puts "create user"
 user = account.users.where(
