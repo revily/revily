@@ -25,14 +25,6 @@ class Service < ActiveRecord::Base
   has_one :policy, through: :service_policy
   # @!endgroup
 
-  # @!group Scopes
-  scope :enabled, -> { where(state: "enabled") }
-  scope :disabled, -> { where(state: "disabled") }
-  scope :critical, -> { where(health: "critical") }
-  scope :warning, -> { where(health: "warning") }
-  scope :ok, -> { where(health: "ok") }
-  # @!endgroup
-
   # @!group Validations
   validates :name, :acknowledge_timeout, :auto_resolve_timeout, :state,
     presence: true
@@ -44,6 +36,14 @@ class Service < ActiveRecord::Base
   # @!group Callbacks
   after_commit :publish
   after_touch :recalculate_health
+  # @!endgroup
+
+  # @!group Scopes
+  scope :enabled, -> { where(state: "enabled") }
+  scope :disabled, -> { where(state: "disabled") }
+  scope :critical, -> { where(health: "critical") }
+  scope :warning, -> { where(health: "warning") }
+  scope :ok, -> { where(health: "ok") }
   # @!endgroup
 
   def incident_counts

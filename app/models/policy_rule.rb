@@ -4,36 +4,31 @@ class PolicyRule < ActiveRecord::Base
   include Publication
   include Tenancy::ResourceScope
 
+  # @!group Events
   actions :create, :update, :delete
+  # @!endgroup
 
+  # @!group Attributes
   attr_accessor :assignment_attributes
+  acts_as_list scope: :policy
+  # @!endgroup
 
+  # @!group Associations
   scope_to :account
   belongs_to :assignment, polymorphic: true
   belongs_to :policy
-  
-  acts_as_list scope: :policy
+  # @!endgroup
 
-  validates :escalation_timeout,
-    presence: true
-  # validates :assignment_id,
-  #   uniqueness: { scope: :policy_id },
-    # presence: true
-  # validates :assignment_type,
-    # presence: true
-  #   inclusion: { in: %w[ User Schedule ], message: "must be either "User" or "Schedule"" }
-
-
+  # @!group Validations
+  validates :escalation_timeout, presence: true
   validate :validate_assignment_uniqueness_on_create, on: :create
   validate :validate_assignment_uniqueness_on_update, on: :update
   validate :validate_assignment_attributes, on: :create
+  # @!endgroup
 
-  # validate :ensure_assignment_exists
-
-  # accepts_nested_attributes_for :assignment
-
+  # @!group Callbacks
   after_initialize :set_assignment
-  # before_validation :set_assignment
+  # @!endgroup
 
   def current_user
     @assignee ||= if assignment.respond_to?(:current_user_on_call)
@@ -63,7 +58,7 @@ class PolicyRule < ActiveRecord::Base
   def validate_assignment_uniqueness_on_update
     existing_rule = policy.policy_rules.find_by(assignment_id: assignment_id, assignment_type: assignment_type)
 
-   if existing_rule
+    if existing_rule
       return if existing_rule.id == self.id
       errors.add(:assignment, "has already been taken for this policy")
     end
@@ -79,10 +74,6 @@ class PolicyRule < ActiveRecord::Base
   end
 
   def set_assignment
-    # return false if assignment_attributes.nil?
-    # return false if assignment_attributes[:type].nil?
-    # return false if assignment_attributes[:id].nil?
-
     return unless assignment_attributes && assignment_attributes[:type] && assignment_attributes[:id]
 
     klass = self.assignment_attributes[:type].downcase.pluralize

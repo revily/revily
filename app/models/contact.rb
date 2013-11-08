@@ -3,10 +3,27 @@ class Contact < ActiveRecord::Base
   include Publication
   include Tenancy::ResourceScope
 
+  # @!group Events
+  actions :create, :update, :delete
+  # @!endgroup
+
+  # @!group Attributes
   attr_accessor :incidents
-  
+  # @!endgroup
+
+  # @!group Associations
   scope_to :account
-  
+  belongs_to :account
+  belongs_to :user, touch: true
+  # @!endgroup
+
+  # @!group Validations
+  validates :type, presence: true
+  validates :label, presence: true
+  validates :account_id, presence: true
+  validates :address, presence: true, uniqueness: { scope: [ :user_id, :type ] }
+  # @!endgroup
+
   def active_model_serializer
     ContactSerializer
   end
@@ -19,16 +36,6 @@ class Contact < ActiveRecord::Base
     |res| res.default = { action: nil, message: "Your response was invalid." }
   }
 
-  belongs_to :account
-  belongs_to :user, touch: true
-
-  validates :type, presence: true
-  validates :label, presence: true
-  validates :account_id, presence: true
-  validates :address,
-    presence: true,
-    uniqueness: { scope: [ :user_id, :type ] }
-
   def notifier
     logger.warn "override Contact#notification_class in a subclass"
   end
@@ -36,7 +43,7 @@ class Contact < ActiveRecord::Base
   def notify(incidents=[])
     notifier.notify(self, incidents)
   end
-  
+
   def service
     incidents.first.service
   end

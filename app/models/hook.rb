@@ -4,7 +4,9 @@ class Hook < ActiveRecord::Base
   include Tenancy::ResourceScope
   include Publication
 
+  # @!group Events
   actions :create, :update, :delete, :enable, :disable
+  # @!endgroup
 
   # @!group State
   states :enabled, :disabled
@@ -13,17 +15,14 @@ class Hook < ActiveRecord::Base
   event :disable, to: :disabled, after: :disabled_event, unless: :enabled?
   # @!endgroup
 
+  # @!group Attributes
+  serialize :config, JSON
+  serialize :events, JSON
+  # @!endgroup
+  
   # @!group Associations
   scope_to :account
   # @!endgroup
-
-  serialize :config, JSON
-  serialize :events, JSON
-
-  before_validation :expand_events
-
-  scope :enabled, -> { where(state: "enabled") }
-  scope :disabled, -> { where(state: "disabled") }
 
   # @!group Validations
   validates :name, :handler,
@@ -33,20 +32,14 @@ class Hook < ActiveRecord::Base
   validate :handler_supports_events?
   # @!endgroup
 
-  # # @!group State
-  # state_machine initial: :enabled do
-  #   state :enabled
-  #   state :disabled
+  # @!group Callbacks
+  before_validation :expand_events
+  # @!endgroup
 
-  #   event :enable do
-  #     transition disabled: :enabled
-  #   end
-
-  #   event :disable do
-  #     transition enabled: :disabled
-  #   end
-  # end
-  # # !@endgroup
+  # @!group Scopes
+  scope :enabled, -> { where(state: "enabled") }
+  scope :disabled, -> { where(state: "disabled") }
+  # @!endgroup
 
   def handler_class
     Revily::Event.handlers[self.handler]

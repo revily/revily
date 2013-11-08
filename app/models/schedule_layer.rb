@@ -4,28 +4,32 @@ class ScheduleLayer < ActiveRecord::Base
   include Publication
   include Tenancy::ResourceScope
 
-  actions :create, :update, :delete
   VALID_RULES = %w[ hourly daily weekly monthly yearly ]
 
+  # @!group Events
+  actions :create, :update, :delete
+  # @!endgroup
+
+  # @!group Attributes
+  acts_as_list scope: :schedule
+  # @!endgroup
+
+  # @!group Associations
   scope_to :account
   belongs_to :schedule
-  has_many :user_schedule_layers,
-    -> { order(:position) }, dependent: :destroy
-  has_many :users,
-    -> { order("user_schedule_layers.position") },
-    through: :user_schedule_layers,
-    dependent: :destroy
+  has_many :user_schedule_layers, -> { order(:position) }, dependent: :destroy
+  has_many :users, -> { order("user_schedule_layers.position") }, through: :user_schedule_layers, dependent: :destroy
+  # @!endgroup
 
-  acts_as_list scope: :schedule
+  # @!group Validations
+  validates :rule, :count, presence: true
+  validates :rule, inclusion: { in: VALID_RULES }
+  # @!endgroup
 
+  # @!group Callbacks
   before_save :calculate_duration_in_seconds
   before_save :reset_start_at_to_beginning_of_day
-
-  validates :rule, :count,
-    presence: true
-
-  validates :rule,
-    inclusion: { in: VALID_RULES }
+  # @!endgroup
 
   def unit
     rule == "daily" ? "day" : rule.sub("ly", "")
