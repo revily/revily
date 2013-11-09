@@ -6,8 +6,8 @@ module Revily::Event
     def initialize(action, source, actor, hooks=[])
       @action = action
       @source = source
-      @actor = actor
-      @hooks = hooks
+      @actor  = actor
+      @hooks  = hooks
     end
 
     def subscriptions
