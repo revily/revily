@@ -8,10 +8,6 @@ class Schedule < ActiveRecord::Base
   actions :create, :update, :delete
   # @!endgroup
 
-  # @!group Attributes
-  accepts_nested_attributes_for :schedule_layers, allow_destroy: true
-  # @!endgroup
-
   # @!group Associations
   scope_to :account
   has_many :policy_rules, as: :assignment
@@ -21,6 +17,10 @@ class Schedule < ActiveRecord::Base
   has_many :users, through: :user_schedule_layers
   # @!endgroup
 
+  # @!group Attributes
+  accepts_nested_attributes_for :schedule_layers, allow_destroy: true
+  # @!endgroup
+  
   # @!group Validations
   validates :name, :time_zone, presence: true
   # @!endgroup

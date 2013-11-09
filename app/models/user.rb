@@ -10,10 +10,6 @@ class User < ActiveRecord::Base
   # @!group Events
   actions :create, :update, :delete
   # @!endgroup
-  
-  # @!group Attributes
-  accepts_nested_attributes_for :account
-  # @!endgroup
 
   # @!group Associations
   scope_to :account
@@ -31,6 +27,10 @@ class User < ActiveRecord::Base
   has_many :access_tokens, class_name: "Doorkeeper::AccessToken", foreign_key: :resource_owner_id
   # @!endgroup
 
+  # @!group Attributes
+  accepts_nested_attributes_for :account
+  # @!endgroup
+  
   # @!group Validations
   validates :account, presence: true
   validates :name, presence: true, allow_blank: false
