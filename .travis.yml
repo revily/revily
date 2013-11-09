@@ -8,7 +8,7 @@ env:
     - S3_BUCKET_NAME="revily-api-bundle"
     - RAILS_ENV="test"
     - secure: "SdWiowoSg1Lt6LH56gFl2yZDUEa68QckxnFWdYZ/9dPF3RFyFNpvXc/qv4TAdwwA2sHsFO5TpjDOxMvzqt6GNeivjCoWjaR2uaZjxRwcpFT/uM9DgkAA+ahG5cZJFlIBYTUadm4yNbYCSbD7ZVQVFmG69/H12RoiwwWK/tMM4vo="
-install: "script/bootstrap"
+install: "script/bootstrap -v"
 script: "script/cibuild"
 branches:
   only:
