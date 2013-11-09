@@ -45,6 +45,7 @@ function run_migrations() {
 function prepare_test_database() {
   banner "Preparing test database"
   createdb revily_test >&3 2>&1
+  bundle exec rake db:migrate RAILS_ENV=test
   bundle exec rake db:test:prepare >&3 2>&1
 }
 
