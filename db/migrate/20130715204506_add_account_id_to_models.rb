@@ -10,7 +10,6 @@ class AddAccountIdToModels < ActiveRecord::Migration
     # Update all existing records to have a default column value
     Incident.update_all(account_id: 0)
     Contact.update_all(account_id: 0)
-    NotificationRule.update_all(account_id: 0)
     PolicyRule.update_all(account_id: 0)
     ScheduleLayer.update_all(account_id: 0)
 
