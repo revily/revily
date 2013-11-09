@@ -4,7 +4,7 @@ FactoryGirl.define do
     account { schedule && schedule.account }
     start_at { Time.zone.now }
 
-    after(:stub) { |model| model.ensure_uuid }
+    after(:stub) { |model| model.send(:ensure_uuid) }
 
     trait :hourly do
       rule "hourly"

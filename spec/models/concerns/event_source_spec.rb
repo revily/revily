@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Revily::Concerns::Eventable do
+describe EventSource do
   class MockModel < ActiveRecord::Base
     self.abstract_class = true
-    include Revily::Concerns::Eventable
+    include EventSource
     include Publication
     actions :create, :update, :delete
   end

@@ -3,8 +3,8 @@ class Service < ActiveRecord::Base
   include TokenAuthentication
   include Tenancy::ResourceScope
   include SimpleStates
-  include Revily::Concerns::Eventable
-  include Revily::Concerns::Actable
+  include EventSource
+  include EventActor
   include Publication
 
   # @!group Events
@@ -26,11 +26,9 @@ class Service < ActiveRecord::Base
   # @!endgroup
 
   # @!group Validations
-  validates :name, :acknowledge_timeout, :auto_resolve_timeout, :state,
-    presence: true
+  validates :name, :acknowledge_timeout, :auto_resolve_timeout, :state, presence: true
   validates :name, uniqueness: { scope: [ :account_id ] }
-  validates :acknowledge_timeout, :auto_resolve_timeout,
-    numericality: { only_integer: true }
+  validates :acknowledge_timeout, :auto_resolve_timeout, numericality: { only_integer: true }
   # @!endgroup
 
   # @!group Callbacks

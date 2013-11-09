@@ -6,10 +6,6 @@ module Identity
     attr_readonly :uuid
   end
 
-  def ensure_uuid
-    write_attribute(:uuid, generate_uuid) unless self.uuid.present?
-  end
-
   def to_param
     self.uuid || self.id
   end
@@ -20,27 +16,18 @@ module Identity
     serializer.new(self, options).serializable_hash
   end
 
+  private
+  
+  def ensure_uuid
+    return true if self.uuid.present?
+    write_attribute(:uuid, generate_uuid)
+  end
+
   def generate_uuid
     loop do
-      uuid = SecureRandom.urlsafe_base64(6).tr("+/=_-", "pqrsxyz")
-      break uuid unless self.class.find_by_uuid(uuid)
+      uuid = Revily::Helpers::UniqueToken.generate(length: 8)
+      break uuid unless self.class.find_by(uuid: uuid)
     end
-  end
-
-  def eventable?
-    self.class.eventable?
-  end
-
-  def actable?
-    self.class.actable?
-  end
-
-  def identifiable?
-    self.class.identifiable?
-  end
-
-  def publishable?
-    self.class.publishable?
   end
 
   module ClassMethods
@@ -56,24 +43,6 @@ module Identity
       end
     end
 
-    def identifiable?
-      true
-    end
-
-    def actable?
-      false
-    end
-
-    def eventable?
-      false
-    end
-
-    def publishable?
-      false
-    end
   end
 
-  def self.generate_uuid
-    SecureRandom.urlsafe_base64(6).tr("+/=_-", "pqrsxyz")
-  end
 end

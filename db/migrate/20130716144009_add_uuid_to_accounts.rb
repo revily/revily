@@ -8,7 +8,7 @@ class AddUuidToAccounts < ActiveRecord::Migration
       def Account.readonly_attributes; Set.new; end
 
       Account.all.each do |account|
-        account.ensure_uuid
+        account.send(:ensure_uuid)
         account.save!
       end
     end

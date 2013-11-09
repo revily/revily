@@ -7,7 +7,7 @@ FactoryGirl.define do
     message { Forgery(:lorem_ipsum).words(1 + rand(10)) }
     account { service && service.account }
 
-    after(:stub) { |model| model.ensure_uuid }
+    after(:stub) { |model| model.send(:ensure_uuid) }
 
     trait :key do
       key "app1.example.com/load_average"

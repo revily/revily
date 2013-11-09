@@ -1,8 +1,7 @@
 class Incident < ActiveRecord::Base
   include SimpleStates
   include Identity
-  include Revily::Concerns::Trackable
-  include Revily::Concerns::Eventable
+  include EventSource
   include Publication
   include Tenancy::ResourceScope
 
@@ -57,7 +56,7 @@ class Incident < ActiveRecord::Base
   def escalate
     save!
   end
-  
+
   def acknowledge
     save!
   end
@@ -85,7 +84,15 @@ class Incident < ActiveRecord::Base
   private
 
   def ensure_key
-    self[:key] ||= SecureRandom.hex
+    return true if self.key.present?
+    write_attribute(:key, generate_key)
+  end
+
+  def generate_key
+    loop do
+      key = Revily::Helpers::UniqueToken.generate(type: :hex)
+      break key unless self.class.find_by(key: key)
+    end
   end
 
   def update_triggered_at

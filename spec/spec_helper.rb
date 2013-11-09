@@ -23,7 +23,7 @@ def configure
   # Spork.trap_method(Rails::Application, :eager_load!) if defined?(Spork)
 
   ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
-  ActiveRecord::Base.logger = Logger.new("/dev/null")
+  # ActiveRecord::Base.logger = Logger.new("/dev/null")
   
   RSpec.configure do |config|
     config.mock_with :rspec

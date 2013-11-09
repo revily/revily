@@ -8,11 +8,11 @@ FactoryGirl.define do
 
     # authentication_token "asdfasdfasdfasdfasdfasdf"
     after(:stub) do |user|
-      user.ensure_uuid
+      user.send(:ensure_uuid)
       user.send(:ensure_authentication_token)
     end
     
-    factory :user_with_contacts do
+    trait :with_contacts do
       after(:create) do |user, evaluator|
         create(:email_contact, user: user)
         create(:phone_contact, user: user)

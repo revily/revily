@@ -1,7 +1,7 @@
-module Tenancy
+module EventSource
   extend ActiveSupport::Concern
 
   included do
-    acts_as_tenant # belongs_to :account
+    has_many :events, as: :source
   end
 end

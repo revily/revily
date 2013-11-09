@@ -2,8 +2,8 @@ class User < ActiveRecord::Base
   include Identity
   include PasswordAuthentication
   include TokenAuthentication
-  include Revily::Concerns::Eventable
-  include Revily::Concerns::Actable
+  include EventSource
+  include EventActor
   include Publication
   include Tenancy::ResourceScope
   

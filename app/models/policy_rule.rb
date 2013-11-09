@@ -1,6 +1,6 @@
 class PolicyRule < ActiveRecord::Base
   include Identity
-  include Revily::Concerns::Eventable
+  include EventSource
   include Publication
   include Tenancy::ResourceScope
 

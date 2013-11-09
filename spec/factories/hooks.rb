@@ -10,7 +10,7 @@ FactoryGirl.define do
     events { %w[ * ] }
     state "enabled"
     
-    after(:stub) { |model| model.ensure_uuid }
+    after(:stub) { |model| model.send(:ensure_uuid) }
   end
 
   trait :disabled do

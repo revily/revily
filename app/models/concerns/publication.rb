@@ -56,10 +56,6 @@ module Publication
       return @actions if args.empty?
       @actions.concat(args).uniq!
     end
-
-    def publishable?
-      true
-    end
   end
 
 end

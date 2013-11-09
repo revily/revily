@@ -5,7 +5,7 @@ FactoryGirl.define do
     service
     policy
 
-    after(:stub) { |model| model.ensure_uuid }
+    after(:stub) { |model| model.send(:ensure_uuid) }
 
   end
 end

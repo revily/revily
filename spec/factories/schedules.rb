@@ -5,7 +5,7 @@ FactoryGirl.define do
     account
     name { "#{Forgery(:name).company_name} #{rand(1000) + 1}" }
 
-    after(:stub) { |model| model.ensure_uuid }
+    after(:stub) { |model| model.send(:ensure_uuid) }
 
     trait :with_alternate_time_zone do
       time_zone "EST"
