@@ -34,6 +34,7 @@ function create_database_user() {
 function create_databases() {
   banner "Creating databases"
   bundle exec rake db:create:all >&3 2>&1
+
 }
 
 function run_migrations() {
@@ -43,6 +44,7 @@ function run_migrations() {
 
 function prepare_test_database() {
   banner "Preparing test database"
+  createdb revily_test >&3 2>&1
   bundle exec rake db:test:prepare >&3 2>&1
 }
 
