@@ -82,7 +82,7 @@ CLI
   end
 
   task :pause_events => :environment do
-    info "Pausing Revily"s event system"
+    info "Pausing Revily event system"
     Revily::Event.pause!
   end
 end
