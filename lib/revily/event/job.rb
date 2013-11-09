@@ -54,7 +54,7 @@ module Revily
             process
           end
         else
-          logger.error "#{self.class.name} had errors: #{self.errors.full_messages.join(', ')}"
+          logger.error %[#{self.class.name} had errors: #{self.errors.full_messages.join(", ")}]
 
           return false
         end

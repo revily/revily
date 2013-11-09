@@ -33,7 +33,7 @@ RSpec::Matchers.define :have_content_type do |expected|
   end
 
   def parse_content_type
-    _, @actual_content_type, @actual_charset = *actual.headers['Content-Type'].match(CONTENT_HEADER_MATCHER).to_a
+    _, @actual_content_type, @actual_charset = *actual.headers["Content-Type"].match(CONTENT_HEADER_MATCHER).to_a
   end
 
   def content_type_matches_regexp?

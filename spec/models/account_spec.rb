@@ -1,9 +1,9 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Account do
   pause_events!
   
-  context 'associations' do
+  context "associations" do
     it { should have_many(:events) }
     it { should have_many(:hooks) }
     it { should have_many(:incidents) }
@@ -15,10 +15,10 @@ describe Account do
     it { should have_many(:services) }
   end
 
-  context 'validations' do
+  context "validations" do
     it { should validate_presence_of(:name) }
   end
 
-  context 'attributes' do
+  context "attributes" do
   end
 end

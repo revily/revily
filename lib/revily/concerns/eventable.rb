@@ -12,13 +12,6 @@ module Revily::Concerns
     end
 
     module ClassMethods
-
-      def events(*args)
-        @events ||= []
-        return @events if args.empty?
-        @events.concat(args).uniq!
-      end
-
       def eventable?
         true
       end

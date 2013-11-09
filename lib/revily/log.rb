@@ -29,7 +29,7 @@ module Revily
  
     def to_log
       if respond_to?(:attributes)
-        self.attributes.inject([]) { |a, (k,v)| a << "#{k}=#{stringify(v)}" }.join(' ')
+        self.attributes.inject([]) { |a, (k,v)| a << "#{k}=#{stringify(v)}" }.join(" ")
       else
         self.inspect
       end

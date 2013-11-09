@@ -3,11 +3,11 @@ module Revily
     class Hook
       include Revily::Model
 
-      autoload :IncidentAcknowledge, 'revily/event/hook/incident_acknowledge'
-      autoload :IncidentResolve,     'revily/event/hook/incident_resolve'
-      autoload :IncidentTrigger,     'revily/event/hook/incident_trigger'
-      autoload :Log,                 'revily/event/hook/log'
-      autoload :Null,                'revily/event/hook/null'
+      autoload :IncidentAcknowledge, "revily/event/hook/incident_acknowledge"
+      autoload :IncidentResolve,     "revily/event/hook/incident_resolve"
+      autoload :IncidentTrigger,     "revily/event/hook/incident_trigger"
+      autoload :Log,                 "revily/event/hook/log"
+      autoload :Null,                "revily/event/hook/null"
 
       class << self
         def handler(handler=nil)

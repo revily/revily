@@ -1,51 +1,60 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe 'policies' do
+describe "policies" do
   pause_events!
   sign_in_user
 
-  describe 'GET /policies' do
+  describe "GET /api/policies" do
     let!(:policy) { create(:policy, account: account) }
-    before { get "/policies" }
+    before { get "/api/policies" }
 
-    it { should respond_with(:ok) }
-    it { should have_content_type(:json) }
-    it { expect(body).to be_json_eql collection_serializer(account.policies) }
+    it "returns a list of policies" do
+      expect(subject).to respond_with(:ok)
+      expect(subject).to have_content_type(:json)
+      expect(body).to be_json_eql collection_serializer(account.policies)
+    end
   end
 
-  describe 'GET /policies/:id' do
+  describe "GET /api/policies/:id" do
     let!(:policy) { create(:policy, account: account) }
-    before { get "/policies/#{policy.uuid}" }
+    before { get "/api/policies/#{policy.uuid}" }
 
-    it { should respond_with(:ok) }
-    it { should have_content_type(:json) }
-    it { expect(body).to be_json_eql serializer(policy) }
+    it "returns a list of policies" do
+      expect(subject).to respond_with(:ok)
+      expect(subject).to have_content_type(:json)
+      expect(body).to be_json_eql serializer(policy)
+    end
   end
 
-  describe 'POST /policies' do
+  describe "POST /api/policies" do
     let(:attributes) { attributes_for(:policy, account: account) }
-    before { post "/policies", attributes.to_json }
+    before { post "/api/policies", attributes.to_json }
 
-    it { should respond_with(:created) }
-    it { should have_content_type(:json) }
-    it { expect(body).to be_json_eql serializer(build_stubbed(:policy, attributes)) }
+    it "creates a policy" do
+      expect(subject).to respond_with(:created)
+      expect(subject).to have_content_type(:json)
+      expect(body).to be_json_eql serializer(build_stubbed(:policy, attributes))
+    end
   end
 
-  describe 'PUT /policies/:id' do
+  describe "PUT /api/policies/:id" do
     let(:policy) { create(:policy, account: account) }
-    before { put "/policies/#{policy.uuid}", attributes_for(:policy).to_json }
+    before { put "/api/policies/#{policy.uuid}", attributes_for(:policy).to_json }
 
-    it { should respond_with(:no_content) }
-    it { should_not have_body }
-
+    it "updates a policy" do
+      expect(subject).to respond_with(:no_content)
+      expect(subject).to_not have_body
+    end
   end
 
-  describe 'DELETE /policies/:id' do
+  describe "DELETE /api/policies/:id" do
     let(:policy) { create(:policy, account: account) }
-    before { delete "/policies/#{policy.uuid}" }
+    before { delete "/api/policies/#{policy.uuid}" }
 
-    it { should respond_with(:no_content) }
-    it { should_not have_body }
+    it "deletes a policy" do
+      expect(subject).to respond_with(:no_content)
+      expect(subject).to_not have_body
+    end
   end
 
 end

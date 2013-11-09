@@ -1,5 +1,4 @@
-class V1::Users::RegistrationsController < Devise::RegistrationsController
-
+class V1::Users::RegistrationsController < V1::ApplicationController
   def new
     resource = build_resource({})
     @account = resource.build_account

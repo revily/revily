@@ -6,6 +6,8 @@ FactoryGirl.define do
     name { "#{Forgery(:name).job_title.pluralize} #{rand(1000) + 1}" }
     loop_limit 3
 
+    after(:stub) { |model| model.send(:ensure_uuid) }
+
     trait :with_rules do
       after(:create) do |policy|
         user = create(:user, account: policy.account)

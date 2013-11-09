@@ -18,8 +18,8 @@ class ContactSerializer < ApplicationSerializer
   end
   
   def _links
-    link :self, user_contact_path(object.user, object)
-    link :user, user_path(object.user)
+    link :self, api_user_contact_path(object.user, object)
+    link :user, api_user_path(object.user)
     super
   end
 

@@ -1,5 +1,5 @@
-require 'net/http'
-require 'net/smtp'
+require "net/http"
+require "net/smtp"
 
 # Example:
 #   begin

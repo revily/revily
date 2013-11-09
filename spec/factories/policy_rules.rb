@@ -11,6 +11,8 @@ FactoryGirl.define do
       # rule.account = rule.policy.account
     end
 
+    after(:stub) { |model| model.send(:ensure_uuid) }
+
     trait :for_user do
       association :assignment, factory: :user
     end

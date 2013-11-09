@@ -9,13 +9,13 @@ class V1::RootController < V1::ApplicationController
       message: "Revi.ly API",
       version: 1,
       _links: {
-        self: { href: '/' },
-        hooks: { href: '/hooks' },
-        incidents: { href: '/incidents' },
-        policies: { href: '/policies' },
-        schedules: { href: '/schedules' },
-        services: { href: '/services' },
-        users: { href: '/users' }
+        self: { href: "/" },
+        hooks: { href: "/hooks" },
+        incidents: { href: "/incidents" },
+        policies: { href: "/policies" },
+        schedules: { href: "/schedules" },
+        services: { href: "/services" },
+        users: { href: "/users" }
       }
     }
   end

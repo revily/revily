@@ -9,11 +9,11 @@ gem "active_model_serializers",                       github: "rails-api/active_
                                                       ref: "919bb3840107e8176a65d90c0af8ec1e02cef683"
 gem "acts_as_list",                         "0.3.0"
 gem "acts-as-taggable-on",                  "2.4.1"
-gem "acts_as_tenant",                       "0.3.1"
+# gem "acts_as_tenant",                       "0.3.1"
 gem "api-pagination",                       "1.1.1"
+gem "bcrypt-ruby"
 gem "clockwork",                            "0.7.0",  require: false
 gem "dalli",                                "2.6.4"
-gem "devise",                               "3.0.2"
 gem "doorkeeper",                           "0.7.3"
 gem "dotenv-rails",                         "0.9.0"
 gem "highline",                             "1.6.20", require: false
@@ -31,14 +31,17 @@ gem "recipient_interceptor",                "0.1.2"
 gem "redis-rails",                          "4.0.0"
 gem "request_store",                        "1.0.5"
 gem "sidekiq",                              "2.16.1.0"
+gem "simple_form"
+gem "simple_states"
 gem "sinatra",                              "1.4.3",  require: false
 gem "slim",                                 "2.0.0",  require: false
-gem "state_machine",                        "1.2.0"
+gem "tenancy",                                        github: "yoolk/tenancy"
 gem "thor",                                           github: "erikhuda/thor"
 gem "twilio-rb",                            "2.3.0",  github: "stevegraham/twilio-rb" # Keep until new gem is released
 gem "twilio-ruby",                          "3.11.4", require: false
 gem "unicorn",                              "4.6.3"
 gem "virtus",                               "1.0.0"
+gem "warden",                               "1.2.3"
 # gem "incoming",                            "0.1.5"
 
 group :development do
@@ -50,6 +53,7 @@ group :development do
   gem "guard-spork",                        "1.5.1",  require: false
   gem "guard-shell",                        "0.5.1",  require: false
   gem "libnotify",                          "0.8.2",  require: false
+  gem "meta_request"
   gem "method_profiler",                    "2.0.1",  require: false
   gem "metric_fu"
   gem "perftools.rb",                       "2.0.1",  require: false
@@ -89,7 +93,6 @@ group :test do
   gem "rspec-rails",                        "2.14.0"
   gem "rspec-sidekiq",                      "0.5.1"
   gem "shoulda-matchers",                   "2.4.0",   require: false
-  gem "state_machine_rspec",                "0.1.3"
   gem "timecop",                            "0.6.3"
   gem "twilio-test-toolkit",                "3.2.1"
   gem "webmock",                            "1.15.2"

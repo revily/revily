@@ -19,7 +19,7 @@ module Revily
       end
 
       def matches_accept_header?(request)
-        accept_header = request.headers['Accept']
+        accept_header = request.headers["Accept"]
         accept_header && accept_header.include?("application/vnd.revily.v#{version}+json")
       end
 

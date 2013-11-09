@@ -1,4 +1,4 @@
-class V1::Users::SessionsController < Devise::SessionsController
+class V1::Users::SessionsController < V1::ApplicationController
   respond_to :json
 
   before_filter :authenticate_user!, except: [ :create ]

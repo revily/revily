@@ -11,15 +11,10 @@ module Revily
   autoload :Sidekiq,                 "revily/sidekiq"
   autoload :Twilio,                  "revily/twilio"
   
-  module Concerns
-    autoload :Actable,               "revily/concerns/actable"
-    autoload :Eventable,             "revily/concerns/eventable"
-    autoload :Hookable,              "revily/concerns/hookable"
-    autoload :Identifiable,          "revily/concerns/identifiable"
-    autoload :Trackable,             "revily/concerns/trackable"
-    autoload :StateChange,           "revily/concerns/state_change"
+  module Helpers
+    autoload :UniqueToken,           "revily/helpers/unique_token"
   end
-
+  
   class << self
     def handlers
       Event.handlers
@@ -49,7 +44,3 @@ module Revily
   end
 
 end
-
-# if defined?(Rails)
-#   Revily.logger = Rails.logger.dup
-# end

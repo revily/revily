@@ -37,7 +37,7 @@ class V1::ContactsController < V1::ApplicationController
     @contact.account = current_account
     @contact.save
 
-    respond_with @contact, location: contact_url(@contact)
+    respond_with @contact, location: api_contact_url(@contact)
   end
 
   def update

@@ -14,7 +14,7 @@ class EventSerializer < ApplicationSerializer
   end
 
   def _links
-    link :self, event_path(object)
+    link :self, api_event_path(object)
     link :source, source_path(source) if source.present?
     link :actor, actor_path(actor) if actor.present?
 
@@ -26,11 +26,11 @@ class EventSerializer < ApplicationSerializer
   def source_path(source)
     case source.class.name
     when "Service", "Incident", "Policy", "Schedule", "Service", "User"
-      polymorphic_path(source)
+      polymorphic_path([:api, source])
     when "PolicyRule"
-      polymorphic_path([source.policy, source])
+      polymorphic_path([:api, source.policy, source])
     when "ScheduleLayer"
-      polymorphic_path([source.schedule, source])
+      polymorphic_path([:api, source.schedule, source])
     end
   end
 

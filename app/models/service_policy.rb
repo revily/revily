@@ -1,6 +1,9 @@
 class ServicePolicy < ActiveRecord::Base
-  include Revily::Concerns::Identifiable
-  
+  include Identity
+
+  # @!group Associations
   belongs_to :service
   belongs_to :policy
+  # @!endgroup
+  
 end

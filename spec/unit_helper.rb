@@ -14,17 +14,19 @@ def require_all(*patterns)
 end
 
 def configure
-  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
+  $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "app"))
   $LOAD_PATH.unshift(File.dirname(__FILE__))
   require "revily"
 
   Revily::Log.logger = nil
   
   require "dotenv"
-  Dotenv.load ".env.#{ENV["RAILS_ENV"]}", ".env"
+  Dotenv.load ".env.#{ENV['RAILS_ENV']}", ".env"
 
   require "rspec"
-  require "support/fire"
+  require "rspec/fire"
+  require "timecop"
 
   RSpec.configure do |config|
     config.mock_with :rspec
@@ -35,12 +37,13 @@ def configure
     config.filter_run_excluding external: true
     config.backtrace_exclusion_patterns << /vendor\//
     config.backtrace_exclusion_patterns << /lib\/rspec\//
+    config.include RSpec::Fire
+    config.extend RSpec::Fire
   end
 end
 
 def run
-  load_all "spec/support/fire",
-           "spec/support/matchers/**/*.rb",
+  load_all "spec/support/matchers/**/*.rb",
            "spec/support/mixins/**/*.rb"
 end
 

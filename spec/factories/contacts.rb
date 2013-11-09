@@ -3,6 +3,7 @@ FactoryGirl.define do
     user
 
     label "random label"
+    after(:stub) { |model| model.send(:ensure_uuid) }
 
     after(:build) do |contact|
       contact.account = contact.user.account

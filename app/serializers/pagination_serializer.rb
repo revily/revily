@@ -47,7 +47,7 @@ class PaginationSerializer < ActiveModel::ArraySerializer
     end
 
     def association_klass
-      association_key && association_key.sub('_id', '').classify.constantize
+      association_key && association_key.sub("_id", "").classify.constantize
     end
 
     def first_page_path

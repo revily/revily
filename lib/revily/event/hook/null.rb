@@ -3,8 +3,8 @@ module Revily
     class Hook
       class Null < Hook
 
-        hook_name 'null'
-        handler   'null'
+        hook_name "null"
+        handler   "null"
         events     Revily::Event.all
 
       end

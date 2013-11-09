@@ -1,38 +1,42 @@
 class ScheduleLayer < ActiveRecord::Base
-  include Revily::Concerns::Identifiable
-  include Revily::Concerns::Eventable
-  include Revily::Concerns::RecordChange
+  include Identity
+  include EventSource
+  include Publication
+  include Tenancy::ResourceScope
 
-  events :create, :update, :delete
   VALID_RULES = %w[ hourly daily weekly monthly yearly ]
 
-  acts_as_tenant # belongs_to :account
+  # @!group Events
+  actions :create, :update, :delete
+  # @!endgroup
 
-  belongs_to :schedule
-  has_many :user_schedule_layers,
-    -> { order(:position) }, dependent: :destroy
-  has_many :users,
-    -> { order('user_schedule_layers.position') },
-    through: :user_schedule_layers,
-    dependent: :destroy
-
+  # @!group Attributes
   acts_as_list scope: :schedule
+  # @!endgroup
 
+  # @!group Associations
+  scope_to :account
+  belongs_to :schedule
+  has_many :user_schedule_layers, -> { order(:position) }, dependent: :destroy
+  has_many :users, -> { order("user_schedule_layers.position") }, through: :user_schedule_layers, dependent: :destroy
+  # @!endgroup
+
+  # @!group Validations
+  validates :rule, :count, presence: true
+  validates :rule, inclusion: { in: VALID_RULES }
+  # @!endgroup
+
+  # @!group Callbacks
   before_save :calculate_duration_in_seconds
   before_save :reset_start_at_to_beginning_of_day
-
-  validates :rule, :count,
-    presence: true
-
-  validates :rule,
-    inclusion: { in: VALID_RULES }
+  # @!endgroup
 
   def unit
-    rule == 'daily' ? 'day' : rule.sub('ly', '')
+    rule == "daily" ? "day" : rule.sub("ly", "")
   end
 
   def users_count
-    @users_count ||= read_attribute('users_count') || users.length
+    @users_count ||= read_attribute("users_count") || users.length
   end
 
   def interval
@@ -41,7 +45,7 @@ class ScheduleLayer < ActiveRecord::Base
 
   def user_schedules
     @user_schedules ||= users.map do |user|
-      user_schedule(user)
+      UserSchedule.new(user, self)
     end
   end
 
@@ -50,12 +54,7 @@ class ScheduleLayer < ActiveRecord::Base
   end
 
   def user_positions
-    # @user_positions ||= Hash[user_schedule_layers.joins(:user).pluck(:user_id, :position)]
     @user_positions ||= Hash[ user_schedule_layers.map {|usl| [ usl.user_id, usl.position ]} ]
-  end
-
-  def user_schedule(user)
-    UserSchedule.new(user, self)
   end
 
   def user_offset(user)
@@ -73,7 +72,7 @@ class ScheduleLayer < ActiveRecord::Base
   end
 
   def reset_start_at_to_beginning_of_day
-    self[:start_at] = (start_at || Time.zone.now).beginning_of_day
+    self[:start_at] = (start_at || Time.now).in_time_zone.at_beginning_of_day
   end
 
 end

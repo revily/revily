@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe "incidents" do
   pause_events!
@@ -9,36 +9,36 @@ describe "incidents" do
     Incident.any_instance.stub(assign: true)
   end
 
-  describe 'GET /services/:service_id/incidents' do
+  describe "GET /api/services/:service_id/incidents" do
     let(:incident) { create(:incident, service: service) }
-    before { get "/services/#{service.uuid}/incidents" }
+    before { get "/api/services/#{service.uuid}/incidents" }
 
-    it 'returns all incidents for a service' do
+    it "returns all incidents for a service" do
       expect(last_response).to respond_with :ok
       expect(last_response).to have_content_type :json
     end
   end
 
-  describe 'GET /incidents/:id' do
+  describe "GET /incidents/:id" do
     let(:incident) { create(:incident, service: service, account: account) }
-    context 'valid' do
-      before { get "/incidents/#{incident.uuid}" }
+    context "valid" do
+      before { get "/api/incidents/#{incident.uuid}" }
 
-      it 'returns the correct record' do
+      it "returns the correct record" do
         expect(last_response).to have_content_type :json
         expect(last_response).to respond_with :ok
-        expect(json['id']).to eq incident.uuid
-        expect(json['message']).to eq incident.message
+        expect(json["id"]).to eq incident.uuid
+        expect(json["message"]).to eq incident.message
       end
     end
   end
 
-  describe 'POST /services/:service_id/incidents' do
+  describe "POST /api/services/:service_id/incidents" do
     let(:attributes) { attributes_for(:incident) }
-    before { post "/services/#{service.uuid}/incidents", attributes.to_json }
+    before { post "/api/services/#{service.uuid}/incidents", attributes.to_json }
 
-    it 'creates with the right attributes' do
-      incident = Incident.find_by(uuid: json['id'])
+    it "creates with the right attributes" do
+      incident = Incident.find_by(uuid: json["id"])
 
       expect(last_response).to have_content_type :json
       expect(last_response).to respond_with :created
@@ -47,12 +47,12 @@ describe "incidents" do
     end
   end
 
-  describe 'PUT /incidents/:id' do
+  describe "PUT /api/incidents/:id" do
     let(:incident) { create(:incident, service: service, account: account) }
     let(:attributes) { attributes_for(:incident, message: "foo bar baz") }
-    before { put "/incidents/#{incident.uuid}", attributes.to_json }
+    before { put "/api/incidents/#{incident.uuid}", attributes.to_json }
 
-    it 'updates with the right attributes' do
+    it "updates with the right attributes" do
       incident.reload
 
       expect(last_response).to_not have_body
@@ -61,11 +61,11 @@ describe "incidents" do
     end
   end
 
-  describe 'DELETE /incidents/:id' do
+  describe "DELETE /api/incidents/:id" do
     let(:incident) { create(:incident, service: service, account: account) }
-    before { delete "/incidents/#{incident.uuid}" }
+    before { delete "/api/incidents/#{incident.uuid}" }
 
-    it 'deletes the service' do
+    it "deletes the service" do
       expect(last_response).to_not have_body
       expect(last_response).to respond_with :no_content
     end

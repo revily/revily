@@ -81,11 +81,11 @@ module Revily
         HandlerSerializer
       end
 
-      # queue 'default'
+      # queue "default"
 
       # Wrapper method around {#handle} to allow subclasses to override that method
       def notify
-        Metriks.timer('handler.handle').time do
+        Metriks.timer("handler.handle").time do
           handle
         end
       end
@@ -95,7 +95,7 @@ module Revily
       # @param [Class]  job Subclass of the Job to run
       # @param [Symbol] queue Name of the queue
       def run(job, queue=:default)
-        Metriks.timer('handler.job.run').time do
+        Metriks.timer("handler.job.run").time do
           job.run(queue, payload, params)
         end
       end
@@ -106,7 +106,7 @@ module Revily
       # @param [Integer] interval Number of seconds from now to schedule a job
       # @param [Symbol] queue Name of the queue
       def schedule(job, interval, queue=:default)
-        Metriks.timer('handler.job.schedule').time do
+        Metriks.timer("handler.job.schedule").time do
           job.schedule(queue, interval, payload, params)
         end
       end

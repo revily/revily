@@ -1,32 +1,32 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Service do
   pause_events!
 
-  context 'associations' do
+  context "associations" do
     it { should belong_to(:account) }
     it { should have_many(:incidents) }
     it { should have_one(:service_policy) }
     it { should have_one(:policy).through(:service_policy) }
   end
 
-  context 'validations' do
+  context "validations" do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:auto_resolve_timeout) }
     it { should validate_presence_of(:acknowledge_timeout) }
     it { should validate_presence_of(:state) }
   end
 
-  context 'attributes' do
+  context "attributes" do
     it { should have_readonly_attribute(:uuid) }
-    it 'uses uuid for #to_param' do
+    it "uses uuid for #to_param" do
       obj = create(subject.class)
       expect(obj.to_param).to eq obj.uuid
     end
   end
 
-  context 'incidents' do
-    describe '#incident_counts' do
+  context "incidents" do
+    describe "#incident_counts" do
       let(:service) { create(:service) }
       let(:incidents) { create_list(:incident, 5, service: service) }
 
@@ -36,20 +36,20 @@ describe Service do
         incidents.last.resolve
       end
 
-      it 'returns incident counts' do
+      it "returns incident counts" do
         expect(service.incident_counts.triggered).to eq 3
         expect(service.incident_counts.acknowledged).to eq 1
         expect(service.incident_counts.resolved).to eq 1
       end
 
-      it 'refreshes cached counts' do
+      it "refreshes cached counts" do
         incidents.first.resolve
         expect(service.incident_counts.resolved).to eq 2
       end
     end
   end
 
-  describe '#health' do
+  describe "#health" do
     let(:service) { create(:service) }
 
     before do
@@ -58,18 +58,18 @@ describe Service do
       service.reload
     end
 
-    it 'health is "ok" with no open incidents' do
+    it "health is 'ok' with no open incidents" do
       expect(service.health).to eq "ok"
     end
 
-    it 'health is "critical" with triggered incidents' do
+    it "health is 'critical' with triggered incidents" do
       service.incidents << create(:incident, service: service)
-      
+      service.touch
       expect(service.health).to eq "critical"
     end
 
 
-    it 'health is "warning" with acknowledged incidents and no triggered incidents' do
+    it "health is 'warning' with acknowledged incidents and no triggered incidents" do
       service.incidents << create(:incident, service: service)
       service.incidents.first.acknowledge
       service.reload

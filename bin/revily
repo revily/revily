@@ -105,7 +105,7 @@ module Revily
 
           say "Creating your account...", :green
           account = Account.first_or_create(name: account_name)
-          ActsAsTenant.current_tenant = account
+          Account.current = account
 
           say "Creating your user...", :green
           user = account.users.where(

@@ -10,18 +10,20 @@ module Revily
 
       def initialize(resource)
         @resource = resource
-        @changes = @resource.changes.dup.with_indifferent_access
+        @changes = @resource.previous_changes.dup.with_indifferent_access
+
+        filter_changeset
       end
 
       def filter_changeset
         attributes_to_filter.each do |attribute|
           @changes.delete(attribute)
         end
+
+        return self
       end
 
       def to_hash
-        filter_changeset
-
         @changes
       end
 
@@ -32,11 +34,11 @@ module Revily
       private
 
       def attributes_to_filter
-        (FILTER_ATTRIBUTES + association_foreign_keys).uniq
+        (FILTER_ATTRIBUTES | association_foreign_keys)
       end
 
       def association_foreign_keys
-        @resource.class.reflect_on_all_associations.select {|a| a.macro == :belongs_to }.map(&:foreign_key)
+        @resource.class.reflect_on_all_associations.map{|a| a.foreign_key if a.belongs_to? }.compact
       end
     end
   end

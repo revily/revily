@@ -4,31 +4,29 @@ FactoryGirl.define do
   factory :hook do
     account
     
-    name 'Null Hook'
-    handler 'null'
+    name "Null Hook"
+    handler "null"
     config Hash.new
     events { %w[ * ] }
-    state 'enabled'
+    state "enabled"
     
-    after(:stub) do |hook|
-      hook.ensure_uuid
-    end
+    after(:stub) { |model| model.send(:ensure_uuid) }
   end
 
   trait :disabled do
-    state 'disabled'
+    state "disabled"
   end
 
   trait :log do
-    handler 'log'
+    handler "log"
   end
 
   trait :null do
-    handler 'null'
+    handler "null"
   end
 
   trait :with_config do
-    config { { 'foo' => 'bar', 'baz' => 'qux' } }
+    config { { "foo" => "bar", "baz" => "qux" } }
   end
 
   trait :for_incidents do

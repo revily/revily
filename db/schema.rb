@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131028233051) do
+ActiveRecord::Schema.define(version: 20131107155118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -241,7 +241,7 @@ ActiveRecord::Schema.define(version: 20131028233051) do
 
   create_table "user_schedule_layers", force: true do |t|
     t.string   "uuid",              null: false
-    t.integer  "position",          null: false
+    t.integer  "position"
     t.integer  "schedule_layer_id"
     t.integer  "user_id"
     t.datetime "created_at"

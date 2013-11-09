@@ -1,23 +1,29 @@
 class Schedule < ActiveRecord::Base
-  include Revily::Concerns::Identifiable
-  include Revily::Concerns::Eventable
-  include Revily::Concerns::RecordChange
+  include Identity
+  include EventSource
+  include Publication
+  include Tenancy::ResourceScope
 
-  events :create, :update, :delete
+  # @!group Events
+  actions :create, :update, :delete
+  # @!endgroup
 
-  acts_as_tenant # belongs_to :account
-
+  # @!group Associations
+  scope_to :account
   has_many :policy_rules, as: :assignment
   has_many :policies, through: :policy_rules
   has_many :schedule_layers, -> { order(:position) }, dependent: :destroy
-  alias_method :layers, :schedule_layers
   has_many :user_schedule_layers, through: :schedule_layers
   has_many :users, through: :user_schedule_layers
+  # @!endgroup
 
-  validates :name, :time_zone,
-    presence: true
-
+  # @!group Attributes
   accepts_nested_attributes_for :schedule_layers, allow_destroy: true
+  # @!endgroup
+  
+  # @!group Validations
+  validates :name, :time_zone, presence: true
+  # @!endgroup
 
   def user_schedules
     @user_schedules ||= schedule_layers.includes(:users).map do |schedule_layer|

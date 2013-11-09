@@ -8,6 +8,8 @@ FactoryGirl.define do
     auto_resolve_timeout 240
     acknowledge_timeout 30
 
+    after(:stub) { |model| model.send(:ensure_uuid) }
+
     trait :with_policy do
       association :policy, factory: [ :policy, :with_rules ]
     end

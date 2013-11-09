@@ -9,7 +9,7 @@ class RemoveEventAndRenameDataFromEvents < ActiveRecord::Migration
       def Event.readonly_attributes; Set.new; end
 
       Event.all.each do |event|
-        event.ensure_uuid
+        event.send(:ensure_uuid)
         event.save!
       end
     end

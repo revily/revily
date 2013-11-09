@@ -1,35 +1,34 @@
 FactoryGirl.define do
-  factory :schedule_layer do
+  factory :schedule_layer, aliases: [ :layer ] do
     schedule
     account { schedule && schedule.account }
     start_at { Time.zone.now }
-    # after(:build) do |schedule_layer|
-      # schedule_layer.account = schedule_layer.schedule.account
-    # end
+
+    after(:stub) { |model| model.send(:ensure_uuid) }
 
     trait :hourly do
-      rule 'hourly'
+      rule "hourly"
       count 8
     end
 
     trait :daily do
-      rule 'daily'
+      rule "daily"
     end
 
     trait :weekly do
-      rule 'weekly'
+      rule "weekly"
     end
 
     trait :monthly do
-      rule 'monthly'
+      rule "monthly"
     end
 
     trait :yearly do
-      rule 'yearly'
+      rule "yearly"
     end
 
     trait :with_users do
-      rule 'daily'
+      rule "daily"
 
       ignore do
         users_count 2
