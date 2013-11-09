@@ -1,4 +1,5 @@
 require "active_support/core_ext/string/filters"
+require "securerandom"
 
 module Revily
   module Helpers
