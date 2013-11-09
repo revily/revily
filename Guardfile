@@ -23,6 +23,7 @@ guard(:spork, spork_options) do
   watch(%r[^config/initializers/.+\.rb$])
   watch("Gemfile.lock")
   watch("spec/spec_helper.rb") { :rspec }
+  watch("spec/unit_helper.rb") { :rspec }
   watch(%r[config/.+\.yml])
 end
 

@@ -15,12 +15,12 @@ module Revily
     autoload :HookSerializer,    "revily/event/hook_serializer"
     autoload :Job,               "revily/event/job"
     autoload :JobSerializer,     "revily/event/job_serializer"
-    # autoload :Matcher,           "revily/event/matcher"
     autoload :Notifier,          "revily/event/notifier"
     autoload :Payload,           "revily/event/payload"
     autoload :PayloadSerializer, "revily/event/payload_serializer"
     autoload :Publisher,         "revily/event/publisher"
     autoload :Subscription,      "revily/event/subscription"
+    autoload :SubscriptionList,  "revily/event/subscription_list"
 
     class << self
       attr_accessor :paused

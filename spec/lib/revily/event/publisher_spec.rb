@@ -1,34 +1,82 @@
 require "unit_helper"
 
-describe Revily::Event::Publisher do
-  let(:object) { double(:service) }
-  let(:account) { double(:account) }
-  let(:source) { object }
-  let(:actor) { double(:user) }
-  let(:changeset) { double(:changeset) }
-  let(:event_class) { class_double("Event") }
-  let(:changes) { { "name" => [ "foo", "bar" ] } }
+module Revily::Event
+  describe Publisher do
+    include Support::TestDoubles
 
-  before do
-    allow(Revily::Event).to receive(:actor).and_return(actor)
-    allow(object).to receive(:trigger) { true }
-    allow(object).to receive(:account) { account }
-    allow(object).to receive(:event_action) { "create" }
-    allow(object).to receive(:changes).and_return(changes)
-    allow(Event).to receive(:create).and_return(true)
-    allow(Revily::Event::Changeset).to receive(:new).and_return(changeset)
-    allow(changeset).to receive(:changes).and_return(changes)
-  end
+    let(:changeset) { double("Changeset", changes: { name: [ "foo", "bar" ] }) }
+    let(:hook) { double("Hook", handler: "double", config: {}) }
+    let(:subscription) { double("Subscription", handle?: true, notify: true) }
+    let(:subscription_list) { double("SubscriptionList", subscriptions: [ subscription ])}
 
-  it "creates an event" do
-    publisher = Revily::Event::Publisher.new(object)
-    publisher.publish
+    let(:object) do
+      double("Service",
+             account: double("Account", hooks: []),
+             source: double("Service", class: "service"),
+             actor: double("User"),
+             event_action: "create",
+             changeset: changeset)
+    end
 
-    expect(publisher.account).to eq(account)
-    expect(publisher.action).to eq(object.event_action)
-    expect(publisher.source).to eq(source)
-    expect(publisher.actor).to eq(actor)
-    expect(publisher.changeset.changes).to eq(object.changes)
-    expect(Event).to have_received(:create)
+    before do
+      stub_class_double("Event", create: true)
+      stub_class_double("Revily::Event::SubscriptionList", new: subscription_list)
+      stub_class_double("Revily::Event::Changeset", new: changeset)
+      stub_class_double("Revily::Event", hooks: [hook], actor: object.actor, paused?: false)
+    end
+
+    describe ".publish" do
+
+      it "publishes an event" do
+        Publisher.publish(object)
+
+        expect(::Event).to have_received(:create)
+        expect(SubscriptionList).to have_received(:new)
+      end
+
+      it "does not publish if events are paused" do
+        allow(Revily::Event).to receive(:paused?).and_return(true)
+
+        Publisher.publish(object)
+
+        expect(::Event).to_not have_received(:create)
+        expect(Revily::Event::SubscriptionList).to_not have_received(:new).with(anything)
+      end
+
+      it "does not publish if changeset is empty" do
+        allow(changeset.changes).to receive(:empty?).and_return(true)
+
+        Publisher.publish(object)
+
+        expect(::Event).to_not have_received(:create)
+        expect(Revily::Event::SubscriptionList).to_not have_received(:new).with(anything)
+      end
+    end
+
+    describe "#publish" do
+      let(:publisher) { Publisher.new(object) }
+
+      it "publishes an event" do
+        publisher.publish
+
+        expect(::Event).to have_received(:create)
+        expect(SubscriptionList).to have_received(:new)
+      end
+    end
+
+    describe "#hooks" do
+      let(:publisher) { Publisher.new(object) }
+      let(:account_hook) { double("Hook", handler: "account", config: {}) }
+      let(:global_hook) { double("Hook", handler: "global", config: {}) }
+
+      it "lists both account-level and global hooks" do
+        allow(object.account).to receive(:hooks).and_return([ account_hook ])
+        allow(Revily::Event).to receive(:hooks).and_return([ global_hook ])
+
+        expect(publisher.hooks).to include(account_hook)
+        expect(publisher.hooks).to include(global_hook)
+      end
+    end
+
   end
 end

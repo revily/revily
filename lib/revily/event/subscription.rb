@@ -2,6 +2,7 @@ module Revily
   module Event
     class Subscription
       include Revily::Model
+      include Revily::Log
 
       attribute :name,   type: String
       attribute :event,  type: String
@@ -14,7 +15,7 @@ module Revily
       def handler
         @handler ||= Revily::Event.handlers.fetch(name.to_sym)
       rescue KeyError => e
-        Rails.logger.debug "No event handler #{name.inspect} found."
+        logger.debug "No event handler #{name.inspect} found."
         return nil
       end
 
