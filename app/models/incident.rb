@@ -84,15 +84,9 @@ class Incident < ActiveRecord::Base
   private
 
   def ensure_key
-    return true if self.key.present?
-    write_attribute(:key, generate_key)
-  end
+    return if self.key?
 
-  def generate_key
-    loop do
-      key = Revily::Helpers::UniqueToken.generate(type: :hex)
-      break key unless self.class.find_by(key: key)
-    end
+    write_attribute(:key, Revily::Helpers::UniqueToken.generate_token_for(self, :key, type: :hex))
   end
 
   def update_triggered_at

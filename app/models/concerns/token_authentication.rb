@@ -1,3 +1,6 @@
+require "active_support/concern"
+require "revily/helpers/unique_token"
+
 module TokenAuthentication
   extend ActiveSupport::Concern
 
@@ -6,15 +9,12 @@ module TokenAuthentication
   end
 
   def ensure_authentication_token
-    return true if self.authentication_token.present?
-    write_attribute(:authentication_token, generate_authentication_token)
+    return if self.authentication_token?
+
+    write_attribute(
+      :authentication_token,
+      Revily::Helpers::UniqueToken.generate_token_for(self, :authentication_token, type: :hex)
+    )
   end
 
-  def generate_authentication_token
-    loop do
-      token = Revily::Helpers::UniqueToken.generate(type: :hex)
-      break token unless self.class.find_by(authentication_token: token)
-    end
-
-  end
 end

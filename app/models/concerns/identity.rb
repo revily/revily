@@ -1,3 +1,7 @@
+require "active_support/concern"
+require "active_model_serializers"
+require "revily/helpers/unique_token"
+
 module Identity
   extend ActiveSupport::Concern
 
@@ -19,15 +23,9 @@ module Identity
   private
   
   def ensure_uuid
-    return true if self.uuid.present?
-    write_attribute(:uuid, generate_uuid)
-  end
+    return if self.uuid?
 
-  def generate_uuid
-    loop do
-      uuid = Revily::Helpers::UniqueToken.generate(length: 8)
-      break uuid unless self.class.find_by(uuid: uuid)
-    end
+    write_attribute(:uuid, Revily::Helpers::UniqueToken.generate_token_for(self, :uuid, length: 8))
   end
 
   module ClassMethods

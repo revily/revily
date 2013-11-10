@@ -60,7 +60,7 @@ class PolicyRule < ActiveRecord::Base
 
     if existing_rule
       return if existing_rule.id == self.id
-      errors.add(:assignment, "has already been taken for this policy")
+      errors.add(:assignment, "already exists for this policy")
     end
   end
 
