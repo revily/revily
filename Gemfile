@@ -87,7 +87,7 @@ group :test do
   gem "json_spec",                          "1.1.1"
   gem "launchy",                            "2.3.0"
   gem "oauth2",                             "0.9.2"
-  gem "rspec_api_test",                     "0.0.1"
+  gem "require_all"
   gem "rspec-fire",                         "1.2.0"
   gem "rspec-instafail",                    "0.2.4"
   gem "rspec-rails",                        "2.14.0"
