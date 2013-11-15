@@ -1,5 +1,5 @@
 require "unit_helper"
-require "models/user"
+require "revily/helpers/unique_token"
 
 module Revily::Helpers
   describe UniqueToken do
@@ -38,8 +38,8 @@ module Revily::Helpers
 
     describe ".generate_token_for" do
       let(:attribute) { :uuid }
-      let(:klass) { class_double("User") }
-      let(:object) { instance_double("User") }
+      let(:klass) { double("User") }
+      let(:object) { double("User") }
 
       before do
         allow(klass).to receive(:is_a?).with(Class).and_return(true)

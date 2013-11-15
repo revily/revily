@@ -1,5 +1,7 @@
 require "unit_helper"
 
-describe Revily::Log do
+module Revily
+  describe Log do
 
+  end
 end

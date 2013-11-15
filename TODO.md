@@ -4,6 +4,18 @@
 * add email parsing
 * add flipper for setting features (https://github.com/jnunemaker/flipper)
 * replace active_attr with virtus now that 1.0.0 has been released
+* add the ability to route incidents based on predefined conditions. Examples:
+  - a given service is not critical and should only send emails and not call
+  - a given policy should call the engineers group but only email management
+* allow policy rule to have multiple assignment groups: Examples:
+  - different notification rules per group
+  - first policy rule should notify both and engineers group and the current on-call
+    - engineers group should only be emailed
+    - current on-call should receive both a call and an SMS as well as email
+  - a last resort policy 
+    - if the primary and secondary fail to ack
+    - call everyone in the engineers group
+
 
 
 * add oauth
@@ -14,7 +26,6 @@
 * add admin account
   - adding rails_admin support
   - routing constraints for /admin and /sidekiq
-
 
 * add LDAP auth
 

@@ -14,7 +14,7 @@ module Revily
     config.generators do |g|
       g.test_framework      :rspec, view_specs: false, helper_specs: false
       g.fixture_replacement :factory_girl, dir: "spec/factories"
-      g.template_engine     :haml
+      # g.template_engine     :haml
       g.javascript_engine   false
       g.helper              false
       g.stylesheets         false
@@ -30,9 +30,13 @@ module Revily
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = "UTC"
     config.active_record.default_timezone = :utc
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join("my", "locales", "*.{rb,yml}").to_s]
     # config.i18n.default_locale = :de
+    # Configure the default encoding used in templates for Ruby >= 1.9.
+    config.encoding = "utf-8"
+
+    # route all exceptions via our router
+    config.exceptions_app = self.routes
 
     config.action_mailer.delivery_method = (ENV["MAILER_DELIVERY_METHOD"].to_sym || :smtp)
 
@@ -41,4 +45,4 @@ module Revily
   end
 end
 
-autoload :Revily, "revily"
+# autoload :Revily, "revily"

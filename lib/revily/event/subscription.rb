@@ -1,8 +1,9 @@
+require "revily/model"
+
 module Revily
   module Event
     class Subscription
       include Revily::Model
-      include Revily::Log
 
       attribute :name,   type: String
       attribute :event,  type: String

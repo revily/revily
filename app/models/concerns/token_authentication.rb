@@ -1,5 +1,4 @@
 require "active_support/concern"
-require "revily/helpers/unique_token"
 
 module TokenAuthentication
   extend ActiveSupport::Concern

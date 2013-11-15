@@ -1,3 +1,9 @@
+require "metriks"
+
+require "revily/log"
+require "revily/event/changeset"
+require "revily/event/subscription_list"
+
 module Revily::Event
   class Publisher
     include Revily::Log

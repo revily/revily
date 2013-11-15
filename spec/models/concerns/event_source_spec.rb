@@ -31,19 +31,17 @@ describe EventSource do
 
   end
 
-  describe "callbacks" do
-    pending do
-      let(:policy) { build_stubbed(:policy) }
+  describe "callbacks", :pending do
+    let(:policy) { build_stubbed(:policy) }
 
-      before do
-        allow(policy).to receive(:save) { true }
-      end
+    before do
+      allow(policy).to receive(:save) { true }
+    end
 
-      it "receives callbacks" do
-        policy.save
+    it "receives callbacks" do
+      policy.save
 
-        expect(policy).to have_received(:dispatch)
-      end
+      expect(policy).to have_received(:dispatch)
     end
   end
 end

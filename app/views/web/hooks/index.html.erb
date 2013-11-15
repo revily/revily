@@ -1,0 +1,22 @@
+<h1>Listing hooks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @hooks.each do |hook| %>
+      <tr>
+        <td><%= link_to 'Show', hook %></td>
+        <td><%= link_to 'Delete', hook, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

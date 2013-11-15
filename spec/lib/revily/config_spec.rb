@@ -1,5 +1,8 @@
 require "unit_helper"
+require "revily/config"
 
-describe Revily::Config do
+module Revily
+  describe Config do
 
+  end
 end

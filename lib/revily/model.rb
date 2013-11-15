@@ -2,6 +2,8 @@ require "active_support/concern"
 require "active_attr"
 require "active_model_serializers"
 
+require "revily/log"
+
 module Revily
   module Model
     extend ActiveSupport::Concern
@@ -9,6 +11,7 @@ module Revily
     included do
       include ActiveAttr::Model
       include ActiveModel::SerializerSupport
+      include Revily::Log
 
       # Reset @abstract in subclasses
       def self.inherited(klass)
@@ -58,7 +61,7 @@ module Revily
 
     module ClassMethods
       def logger
-        Revily.logger
+        Revily::Log.logger
       end
 
       def abstract(value=nil)

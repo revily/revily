@@ -19,5 +19,5 @@ Rails.configuration.middleware.insert_after ActionDispatch::Flash, Warden::Manag
   manager.serialize_from_session(:service) { |uuid| Service.find_by(uuid: uuid) }
   manager.serialize_into_session(:service) { |service| service.uuid }
 
-  manager.failure_app = lambda {|env| UnauthorizedController.action(:respond).call(env) }
+  manager.failure_app = lambda {|env| Web::UnauthorizedController.action(:respond).call(env) }
 end

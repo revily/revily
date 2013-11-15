@@ -39,9 +39,11 @@ Revily::Application.configure do
 
   config.after_initialize do
     require "bullet"
-    
+
     Bullet.enable = true
     Bullet.bullet_logger = true
     Bullet.console = true
   end
+  config.ember.variant = :development
+
 end

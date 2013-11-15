@@ -5,7 +5,7 @@ FactoryGirl.define do
     email { Forgery(:internet).email_address }
     password "asdfasdf"
     password_confirmation "asdfasdf"
-
+    authentication_token { Revily::Helpers::UniqueToken.generate_token(type: :hex, length: 64)}
     # authentication_token "asdfasdfasdfasdfasdfasdf"
     after(:stub) do |user|
       user.send(:ensure_uuid)

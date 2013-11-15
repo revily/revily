@@ -1,20 +1,23 @@
 require "unit_helper"
+require "revily/event"
 
-describe Revily::Event do
+module Revily
+  describe Event do
 
-  describe ".handlers" do
-  end
+    describe ".handlers" do
+    end
 
-  describe ".jobs" do
-  end
+    describe ".jobs" do
+    end
 
-  describe ".pause!" do
-    before { Revily::Event.pause! }
-    it { should be_paused }
-  end
+    describe ".pause!" do
+      before { Revily::Event.pause! }
+      it { should be_paused }
+    end
 
-  describe ".unpause!" do
-    before { Revily::Event.unpause! }
-    it { should_not be_paused }
+    describe ".unpause!" do
+      before { Revily::Event.unpause! }
+      it { should_not be_paused }
+    end
   end
 end

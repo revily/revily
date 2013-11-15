@@ -8,63 +8,90 @@ spork_options = {
   aggressive_kill: false
 }
 
-rspec_options = {
+rspec_default_options = {
+  all_on_start: false,
+  all_after_pass: false,
+  keep_failed: false,
+  focus_on_failed: false,
+}
+
+rspec_integration_options = {
   cmd: "bundle exec rspec --color --drb --drb-port=#{PORT} --tty",
   run_all: {
     cmd: "bundle exec rspec --profile -f progress --color --drb --drb-port=#{PORT} --tty --fail-fast"
-  },
-  focus_on_failed: false
-}
+  }
+}.merge(rspec_default_options)
 
-guard(:spork, spork_options) do
-  watch("config/application.rb")
-  watch("config/environment.rb")
-  watch("config/environments/test.rb")
-  watch(%r[^config/initializers/.+\.rb$])
-  watch("Gemfile.lock")
-  watch("spec/spec_helper.rb") { :rspec }
-  watch("spec/unit_helper.rb") { :rspec }
-  watch(%r[config/.+\.yml])
-end
+rspec_unit_options = {
+  cmd: "bundle exec rspec --color --tty",
+  run_all: {
+    cmd: "bundle exec rspec --profile -f progress --color --tty --fail-fast"
+  }
+}.merge(rspec_default_options)
 
-guard(:rspec, rspec_options) do
-  watch("spec/spec_helper.rb") { "spec" }
-  # watch("app/controllers/application_controller.rb") { "spec/controllers" }
-  watch("config/routes.rb") { "spec/routing/**/*_routing_spec.rb" }
-  watch(%r[^spec/support/(requests|controllers|mailers|models)_helpers\.rb]) do |m|
-    "spec/#{m[1]}"
-  end
-  watch(%r[^spec/.+_spec\.rb])
+group :unit do
+  guard :rspec, rspec_unit_options do
+    watch("spec/unit_helper.rb") { %W[ spec/controllers spec/models spec/lib ] }
+    watch(%r[^spec/(controllers|models|serializers|lib)/.+_spec\.rb])
+    watch(%r[^app/controllers/(.+)_(controller)\.rb]) {|m| "spec/controllers/#{m[1]}_#{m[2]}_spec.rb" }
+    # watch(%r[^app/models/(.+)\.rb]) {|m| "spec/models/#{m[1]}_spec.rb" }
+    # watch(%r[^app/serializers/(.+)\.rb]) {|m| "spec/serializers/#{m[1]}_spec.rb" }
+    watch(%r[^app/(models|serializers)/(.+)\.rb]) {|m| "spec/#{m[1]}/#{m[2]}_spec.rb" }
+    watch(%r[^lib/(revily|warden)/(.+)\.rb]) {|m| "spec/lib/#{m[1]}/#{m[2]}_spec.rb" }
+  end # guard :rspec
+end # group :unit
 
-  watch(%r[^app/controllers/(.+)_(controller)\.rb]) do |m|
-    %W[
+group :integration do
+  guard :spork, spork_options do
+    watch("config/application.rb")
+    watch("config/environment.rb")
+    watch("config/environments/test.rb")
+    watch(%r[^config/initializers/.+\.rb$])
+    watch("Gemfile.lock")
+    watch("spec/spec_helper.rb") { :rspec }
+    watch("spec/unit_helper.rb") { :rspec }
+    watch(%r[config/.+\.yml])
+  end # guard :sport
+
+  guard :rspec, rspec_integration_options do
+    watch("spec/spec_helper.rb") { "spec" }
+    # watch("app/controllers/application_controller.rb") { "spec/controllers" }
+    watch("config/routes.rb") { "spec/routing/**/*_routing_spec.rb" }
+    watch(%r[^spec/support/(requests|controllers|mailers|models)_helpers\.rb]) do |m|
+      "spec/#{m[1]}"
+    end
+    watch(%r[^spec/.+_spec\.rb])
+
+    watch(%r[^app/controllers/(.+)_(controller)\.rb]) do |m|
+      %W[
       spec/routing/#{m[1]}_routing_spec.rb
       spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb
       spec/requests/#{m[1]}_spec.rb
       spec/api/#{m[1]}_spec.rb
     ]
-  end
+    end
 
-  watch(%r[^app/views/(.*)/[^/]+]) do |m|
-    %W[
+    watch(%r[^app/views/(.*)/[^/]+]) do |m|
+      %W[
       spec/controllers/#{m[1]}_controller_spec.rb
     ]
-  end
+    end
 
-  watch(%r[^app/(.+)\.rb]) { |m| "spec/#{m[1]}_spec.rb" }
-  watch(%r[^lib/(.+)\.rb]) { |m| "spec/lib/#{m[1]}_spec.rb" }
-  watch(%r[^spec/factories/(.+)\.rb$]) do |m|
-    %W[
+    watch(%r[^app/(.+)\.rb]) { |m| "spec/#{m[1]}_spec.rb" }
+    watch(%r[^lib/(.+)\.rb]) { |m| "spec/lib/#{m[1]}_spec.rb" }
+    watch(%r[^spec/factories/(.+)\.rb$]) do |m|
+      %W[
     spec/models/#{m[1].singularize}_spec.rb
     spec/controllers/#{m[1]}_controller_spec.rb
     spec/requests/#{m[1]}_spec.rb
     spec/features/#{m[1]}_spec.rb
   ]
-  end
+    end
 
-  # Capybara features specs
-  watch(%r[^app/views/(.+)/.*\.(erb|haml)$]) { |m| "spec/features/#{m[1]}_spec.rb" }
-end
+    # Capybara features specs
+    watch(%r[^app/views/(.+)/.*\.(erb|haml)$]) { |m| "spec/features/#{m[1]}_spec.rb" }
+  end # guard :rspec
+end # group :integration
 
 notification :tmux, {
   display_message: true,

@@ -9,13 +9,13 @@ gem "active_model_serializers",                       github: "rails-api/active_
                                                       ref: "919bb3840107e8176a65d90c0af8ec1e02cef683"
 gem "acts_as_list",                         "0.3.0"
 gem "acts-as-taggable-on",                  "2.4.1"
-# gem "acts_as_tenant",                       "0.3.1"
 gem "api-pagination",                       "1.1.1"
 gem "bcrypt-ruby"
 gem "clockwork",                            "0.7.0",  require: false
 gem "dalli",                                "2.6.4"
 gem "doorkeeper",                           "0.7.3"
 gem "dotenv-rails",                         "0.9.0"
+gem "haml-rails"
 gem "highline",                             "1.6.20", require: false
 gem "ice_cube",                             "0.11.1"
 gem "kaminari",                             "0.14.1"
@@ -43,6 +43,16 @@ gem "unicorn",                              "4.6.3"
 gem "virtus",                               "1.0.0"
 gem "warden",                               "1.2.3"
 # gem "incoming",                            "0.1.5"
+
+# web
+
+gem "bootstrap-sass-rails",                 "3.0.0.3"
+gem "coffee-rails"
+gem "ember-rails"
+gem "jquery-rails"
+gem "sass-rails"
+gem "therubyracer"
+gem "uglifier"
 
 group :development do
   gem "annotate",                           "2.5.0",  require: false

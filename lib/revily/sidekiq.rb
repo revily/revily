@@ -1,3 +1,5 @@
+require "sidekiq"
+
 module Revily
   module Sidekiq
 

@@ -7,11 +7,6 @@ class Integration::ProviderController < Integration::ApplicationController
   before_action :incidents
 
   def trigger
-    logger.info current_service.inspect
-    logger.info current_actor.inspect
-    logger.info current_account.inspect
-    logger.info request.env.keys
-
     @incident = incidents.integration(params[:message], params[:key]).first_or_initialize(incident_params)
     @incident.account = current_account unless @incident.account_id?
     http_status = @incident.new_record? ? :created : :not_modified

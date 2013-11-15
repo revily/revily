@@ -1,0 +1,23 @@
+<h1>Listing policies</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @policies.each do |policy| %>
+      <tr>
+        <td><%= link_to 'Show', policy %></td>
+        <td><%= link_to 'Delete', policy, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
