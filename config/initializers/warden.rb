@@ -5,8 +5,8 @@ require "warden/strategies/password_strategy"
 Rails.configuration.middleware.insert_after ActionDispatch::Flash, Warden::Manager do |manager|
   manager.default_scope = :user
 
-  manager.scope_defaults :user, strategies: [ :password, :doorkeeper, :header_token ]
-  manager.scope_defaults :service, strategies: [ :header_token ]
+  manager.scope_defaults :user, strategies: [ :password, :doorkeeper, :header_token ], store: false
+  manager.scope_defaults :service, strategies: [ :header_token ], store: false
   manager.scope_defaults :api, strategies: [ :header_token, :doorkeeper ], store: false
 
   manager.default_strategies(:scope => :user).unshift :header_token
@@ -19,5 +19,5 @@ Rails.configuration.middleware.insert_after ActionDispatch::Flash, Warden::Manag
   manager.serialize_from_session(:service) { |uuid| Service.find_by(uuid: uuid) }
   manager.serialize_into_session(:service) { |service| service.uuid }
 
-  manager.failure_app = lambda {|env| Web::UnauthorizedController.action(:respond).call(env) }
+  manager.failure_app = lambda {|env| UnauthorizedController.action(:respond).call(env) }
 end

@@ -3,13 +3,20 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    current_user || warden.authenticate!(:scope => :user)
+    request.env["warden"].user(scope: :user)
+    # current_user # || warden.authenticate!(:scope => :user)
   end
 
-  resource_owner_from_credentials do
-    user = User.find_by(email: params[:username])
-    user && user.authenticate(params[:password])
+  resource_owner_from_credentials do |routes|
+    request.params[:user] = {
+      email: request.params[:username],
+      password: request.params[:password]
+    }
+    request.env["warden"].authenticate!(scope: :user)
   end
+    # user = User.find_by(email: params[:username])
+    # user && user.authenticate(params[:password])
+  # end
 
   # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
   # admin_authenticator do
@@ -26,7 +33,7 @@ Doorkeeper.configure do
   # access_token_expires_in 2.hours
 
   # Issue access tokens with refresh token (disabled by default)
-  # use_refresh_token
+  use_refresh_token
 
   # Provide support for an owner to be assigned to each registered application (disabled by default)
   # Optional parameter :confirmation => true (default false) if you want to enforce ownership of

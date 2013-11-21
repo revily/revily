@@ -29,7 +29,10 @@ before_fork do |server, worker|
     GC.start
   end
 
-  ActiveRecord::Base.connection.disconnect!
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.connection.disconnect!
+    Rails.logger.info "Disconnecting database connection"
+  end
 
   # Throttle the master from forking too quickly by sleeping.  Due
   # to the implementation of standard Unix signal handlers, this
@@ -39,5 +42,8 @@ before_fork do |server, worker|
 end
 
 after_fork do |server, worker|
-  ActiveRecord::Base.establish_connection
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.establish_connection
+    Rails.logger.info "Establishing database connection"
+  end
 end

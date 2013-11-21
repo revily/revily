@@ -9,13 +9,13 @@ ActiveSupport.on_load(:action_controller) do
 end
 
 # To enable root element in JSON for ActiveRecord objects.
-# ActiveSupport.on_load(:active_record) do
-#  self.include_root_in_json = true
-# end
+ActiveSupport.on_load(:active_record) do
+ self.include_root_in_json = true
+end
 
 ActiveSupport.on_load(:active_model_serializers) do
   # self.perform_caching = true
-  self.root = false
-  ActiveModel::ArraySerializer.root = false
+  # self.root = true
+  # ActiveModel::ArraySerializer.root = true
   # ActiveModel::ArraySerializer.perform_caching = true
 end

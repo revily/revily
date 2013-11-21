@@ -59,14 +59,19 @@ module Authentication
 
   def authenticate_user!
     authenticate!(:user)
+    # sign_in :user, current_
   end
 
   def authenticate_service!
     authenticate!(:service)
+    # sign_in :service, current_service
   end
 
   def authenticate!(scope)
-    warden.authenticate!(scope: scope)
+    # current_actor = warden.authenticate!(scope: scope)
+    current_actor = warden.authenticate!(scope: scope)
+    # logger.info warden.user(scope: scope).inspect
+    # logger.info current_actor.inspect
     set_current_actor
     set_current_account
   end
@@ -80,7 +85,7 @@ module Authentication
   end
 
   def current_actor
-    @current_actor ||= (current_user || current_service || nil)
+    @current_actor #||= (current_user || current_service || nil)
   end
 
   def current_actor=(current_actor)

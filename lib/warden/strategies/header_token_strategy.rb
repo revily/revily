@@ -2,17 +2,23 @@ module Warden
   module Strategies
     class HeaderTokenStrategy < ::Warden::Strategies::Base
       def valid?
+        Rails.logger.info "[warden] trying header_token strategy"
+
         token_value.present?
       end
 
       def authenticate!
+        Rails.logger.info "[warden] using header_token strategy"
+
         klass = scope.to_s.classify.constantize
         resource = klass.find_by(authentication_token: token_value)
 
         if resource
+          Rails.logger.info "[warden] header_token authentication succeeded from #{request.ip}"
           success!(resource)
         else
-          fail!
+          Rails.logger.info "[warden] header_token authentication succeeded from #{request.ip}"
+          fail! message: "strategies.header_token.failed"
         end
       end
 

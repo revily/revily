@@ -1,11 +1,11 @@
 require "sidekiq/web"
 
 Revily::Application.routes.draw do
-  root to: "dashboard#index"
-  get "" => "dashboard#index", as: :dashboard
+  get "sink" => "dashboard#sink"
 
   use_doorkeeper
   mount ::Sidekiq::Web => "/sidekiq"
+  
   concern :eventable do
     resources :events, only: [ :index ]
   end
@@ -31,7 +31,7 @@ Revily::Application.routes.draw do
     scope "voice", as: "voice" do
       post ""         => "voice#index"
       post "receive"  => "voice#receive"
-      get "hangup"    => "voice#hangup"
+      get  "hangup"   => "voice#hangup"
       post "callback" => "voice#callback"
       post "fallback" => "voice#fallback"
     end
@@ -50,15 +50,12 @@ Revily::Application.routes.draw do
       get ""   => "root#index"
       get "me" => "root#me"
 
+      resource :registrations, only: [ :show, :create ]
+      resource :sessions, only: [ :new, :create, :destroy ]
+
       resources :services do
         concerns :eventable, :enableable
-        resources :incidents, only: [ :index, :new, :create ] do
-          # member do
-          # put "acknowledge"
-          # put "resolve"
-          # put "trigger"
-          # end
-        end
+        resources :incidents, only: [ :index, :new, :create ]
       end
 
       resources :incidents, only: [ :index, :show, :update, :destroy ] do
@@ -73,7 +70,7 @@ Revily::Application.routes.draw do
 
       resources :policies do
         concerns :eventable
-        resources :policy_rules, only: [ :index, :new, :create ] do
+        resources :policy_rules, only: [ :index, :show, :new, :create ] do
           collection do
             post :sort
           end
@@ -116,31 +113,34 @@ Revily::Application.routes.draw do
     end
   end
 
-  scope module: :web do
-    resources :events, only: [ :index, :show ]
-    resources :hooks, except: [ :new, :edit ]
-    resources :policies, except: [ :new, :edit ] do
-      resources :policy_rules, only: [ :create, :update, :destroy ]
-    end
-    resources :schedules, except: [ :new, :edit ] do
-      resources :schedule_layers, only: [ :create, :update, :destroy ]
-    end
-    resources :services, except: [ :new, :edit ] do
-      resources :incidents, only: [ :index, :show ]
-    end
-    resources :incidents, only: [ :index ]
-    resources :users, except: [ :new, :edit ] do
-      resources :contacts, only: [ :create, :update, :destroy ]
-    end
+  # scope module: :web do
+  #   resources :events, only: [ :index, :show ]
+  #   resources :hooks, except: [ :new, :edit ]
+  #   resources :policies, except: [ :new, :edit ] do
+  #     resources :policy_rules, only: [ :create, :update, :destroy ]
+  #   end
+  #   resources :schedules, except: [ :new, :edit ] do
+  #     resources :schedule_layers, only: [ :create, :update, :destroy ]
+  #   end
+  #   resources :services, except: [ :new, :edit ] do
+  #     resources :incidents, only: [ :index, :show ]
+  #   end
+  #   resources :incidents, only: [ :index ]
+  #   resources :users, except: [ :new, :edit ] do
+  #     resources :contacts, only: [ :create, :update, :destroy ]
+  #   end
+  #   resource :confirmations, only: [ :show ]
+  # end
 
-    resource :registrations, only: [ :show, :create ]
-    resource :sessions, only: [ :new, :create, :destroy ]
-    resource :confirmations, only: [ :show ]
+  # resource :registrations, only: [ :show, :create ]
+  # resource :sessions, only: [ :new, :create, :destroy ]
 
-    get   "sign_up"  => "registrations#new"
-    post  "sign_up"  => "registrations#create"
-    get   "sign_in"  => "sessions#new"
-    post  "sign_in"  => "sessions#create"
-    match "sign_out" => "sessions#destroy", via: [ :get, :delete ]
-  end
+  # get   "sign_up"  => "registrations#new"
+  # post  "sign_up"  => "registrations#create"
+  # get   "sign_in"  => "sessions#new"
+  # post  "sign_in"  => "sessions#create"
+  # match "sign_out" => "sessions#destroy", via: [ :get, :delete ]
+  root to: "dashboard#index"
+  get "" => "dashboard#index", as: :dashboard
+  get "*path" => "dashboard#index"
 end

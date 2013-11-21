@@ -1,38 +1,27 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Revily</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7 ]> <html class="ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Set the viewport width to device width for mobile -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-    <%= javascript_include_tag "bootstrap-ie" %>
-  <![endif]-->
+    <title>Revily</title>
 
-  <%= stylesheet_link_tag    "application", media: "all" %>
-  <!-- , "data-turbolinks-track" => true %> -->
-  <%= javascript_include_tag "application" %>
-  <!-- , "data-turbolinks-track" => true %> -->
-  <%= csrf_meta_tags %>
-</head>
-<body>
-  <div id="wrap">
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "vendor/custom.modernizr" %>
+    <%= csrf_meta_tags %>
+  </head>
 
-    <%= render "application/header" %>
-    <div id="main" class="container">
-      <%= render "application/flash" %>
-
-      <div class="row">
-        <div id="content" class="col-lg-12 col-sm-12">
-          <%= yield %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <%= render "application/footer" %>
-</body>
+  <body>
+    <%= javascript_include_tag "application" %>
+  </body>
 </html>

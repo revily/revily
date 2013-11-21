@@ -1,0 +1,62 @@
+<header>
+  {{!-- <nav class="top-bar" role="navigation"> --}}
+  <nav class="top-bar hide-for-small" role="navigation">
+    {{!-- title --}}
+    <ul class="title-area">
+      <li class="name">
+        <h1>
+          <a href="/">Revily</a>
+        </h1>
+      </li>
+      <li class="toggle-topbar menu-icon">
+        <a href="#">
+          <span>Menu</span>
+        </a>
+      </li>
+    </ul>
+    {{!-- end title --}}
+    {{!-- top nav --}}
+    {{#if session.isAuthenticated}}
+    <section class="top-bar-section">
+      <ul>
+        <li class="divider"></li>
+        <li>{{#linkTo 'incidents' }}Incidents{{/linkTo}}</li>
+        <li class="divider"></li>
+        <li>{{#linkTo 'services' }}Services{{/linkTo}}</li>
+        <li class="divider"></li>
+        <li>{{#linkTo 'policies' }}Policies{{/linkTo}}</li>
+        <li class="divider"></li>
+        <li>{{#linkTo 'schedules' }}Schedules{{/linkTo}}</li>
+        <li class="divider"></li>
+        <li>{{#linkTo 'users' }}Users{{/linkTo}}</li>
+        <li class="divider"></li>
+        <li>{{#linkTo 'events' }}Events{{/linkTo}}</li>
+        <li class="divider"></li>
+      </ul>
+    </section>
+    {{/if}}
+    <section class="top-bar-section">
+      <ul class="right">
+        <li class="divider"></li>
+        {{#if session.isAuthenticated}}
+        <li><a {{ action "logout"}}>Sign out</a></li>
+        {{else}}
+        <li><a {{ action "login"}}>Sign in</a></li>
+        {{/if}}
+        <li class="divider"></li>
+        {{!-- <li>{{#linkTo 'registrations.new'}}Sign Up{{/linkTo}}</li> --}}
+      </ul>
+    </section>
+    {{!-- end top nav --}}
+  </nav>
+</header>
+
+<section id="main" class="main">
+  <div class="row">
+    <div class="large-12 columns">
+      {{ outlet }}
+    </div>
+  </div>
+</section>
+
+<aside></aside>

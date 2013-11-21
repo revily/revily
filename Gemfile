@@ -15,7 +15,6 @@ gem "clockwork",                            "0.7.0",  require: false
 gem "dalli",                                "2.6.4"
 gem "doorkeeper",                           "0.7.3"
 gem "dotenv-rails",                         "0.9.0"
-gem "haml-rails"
 gem "highline",                             "1.6.20", require: false
 gem "ice_cube",                             "0.11.1"
 gem "kaminari",                             "0.14.1"
@@ -45,14 +44,14 @@ gem "warden",                               "1.2.3"
 # gem "incoming",                            "0.1.5"
 
 # web
-
-gem "bootstrap-sass-rails",                 "3.0.0.3"
 gem "coffee-rails"
 gem "ember-rails"
+gem "haml-rails"
 gem "jquery-rails"
 gem "sass-rails"
 gem "therubyracer"
 gem "uglifier"
+gem "zurb-foundation"
 
 group :development do
   gem "annotate",                           "2.5.0",  require: false

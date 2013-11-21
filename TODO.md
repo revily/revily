@@ -15,13 +15,14 @@
   - a last resort policy 
     - if the primary and secondary fail to ack
     - call everyone in the engineers group
-
+* move api namespace back to default / and...
+* move ember app to /web namespace
 
 
 * add oauth
   - rate limiting - https://github.com/applicake/doorkeeper/wiki/Rate-limit-with-Redis
   - admin superuser
-    - customize acts_as_tenant to allow admin to get to any account
+    - customize tenancy to allow admin to get to any account
 
 * add admin account
   - adding rails_admin support
@@ -32,6 +33,7 @@
 ## Refactor
 
 * move voice and sms controllers to separate, mountable apps (grape? vanilla sinatra?)
+  - part 1 done (moved to integration namespace)
 * redo handlers
   - event list and matchers are very slow
 * rewrite UserSchedule. look into caching values
@@ -46,7 +48,9 @@
 * sidekiq:
   - log job class
 
+## Bugs
 
+* warden trying password strategy twice (possibly related to default_scopes?)
 
 # DONE
 

@@ -20,6 +20,17 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  strategies:
+    password:
+      failed: "Wrong username or password."
+    doorkeeper:
+      failed: "Invalid access token."
+    header_token:
+      failed: "Invalid access token."
+
+  unauthorized:
+    user: "You are not authorized to perform this action."
+    
   date:
     formats:
       default: '%m/%d/%Y'
