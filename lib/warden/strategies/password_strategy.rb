@@ -3,7 +3,7 @@ module Warden
     class PasswordStrategy < ::Warden::Strategies::Base
 
       def valid?
-        Rails.logger.info "[warden] trying password strategy"
+        Rails.logger.debug "[warden] trying password strategy"
         return false if request.get?
         return false if (username.nil? || username.empty?)
         return false if (password.nil? || password.empty?)
@@ -14,12 +14,12 @@ module Warden
 
       def authenticate!
         user = User.find_by(email: username)
-        Rails.logger.info "[warden] using password strategy"
+        Rails.logger.debug "[warden] using password strategy"
         if user && user.authenticate(password)
-          Rails.logger.info "[warden] authentication succeeded from #{request.ip}"
+          Rails.logger.debug "[warden] authentication succeeded from #{request.ip}"
           success! user
         else
-          Rails.logger.info "[warden] authentication failed from #{request.ip}"
+          Rails.logger.debug "[warden] authentication failed from #{request.ip}"
           fail! message: "strategies.password.failed"
         end
       end

@@ -4,4 +4,4 @@ Revily.ServicesIndexRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRou
 
   setupController: (controller) ->
     controller.set("title", "Services")
-    # @_super
+    @_super

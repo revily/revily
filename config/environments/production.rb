@@ -79,5 +79,4 @@ Revily::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.action_mailer.default_url_options = { host: (ENV['MAILER_URL'] || 'example.com') }
-  config.ember.variant = :production
 end

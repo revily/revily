@@ -7,7 +7,6 @@
 #= require_self
 #= require revily
 
-
 # for more details see: http://emberjs.com/guides/application/
 window.Revily = Ember.Application.create
   LOG_TRANSITIONS: true
@@ -19,8 +18,6 @@ window.App =
 $ ->
   $(document).foundation();
 
-
-  # token = $('meta[name="csrf-token"]').attr('content')
   Ember.$.ajaxPrefilter (options, originalOptions, xhr) ->
     xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
 

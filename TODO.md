@@ -1,5 +1,6 @@
 ## Features
 
+* allow users and accounts to be enableable
 * add mail notifications
 * add email parsing
 * add flipper for setting features (https://github.com/jnunemaker/flipper)

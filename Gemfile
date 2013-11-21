@@ -44,14 +44,15 @@ gem "warden",                               "1.2.3"
 # gem "incoming",                            "0.1.5"
 
 # web
+# gem "bower-rails"
 gem "coffee-rails"
 gem "ember-rails"
 gem "haml-rails"
-gem "jquery-rails"
+# gem "jquery-rails"
 gem "sass-rails"
 gem "therubyracer"
 gem "uglifier"
-gem "zurb-foundation"
+# gem "zurb-foundation"
 
 group :development do
   gem "annotate",                           "2.5.0",  require: false

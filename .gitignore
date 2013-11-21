@@ -66,3 +66,7 @@ pickle-email-*.html
 .sublime-*
 .floo*
 /.bin
+
+# node modules
+/node_modules
+/vendor/assets/bower_components/

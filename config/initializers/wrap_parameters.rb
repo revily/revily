@@ -5,7 +5,7 @@
 
 # Enable parameter wrapping for JSON. You can disable this by setting :format to an empty array.
 ActiveSupport.on_load(:action_controller) do
-  wrap_parameters format: [] if respond_to?(:wrap_parameters)
+  wrap_parameters format: [ :json ] if respond_to?(:wrap_parameters)
 end
 
 # To enable root element in JSON for ActiveRecord objects.
@@ -15,7 +15,7 @@ end
 
 ActiveSupport.on_load(:active_model_serializers) do
   # self.perform_caching = true
-  # self.root = true
-  # ActiveModel::ArraySerializer.root = true
+  # self.root = false
+  # ActiveModel::ArraySerializer.root = false
   # ActiveModel::ArraySerializer.perform_caching = true
 end

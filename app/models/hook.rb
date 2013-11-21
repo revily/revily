@@ -53,6 +53,14 @@ class Hook < ActiveRecord::Base
     write_attribute(:events, Revily::Event::EventList.new([events]).events)
   end
 
+  def self.key
+    "account_hook"
+  end
+
+  def key
+    self.class.key
+  end
+
   private
 
   def handler_supports_events?

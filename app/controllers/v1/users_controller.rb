@@ -29,7 +29,7 @@ class V1::UsersController < V1::ApplicationController
     @user = users.new(user_params)
     @user.save
 
-    respond_with @user
+    respond_with :api, @user
   end
 
   def update

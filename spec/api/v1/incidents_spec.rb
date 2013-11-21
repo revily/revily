@@ -27,8 +27,8 @@ describe "incidents" do
       it "returns the correct record" do
         expect(last_response).to have_content_type :json
         expect(last_response).to respond_with :ok
-        expect(json["id"]).to eq incident.uuid
-        expect(json["message"]).to eq incident.message
+        expect(json["incident"]["id"]).to eq incident.uuid
+        expect(json["incident"]["message"]).to eq incident.message
       end
     end
   end
@@ -38,7 +38,7 @@ describe "incidents" do
     before { post "/api/services/#{service.uuid}/incidents", attributes.to_json }
 
     it "creates with the right attributes" do
-      incident = Incident.find_by(uuid: json["id"])
+      incident = Incident.find_by(uuid: json["incident"]["id"])
 
       expect(last_response).to have_content_type :json
       expect(last_response).to respond_with :created
