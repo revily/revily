@@ -2,9 +2,9 @@
 
 <div class="revily panel">
   {{#if errorMessage}}
-    <div class="alert-box radius alert revily" data-alert="true">
+    <div class="alert-box radius alert revily" data-alert>
       {{errorMessage}}
-      <a href="#" class="close">&times;</a>
+      <a class="close">&times;</a>
     </div>
   {{/if}}
   <form {{ action login on="submit" }}>

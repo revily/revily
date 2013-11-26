@@ -49,20 +49,7 @@ class Service < ActiveRecord::Base
   end
 
   def recalculate_health
-    current = case
-    when disabled?
-      "disabled"
-    when incident_counts.triggered > 0
-      "critical"
-    when incident_counts.acknowledged > 0
-      "warning"
-    when incident_counts.resolved >= 0
-      "ok"
-    else
-      "unknown"
-    end
-
-    update_attribute(:health, current)
+    update_attribute(:health, Service::HealthCheck.new(self).result)
   end
 
   class << self

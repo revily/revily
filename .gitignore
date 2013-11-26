@@ -70,3 +70,4 @@ pickle-email-*.html
 # node modules
 /node_modules
 /vendor/assets/bower_components/
+# /vendor/assets/components/

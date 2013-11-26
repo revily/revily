@@ -1,5 +1,8 @@
 #= require jquery
-#= require foundation
+#= require foundation/js/foundation.min
+#=# require foundation/js/foundation/foundation.alert
+#=# require foundation/js/foundation/foundation.topbar
+#= require moment
 #= require handlebars
 #= require ember
 #= require ember-data
@@ -21,5 +24,4 @@ $ ->
   Ember.$.ajaxPrefilter (options, originalOptions, xhr) ->
     xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
 
-  # Ember.$.ajaxPrefilter ->
-    
+# $(function(){ $(document).foundation(); });

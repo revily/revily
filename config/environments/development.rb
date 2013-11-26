@@ -30,12 +30,5 @@ Revily::Application.configure do
   config.action_mailer.default_url_options = { :host => ENV['MAILER_URL'] }
 
   config.action_controller.action_on_unpermitted_parameters = :log
-
-  # config.after_initialize do
-  #   Bullet.enable = true
-  #   Bullet.alert = true
-  #   Bullet.bullet_logger = true
-  #   Bullet.console = true
-  #   Bullet.rails_logger = true
-  # end
+  config.ember.variant = :development
 end

@@ -1,0 +1,18 @@
+<dl id="service-nav" class="sub-nav">
+  <dt>Filter:</dt>
+  {{#link-to "services.ok" tagName="dd" href=false}}
+    <a {{bindAttr href="view.href"}}>Ok</a>
+  {{/link-to}}
+  {{#link-to "services.warning" tagName="dd" href=false}}
+    <a {{bindAttr href="view.href"}}>Warning</a>
+  {{/link-to}}
+  {{#link-to "services.critical" tagName="dd" href=false}}
+    <a {{bindAttr href="view.href"}}>Critical</a>
+  {{/link-to}}
+  {{#link-to "services.enabled" tagName="dd" href=false}}
+    <a {{bindAttr href="view.href"}}>Enabled</a>
+  {{/link-to}}
+  {{#link-to "services.disabled" tagName="dd" href=false}}
+    <a {{bindAttr href="view.href"}}>Disabled</a>
+  {{/link-to}}
+</dl>

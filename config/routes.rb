@@ -1,8 +1,6 @@
 require "sidekiq/web"
 
 Revily::Application.routes.draw do
-  get "sink" => "dashboard#sink"
-
   use_doorkeeper
   mount ::Sidekiq::Web => "/sidekiq"
   

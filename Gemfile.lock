@@ -101,6 +101,9 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bluff (0.1.0)
+    bourbon (3.1.8)
+      sass (>= 3.2.0)
+      thor
     builder (3.1.4)
     bullet (4.7.1)
       activesupport
@@ -547,6 +550,7 @@ DEPENDENCIES
   bcrypt-ruby
   better_errors (= 1.0.1)
   binding_of_caller (= 0.7.2)
+  bourbon
   bullet (= 4.7.1)
   cane (= 2.6.1)
   capybara (= 2.1.0)

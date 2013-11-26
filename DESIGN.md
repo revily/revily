@@ -1,6 +1,18 @@
 # Design
 
-This document defines the actions present within each section.
+This document defines the actions present within each section. Each section follows a particular structure: 
+
+* a top-level section identifying the described resource
+* sections for each route identifying available actions
+
+    ```
+    ## Foos 
+
+    ### /foos
+      - list foos
+      - create a foo
+      - link to foo
+    ```
 
 ## Routes
 
@@ -26,14 +38,16 @@ This document defines the actions present within each section.
 - create a service
 
 ## Dashboard
-/dashboard
+
+### /
+
 - global state: banner at the top that identifies current health for all services
   at a glance
 - open incidents
+
 - all services?
 
 ## Incidents
-
 
 ### /incidents
 - list of all incidents

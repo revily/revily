@@ -44,9 +44,10 @@ gem "warden",                               "1.2.3"
 # gem "incoming",                            "0.1.5"
 
 # web
-# gem "bower-rails"
+gem "bourbon"
 gem "coffee-rails"
 gem "ember-rails"
+# gem "foundation-rails"
 gem "haml-rails"
 # gem "jquery-rails"
 gem "sass-rails"
