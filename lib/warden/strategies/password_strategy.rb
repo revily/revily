@@ -3,31 +3,41 @@ module Warden
     class PasswordStrategy < ::Warden::Strategies::Base
 
       def valid?
+        Rails.logger.debug "[warden] trying password strategy"
         return false if request.get?
-        !(email.blank? || password.blank?)
+        return false if (username.nil? || username.empty?)
+        return false if (password.nil? || password.empty?)
+
+        true
+        # !(email.blank? || password.blank?)
       end
 
       def authenticate!
-        user = User.find_by(email: email)
-        Rails.logger.info user.inspect
+        user = User.find_by(email: username)
+        Rails.logger.debug "[warden] using password strategy"
         if user && user.authenticate(password)
+          Rails.logger.debug "[warden] authentication succeeded from #{request.ip}"
           success! user
         else
-          Rails.logger.info user.inspect
+          Rails.logger.debug "[warden] authentication failed from #{request.ip}"
           fail! message: "strategies.password.failed"
         end
       end
 
-      def session_params
-        params.fetch("session", {})
+      def credentials
+        @credentials ||= begin
+          JSON.parse(request.body.read)
+        rescue JSON::ParserError
+          {}
+        end
       end
 
-      def email
-        session_params["email"]
+      def username
+        credentials["username"]
       end
 
       def password
-        session_params["password"]
+        credentials["password"]
       end
     end
   end

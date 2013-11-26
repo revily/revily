@@ -59,6 +59,10 @@ module Revily
         @jobs ||= hash_from_constant(Event::Job)
       end
 
+      def notifiers
+        @notifiers ||= hash_from_constant(Event::Notifier)
+      end
+
       def hooks
         @hooks ||= hash_from_constant(Event::Hook).values.uniq.map(&:new)
       end
@@ -96,7 +100,7 @@ module Revily
       def hash_from_constant(constant)
         Hash[constant.constants(false).map do |c|
           const = constant.const_get(c)
-          next if const.abstract?
+          next if const.try(:abstract?)
           [const.key, const]
         end.compact.sort].with_indifferent_access
       end
@@ -104,3 +108,10 @@ module Revily
     end
   end
 end
+
+# require "revily/event/hook"
+# require "revily/event/hook/incident_acknowledge"
+# require "revily/event/hook/incident_resolve"
+# require "revily/event/hook/incident_trigger"
+# require "revily/event/hook/log"
+# require "revily/event/hook/null"

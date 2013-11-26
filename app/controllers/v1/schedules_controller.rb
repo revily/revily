@@ -29,7 +29,7 @@ class V1::SchedulesController < V1::ApplicationController
     @schedule = schedules.new(schedule_params)
     @schedule.save
 
-    respond_with @schedule
+    respond_with :api, @schedule
   end
 
   def edit

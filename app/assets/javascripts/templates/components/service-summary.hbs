@@ -1,0 +1,56 @@
+ <div id="service-{{service.id}}" class="service panel clearfix">
+  <div class="row">
+
+    <div class="large-9 columns">
+
+      <h3>{{service.name}}</h3>
+      <div class="service-policy">
+        <strong>Policy:</strong>
+        <a href="">Operations</a>
+      </div>
+      <div class="service-health">
+        <strong>Health:</strong>
+        {{service.health}}
+      </div>
+
+    </div>
+
+    <div class="large-3 columns">
+
+      <div class="row right">
+        <div class="large-12 columns">
+          <div class="ui red label">
+            <i class="fi-x"></i> {{service.incidentCounts.triggered}}
+          </div>
+        </div>
+      </div>
+      <div class="row right">
+        <div class="large-12 columns">
+          <div class="ui orange label">
+            <i class="fi-flag"></i> {{service.incidentCounts.acknowledged}}
+          </div> 
+        </div>
+      </div>
+      <div class="row right">
+        <div class="large-12 columns">
+          <div class="ui green label">
+            <i class="fi-check"></i> {{service.incidentCounts.resolved}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{{!--   
+  <div class="service-acknowledge-timeout">
+    <strong>Acknowledge Timeout:</strong>
+    {{service.formattedAcknowledgeTimeout}}
+  </div>
+  <div class="service-auto-resolve-timeout">
+    <strong>Auto-Resolve Timeout:</strong>
+    {{service.formattedAutoResolveTimeout}}
+  </div> --}}
+{{!-- </div> --}}

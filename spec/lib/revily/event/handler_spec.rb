@@ -1,34 +1,46 @@
 require "unit_helper"
+# require "revily/event"
+require "revily/event/handler"
 
-class MockHandler < Revily::Event::Handler
-  def handle
-    run Revily::Event::Job::Null
-  end
-end
+# class MockHandler < Revily::Event::Handler
+#   events []
+#   def handle
+#     run Revily::Event::Job::Null
+#   end
+# end
 
-describe Revily::Event::Handler do
-  stub_events
+module Revily::Event
+  describe Handler do
+    stub_events
 
-  let(:handler) { MockHandler }
-  let(:event_list) { double("Revily::Event::EventList") }
-  let(:matcher) { double("Revily::Event::Matcher") }
-  let(:job) { double("Revily::Event::Job::Null") }
-
-  before do
-    handler.events = []
+    class MockHandler < Revily::Event::Handler
+      # events []
+      def handle
+        run Revily::Event::Job::Null
+      end
+    end
   end
 
   describe ".events" do
+    let(:handler) { MockHandler }
+    let(:event_list) { double("Revily::Event::EventList") }
+    let(:job) { double("Revily::Event::Job::Null") }
+
+    before do
+      handler.events = []
+    end
+
     it "defaults to empty array" do
       expect(handler.events).to eq []
     end
 
-    it "with no args" do
+    it "using setter" do
       handler.events = %w[ incident.trigger ]
       expect(handler.events).to match_array %w[ incident.trigger ]
     end
 
     it "with args" do
+      puts EventList.new("incident.trigger", "incident.acknowledge").events.inspect
       handler.events %w[ incident.trigger incident.acknowledge ]
       expect(handler.events).to match_array %w[ incident.trigger incident.acknowledge ]
     end
@@ -54,6 +66,14 @@ describe Revily::Event::Handler do
   end
 
   describe ".supports?" do
+    let(:handler) { MockHandler }
+    let(:event_list) { double("Revily::Event::EventList") }
+    let(:job) { double("Revily::Event::Job::Null") }
+
+    before do
+      handler.events = []
+    end
+
     it "supports supported event" do
       handler.events "incident.trigger", "incident.resolve"
       expect(handler).to support_event("incident.trigger")
@@ -117,31 +137,29 @@ describe Revily::Event::Handler do
     let(:config) { { foo: "bar", baz: "quz" } }
     let(:options) { { event: event, source: source, config: config } }
     let(:handler) { MockHandler.new(options) }
-    let(:job) { Revily::Event::Job::Null }
+    let(:job) { double("Revily::Event::Job::Null") }
 
     before do
       allow(job).to receive(:run)
     end
 
-    pending do
-      context "handle? is true" do
-        before do
-          allow(handler).to receive(:handle?).and_return(true)
-        end
-
-        it "handles the job" do
-          expect(job).to have_received(:run)
-        end
+    context "handle? is true", :pending do
+      before do
+        allow(handler).to receive(:handle?).and_return(true)
       end
 
-      context "handle? is false" do
-        before do
-          handler.stub(:handle? => false)
-        end
+      it "handles the job" do
+        expect(job).to have_received(:run)
+      end
+    end
 
-        it "does not handle the job" do
-          expect(handler).to_not_receive(:notify)
-        end
+    context "handle? is false" do
+      before do
+        handler.stub(:handle? => false)
+      end
+
+      it "does not handle the job" do
+        expect(job).to_not have_received(:run)
       end
     end
   end

@@ -32,7 +32,7 @@ class V1::ServicesController < V1::ApplicationController
     @service = services.new(service_params)
     @service.save
 
-    respond_with @service
+    respond_with :api, @service
   end
 
   def update

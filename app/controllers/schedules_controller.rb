@@ -1,2 +1,0 @@
-class SchedulesController < ApplicationController
-end

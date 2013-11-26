@@ -1,0 +1,64 @@
+<div class="contain-to-grid fixed">
+  <nav class="top-bar" data-topbar role="navigation">
+    {{!-- title --}}
+    <ul class="title-area">
+      <li class="name">
+        <h1>
+          {{#link-to "dashboard"}}revi.ly{{/link-to}}
+        </h1>
+      </li>
+      <li class="toggle-topbar menu-icon">
+        <a href="#"><span>Menu</span></a>
+      </li>
+    </ul>{{!-- end title --}} {{!-- top nav --}} {{#if session.isAuthenticated}}
+    <section class="top-bar-section">
+      <ul>
+        <li>{{#linkTo 'incidents' }}Incidents{{/linkTo}}
+        </li>
+        <li>{{#linkTo 'services' }}Services{{/linkTo}}
+        </li>
+        <li>{{#linkTo 'policies' }}Policies{{/linkTo}}
+        </li>
+        <li>{{#linkTo 'schedules' }}Schedules{{/linkTo}}
+        </li>
+        <li>{{#linkTo 'users' }}Users{{/linkTo}}
+        </li>
+        <li>{{#linkTo 'events' }}Events{{/linkTo}}
+        </li>
+      </ul>
+    </section>{{/if}}
+    <section class="top-bar-section">
+      <ul class="right">
+        <li style="list-style: none">{{#if session.isAuthenticated}}
+        </li>
+        <li>
+          <a action="logout&quot;}}">Sign out</a>
+        </li>
+        <li style="list-style: none">{{else}}
+        </li>
+        <li>
+          <a action="login&quot;}}">Sign in</a>
+        </li>
+        <li style="list-style: none">{{/if}}
+        </li>
+        <li style="list-style: none">{{!--
+        </li>
+        <li>{{#linkTo 'registrations.new'}}Sign Up{{/linkTo}}
+        </li>
+        <li style="list-style: none">--}}
+        </li>
+      </ul>
+    </section>{{!-- end top nav --}}
+  </nav>
+</div>
+
+<section id="main" class="main-content" role="main">
+  <div class="row">
+    <div class="large-12 columns">
+      {{ outlet }}
+    </div>
+  </div>
+</section>
+
+<aside>
+</aside>

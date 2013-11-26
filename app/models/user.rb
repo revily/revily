@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   include EventActor
   include Publication
   include Tenancy::ResourceScope
-  
+
   # @!group Events
   actions :create, :update, :delete
   # @!endgroup
@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   # @!group Attributes
   accepts_nested_attributes_for :account
   # @!endgroup
-  
+
   # @!group Validations
   validates :account, presence: true
   validates :name, presence: true, allow_blank: false
@@ -40,13 +40,12 @@ class User < ActiveRecord::Base
   private
 
   def ensure_authentication_token
-    loop do
-      token = SecureRandom.urlsafe_base64
-      unless User.where(authentication_token: token).any?
-        write_attribute(:authentication_token, token)
-        break
-      end
-    end
+    return if self.uuid?
+
+    write_attribute(
+      :authentication_token,
+      Revily::Helpers::UniqueToken.generate_token_for(self, :authentication_token, type: :hex, length: 64)
+    )
   end
 
 end

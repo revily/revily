@@ -1,0 +1,41 @@
+.ui.button {
+  @include button($button-med, #FAFAFA, 0.25em, true, true, true);
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05));
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  -webkit-transition:
+    opacity 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease
+  ;
+  -moz-transition:
+    opacity 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease
+  ;
+  -o-transition:
+    opacity 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease
+  ;
+  -ms-transition:
+    opacity 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease
+  ;
+  transition:
+    opacity 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease
+  ;
+}

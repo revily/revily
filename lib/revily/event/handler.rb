@@ -1,3 +1,11 @@
+require "metriks"
+
+require "revily/model"
+require "revily/event/handler_mixin"
+require "revily/event/handler_serializer"
+require "revily/event/event_list"
+require "revily/event/payload"
+
 module Revily
   module Event
     class Handler
@@ -11,8 +19,6 @@ module Revily
       autoload :Web,                 "revily/event/handler/web"
 
       include Revily::Model
-      include Revily::Log
-      
       include HandlerMixin
 
       # @!attribute [rw] event
@@ -55,16 +61,16 @@ module Revily
         end
 
         def events(*events)
+          @events ||= []
           return @events unless events.present?
           matched_events ||= Event::EventList.new(events).events
-          @events ||= []
           @events.concat(matched_events).uniq! unless matched_events.blank?
 
           return @events
         end
 
         def supports?(*patterns)
-          matches = Event::EventList.new(patterns).events
+          matches = EventList.new(*patterns).events
 
           return false if matches.empty?
           matches.all? {|match| events.include?(match) }
@@ -72,6 +78,7 @@ module Revily
         alias_method :matches?, :supports?
         alias_method :support?, :supports?
       end
+
 
       def supports?(pattern)
         self.class.supports?(pattern)

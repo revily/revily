@@ -1,5 +1,8 @@
 require "unit_helper"
 
-describe Revily::Model do
+require "revily/model"
 
+module Revily
+  describe Model do
+  end
 end

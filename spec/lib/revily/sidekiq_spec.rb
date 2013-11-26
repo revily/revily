@@ -1,5 +1,8 @@
 require "unit_helper"
+require "revily/sidekiq"
 
-describe Revily::Sidekiq do
+module Revily
+  describe Sidekiq do
 
+  end
 end

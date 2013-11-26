@@ -1,0 +1,13 @@
+// Globals
+$global-radius: 5px;
+
+// Includes
+$include-html-panel-classes: false;
+$include-html-button-classes: false;
+$include-html-alert-classes: false;
+$include-html-label-classes: false;
+
+// Foundation
+@import "foundation-icons";
+@import "foundation/scss/normalize";
+@import "foundation/scss/foundation";

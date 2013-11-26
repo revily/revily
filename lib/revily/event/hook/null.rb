@@ -1,3 +1,5 @@
+require "revily/event/hook"
+
 module Revily
   module Event
     class Hook

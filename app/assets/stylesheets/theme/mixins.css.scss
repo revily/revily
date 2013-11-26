@@ -1,0 +1,3 @@
+@mixin border-box {
+  @include box-sizing(border-box);
+}

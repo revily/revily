@@ -1,0 +1,27 @@
+#= require jquery
+#= require foundation/js/foundation.min
+#=# require foundation/js/foundation/foundation.alert
+#=# require foundation/js/foundation/foundation.topbar
+#= require moment
+#= require handlebars
+#= require ember
+#= require ember-data
+#= require ember-simple-auth
+#= require_self
+#= require revily
+
+# for more details see: http://emberjs.com/guides/application/
+window.Revily = Ember.Application.create
+  LOG_TRANSITIONS: true
+
+window.App =
+  client_id: "<%= ENV['REVILY_API_CLIENT_ID'] %>"
+  client_secret: "<%= ENV['REVILY_API_CLIENT_SECRET'] %>"
+
+$ ->
+  $(document).foundation();
+
+  Ember.$.ajaxPrefilter (options, originalOptions, xhr) ->
+    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+
+# $(function(){ $(document).foundation(); });

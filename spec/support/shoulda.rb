@@ -1,3 +1,7 @@
+require 'shoulda/matchers/version'
+require 'shoulda/matchers/assertion_error'
+require 'shoulda/matchers/rails_shim'
+
 RSpec.configure do |config|
   if defined?(::ActiveRecord)
     require "shoulda/matchers/active_record"

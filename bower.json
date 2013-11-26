@@ -1,0 +1,26 @@
+{
+  "name": "revily-api",
+  "version": "1.0.0",
+  "homepage": "https://github.com/revily/revily",
+  "authors": [
+    "Dan Ryan <dan@appliedawesome.com>"
+  ],
+  "description": "Revily Web UI",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ember-simple-auth": "~ 0.0.8",
+    "foundation": "zurb/bower-foundation",
+    "jquery": "~ 2.0.3",
+    "moment": "~ 2.4.0",
+    "underscore": "~ 1.5.2"
+  }
+}

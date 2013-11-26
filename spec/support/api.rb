@@ -7,7 +7,7 @@ module APIHelpers
   include ::JsonSpec::Helpers
 
   included do
-    metadata[:api] = true
+    metadata[:type] = :api
 
     before do
       header "Content-Type", "application/json"
@@ -46,6 +46,6 @@ RSpec.configure do |config|
   end
 
   config.include APIHelpers,
-    type: :request,
-    example_group: { file_path: config.escaped_path(%w[spec (requests|integration|api)]) }
+    # type: :request,
+    example_group: { file_path: config.escaped_path(%w[spec (api)]) }
 end

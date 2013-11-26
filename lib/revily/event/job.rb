@@ -1,3 +1,6 @@
+require "revily/model"
+require "revily/sidekiq"
+
 module Revily
   module Event
     class Job

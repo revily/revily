@@ -13,7 +13,7 @@ class Event < ActiveRecord::Base
   # @!endgroup
 
   # @!group Callbacks
-  after_commit :publish, on: :create
+  # after_commit :publish, on: :create
   # @!endgroup
 
   # @!group Scopes

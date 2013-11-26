@@ -66,7 +66,7 @@ module Authentication
   end
 
   def authenticate!(scope)
-    warden.authenticate!(scope: scope)
+    @current_actor = warden.authenticate!(scope: scope)
     set_current_actor
     set_current_account
   end
@@ -80,7 +80,7 @@ module Authentication
   end
 
   def current_actor
-    @current_actor ||= (current_user || current_service || nil)
+    @current_actor #||= (current_user || current_service || nil)
   end
 
   def current_actor=(current_actor)

@@ -1,0 +1,11 @@
+.revily.alert-box {
+  // @include alert-base;
+  @include alert(#6ECFF5, true);
+  // @include radius(5px);
+
+  &.success { @include alert-style(#89B84C)}
+  &.alert { @include alert-style(#D95C5C) }
+  &.secondary { @include alert-style(#5C6166)}
+}
+
+.revily {}

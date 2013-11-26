@@ -1,6 +1,5 @@
 require "active_support/concern"
 require "active_model_serializers"
-require "revily/helpers/unique_token"
 
 module Identity
   extend ActiveSupport::Concern

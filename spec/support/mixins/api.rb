@@ -62,6 +62,6 @@ module API
 end
 
 RSpec.configure do |config|
-  config.extend API::Service, api: true
-  config.extend API::User, api: true
+  config.extend API::Service, type: :api
+  config.extend API::User, type: :api
 end

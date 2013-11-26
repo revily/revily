@@ -1,0 +1,50 @@
+
+
+<div class="revily panel">
+  {{#if errorMessage}}
+    <div class="alert-box radius alert revily" data-alert>
+      {{errorMessage}}
+      <a class="close">&times;</a>
+    </div>
+  {{/if}}
+  <form {{ action login on="submit" }}>
+  {{!--   <fieldset>
+      <legend>Login</legend>
+    </fieldset> --}}
+    <div class="row">
+      <div class="small-12 large-centered columns">
+        <div class="row">
+          <div class="small-3 columns">
+            <label for="username" class="right inline">Email</label>
+          </div>
+          <div class="small-9 columns">
+            {{ view Ember.TextField id="identification" valueBinding="identification" placeholder="foo@example.com" name="username"}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 large-centered columns">
+        <div class="row">
+          <div class="small-3 columns">
+            <label for="password" class="right inline">Password</label>
+          </div>
+          <div class="small-9 columns">
+    {{ view Ember.TextField id="password" type="password" valueBinding="password" placeholder="********" }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 large-centered columns">
+        <div class="row">
+          <div class="small-3 columns">
+          </div>
+          <div class="small-9 columns">
+            <button type="submit" class="button">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
