@@ -10,45 +10,31 @@
       <li class="toggle-topbar menu-icon">
         <a href="#"><span>Menu</span></a>
       </li>
-    </ul>{{!-- end title --}} {{!-- top nav --}} {{#if session.isAuthenticated}}
+    </ul>
+    {{!-- end title --}}
+    {{!-- top nav --}}
+    {{#if session.isAuthenticated}}
     <section class="top-bar-section">
       <ul>
-        <li>{{#linkTo 'incidents' }}Incidents{{/linkTo}}
-        </li>
-        <li>{{#linkTo 'services' }}Services{{/linkTo}}
-        </li>
-        <li>{{#linkTo 'policies' }}Policies{{/linkTo}}
-        </li>
-        <li>{{#linkTo 'schedules' }}Schedules{{/linkTo}}
-        </li>
-        <li>{{#linkTo 'users' }}Users{{/linkTo}}
-        </li>
-        <li>{{#linkTo 'events' }}Events{{/linkTo}}
-        </li>
+        <li>{{#link-to 'incidents'}}Incidents{{/link-to}}</li>
+        <li>{{#link-to 'services'}}Services{{/link-to}}</li>
+        <li>{{#link-to 'policies'}}Policies{{/link-to}}</li>
+        <li>{{#link-to 'schedules'}}Schedules{{/link-to}}</li>
+        <li>{{#link-to 'users'}}Users{{/link-to}}</li>
+        <li>{{#link-to 'events'}}Events{{/link-to}}</li>
       </ul>
-    </section>{{/if}}
+    </section>
+    {{/if}}
     <section class="top-bar-section">
       <ul class="right">
-        <li style="list-style: none">{{#if session.isAuthenticated}}
-        </li>
-        <li>
-          <a action="logout&quot;}}">Sign out</a>
-        </li>
-        <li style="list-style: none">{{else}}
-        </li>
-        <li>
-          <a action="login&quot;}}">Sign in</a>
-        </li>
-        <li style="list-style: none">{{/if}}
-        </li>
-        <li style="list-style: none">{{!--
-        </li>
-        <li>{{#linkTo 'registrations.new'}}Sign Up{{/linkTo}}
-        </li>
-        <li style="list-style: none">--}}
-        </li>
+        {{#if session.isAuthenticated}}
+          <li><a {{action "logout"}}>Sign out</a></li>
+        {{else}}
+          <li><a {{action "login"}}>Sign in</a></li>
+        {{/if}}
       </ul>
-    </section>{{!-- end top nav --}}
+    </section>
+    {{!-- end top nav --}}
   </nav>
 </div>
 

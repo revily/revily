@@ -17,10 +17,17 @@
     "tests"
   ],
   "dependencies": {
+    "bower": "*",
+    "ember": "~ 1.2.0",
+    "ember-data": "~ 1.0.0-beta.3",
     "ember-simple-auth": "~ 0.0.8",
     "foundation": "zurb/bower-foundation",
+    "handlebars": "*",
     "jquery": "~ 2.0.3",
     "moment": "~ 2.4.0",
     "underscore": "~ 1.5.2"
+  },
+  "resolutions": {
+    "ember": "~ 1.2.0"
   }
 }

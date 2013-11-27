@@ -8,9 +8,6 @@
     </div>
   {{/if}}
   <form {{ action login on="submit" }}>
-  {{!--   <fieldset>
-      <legend>Login</legend>
-    </fieldset> --}}
     <div class="row">
       <div class="small-12 large-centered columns">
         <div class="row">
@@ -30,7 +27,7 @@
             <label for="password" class="right inline">Password</label>
           </div>
           <div class="small-9 columns">
-    {{ view Ember.TextField id="password" type="password" valueBinding="password" placeholder="********" }}
+            {{ view Ember.TextField id="password" type="password" valueBinding="password" placeholder="********" }}
           </div>
         </div>
       </div>

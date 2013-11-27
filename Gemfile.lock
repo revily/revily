@@ -90,10 +90,6 @@ GEM
       descendants_tracker (~> 0.0.1)
       ice_nine (~> 0.9)
     backports (3.3.5)
-    barber (0.4.2)
-      ember-source
-      execjs
-      handlebars-source
     bcrypt-ruby (3.1.2)
     better_errors (1.0.1)
       coderay (>= 1.0.0)
@@ -164,19 +160,6 @@ GEM
     email_spec (1.5.0)
       launchy (~> 2.1)
       mail (~> 2.2)
-    ember-data-source (0.14)
-      ember-source
-    ember-rails (0.14.0)
-      active_model_serializers
-      barber (>= 0.4.1)
-      ember-data-source
-      ember-source
-      execjs (>= 1.2)
-      handlebars-source
-      jquery-rails (>= 1.0.17)
-      railties (>= 3.1)
-    ember-source (1.1.2)
-      handlebars-source (= 1.0.12)
     equalizer (0.0.7)
     erubis (2.7.0)
     execjs (2.0.2)
@@ -222,7 +205,10 @@ GEM
       activesupport (>= 3.1, < 4.1)
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
-    handlebars-source (1.0.12)
+    handlebars_assets (0.14.1)
+      execjs (>= 1.2.9)
+      sprockets (>= 2.0.3)
+      tilt
     hashr (0.0.22)
     highline (1.6.20)
     hike (1.2.3)
@@ -561,7 +547,6 @@ DEPENDENCIES
   doorkeeper (= 0.7.3)
   dotenv-rails (= 0.9.0)
   email_spec (= 1.5.0)
-  ember-rails
   factory_girl_rails (= 4.2.1)
   foreman (= 0.63.0)
   forgery (= 0.5.0)
@@ -570,6 +555,7 @@ DEPENDENCIES
   guard-shell (= 0.5.1)
   guard-spork (= 1.5.1)
   haml-rails
+  handlebars_assets
   highline (= 1.6.20)
   ice_cube (= 0.11.1)
   json_spec (= 1.1.1)
