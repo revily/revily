@@ -1,6 +1,13 @@
-Revily.ServicesController = Ember.ArrayController.extend()
+Revily.ServicesController = Ember.ArrayController.extend
+  isOk: Ember.computed.equal "health", "ok"
+  isWarning: Ember.computed.equal "health", "warning"
+  isCritical: Ember.computed.equal "health", "critical"
+
+  isEnabled: Ember.computed.equal "state", "enabled"
+  isDisabled: Ember.computed.equal "state", "disabled"
 
 Revily.ServicesIndexController = Revily.ServicesController.extend()
+
   # services: ->
   #   @store.find("service")
 

@@ -5,7 +5,7 @@ Ember.Application.initializer
     Ember.SimpleAuth.setup container, application,
       serverTokenEndpoint: "/oauth/token"
       # loginRoute: "sign_in"
-      routeAfterLogin: "dashboard"
+      routeAfterLogin: "index"
       routeAfterLogout: "login"
 
 # Ember.Application.initializer
@@ -19,3 +19,5 @@ Ember.Application.initializer
 #         console.log(user)
 #         controller = container.lookup("controllers:currentUser").set("content", user)
 #         container.typeInjection("controller", "currentUser", "controller:currentUser")
+
+Revily.AuthenticatedRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin

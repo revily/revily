@@ -1,7 +1,45 @@
-{{#each}}
-  {{service-summary service=this }}
-{{else}}
-  <div class="panel">
-    <span class="muted">None</span>
-  </div>
-{{/each}}
+<dl id="service-nav" class="sub-nav">
+  <dt>Filter:</dt>
+  {{#link-to "services.index" tagName="dd"}}
+    {{#link-to "services.index"}}All{{/link-to}}
+  {{/link-to}}
+  {{#link-to "services.ok" tagName="dd"}}
+    {{#link-to "services.ok"}}Ok{{/link-to}}
+  {{/link-to}}
+  {{#link-to "services.warning" tagName="dd"}}
+    {{#link-to "services.warning"}}Warning{{/link-to}}
+  {{/link-to}}
+  {{#link-to "services.critical" tagName="dd"}}
+    {{#link-to "services.critical"}}Critical{{/link-to}}
+  {{/link-to}}
+</dl>
+
+<div class="services list">
+  {{#each}}
+    <div class="row">
+      <div class="small-12 columns service item">
+        <div class="row">
+          <div class="small-2 medium-1 columns">
+            <div class="item-icon">
+              <i {{bind-attr class=":fa :icon-inner healthIconClass health"}}></i>
+            </div>
+          </div>
+          <div class="small-10 medium-11 columns">
+            <h3>
+              {{#link-to "services.show" id}}
+                {{name}}
+              {{/link-to}}
+            </h3>
+            Policy: {{#link-to "policies.show" policy}}{{policy.name}}{{/link-to}}          
+          </div>
+        </div>
+      </div>
+    </div>
+  {{else}}
+    <div class="panel">
+      <span class="secondary">None</span>
+    </div>
+  {{/each}}
+</div>
+
+

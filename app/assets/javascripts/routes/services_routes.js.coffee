@@ -1,12 +1,9 @@
-Revily.ServicesRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin,
+Revily.ServicesIndexRoute = Revily.AuthenticatedRoute.extend
   model: ->
     @store.find("service")
 
-# Revily.ServicesIndexRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin,
-Revily.ServicesIndexRoute = Revily.ServicesRoute.extend
   setupController: (controller, model) ->
     controller.set("model", model)
-    # console.log @controllerFor("services").get("ok")
 
   renderTemplate: (controller) ->
     @render "services/index", { controller: controller }
@@ -22,6 +19,10 @@ Revily.ServicesWarningRoute = Revily.ServicesIndexRoute.extend
 Revily.ServicesCriticalRoute = Revily.ServicesIndexRoute.extend
   setupController: (controller, model) ->
     controller.set "model", model.filterBy("health", "critical")
+
+Revily.ServicesShowRoute = Revily.AuthenticatedRoute.extend
+  model: (params) ->
+    @store.find("service", params.service_id)
 
 #   setupController: (controller, model) ->
 #     console.log controller.ok

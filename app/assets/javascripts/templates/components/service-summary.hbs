@@ -1,8 +1,9 @@
- <div id="service-{{service.id}}" class="service panel clearfix">
+ <div id="service-{{service.id}}" class="service-summary panel">
   <div class="row">
 
     <div class="large-9 columns">
 
+      {{!-- <h3>{{link-to 'services.show' service.id}}{{service.name}}{{link-to}}</h3> --}}
       <h3>{{service.name}}</h3>
       <div class="service-policy">
         <strong>Policy:</strong>
@@ -16,41 +17,19 @@
     </div>
 
     <div class="large-3 columns">
-
-      <div class="row right">
-        <div class="large-12 columns">
-          <div class="ui red label">
-            <i class="fi-x"></i> {{service.incidentCounts.triggered}}
-          </div>
-        </div>
-      </div>
-      <div class="row right">
-        <div class="large-12 columns">
-          <div class="ui orange label">
-            <i class="fi-flag"></i> {{service.incidentCounts.acknowledged}}
-          </div> 
-        </div>
-      </div>
-      <div class="row right">
-        <div class="large-12 columns">
-          <div class="ui green label">
-            <i class="fi-check"></i> {{service.incidentCounts.resolved}}
-          </div>
-        </div>
+      <div class="service-incident-counts right">
+        <span class="alert">
+          <i class="fa fa-times-circle"></i> {{service.incidentCounts.triggered}}
+        </span>
+        <span class="warning">
+          <i class="fa fa-exclamation-circle"></i> {{service.incidentCounts.acknowledged}}
+        </span> 
+        <span class="success">
+          <i class="fa fa-check-circle"></i> {{service.incidentCounts.resolved}}
+        </span>
       </div>
 
     </div>
 
   </div>
 </div>
-
-{{!--   
-  <div class="service-acknowledge-timeout">
-    <strong>Acknowledge Timeout:</strong>
-    {{service.formattedAcknowledgeTimeout}}
-  </div>
-  <div class="service-auto-resolve-timeout">
-    <strong>Auto-Resolve Timeout:</strong>
-    {{service.formattedAutoResolveTimeout}}
-  </div> --}}
-{{!-- </div> --}}

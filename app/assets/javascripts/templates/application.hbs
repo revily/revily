@@ -1,10 +1,10 @@
-<div class="contain-to-grid fixed">
+<div class="contain-to-grid">
   <nav class="top-bar" data-topbar role="navigation">
     {{!-- title --}}
     <ul class="title-area">
       <li class="name">
         <h1>
-          {{#link-to "dashboard"}}revi.ly{{/link-to}}
+          {{#link-to "index"}}revi.ly{{/link-to}}
         </h1>
       </li>
       <li class="toggle-topbar menu-icon">
@@ -16,12 +16,24 @@
     {{#if session.isAuthenticated}}
     <section class="top-bar-section">
       <ul>
-        <li>{{#link-to 'incidents'}}Incidents{{/link-to}}</li>
-        <li>{{#link-to 'services'}}Services{{/link-to}}</li>
-        <li>{{#link-to 'policies'}}Policies{{/link-to}}</li>
-        <li>{{#link-to 'schedules'}}Schedules{{/link-to}}</li>
-        <li>{{#link-to 'users'}}Users{{/link-to}}</li>
-        <li>{{#link-to 'events'}}Events{{/link-to}}</li>
+        {{#link-to "incidents" tagName="li"}}
+          {{#link-to "incidents"}}Incidents{{/link-to}}
+        {{/link-to}}
+        {{#link-to "services" tagName="li"}}
+          {{#link-to "services"}}Services{{/link-to}}
+        {{/link-to}}
+        {{#link-to "policies" tagName="li"}}
+          {{#link-to "policies"}}Policies{{/link-to}}
+        {{/link-to}}
+        {{#link-to "schedules" tagName="li"}}
+          {{#link-to "schedules"}}Schedules{{/link-to}}
+        {{/link-to}}
+        {{#link-to "users" tagName="li"}}
+          {{#link-to "users"}}Users{{/link-to}}
+        {{/link-to}}
+        {{#link-to "events" tagName="li"}}
+          {{#link-to "events"}}Events{{/link-to}}
+        {{/link-to}}
       </ul>
     </section>
     {{/if}}

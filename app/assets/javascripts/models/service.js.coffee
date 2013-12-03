@@ -16,3 +16,12 @@ Revily.Service = DS.Model.extend
   formattedAutoResolveTimeout: (->
     moment.duration(@get("autoResolveTimeout"), "minutes").humanize()
   ).property("autoResolveTimeout")
+
+  healthIconClass: (->
+    switch @get("health")
+      when "ok" then "fa-check-circle"
+      when "warning" then "fa-exclamation-circle"
+      when "critical" then "fa-times-circle"
+      when "disabled" then "fa-minus-circle"
+      else "fa-question-circle"
+  ).property("health")

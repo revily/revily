@@ -1,8 +1,39 @@
 @import "theme/functions";
 @import "theme/mixins";
-@import "theme/colors";
 @import "theme/foundation_and_overrides";
+@import "theme/colors";
 @import "theme/alerts";
 @import "theme/buttons";
 @import "theme/labels";
 @import "theme/panels";
+@import "theme/icons";
+@import "theme/type";
+
+.services.list {
+  & .service.item {
+    & .item-icon {
+      display:inline-block;
+      font-size: 4rem;
+      line-height: 2.2;
+      text-align: center;
+      vertical-align: bottom;
+
+
+      @media #{$small-only} {
+        font-size: 2rem;
+        line-height: 2.2;
+      }
+      @media #{$medium-only} {
+        font-size: 3rem;
+        line-height: 2.2;
+      }
+    }
+  }
+}
+
+    .service.item:nth-of-type(odd) {
+      color: $green;
+      background-color: shade(#fff, 5%);
+    }
+  // }
+// }

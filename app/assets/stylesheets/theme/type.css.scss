@@ -1,0 +1,9 @@
+span {
+  &.alert { color: $alert-color }
+  &.warning { color: $warning-color }
+  &.success { color: $success-color }
+  &.info { color: $info-color }
+  &.secondary { color: $secondary-color }
+}
+
+

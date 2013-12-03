@@ -1,13 +1,17 @@
 // Globals
 $global-radius: 5px;
+$body-bg: #fafafa;
 
 // Includes
-$include-html-panel-classes: false;
+$include-html-panel-classes:  false;
 $include-html-button-classes: false;
-$include-html-alert-classes: false;
-$include-html-label-classes: false;
+$include-html-alert-classes:  false;
+$include-html-label-classes:  false;
 
 // Foundation
 @import "foundation-icons";
 @import "foundation/scss/normalize";
 @import "foundation/scss/foundation";
+
+// Font Awesome
+$fa-font-path: font-url("/vendor/assets/components/font-awesome/fonts")
