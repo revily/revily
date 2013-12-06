@@ -1,0 +1,61 @@
+
+
+<div class="row">
+  <div class="small-12 medium-3 columns left">
+    {{ partial "services/sidebar" }}
+  </div>
+  <div class="small-12 medium-9 columns right">
+    <dl id="service-nav" class="sub-nav hide-for-small-only">
+      <dt>Filter:</dt>
+      {{#link-to "services.index" tagName="dd"}}
+        {{#link-to "services.index"}}All{{/link-to}}
+      {{/link-to}}
+      {{#link-to "services.ok" tagName="dd"}}
+        {{#link-to "services.ok"}}Ok{{/link-to}}
+      {{/link-to}}
+      {{#link-to "services.warning" tagName="dd"}}
+        {{#link-to "services.warning"}}Warning{{/link-to}}
+      {{/link-to}}
+      {{#link-to "services.critical" tagName="dd"}}
+        {{#link-to "services.critical"}}Critical{{/link-to}}
+      {{/link-to}}
+    </dl>
+
+    <ul class="no-bullet services list">
+    {{#each}}
+      <li {{bind-attr class=":service :item health"}}>
+        <div class="row">
+          <div class="small-3 medium-2 large-2 columns">
+            {{!-- <div class="item-icon left"> --}}
+            <div class="item-icon">
+              <i {{bind-attr class=":fa :icon-inner :light healthIconClass health"}}></i>
+            </div>
+          </div>
+          <div class="small-9 medium-10 large-10 columns">
+            <div class="item-content">
+              <h4>
+                {{#link-to "services.show" id}}
+                  {{name}}
+                {{/link-to}}
+              </h4>
+              <i title="Policy" class="fa fa-group info"></i>
+              {{#link-to "policies.show" policy}}{{policy.name}}{{/link-to}}          
+        </div>
+          </div>
+        </div>
+        
+        
+        
+      </li>
+    {{else}}
+      <li class="panel">
+        <span class="secondary">None</span>
+      </li>
+    {{/each}}
+  </ul>
+  </div>
+  
+
+</div>
+
+

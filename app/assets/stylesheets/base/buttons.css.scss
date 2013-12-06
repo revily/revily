@@ -1,4 +1,4 @@
-$button-font-weight: bold !important;
+$button-font-weight: normal !important;
 
 button, .button {
   @include button-base;
@@ -15,7 +15,7 @@ button, .button {
 
   min-height: rem-calc(1em, 1em);
   line-height: 1;
-  text-transform: uppercase;
+  // text-transform: uppercase;
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05));
   vertical-align: middle;
 
@@ -28,6 +28,9 @@ button, .button {
   &.tiny   { @include button-size($padding:$button-tny); }
   &.expand { @include button-size($padding:null,$full-width:true); }
 
+  // @media #{$large-up}   {
+  //   @include grid-column($columns:9, $collapse:true, $float:right);
+  // }
   &.left-align  { text-align: left; text-indent: rem-calc(12); }
   &.right-align { text-align: right; padding-right: rem-calc(12); }
 

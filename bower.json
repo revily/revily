@@ -18,8 +18,8 @@
   ],
   "dependencies": {
     "bourbon": "~ 3.1.8",
-    "ember": "~ 1.2.0",
-    "ember-data": "~ 1.0.0-beta.3",
+    "ember": "components/ember#master",
+    "ember-data": "components/ember-data#master",
     "ember-simple-auth": "~ 0.0.8",
     "font-awesome": "components/font-awesome",
     "foundation": "zurb/bower-foundation",
@@ -29,7 +29,7 @@
     "underscore": "~ 1.5.2"
   },
   "resolutions": {
-    "ember": "~ 1.2.0",
-    "handlebars": "~ 1.1.2"
+    "handlebars": ">= 1.0.0",
+    "ember": "master"
   }
 }

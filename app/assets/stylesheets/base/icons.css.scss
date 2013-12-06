@@ -16,12 +16,15 @@
   $asset-pipeline: true);
 
 i {
-  &.success, &.ok { color: $success-color }
-  &.warning { color: $warning-color }
-  &.alert, &.critical { color: $alert-color }
-  &.info { color: $info-color }
-  &.secondary { color: $secondary-color }
-  &.disabled { color: $disabled-color }
+  @include colors;
+  @include tinted-colors;
+
+  // &.success, &.ok { color: $success-color }
+  // &.warning { color: $warning-color }
+  // &.alert, &.critical { color: $alert-color }
+  // &.info { color: $info-color }
+  // &.secondary { color: $secondary-color }
+  // &.disabled { color: $disabled-color }
 
   &.health-icon {
     @media #{$small-only} { font-size: rem-calc(2em, 1em); }

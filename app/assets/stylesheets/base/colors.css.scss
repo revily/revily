@@ -1,0 +1,73 @@
+$gray:   #E8E8E8;
+$black:  #333333;
+$blue:   #6ECFF5;
+$green:  #A1CF64;
+$orange: #F05940;
+$purple: #564F8A;
+$red:    #D95C5C;
+$teal:   #00B5AD;
+
+$alert-color:     $red    !default;
+$critical-color:  $red    !default;
+$disabled-color:  $gray   !default;
+$info-color:      $teal   !default;
+$ok-color:        $green  !default;
+$primary-color:   $blue   !default;
+$secondary-color: $gray   !default;
+$success-color:   $green  !default;
+$warning-color:   $orange !default;
+
+$tint-factor: 30%;
+
+$light-alert-color:     tint($alert-color, $tint-factor)     !default;
+$light-critical-color:  tint($critical-color, $tint-factor)  !default;
+$light-disabled-color:  tint($disabled-color, $tint-factor)  !default;
+$light-info-color:      tint($info-color, $tint-factor)      !default;
+$light-ok-color:        tint($ok-color, $tint-factor)        !default;
+$light-primary-color:   tint($primary-color, $tint-factor)   !default;
+$light-secondary-color: tint($secondary-color, $tint-factor) !default;
+$light-success-color:   tint($success-color, $tint-factor)   !default;
+$light-warning-color:   tint($warning-color, $tint-factor)   !default;
+
+$base-font-color: #fff !default;
+$base-font-color-alt: darken($secondary-color, 60%) !default;
+
+@mixin color-style($color:$primary-color, $tint:false) {
+  @if $tint { color: tint($color, $tint); }
+  @else { color: $color; }
+}
+
+@mixin colorize($bg:$primary-color) {
+  $bg-lightness: lightness($bg);
+  background-color: $bg;
+
+  @if $bg-lightness > 70% { color: $base-font-color; }
+  @else                   { color: $base-font-color-alt; }
+}
+
+@mixin colors {
+  &.alert     { @include color-style($alert-color) }
+  &.critical  { @include color-style($critical-color) }
+  &.disabled  { @include color-style($disabled-color) }
+  &.info      { @include color-style($info-color) }
+  &.ok        { @include color-style($ok-color) }
+  &.primary   { @include color-style($primary-color) }
+  &.secondary { @include color-style($secondary-color) }
+  &.success   { @include color-style($success-color) }
+  &.warning   { @include color-style($warning-color) }
+}
+
+@mixin tinted-colors($lightness:$tint-factor) {
+  &.light {
+    &.alert     { color: tint($alert-color, $lightness); }
+    &.critical  { color: tint($critical-color, $lightness); }
+    &.disabled  { color: tint($disabled-color, $lightness); }
+    &.info      { color: tint($info-color, $lightness); }
+    &.ok        { color: tint($ok-color, $lightness); }
+    &.primary   { color: tint($primary-color, $lightness); }
+    &.secondary { color: tint($secondary-color, $lightness); }
+    &.success   { color: tint($success-color, $lightness); }
+    &.warning   { color: tint($warning-color, $lightness); }
+  }
+}
+

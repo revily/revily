@@ -1,12 +1,17 @@
 // Globals
 $global-radius: 5px;
-$body-bg: #fafafa;
+$body-bg: #fcfcfc;
+// $row-width: 100%;
 
 // Includes
 $include-html-panel-classes:  false;
 $include-html-button-classes: false;
 $include-html-alert-classes:  false;
 $include-html-label-classes:  false;
+$include-html-nav-classes:    false;
+
+// Bourbon
+@import "bourbon";
 
 // Foundation
 @import "foundation-icons";

@@ -40,9 +40,9 @@
     <section class="top-bar-section">
       <ul class="right">
         {{#if session.isAuthenticated}}
-          <li><a {{action "logout"}}>Sign out</a></li>
+          <li><a {{action "logout"}}>Sign out <i class="fa fa-sign-out"></i></a></li>
         {{else}}
-          <li><a {{action "login"}}>Sign in</a></li>
+          <li><a {{action "login"}}>Sign in <i class="fa fa-sign-in"></i></a></li>
         {{/if}}
       </ul>
     </section>
@@ -50,13 +50,23 @@
   </nav>
 </div>
 
-<section id="main" class="main-content" role="main">
-  <div class="row">
-    <div class="large-12 columns">
-      {{ outlet }}
+<div id="main" role="main" class="row">
+{{!--   <aside id="sidebar" class="small-2 medium-3 large-3 columns">
+    <div class="row">
+      <div class="small-12 columns">
+        {{ outlet "sidebar" }}
+      </div>
     </div>
-  </div>
-</section>
+  </aside> --}}
 
-<aside>
-</aside>
+  <section id="content" class="small-12 medium-12 large-12 columns">
+    {{!-- <div class="row"> --}}
+      {{!-- <div class="small-12 columns"> --}}
+        {{ outlet }}
+      {{!-- </div> --}}
+    {{!-- </div> --}}
+  </section>
+
+</div>
+
+

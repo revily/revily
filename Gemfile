@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails",                                "4.0.1"
+gem "rails",                                "4.0.2"
 
 # current AMS is broken for rails 4; using github master
 # gem "active_model_serializers",            "0.8.1"

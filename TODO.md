@@ -33,8 +33,7 @@
 
 ### UI
 
-* add bourbon sass mixins
-
+* incorporate semantic-ui icon fonts
 
 ## Refactor
 
@@ -69,3 +68,7 @@
 ## Chores
 * move concerns back to models/controllers
 * removed eventable?, publishable?, etc. from Identifiable
+
+## UI
+* add bourbon sass mixins
+

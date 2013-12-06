@@ -20,9 +20,16 @@ Revily.ServicesCriticalRoute = Revily.ServicesIndexRoute.extend
   setupController: (controller, model) ->
     controller.set "model", model.filterBy("health", "critical")
 
+Revily.ServicesDisabledRoute = Revily.ServicesIndexRoute.extend
+  setupController: (controller, model) ->
+    controller.set "model", model.filterBy("health", "disabled")
+
 Revily.ServicesShowRoute = Revily.AuthenticatedRoute.extend
   model: (params) ->
     @store.find("service", params.service_id)
+
+  setupController: (controller, model) ->
+    controller.set "model", model
 
 #   setupController: (controller, model) ->
 #     console.log controller.ok

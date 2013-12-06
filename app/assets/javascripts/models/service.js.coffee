@@ -19,9 +19,9 @@ Revily.Service = DS.Model.extend
 
   healthIconClass: (->
     switch @get("health")
-      when "ok" then "fa-check-circle"
-      when "warning" then "fa-exclamation-circle"
-      when "critical" then "fa-times-circle"
-      when "disabled" then "fa-minus-circle"
-      else "fa-question-circle"
+      when "ok" then "fa-check"
+      when "warning" then "fa-exclamation"
+      when "critical" then "fa-times"
+      when "disabled" then "fa-minus"
+      else "fa-question"
   ).property("health")

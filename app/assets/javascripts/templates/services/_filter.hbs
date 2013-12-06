@@ -1,0 +1,33 @@
+<dl id="service-nav" class="sub-nav">
+  <dt>Filter:</dt>
+  {{#link-to "services.index" tagName="dd"}}
+    {{#link-to "services.index"}}
+      <i class='fa fa-lg fa-th-list show-for-small-only'></i>
+      <span class="show-for-medium-up">All</span>
+    {{/link-to}}
+  {{/link-to}}
+  {{#link-to "services.ok" tagName="dd"}}
+    {{#link-to "services.ok"}}
+      <i class='fa fa-lg fa-smile-o show-for-small-only'></i>
+      <span class="show-for-medium-up">Ok</span>
+    {{/link-to}}
+  {{/link-to}}
+  {{#link-to "services.warning" tagName="dd"}}
+    {{#link-to "services.warning"}}
+      <i class='fa fa-lg fa-meh-o show-for-small-only'></i>
+      <span class="show-for-medium-up">Warning</span>
+    {{/link-to}}
+  {{/link-to}}
+  {{#link-to "services.critical" tagName="dd"}}
+    {{#link-to "services.critical"}}
+      <i class='fa fa-lg fa-frown-o show-for-small-only'></i>
+      <span class="show-for-medium-up">Critical</span>
+    {{/link-to}}
+  {{/link-to}}
+  {{#link-to "services.disabled" tagName="dd"}}
+    {{#link-to "services.disabled"}}
+      <i class='fa fa-lg fa-pause show-for-small-only'></i>
+      <span class="show-for-medium-up">Disabled</span>
+    {{/link-to}}
+  {{/link-to}}
+</dl>

@@ -4,7 +4,7 @@
  *
  */
 
-@import "theme";
+@import "base";
 
 header {
   @include grid-row;
@@ -13,21 +13,42 @@ header {
   padding-bottom: em-calc(10px);
 }
 
-.main-content {
+#main {
   @include grid-row;
-  
-  aside  {
-    @include grid-column($columns:6);
-    // @media #{$medium-up} {
-    //   @include grid-column($columns:3);
-    // }
-  }
-  
-  article  {
-    @include grid-column($columns:6);
-    // @media #{$medium-up} {
-    //   @include grid-column($columns:8, $offset: 1);
-    // }
-  }
-
+  margin-top: rem-calc(15px);
 }
+// #main {
+//   @include grid-row;
+
+//   &> section#content { 
+//     @media #{$small-only} {
+//       @include grid-column($columns:10, $collapse:true, $float:right);
+//     }
+//     @media #{$medium-up}  {
+//       @include grid-column($columns:9, $collapse:true, $float:right);
+//     }
+//     @media #{$large-up}   {
+//       @include grid-column($columns:9, $collapse:true, $float:right);
+//     }
+//   }
+
+//   &> aside#sidebar  {
+//     @media #{$small-only} {
+//       @include grid-column($columns:2, $collapse:true);
+//     }
+//     @media #{$medium-up}  {
+//       @include grid-column($columns:3, $collapse:true);
+//     }
+//     @media #{$large-up}   {
+//       @include grid-column($columns:3, $collapse:true);
+//     }
+//   }
+  
+//   article  {
+//     @include grid-column($columns:6);
+//     // @media #{$medium-up} {
+//     //   @include grid-column($columns:8, $offset: 1);
+//     // }
+//   }
+
+// }

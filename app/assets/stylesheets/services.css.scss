@@ -1,0 +1,37 @@
+.services.list {
+  & .service.item {
+    height: 5rem;
+
+    & h3 { font-weight: 500; }
+    // &.ok { @include colorize($ok-color) }
+    // &.warning { @include colorize($warning-color) }
+    // &.critical { @include colorize($critical-color) }
+    &.ok { border-left: 5px solid $ok-color; }
+    &.warning { border-left: 5px solid $warning-color; }
+    &.critical { border-left: 5px solid $critical-color; }
+    &.disabled {
+      border-left: 5px solid $disabled-color;
+      * { color: $disabled-color; }
+    }
+    &.none { border-left: 1px solid $secondary-color; }
+    
+    & .item-icon {
+      
+      // top: 50%;
+      // left: 50%;
+      // @include transform(translate(-50%, -50%));
+
+      @media #{$small-only} {
+      }
+
+      @media #{$medium-only} {
+      }
+    }
+
+    border-top: 1px $secondary-color solid;
+    border-right: 1px $secondary-color solid;
+    &:last-of-type { border-bottom: 1px $secondary-color solid; }
+    &:nth-of-type(even) { background-color: shade(#fff, 2%); }
+    &:nth-of-type(odd) { background-color: #fff; }
+  }
+}
