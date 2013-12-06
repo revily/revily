@@ -15,8 +15,9 @@ $include-html-nav-classes:    false;
 
 // Foundation
 @import "foundation-icons";
-@import "foundation/scss/normalize";
-@import "foundation/scss/foundation";
+@import "foundation";
+// @import "normalize";
 
 // Font Awesome
-$fa-font-path: font-url("/vendor/assets/components/font-awesome/fonts")
+@import "font-awesome";
+// $fa-font-path: font-url("/vendor/assets/components/font-awesome/fonts")

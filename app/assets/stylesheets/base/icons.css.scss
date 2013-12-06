@@ -1,19 +1,21 @@
-@import "font-awesome/scss/variables";
-@import "font-awesome/scss/mixins";
-@import "font-awesome/scss/core";
-@import "font-awesome/scss/larger";
-@import "font-awesome/scss/fixed-width";
-@import "font-awesome/scss/list";
-@import "font-awesome/scss/bordered-pulled";
-@import "font-awesome/scss/spinning";
-@import "font-awesome/scss/rotated-flipped";
-@import "font-awesome/scss/stacked";
-@import "font-awesome/scss/icons";
+// @import "font-awesome/scss/variables";
+// @import "font-awesome/scss/mixins";
+// @import "font-awesome/scss/core";
+// @import "font-awesome/scss/larger";
+// @import "font-awesome/scss/fixed-width";
+// @import "font-awesome/scss/list";
+// @import "font-awesome/scss/bordered-pulled";
+// @import "font-awesome/scss/spinning";
+// @import "font-awesome/scss/rotated-flipped";
+// @import "font-awesome/scss/stacked";
+// @import "font-awesome/scss/icons";
 
-@include font-face(
-  "FontAwesome",
-  "font-awesome/fonts/fontawesome-webfont",
-  $asset-pipeline: true);
+// @include font-face(
+//   "FontAwesome",
+//   "font-awesome/fonts/fontawesome-webfont",
+//   $asset-pipeline: true);
+
+// @import "font-awesome";
 
 i {
   @include colors;

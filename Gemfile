@@ -46,15 +46,17 @@ gem "warden",                               "1.2.3"
 # web
 gem "bourbon"
 gem "coffee-rails"
-# gem "ember-rails"
-# gem "foundation-rails"
+gem "ember-rails"
+gem "font-awesome-rails"
+gem "foundation-rails"
 gem "haml-rails"
-gem "handlebars_assets"
+# gem "handlebars_assets"
 # gem "jquery-rails"
+gem "momentjs-rails"
 gem "sass-rails"
 gem "therubyracer"
 gem "uglifier"
-# gem "zurb-foundation"
+gem "underscore-rails"
 
 group :development do
   gem "annotate",                           "2.5.0",  require: false

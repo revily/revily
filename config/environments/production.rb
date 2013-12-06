@@ -80,5 +80,5 @@ Revily::Application.configure do
 
   config.action_mailer.default_url_options = { host: (ENV['MAILER_URL'] || 'example.com') }
 
-  # config.ember.variant = :production
+  config.ember.variant = :production
 end
