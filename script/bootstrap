@@ -49,16 +49,10 @@ function prepare_test_database() {
   bundle exec rake db:test:prepare >&3 2>&1
 }
 
-function install_bower() {
-  banner "Installing bower"
-  npm install bower >&3 2>&1
-}
-
 bundle_install
 install_hstore
 create_database_user 'revily'
 create_databases
 run_migrations
 prepare_test_database
-install_bower
 finalize

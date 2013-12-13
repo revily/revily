@@ -14,10 +14,28 @@ GIT
 
 GIT
   remote: git://github.com/revily/revily-support.git
-  revision: db3dd48f15f64a96c5463bc4f1b909a341c29bc4
+  revision: 50f2c76f101d89d5723cf1f5a6791b3d301dbd8f
   specs:
     revily-support (1.0.0)
       activesupport (>= 4.0, < 5.0)
+
+GIT
+  remote: git://github.com/revily/revily-ui.git
+  revision: cf396b809f01988c1d91d29fa000907d754afad5
+  specs:
+    revily-ui (1.0.0)
+      bourbon
+      coffee-rails
+      ember-rails
+      font-awesome-rails
+      foundation-rails
+      haml-rails
+      momentjs-rails
+      rails (~> 4.0.2)
+      sass-rails
+      therubyracer
+      uglifier
+      underscore-rails
 
 GIT
   remote: git://github.com/sporkrb/spork-rails.git
@@ -46,23 +64,6 @@ GIT
     tenancy (0.2.0)
       activerecord (>= 3.2.13)
       request_store (~> 1.0.5)
-
-PATH
-  remote: ~/Code/revily/revily-ui
-  specs:
-    revily-ui (1.0.0)
-      bourbon
-      coffee-rails
-      ember-rails
-      font-awesome-rails
-      foundation-rails
-      haml-rails
-      momentjs-rails
-      rails (~> 4.0.2)
-      sass-rails
-      therubyracer
-      uglifier
-      underscore-rails
 
 GEM
   remote: https://rubygems.org/
