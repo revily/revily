@@ -4,6 +4,7 @@ module Warden
 
       def valid?
         Rails.logger.debug "[warden] trying password strategy"
+        
         return false if request.get?
         return false if (username.nil? || username.empty?)
         return false if (password.nil? || password.empty?)

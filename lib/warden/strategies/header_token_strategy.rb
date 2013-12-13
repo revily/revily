@@ -17,7 +17,7 @@ module Warden
           Rails.logger.debug "[warden] header_token authentication succeeded from #{request.ip}"
           success!(resource)
         else
-          Rails.logger.debug "[warden] header_token authentication succeeded from #{request.ip}"
+          Rails.logger.debug "[warden] header_token authentication failed from #{request.ip}"
           fail! message: "strategies.header_token.failed"
         end
       end

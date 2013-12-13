@@ -3,7 +3,7 @@ source "https://rubygems.org"
 gem "rails",                                "4.0.2"
 
 gem "revily-support",                                 github: "revily/revily-support"
-gem "revily-ui",                                      path: "~/Code/revily/revily-ui"
+gem "revily-ui",                                      github: "revily/revily-ui"
 
 # current AMS is broken for rails 4; using github master
 # gem "active_model_serializers",            "0.8.1"
