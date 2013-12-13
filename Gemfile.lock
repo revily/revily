@@ -13,6 +13,13 @@ GIT
       activemodel (>= 3.2)
 
 GIT
+  remote: git://github.com/revily/revily-support.git
+  revision: db3dd48f15f64a96c5463bc4f1b909a341c29bc4
+  specs:
+    revily-support (1.0.0)
+      activesupport (>= 4.0, < 5.0)
+
+GIT
   remote: git://github.com/sporkrb/spork-rails.git
   revision: 0dd45e59d3237b4c8f9efc215b46d9c07072a95e
   specs:
@@ -39,6 +46,23 @@ GIT
     tenancy (0.2.0)
       activerecord (>= 3.2.13)
       request_store (~> 1.0.5)
+
+PATH
+  remote: ~/Code/revily/revily-ui
+  specs:
+    revily-ui (1.0.0)
+      bourbon
+      coffee-rails
+      ember-rails
+      font-awesome-rails
+      foundation-rails
+      haml-rails
+      momentjs-rails
+      rails (~> 4.0.2)
+      sass-rails
+      therubyracer
+      uglifier
+      underscore-rails
 
 GEM
   remote: https://rubygems.org/
@@ -610,6 +634,8 @@ DEPENDENCIES
   redis-rails (= 4.0.0)
   request_store (= 1.0.5)
   require_all
+  revily-support!
+  revily-ui!
   rspec-fire (= 1.2.0)
   rspec-instafail (= 0.2.4)
   rspec-rails (= 2.14.0)

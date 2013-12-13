@@ -1,9 +1,10 @@
 $side-nav-padding: rem-calc(0 0);
-$side-nav-list-margin: rem-calc(0 0 0 0) !default;
+// $side-nav-list-margin: rem-calc(0 0 0 0) !default;
 
 // ui.menu
 .side-nav {
   // @include side-nav;
+  margin-left: 0;
   background-color: #fff;
   font-weight: $side-nav-font-weight;
   box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
@@ -61,13 +62,14 @@ $side-nav-list-margin: rem-calc(0 0 0 0) !default;
     &:hover a {
       cursor: pointer;
       background-color: rgba(0, 0, 0, 0.02);
+      @include transition (opacity, 0.2s, ease);
+      @include transition (background, 0.2s, ease);
+      @include transition (box-shadow, 0.2s, ease);
     }
 
     @include user-select (none);
     @include box-sizing (border-box);
-    @include transition (opacity, 0.2s, ease);
-    @include transition (background, 0.2s, ease);
-    @include transition (box-shadow, 0.2s, ease);
+
 
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     vertical-align: middle;
