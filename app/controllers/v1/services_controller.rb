@@ -29,7 +29,9 @@ class V1::ServicesController < V1::ApplicationController
   end
 
   def create
+    policy = Policy.find_by!(uuid: service_params[:policy_id])
     @service = services.new(service_params)
+    @service.policy = policy
     @service.save
 
     respond_with :api, @service

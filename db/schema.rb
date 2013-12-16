@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131107155118) do
+ActiveRecord::Schema.define(version: 20131216200245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,17 +195,6 @@ ActiveRecord::Schema.define(version: 20131107155118) do
 
   add_index "schedules", ["account_id"], name: "index_schedules_on_account_id", using: :btree
 
-  create_table "service_policies", force: true do |t|
-    t.string   "uuid",       null: false
-    t.integer  "service_id"
-    t.integer  "policy_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "service_policies", ["policy_id"], name: "index_service_policies_on_policy_id", using: :btree
-  add_index "service_policies", ["service_id"], name: "index_service_policies_on_service_id", using: :btree
-
   create_table "services", force: true do |t|
     t.string   "name"
     t.integer  "auto_resolve_timeout"
@@ -217,9 +206,11 @@ ActiveRecord::Schema.define(version: 20131107155118) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "health",               default: "ok"
+    t.integer  "policy_id"
   end
 
   add_index "services", ["account_id"], name: "index_services_on_account_id", using: :btree
+  add_index "services", ["policy_id"], name: "index_services_on_policy_id", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"

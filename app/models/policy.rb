@@ -11,8 +11,7 @@ class Policy < ActiveRecord::Base
   # @!group Associations
   scope_to :account
   has_many :policy_rules, -> { order(:position) }, dependent: :destroy, inverse_of: :policy
-  has_many :service_policies
-  has_many :services, through: :service_policies
+  has_many :services
   # @!endgroup
 
   # @!group Attributes

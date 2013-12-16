@@ -33,16 +33,3 @@ Revily.ServicesShowRoute = Revily.Route.extend
   setupController: (controller, model) ->
     controller.set "model", model
 
-Revily.ServicesNewRoute = Revily.Route.extend
-  model: ->
-    @store.createRecord("service")
-
-  actions: 
-    create: ->
-      console.log @get("model")
-      @get("model").transaction.save().then ->
-        @transitionTo("services")
-    cancel: ->
-      @get("model").deleteRecord().then ->
-        @transitionTo("services")
-          

@@ -21,8 +21,7 @@ class Service < ActiveRecord::Base
   # @!group Associations
   scope_to :account
   has_many :incidents, dependent: :destroy
-  has_one :service_policy
-  has_one :policy, through: :service_policy
+  belongs_to :policy
   # @!endgroup
 
   # @!group Validations

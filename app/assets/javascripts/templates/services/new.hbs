@@ -1,4 +1,8 @@
-{{!-- <div class="panel"> --}}
+{{#unless policies}}
+  <div class="alert-box warning radius">
+    You don't have any policies yet. {{#link-to "policies"}}Create your first one.{{/link-to}}
+  </div>
+{{/unless}}
 
 {{#if errorMessage}}
   <div class="alert-box radius alert revily" data-alert>
@@ -6,9 +10,9 @@
     <a class="close">&times;</a>
   </div>
 {{/if}}
-<form {{ action create on="submit" }}>
+<form {{ action save on="submit" }}>
   <div class="row">
-    <div class="small-11 columns">
+    <div class="small-12 columns">
       <label for="name">Name</label>
       {{view Ember.TextField valueBinding="name" placeholder="Service Name" name="name"}}
       <label for="policy">Policy</label>
@@ -23,11 +27,10 @@
     </div>
   </div>
   <div class="row">
-    <div class="small-11 columns">
+    <div class="small-12 columns">
       <button type="submit" class="button tiny">Create</button>
       or <a {{action "cancel"}}>Cancel</a>
     </div>
   </div>
 </form>
 
-{{!-- </div> --}}
