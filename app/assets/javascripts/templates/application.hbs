@@ -1,72 +1,76 @@
-<div class="contain-to-grid">
-  <nav class="top-bar" data-topbar role="navigation">
-    {{!-- title --}}
-    <ul class="title-area">
-      <li class="name">
-        <h1>
-          {{#link-to "index"}}revi.ly{{/link-to}}
-        </h1>
-      </li>
-      <li class="toggle-topbar menu-icon">
-        <a href="#"><span>Menu</span></a>
-      </li>
-    </ul>
-    {{!-- end title --}}
-    {{!-- top nav --}}
-    {{#if session.isAuthenticated}}
-    <section class="top-bar-section">
-      <ul>
-        {{#link-to "incidents" tagName="li"}}
-          {{#link-to "incidents"}}Incidents{{/link-to}}
-        {{/link-to}}
-        {{#link-to "services" tagName="li"}}
-          {{#link-to "services"}}Services{{/link-to}}
-        {{/link-to}}
-        {{#link-to "policies" tagName="li"}}
-          {{#link-to "policies"}}Policies{{/link-to}}
-        {{/link-to}}
-        {{#link-to "schedules" tagName="li"}}
-          {{#link-to "schedules"}}Schedules{{/link-to}}
-        {{/link-to}}
-        {{#link-to "users" tagName="li"}}
-          {{#link-to "users"}}Users{{/link-to}}
-        {{/link-to}}
-        {{#link-to "events" tagName="li"}}
-          {{#link-to "events"}}Events{{/link-to}}
-        {{/link-to}}
-      </ul>
-    </section>
-    {{/if}}
-    <section class="top-bar-section">
-      <ul class="right">
-        {{#if session.isAuthenticated}}
-          <li><a {{action "logout"}}>Sign out <i class="fa fa-sign-out"></i></a></li>
-        {{else}}
-          <li><a {{action "login"}}>Sign in <i class="fa fa-sign-in"></i></a></li>
-        {{/if}}
-      </ul>
-    </section>
-    {{!-- end top nav --}}
-  </nav>
-</div>
+<div id="wrap">
+  <div class="off-canvas-wrap">
+    <div class="inner-wrap">
 
-<div id="main" role="main" class="row">
-{{!--   <aside id="sidebar" class="small-2 medium-3 large-3 columns">
-    <div class="row">
-      <div class="small-12 columns">
-        {{ outlet "sidebar" }}
+      <div class="contain-to-grid">
+        <nav class="top-bar hide-for-small" data-topbar role="navigation">
+          {{!-- title --}}
+          <ul class="title-area">
+            <li class="name">
+              <h1>
+                {{#link-to "index"}}revi.ly{{/link-to}}
+              </h1>
+            </li>
+            <li class="toggle-topbar menu-icon">
+              <a href="#"><span>Menu</span></a>
+            </li>
+          </ul>
+          {{!-- end title --}}
+          {{!-- top nav --}}
+          {{#if session.isAuthenticated}}
+          <section class="top-bar-section">
+            <ul>
+              {{ partial "application/nav" }}
+            </ul>
+          </section>
+          {{/if}}
+          <section class="top-bar-section">
+            <ul class="right">
+              {{ partial "application/login_nav" }}
+            </ul>
+          </section>
+          {{!-- end top nav --}}
+        </nav>
       </div>
+
+      <nav class="tab-bar show-for-small">
+        {{!-- title --}}
+        <section class="left-small">
+          <a class="left-off-canvas-toggle menu-icon"><span></span></a>
+        </section>
+        <section class="middle tab-bar-section">
+          <h1 class="title">revi.ly</h1>
+        </section>
+        <section class="right-small">
+          <a class="right-off-canvas-toggle menu-icon"><span></span></a>
+        </section>
+      </nav>
+
+      <aside class="left-off-canvas-menu">
+        <ul class="off-canvas-list">
+          <li><label>Menu</label></li>
+          {{ partial "application/nav" }}
+          <li><label></label></li>
+          {{ partial "application/login_nav" }}
+        </ul>
+      </aside>
+
+      <div id="main" role="main" class="row">
+        <section id="content" class="small-12 medium-12 large-12 columns">
+          {{ outlet }}
+        </section>
+      </div>
+
+      <aside class="right-off-canvas-menu">
+        <div class="row">
+          <div class="small-11 columns">
+            {{ outlet "right" }}
+          </div>
+        </div>
+      </aside>
+
+      <a class="exit-off-canvas"></a>
+
     </div>
-  </aside> --}}
-
-  <section id="content" class="small-12 medium-12 large-12 columns">
-    {{!-- <div class="row"> --}}
-      {{!-- <div class="small-12 columns"> --}}
-        {{ outlet }}
-      {{!-- </div> --}}
-    {{!-- </div> --}}
-  </section>
-
+  </div>
 </div>
-
-

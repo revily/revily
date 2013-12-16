@@ -1,0 +1,33 @@
+{{!-- <div class="panel"> --}}
+
+{{#if errorMessage}}
+  <div class="alert-box radius alert revily" data-alert>
+    {{errorMessage}}
+    <a class="close">&times;</a>
+  </div>
+{{/if}}
+<form {{ action create on="submit" }}>
+  <div class="row">
+    <div class="small-11 columns">
+      <label for="name">Name</label>
+      {{view Ember.TextField valueBinding="name" placeholder="Service Name" name="name"}}
+      <label for="policy">Policy</label>
+      {{view Ember.Select content=policies 
+                optionValuePath="content.id"
+                optionLabelPath="content.name"
+                selectionBinding="policy"}}
+      <label for="acknowledgeTimeout">Acknowledge Timeout</label>
+      {{view Ember.TextField valueBinding="acknowledgeTimeout" placeholder="30" name="acknowledgeTimeout"}}
+      <label for="autoResolveTimeout">Auto-Resolve Timeout</label>
+      {{view Ember.TextField valueBinding="autoResolveTimeout" placeholder="240" name="autoResolveTimeout"}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-11 columns">
+      <button type="submit" class="button tiny">Create</button>
+      or <a {{action "cancel"}}>Cancel</a>
+    </div>
+  </div>
+</form>
+
+{{!-- </div> --}}

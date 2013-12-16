@@ -1,13 +1,15 @@
-Revily.ServicesIndexRoute = Revily.AuthenticatedRoute.extend
+Revily.ServicesIndexRoute = Revily.Route.extend
   model: ->
     @store.find("service")
+    # results.filterBy("isNew", false)
 
   setupController: (controller, model) ->
     controller.set("model", model)
 
   renderTemplate: (controller) ->
-    @render "services/index", { controller: controller }
-
+    @render "services/index" #, { controller: controller }
+    # @render "services/new", into: "application", outlet: "right", controller: "servicesNew"
+    
 Revily.ServicesOkRoute = Revily.ServicesIndexRoute.extend
   setupController: (controller, model) ->
     controller.set "model", model.filterBy("health", "ok")
@@ -24,51 +26,23 @@ Revily.ServicesDisabledRoute = Revily.ServicesIndexRoute.extend
   setupController: (controller, model) ->
     controller.set "model", model.filterBy("health", "disabled")
 
-Revily.ServicesShowRoute = Revily.AuthenticatedRoute.extend
+Revily.ServicesShowRoute = Revily.Route.extend
   model: (params) ->
     @store.find("service", params.service_id)
 
   setupController: (controller, model) ->
     controller.set "model", model
 
-#   setupController: (controller, model) ->
-#     console.log controller.ok
-#     @controllerFor("services").set("content", model.filterBy("health", "ok"))
-#   # model: ->
-#     # @super.filterBy("health", "ok")
-#     # @store.filter 'service', (service) -> service.get('health') == "ok"
+Revily.ServicesNewRoute = Revily.Route.extend
+  model: ->
+    @store.createRecord("service")
 
-#   renderTemplate: (controller) ->
-#     @render "services/index", { controller: controller }
-
-# Revily.ServicesWarningRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin,
-#   model: ->
-#     @store.filter 'service', (service) -> service.get('health') == "warning"
-
-#   renderTemplate: (controller) ->
-#     @render "services/index", { controller: controller }
-
-
-# Revily.ServicesCriticalRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin,
-#   model: ->
-#     @store.filter 'service', (service) -> service.get('health') == "critical"
-
-#   renderTemplate: (controller) ->
-#     @render "services/index", { controller: controller }
-
-
-# Revily.ServicesEnabledRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin,
-#   model: ->
-#     @store.filter 'service', (service) -> service.get('state') == "enabled"
-
-#   renderTemplate: (controller) ->
-#     @render "services/index", { controller: controller }
-
-
-# Revily.ServicesDisabledRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin,
-#   model: ->
-#     @store.filter 'service', (service) -> service.get('state') == "disabled"
-
-#   renderTemplate: (controller) ->
-#     @render "services/index", { controller: controller }
-
+  actions: 
+    create: ->
+      console.log @get("model")
+      @get("model").transaction.save().then ->
+        @transitionTo("services")
+    cancel: ->
+      @get("model").deleteRecord().then ->
+        @transitionTo("services")
+          

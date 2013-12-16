@@ -12,8 +12,10 @@ Revily.Router.map ->
     @route "warning"
     @route "critical"
     @route "disabled"
-    @route "show", path: ":service_id"
+    # @route "show", path: ":service_id"
     @route "new"
+    @resource "service", path: ":service_id"
+
   @resource "incidents", ->
     @route "show", path: "/:id"
   @resource "policies", ->

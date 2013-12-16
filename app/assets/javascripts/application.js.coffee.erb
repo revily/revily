@@ -5,6 +5,7 @@
 #= require ember
 #= require ember-data
 #= require ember-simple-auth
+#= require ember-easyform
 #= require_self
 #= require revily
 
@@ -17,7 +18,8 @@ window.App =
   client_secret: "<%= ENV['REVILY_API_CLIENT_SECRET'] %>"
 
 $ ->
-  $(document).foundation();
+  # Initialize Foundation plugins
+  $(document).foundation()
 
   Ember.$.ajaxPrefilter (options, originalOptions, xhr) ->
     xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))

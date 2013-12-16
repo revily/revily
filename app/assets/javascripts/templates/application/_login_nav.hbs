@@ -1,0 +1,5 @@
+{{#if session.isAuthenticated}}
+  <li><a {{action "logout"}}>Sign out <i class="fa fa-sign-out"></i></a></li>
+{{else}}
+  <li><a {{action "login"}}>Sign in <i class="fa fa-sign-in"></i></a></li>
+{{/if}}

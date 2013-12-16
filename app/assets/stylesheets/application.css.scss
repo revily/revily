@@ -5,3 +5,10 @@
 //  */
 
 @import "revily/ui";
+
+.right-off-canvas-menu {
+  & label, & {
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0.66667rem;
+  }
+}

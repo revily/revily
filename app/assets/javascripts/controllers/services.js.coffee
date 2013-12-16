@@ -1,8 +1,16 @@
-Revily.ServicesController = Ember.ArrayController.extend()
+Revily.ServicesController = Revily.ArrayController.extend()
 
 Revily.ServicesIndexController = Revily.ServicesController.extend()
 
-Revily.ServicesShowController = Ember.ObjectController.extend()
+Revily.ServicesShowController = Revily.ObjectController.extend()
+
+Revily.ServicesNewController = Revily.ObjectController.extend
+  
+  policies: (-> @store.find "policy").property("policies")
+
+  actions:
+    closeCanvas: ->
+      $(".off-canvas-wrap").removeClass("move-left")
 
   # services: ->
   #   @store.find("service")

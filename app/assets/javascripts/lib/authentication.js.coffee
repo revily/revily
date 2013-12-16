@@ -20,4 +20,4 @@ Ember.Application.initializer
 #         controller = container.lookup("controllers:currentUser").set("content", user)
 #         container.typeInjection("controller", "currentUser", "controller:currentUser")
 
-Revily.AuthenticatedRoute = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin
+Revily.Route = Ember.Route.extend Ember.SimpleAuth.AuthenticatedRouteMixin

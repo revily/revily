@@ -69,7 +69,7 @@ class V1::ServicesController < V1::ApplicationController
   end
 
   def service_params
-    params.permit(:name, :acknowledge_timeout, :auto_resolve_timeout, :policy_id)
+    params.require(:service).permit(:name, :acknowledge_timeout, :auto_resolve_timeout, :policy_id)
   end
 
 end
