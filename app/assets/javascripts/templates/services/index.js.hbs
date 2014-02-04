@@ -1,19 +1,16 @@
 {{ partial "services/filter" }}
 
 <ul class="no-bullet services list">
-  {{#each}}
+  {{#each filtered}}
     <li {{bind-attr class=":service :item health"}}>
       <div class="row">
-        <div class="small-1"></div>
-        <div class="small-11 columns right">
+        <div class="small-12 columns right">
           <div class="item-content">
-            <h3>
-              {{#link-to "service" id}}
-                {{name}}
-              {{/link-to}}
-            </h3>
-            <i title="Policy" class="fa fa-group info"></i>
-            {{#link-to "policies.show" policy}}{{policy.name}}{{/link-to}}          
+            <h3>{{link-to name "service" id}}</h3>
+            <i title="Policy" class="fa fa-fw fa-group info"></i>
+            {{link-to policy.name "policy" policy}}
+            <i title="Incidents" class="fa fa-bullhorn info"></i>
+            {{link-to "Incidents" "service.incidents" this}}
           </div>
         </div>
       </div>
@@ -21,11 +18,12 @@
   {{else}}
     <li class="service item none">
       <div class="row">
-
+ 
         <div class="small-1 columns"></div>
         <div class="small-11 columns right">
           <span class="secondary text-center">None</span>
-        </div>          
+        </div>
+        
       </div>
       
     </li>

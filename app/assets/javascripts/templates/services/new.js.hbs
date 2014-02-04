@@ -1,20 +1,31 @@
-{{#unless policies}}
-  <div class="alert-box warning radius">
-    You don't have any policies yet. {{#link-to "policies"}}Create your first one.{{/link-to}}
-  </div>
-{{/unless}}
 
-{{#if errorMessage}}
+<div {{bind-attr class=":row hasPolicies:hide"}}>
+  <div class="small-12 columns">
+    <div class="alert-box warning radius">
+      You don't have any policies yet. {{#link-to "policies.new"}}Create your first one.{{/link-to}}
+    </div>
+  </div>
+</div>
+
+{{#if errorMessages}}
   <div class="alert-box radius alert revily" data-alert>
-    {{errorMessage}}
+    <ul>
+      {{#each message in errorMessagesFull}}
+      <li>{{message}}</li>
+      {{/each}}
+    </ul>
+    {{!-- {{errorMessages}} --}}
     <a class="close">&times;</a>
   </div>
 {{/if}}
-<form {{ action save on="submit" }}>
+<form {{ action save model on="submit" }} data-abide>
   <div class="row">
     <div class="small-12 columns">
       <label for="name">Name</label>
       {{view Ember.TextField valueBinding="name" placeholder="Service Name" name="name"}}
+      <small></small>
+    </div>
+    <div class="small-12 columns">
       <label for="policy">Policy</label>
       {{view Ember.Select content=policies 
                 optionValuePath="content.id"
@@ -29,7 +40,7 @@
   <div class="row">
     <div class="small-12 columns">
       <button type="submit" class="button tiny">Create</button>
-      or <a {{action "cancel"}}>Cancel</a>
+      or <a {{action cancel model}}>Cancel</a>
     </div>
   </div>
 </form>

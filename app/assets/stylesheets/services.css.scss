@@ -2,7 +2,10 @@
   & .service.item {
     height: 5rem;
 
-    & h3 { font-weight: 500; }
+    & h3 {
+      font-weight: 500;
+      // margin-left: 1rem;
+    }
     // &.ok { @include colorize($ok-color) }
     // &.warning { @include colorize($warning-color) }
     // &.critical { @include colorize($critical-color) }
@@ -15,6 +18,9 @@
     }
     &.none { border-left: 1px solid $secondary-color; }
     
+    & .item-content {
+      margin-left: 1rem;
+    }
     & .item-icon {
       
       // top: 50%;

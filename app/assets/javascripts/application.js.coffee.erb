@@ -6,13 +6,16 @@
 #= require ember-data
 #= require ember-simple-auth
 #= require ember-easyform
+#= require ember-foundation
+#=# require epf
 #= require_self
 #= require revily
 
 # for more details see: http://emberjs.com/guides/application/
 window.Revily = Ember.Application.create
   LOG_TRANSITIONS: true
-
+  LOG_TRANSITIONS_INTERNAL: true
+  
 window.App =
   client_id: "<%= ENV['REVILY_API_CLIENT_ID'] %>"
   client_secret: "<%= ENV['REVILY_API_CLIENT_SECRET'] %>"
